@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTIRelianceLib", "PTIRelianceLib\PTIRelianceLib.csproj", "{CE7AF7A4-2B5E-47B4-B931-5A020D89FECF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTIReliance", "PTIRelianceLib\PTIRelianceLib.csproj", "{CE7AF7A4-2B5E-47B4-B931-5A020D89FECF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RelianceCLI", "RelianceCLI\RelianceCLI.csproj", "{C052B624-9F4A-4A9D-9779-A245509405DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CE7AF7A4-2B5E-47B4-B931-5A020D89FECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE7AF7A4-2B5E-47B4-B931-5A020D89FECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE7AF7A4-2B5E-47B4-B931-5A020D89FECF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C052B624-9F4A-4A9D-9779-A245509405DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C052B624-9F4A-4A9D-9779-A245509405DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C052B624-9F4A-4A9D-9779-A245509405DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C052B624-9F4A-4A9D-9779-A245509405DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
