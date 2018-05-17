@@ -95,10 +95,12 @@ namespace PTIRelianceLib
         /// unsuccessfully. The resulting ReturnCode will be ExecutionFailure. It is recommended to try this
         /// method multiple times before assuming the printer is offline.
         /// </summary>
-        /// <returns>Success if printer is available, else ExecutionFailure</returns>
+        /// <returns>Okay if printer is available, else ExecutionFailure</returns>
         public ReturnCodes Ping()
         {
-            throw new NotImplementedException();
+            var cmd = new ReliancePacket(RelianceCommands.Ping);
+            var resp = Write(cmd);
+            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
         }
 
         /// <inheritdoc />

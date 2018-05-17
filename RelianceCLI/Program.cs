@@ -14,6 +14,9 @@ namespace RelianceCLI
 
             using (var printer = new ReliancePrinter())
             {
+                var ping = printer.Ping();
+                Console.WriteLine("Ping: {0}", ping);
+
                 var revlev = printer.GetFirmwareRevision();
                 Console.WriteLine("Revision: {0}", revlev);
 
