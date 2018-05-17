@@ -80,5 +80,35 @@ namespace PTIRelianceLib.Transport
                     $"Creator is not register. Add call to Instance.Register<{shouldFind},SOME_PARSER_CLASS>() to static PacketParserFactory()")
                 : (IParseAs<T>)Activator.CreateInstance(type, parameters);
         }
+
+        /// <summary>
+        /// Parses packets as an integer. Automatically detects best numberic
+        /// type to use (byte, short, or int). Packet will be unpackaged if necessary.
+        /// </summary>
+        /// <param name="packet">Data to parse</param>
+        /// <returns>Parsed integer or -1 on error</returns>
+        public static int ParseInteger(IPacket packet)
+        {         
+            if (packet == null || packet.Count == 0)
+            {
+                return -1;
+            }
+
+            if (packet.IsPackaged)
+            {
+                packet = packet.ExtractPayload();
+            }
+
+            var data = packet.GetBytes();
+            switch (data.Length)
+            {
+                case 0: return -1;
+                case 1: return data[0];
+                case 2: return (int) data.ToUintBE();
+                case 4: return (int) data.ToUintBE();
+
+                default: return -1;
+            }
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace PTIRelianceLib.Firmware.Internal
             Reporter = reporter;
             Port = port;
         }
-        
+
         public IProgressReporter Reporter { get; set; }
 
         public IPort<IPacket> Port { get; set; }
@@ -60,12 +60,12 @@ namespace PTIRelianceLib.Firmware.Internal
                     return Port.PacketLanguage;
                 }
 
-                var resp = Port.Read(20);
+                var resp = Port.Read(200);
                 return resp.ExtractPayload();
             }
 
 
-            var payload = packetQ.Dequeue();            
+            var payload = packetQ.Dequeue();
             Reporter.ReportMessage("Starting flash update process");
             do
             {
@@ -107,7 +107,7 @@ namespace PTIRelianceLib.Firmware.Internal
                         ++tracker.RetryCount;
                         break;
                 }
-             
+
                 if (tracker.Status == FlashState.Next)
                 {
                     // If there are no more, then we have sent all the data
@@ -140,14 +140,15 @@ namespace PTIRelianceLib.Firmware.Internal
                         if (payload.Count < 2)
                         {
                             // If this happens then that means the file parser is broken.
-                            Reporter.ReportMessage("Error flashing because of invalid payload, contact PTI and report this message");
+                            Reporter.ReportMessage(
+                                "Error flashing because of invalid payload, contact PTI and report this message");
                             status = ReturnCodes.OperationAborted;
                             break;
                         }
 
                         // Test for start of data block
-                        if (payload[1] == (byte)RelianceCommands.FlashRequest ||
-                            payload[1] == (byte)RelianceCommands.DataWriteRequest)
+                        if (payload[1] == (byte) RelianceCommands.FlashRequest ||
+                            payload[1] == (byte) RelianceCommands.DataWriteRequest)
                         {
                             // We found the next block, break out of this loop and continue with
                             // transmission
@@ -170,8 +171,27 @@ namespace PTIRelianceLib.Firmware.Internal
 #if DEBUG
             Reporter.ReportMessage(tracker.ToString());
 #endif
+            return status == ReturnCodes.Okay ? CheckChecksum(Write) : status;
+        }
 
-            return status;
+        /// <summary>
+        /// Check checksum of target device
+        /// </summary>
+        /// <param name="write">Device transmit function</param>
+        /// <returns>Return code</returns>
+        private ReturnCodes CheckChecksum(Func<IPacket, IPacket> write)
+        {
+            // Get expected checksum
+            var cmd = Port.Package(0x85, 0x11);
+            var raw = write(cmd);
+            var expectedCsum = PacketParserFactory.ParseInteger(raw);
+
+            // Check actual checksum
+            cmd = Port.Package(0x95, 0x11);
+            raw = write(cmd);
+            var actualCsum = PacketParserFactory.ParseInteger(raw);
+
+            return expectedCsum == actualCsum ? ReturnCodes.Okay : ReturnCodes.FlashChecksumMismatch;
         }
     }
 
