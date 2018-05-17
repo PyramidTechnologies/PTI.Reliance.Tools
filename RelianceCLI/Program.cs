@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using PTIRelianceLib;
-using PTIRelianceLib.Firmware;
 
 namespace RelianceCLI
 {
@@ -85,12 +84,12 @@ namespace RelianceCLI
                         {
                             case "-f":
                             case "--firmware":
-                                nextCapture = (s) => opts.FirmwareFilePath = s;
+                                nextCapture = s => opts.FirmwareFilePath = s;
                                 break;
 
                             case "-c":
                             case "--configuration":
-                                nextCapture = (s) => opts.ConfigFilePath = s;
+                                nextCapture = s => opts.ConfigFilePath = s;
                                 break;
 
                             default:

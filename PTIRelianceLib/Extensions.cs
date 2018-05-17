@@ -20,7 +20,7 @@ namespace PTIRelianceLib
         /// <returns>short big endian</returns>
         public static ushort ToUshortBE(this byte[] b)
         {
-            return (ushort) ((b[1] << 8) | (b[0]));
+            return (ushort) ((b[1] << 8) | b[0]);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace PTIRelianceLib
         /// <returns></returns>
         public static byte[] ToBytesBE(this uint u)
         {
-            return new[] { ((byte)((u) & 0xFF)), (byte)((u >> 8) & 0xFF), ((byte)((u >> 16) & 0xFF)), ((byte)((u >> 24) & 0xFF)) };
+            return new[] { (byte)(u & 0xFF), (byte)((u >> 8) & 0xFF), (byte)((u >> 16) & 0xFF), (byte)((u >> 24) & 0xFF) };
         }
 
         /// <summary>

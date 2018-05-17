@@ -3,7 +3,7 @@ using PTIRelianceLib.Firmware;
 
 namespace RelianceCLI
 {
-    class ConsoleProgressBar : ProgressMonitor
+    internal class ConsoleProgressBar : ProgressMonitor
     {
         private readonly char _mFillSymbol;
         private readonly int _mBarSize;
@@ -27,7 +27,7 @@ namespace RelianceCLI
 
             Console.CursorVisible = false;
             var left = Console.CursorLeft;
-            var chars = (int)Math.Floor(d: perc / (1 / (decimal)_mBarSize));
+            var chars = (int)Math.Floor(perc / (1 / (decimal)_mBarSize));
             var p1 = string.Empty;
             var p2 = string.Empty;
 
@@ -47,7 +47,7 @@ namespace RelianceCLI
             Console.Write(p2);
 
             Console.ResetColor();
-            Console.Write(" {0:N2}%", (perc * 100));
+            Console.Write(" {0:N2}%", perc * 100);
             Console.CursorLeft = left;
         }
     }

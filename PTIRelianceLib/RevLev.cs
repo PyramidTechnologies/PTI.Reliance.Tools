@@ -15,15 +15,17 @@ namespace PTIRelianceLib
         /// <summary>
         /// First component of version Major.Minor.Build
         /// </summary>
-        public int Major { get; set; }
+        public readonly int Major;
+
         /// <summary>
         /// Second component of version Major.Minor.Build
         /// </summary>
-        public int Minor { get; set; }
+        public readonly int Minor;
+
         /// <summary>
         /// Third component of version Major.Minor.Build
         /// </summary>
-        public int Build { get; set; }
+        public readonly int Build;
 
         /// <inheritdoc />
         public Revlev()

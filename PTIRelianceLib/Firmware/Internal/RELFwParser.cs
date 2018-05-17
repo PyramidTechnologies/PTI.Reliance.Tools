@@ -120,7 +120,7 @@ namespace PTIRelianceLib.Firmware.Internal
 
                     // There should be exactly this many bytes in the payload
                     result.IsValid =
-                        ((ulong)data.LongLength - PayloadStart) == result.OriginalSize;
+                        (ulong)data.LongLength - PayloadStart == result.OriginalSize;
                 }
             }
             catch (Exception e)

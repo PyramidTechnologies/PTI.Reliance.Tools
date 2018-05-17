@@ -53,6 +53,6 @@ namespace PTIRelianceLib.Protocol
         /// <summary>
         /// Unknown/Unset packet type
         /// </summary>
-        Unset,
+        Unset
     }
 }

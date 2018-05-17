@@ -13,6 +13,6 @@ namespace PTIRelianceLib.Protocol
         Ack = 0xAA,
         Nak = 0xAC,
         Ser = 0xAB,
-        Timeout = 0xFF,
+        Timeout = 0xFF
     }
 }

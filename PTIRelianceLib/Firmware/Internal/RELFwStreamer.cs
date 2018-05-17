@@ -41,7 +41,7 @@ namespace PTIRelianceLib.Firmware.Internal
                 return status;
             }
 
-            var increment = (1.00 / packetList.Count) + double.Epsilon;
+            var increment = 1.00 / packetList.Count + double.Epsilon;
             var progress = 0.0;
 
             // Start a tracker with 5 up to five retries
@@ -75,6 +75,7 @@ namespace PTIRelianceLib.Firmware.Internal
                 tracker.TotalBytesTx += payload.Count;
                 ++tracker.TotalPacketsTx;
 
+                // ReSharper disable once SwitchStatementMissingSomeCases
                 switch (resp.GetPacketType())
                 {
                     case PacketTypes.PositiveAck:
@@ -179,7 +180,7 @@ namespace PTIRelianceLib.Firmware.Internal
         Next, Retry, SkipThisBlock, Success, Giveup
     }
 
-    struct FlashTracker
+    internal struct FlashTracker
     {
         public FlashState Status;
         public int TotalPacketsTx;
@@ -237,7 +238,7 @@ namespace PTIRelianceLib.Firmware.Internal
                 Stop();
             }
 
-            var kbps = (TotalBytesTx / Delta.TotalSeconds) / 1000.0;
+            var kbps = TotalBytesTx / Delta.TotalSeconds / 1000.0;
 
             var sb = new StringBuilder();
             sb.AppendLine("Flash update performance");

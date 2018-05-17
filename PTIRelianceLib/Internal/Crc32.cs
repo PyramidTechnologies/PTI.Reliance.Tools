@@ -102,13 +102,15 @@ namespace PTIRelianceLib
         /// <returns></returns>
         public static uint ComputeChecksum(byte[] bytes)
         {
+            // ReSharper disable SuggestVarOrType_BuiltInTypes
             uint crc = 0xffffffff;
             foreach (byte b in bytes)
             {
-                byte index = (byte)(((crc) & 0xff) ^ b);
+                byte index = (byte)((crc & 0xff) ^ b);
                 crc = (uint)((crc >> 8) ^ Table[index]);
             }
             return ~crc;
+            // ReSharper restore SuggestVarOrType_BuiltInTypes
         }
     }
 }

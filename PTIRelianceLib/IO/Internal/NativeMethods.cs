@@ -61,7 +61,7 @@ namespace PTIRelianceLib
             public readonly ushort Usage;
             public readonly int InterfaceNumber;
             public readonly IntPtr Next;
-        };
+        }
 
         /// <summary>
         /// Public device enumeration
@@ -113,7 +113,7 @@ namespace PTIRelianceLib
             /// contains more than one interface
             /// </summary>
             public int InterfaceNumber;
-        };
+        }
 
 
         [DllImport("hidapi", EntryPoint = "hid_error")]

@@ -115,7 +115,7 @@ namespace PTIRelianceLib.Transport
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IPacket" />
         public override string ToString()
         {
             return GetBytes().ByteArrayToHexString();

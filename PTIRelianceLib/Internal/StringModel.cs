@@ -46,11 +46,6 @@ namespace PTIRelianceLib
         {
             return Data;
         }
-
-        public string ToJson()
-        {
-            return Data;
-        }
     }
 
     /// <inheritdoc />
@@ -58,7 +53,7 @@ namespace PTIRelianceLib
     /// Stub class to differentiate hex string and ascii strings. The
     /// implementation actually resides in the parser strategy.
     /// </summary>
-    class HexStringModel : StringModel
+    internal class HexStringModel : StringModel
     {
         public HexStringModel() : this(string.Empty) { }
 
@@ -66,10 +61,11 @@ namespace PTIRelianceLib
     }
 
 
+    /// <inheritdoc />
     /// <summary>
     /// Implementation containing constant string "Invalid" that satifies HexStringModel contract
     /// </summary>
-    class InvalidHexStringModel : HexStringModel
+    internal class InvalidHexStringModel : HexStringModel
     { }
 
     /// <inheritdoc />
@@ -110,33 +106,6 @@ namespace PTIRelianceLib
             var str = data.GetPrintableString();
 
             return new StringModel(str);
-
-        }
-    }
-
-    internal class HexStringParser : IParseAs<HexStringModel>
-    {
-        /// <summary>
-        /// Parse response portion of packet as a hex string.
-        /// [0x12, 0x45, 0xC0] => "1245C0"
-        /// </summary>
-        /// <param name="packet"></param>
-        /// <returns></returns>
-        public HexStringModel Parse(IPacket packet)
-        {
-
-            if (packet == null)
-            {
-                return new InvalidHexStringModel();
-            }
-
-            if (packet.IsPackaged)
-            {
-                packet = packet.ExtractPayload();
-            }
-
-            var data = packet.GetBytes();
-            return new HexStringModel(data.ByteArrayToHexString(delimeter: ""));
 
         }
     }
