@@ -9,11 +9,12 @@
 namespace PTIRelianceLib.IO.Internal
 {
     using System;
-    using System.Runtime.InteropServices;
+    using System.Diagnostics;
 
+    [DebuggerDisplay("IsOpen = {IsOpen}, LastError = {LastError}")]
     internal class HidWrapper : IDisposable
     {       
-        private IntPtr Handle { get; set; }
+        private NativeMethods.HidDevice Device { get; set; }
         private readonly HidDeviceConfig _deviceConfig;
 
         /// <summary>
@@ -22,6 +23,10 @@ namespace PTIRelianceLib.IO.Internal
         /// <param name="config">USB HID configuration</param>
         public HidWrapper(HidDeviceConfig config)
         {
+            // Setup HIDAPI structures
+            NativeMethods.HidInit();
+
+            Device = NativeMethods.HidDevice.Invalid();
             _deviceConfig = config;
             Open();
         }
@@ -34,7 +39,7 @@ namespace PTIRelianceLib.IO.Internal
         /// <summary>
         /// Returns true if USB handle is open
         /// </summary>
-        public bool IsOpen { get; private set; }
+        public bool IsOpen => Device.IsValid;
 
         /// <summary>
         /// Opens USB port for communication
@@ -47,8 +52,9 @@ namespace PTIRelianceLib.IO.Internal
                 Close();
             }
 
-            Handle = GetHidHandle();
-            IsOpen = Handle != IntPtr.Zero;
+            Device = GetHidHandle();
+
+            CheckError();
 
             return IsOpen;
         }
@@ -58,12 +64,10 @@ namespace PTIRelianceLib.IO.Internal
         /// </summary>
         public void Close()
         {
-            if (Handle == IntPtr.Zero)
+            if (Device.IsValid)
             {
-                return;
+                NativeMethods.HidClose(Device);
             }
-
-            NativeMethods.HidClose(Handle);
         }
 
         /// <summary>
@@ -71,33 +75,19 @@ namespace PTIRelianceLib.IO.Internal
         /// handle to the device if found. Otherwise IntPtr.Zero is returned
         /// </summary>
         /// <returns>Device handle or IntPtr.Zero if no match found</returns>
-        private IntPtr GetHidHandle()
+        private NativeMethods.HidDevice GetHidHandle()
         {
-            var enumerated = NativeMethods.HidEnumerate(_deviceConfig.VendorId, _deviceConfig.ProductId);
-            if (enumerated == IntPtr.Zero)
+            foreach (var devinfo in NativeMethods.HidEnumerate(_deviceConfig.VendorId, _deviceConfig.ProductId))
             {
-                return IntPtr.Zero;
-            }
+                var handle = NativeMethods.HidOpenPath(devinfo.Path);
 
-            var current = enumerated;
-            while (current != IntPtr.Zero)
-            {
-                var devinfo = (NativeMethods.HidDeviceInfo)Marshal.PtrToStructure(enumerated,
-                    typeof(NativeMethods.HidDeviceInfo));
-
-                var handle = OpenByPath(devinfo.Path);
-
-                if (handle != IntPtr.Zero)
+                if (handle.IsValid)
                 {
                     return handle;
                 }
-
-                current = devinfo.Next;
             }
 
-            NativeMethods.HidFreeEnumerate(enumerated);
-
-            return IntPtr.Zero;
+            return NativeMethods.HidDevice.Invalid();
         }
 
         /// <summary>
@@ -107,28 +97,33 @@ namespace PTIRelianceLib.IO.Internal
         /// <returns></returns>
         public int WriteData(byte[] data)
         {
-            if (Handle == IntPtr.Zero)
+            if (!Device.IsValid)
             {
                 return -1;
             }
 
             var report = HidReport.MakeOutputReport(_deviceConfig, data);  
-            var result = NativeMethods.HidWrite(Handle, report.Data, report.Size);
+            var result = NativeMethods.HidWrite(Device, report.Data, report.Size);
 
             CheckError();
 
             return result;
         }
 
-        public byte[] ReadData()
+        /// <summary>
+        /// Reads and returns available data. -1 is a blocking read.
+        /// </summary>
+        /// <param name="timeoutMs">Time in milliseconds to wait before giving up read</param>
+        /// <returns>Read data or empty if no data read</returns>
+        public byte[] ReadData(int timeoutMs)
         {
-            if (Handle == IntPtr.Zero)
+            if (!Device.IsValid)
             {
                 return new byte[0];
             }
 
             var inreport = HidReport.MakeInputReport(_deviceConfig);
-            var read = NativeMethods.HidRead(Handle, inreport.Data, inreport.Size);
+            var read = NativeMethods.HidRead(Device, inreport.Data, inreport.Size, timeoutMs);
 
             var result = new byte[0];
             if (read > 0)
@@ -137,35 +132,28 @@ namespace PTIRelianceLib.IO.Internal
             }
 
             CheckError();
+
             return result;
         }
-
-        /// <summary>
-        /// Opens HID port by device path
-        /// </summary>
-        /// <param name="devicePath">System device path</param>
-        /// <returns>Handle to device on succes, else IntPtr.Zero</returns>
-        private static IntPtr OpenByPath(string devicePath)
-        {
-            return string.IsNullOrEmpty(devicePath) ? IntPtr.Zero : NativeMethods.HidOpen(devicePath);
-        }
-
         /// <summary>
         /// Captures last error message on this device
         /// </summary>
         private void CheckError()
         {
-            LastError = Marshal.PtrToStringUni(NativeMethods.HidError(Handle));
+            LastError = NativeMethods.HidError(Device);            
         }
 
         public void Dispose()
         {
             Close();
+
+            // Cleanup HID API
+            NativeMethods.HidExit();
         }
 
         public override string ToString()
         {
-            return string.Format("HID [{0:X4},{1:X4}] ({2})", 
+            return string.Format("HID [{0:X4},{1:X4}] (Open? {2})", 
                 _deviceConfig.VendorId, _deviceConfig.ProductId, IsOpen);
         }
     }
