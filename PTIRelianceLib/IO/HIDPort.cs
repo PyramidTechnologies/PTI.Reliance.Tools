@@ -25,6 +25,13 @@ namespace PTIRelianceLib.IO
 
         public IPacket PacketLanguage => new T();
 
+        public IPacket Package(params byte[] data)
+        {
+            var packet = new T();
+            packet.Add(data);
+            return packet;
+        }
+
         public bool IsOpen => _hidWrapper.IsOpen;
 
         public bool Open()
@@ -58,9 +65,7 @@ namespace PTIRelianceLib.IO
             var read = _hidWrapper.ReadData();
             if (read.Length > 0)
             {
-                var resp = PacketLanguage;
-                resp.Add(read);
-                return resp;
+                return Package(read);
             }
 
             Trace.WriteLine(string.Format("HID Read failed: {0}", _hidWrapper.LastError));

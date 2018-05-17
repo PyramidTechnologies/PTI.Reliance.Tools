@@ -6,14 +6,18 @@
 // 10:00 AM
 #endregion
 
+using System.Diagnostics;
 using PTIRelianceLib.Protocol;
 
 namespace PTIRelianceLib.Transport
 {
     using System;
 
+    [DebuggerDisplay("Count = {Count}, Type = {_mPacketType}, Content={ToString()}")]
     internal class ReliancePacket : BasePacket
     {
+        private PacketTypes _mPacketType = PacketTypes.Unset;
+
         public ReliancePacket()
         { }
 
@@ -151,6 +155,68 @@ namespace PTIRelianceLib.Transport
             IsPackaged = true;
             IsValid = true;
             return true;
+        }
+
+        public override PacketTypes GetPacketType()
+        {
+            // If we've already run this check, report the cached value
+            if (_mPacketType != PacketTypes.Unset)
+            {
+                return _mPacketType;
+            }
+
+            // We should always have a 33 bytes packet but
+            // be safe and check anyways.
+            if (Count == 0)
+            {
+                _mPacketType = PacketTypes.Timeout;
+            }
+            else
+            {
+                // Determine where in the buffer our ACK/NAK byte should be
+                var local = GetBytes();
+                int ackIndex;
+
+                // If this is true, we've already validated and unpacked
+                // this packet.
+                if (Count == 1 && IsValid && !IsPackaged)
+                {
+                    ackIndex = 0;
+                }
+                else if (Count >= 3)
+                {
+                    ackIndex = 1;
+                }
+                else
+                {
+                    // Otherwise this might be an invalid packet                    
+                    _mPacketType = PacketTypes.Malformed;
+                    return _mPacketType;
+                }
+
+                // What kind of response is this? 
+                switch (local[ackIndex])
+                {
+                    case (byte)ControlCodes.Ack:
+                        _mPacketType = PacketTypes.PositiveAck;
+                        break;
+                    case (byte)ControlCodes.Nak:
+                        _mPacketType = PacketTypes.NegativeAck;
+                        break;
+                    case (byte)ControlCodes.Ser:
+                        _mPacketType = PacketTypes.SequenceError;
+                        break;
+                    case (byte)ControlCodes.Timeout:
+                        _mPacketType = PacketTypes.Timeout;
+                        break;
+                    default:
+                        _mPacketType = PacketTypes.Malformed;
+                        break;
+                }
+            }
+
+            // Packet will always contain an ACK message unless it is malformed
+            return _mPacketType;
         }
     }
 }

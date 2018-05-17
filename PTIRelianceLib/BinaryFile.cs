@@ -98,6 +98,11 @@ namespace PTIRelianceLib
         }
 
         /// <summary>
+        /// Returns true if this binary file is empty
+        /// </summary>
+        public bool Empty => Length == 0;
+
+        /// <summary>
         /// Creates a new copy of the source data
         /// </summary>
         /// <param name="buff">Source data</param>

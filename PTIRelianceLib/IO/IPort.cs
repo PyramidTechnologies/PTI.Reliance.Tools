@@ -14,7 +14,17 @@ namespace PTIRelianceLib
 
     internal interface IPort<T> : IDisposable where T : IPacket
     {
+        /// <summary>
+        /// Returns an empty packet
+        /// </summary>
         T PacketLanguage { get; }
+
+        /// <summary>
+        /// Creates a new packet from specified data
+        /// </summary>
+        /// <param name="data">Data to wrap in a packet</param>
+        /// <returns>Packetized data</returns>
+        T Package(params byte[] data);
 
         /// <summary>
         /// Returns true if port is in an open state

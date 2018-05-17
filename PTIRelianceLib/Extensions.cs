@@ -48,6 +48,16 @@ namespace PTIRelianceLib
         }
 
         /// <summary>
+        /// Converts an unsigned int to a big Endian 4-byte array
+        /// </summary>
+        /// <param name="u"></param>
+        /// <returns></returns>
+        public static byte[] ToBytesBE(this uint u)
+        {
+            return new[] { ((byte)((u) & 0xFF)), (byte)((u >> 8) & 0xFF), ((byte)((u >> 16) & 0xFF)), ((byte)((u >> 24) & 0xFF)) };
+        }
+
+        /// <summary>
         /// Returns a copy of this string containing only printable
         /// ASCII characters (32-126)
         /// </summary>
@@ -105,6 +115,38 @@ namespace PTIRelianceLib
             }
             var result = hex.ToString().Trim().TrimEnd(delimeter.ToCharArray());
             return result;
+        }
+
+        /// <summary>
+        /// Split the given array into x number of smaller arrays, each of length len
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arrayIn"></param>
+        /// <param name="len"></param>
+        /// <returns></returns>
+        public static T[][] Split<T>(this T[] arrayIn, int len)
+        {
+            var even = arrayIn.Length % len == 0;
+            var totalLength = arrayIn.Length / len;
+            if (!even)
+            {
+                totalLength++;
+            }
+
+            var newArray = new T[totalLength][];
+            for (var i = 0; i < totalLength; ++i)
+            {
+                var allocLength = len;
+                if (!even && i == totalLength - 1)
+                {
+                    allocLength = arrayIn.Length % len;
+                }
+
+                newArray[i] = new T[allocLength];
+                Array.Copy(arrayIn, i * len, newArray[i], 0, allocLength);
+            }
+
+            return newArray;
         }
     }
 }

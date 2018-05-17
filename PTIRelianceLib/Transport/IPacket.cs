@@ -6,6 +6,8 @@
 // 7:10 AM
 #endregion
 
+using PTIRelianceLib.Protocol;
+
 namespace PTIRelianceLib.Transport
 {
     internal interface IPacket
@@ -78,6 +80,12 @@ namespace PTIRelianceLib.Transport
         /// </summary>
         /// <returns></returns>
         byte[] GetBytes();
+
+        /// <summary>
+        /// Determines what kind of data this packet represents
+        /// </summary>
+        /// <returns>Packet type</returns>
+        PacketTypes GetPacketType();
 
         /// <summary>
         /// Returns the count in bytes of total
