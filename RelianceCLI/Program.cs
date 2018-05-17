@@ -14,7 +14,7 @@ namespace RelianceCLI
 
             using (var printer = new ReliancePrinter())
             {
-                var revlev = printer.GetRevlev();
+                var revlev = printer.GetFirmwareRevision();
                 Console.WriteLine("Revision: {0}", revlev);
 
                 if (!string.IsNullOrEmpty(opts.FirmwareFilePath))

@@ -18,7 +18,7 @@ namespace PTIRelianceLib
 
         ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter);
 
-        Revlev GetRevlev();
+        Revlev GetFirmwareRevision();
 
         string GetSerialNumber();
 

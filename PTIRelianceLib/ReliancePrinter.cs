@@ -54,7 +54,7 @@ namespace PTIRelianceLib
             return updater.ExecuteUpdate();
         }
 
-        public Revlev GetRevlev()
+        public Revlev GetFirmwareRevision()
         {
             var cmd = new ReliancePacket(RelianceCommands.GetRevlev);
             // "Self" param specifies we want revlev for running application
