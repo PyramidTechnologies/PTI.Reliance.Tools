@@ -11,13 +11,14 @@ namespace PTIRelianceLib
     public enum ReturnCodes
     {
         Okay,
+        ExecutionFailure,
         DeviceNotConnected,
         InvalidRequest,
         InvalidRequestPayload,
         TargetStoppedResponding,
         FlashFileInvalid,
         FlashPermissionDenied,
-        OperationAborted,
-        UnknownError
+        FlashChecksumMismatch,
+        OperationAborted
     }
 }
