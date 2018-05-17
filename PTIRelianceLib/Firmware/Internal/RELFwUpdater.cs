@@ -59,6 +59,17 @@ namespace PTIRelianceLib.Firmware.Internal
         {
             ReturnCodes result;
 
+
+            if (FileType != FileTypes.Base)
+            {
+                return ReportIncompatible();
+            }
+
+            if (_mFileToFlash.Empty)
+            {
+                return ReturnCodes.FlashFileInvalid;
+            }
+
             // Run any setup commands
             foreach (var fn in RunBefore)
             {
@@ -67,11 +78,6 @@ namespace PTIRelianceLib.Firmware.Internal
                 {
                     return result;
                 }
-            }
-
-            if (FileType != FileTypes.Base)
-            {
-                return ReportIncompatible();
             }
 
             var packets = ProcessFirmware(_mFileToFlash.GetData());

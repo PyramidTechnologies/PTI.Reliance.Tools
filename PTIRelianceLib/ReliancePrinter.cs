@@ -63,11 +63,21 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter = null)
         {
+            reporter = reporter ?? new DevNullMonitor();            
             var updater = new RELFwUpdater(_port, firmware)
             {
-                Reporter = reporter ?? new DevNullMonitor()
+                Reporter = reporter,
+                FileType = FileTypes.Base
             };
-            return updater.ExecuteUpdate();
+            try
+            {
+                return updater.ExecuteUpdate();
+            }
+            catch (PTIException e)
+            {
+                reporter.ReportMessage("Flash update failed: {0}", e.Message);
+                return ReturnCodes.ExecutionFailure;
+            }
         }
 
         /// <inheritdoc />
