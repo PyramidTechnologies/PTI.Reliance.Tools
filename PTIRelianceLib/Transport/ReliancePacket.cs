@@ -55,6 +55,11 @@ namespace PTIRelianceLib.Transport
 
         public override IPacket ExtractPayload()
         {
+            if (GetPacketType() != PacketTypes.PositiveAck)
+            {
+                return this;
+            }
+
             // We're not packaged or we're malformed so don't strip away any data
             if (!Validate())
             {
@@ -91,6 +96,9 @@ namespace PTIRelianceLib.Transport
             result.IsValid = true;
             result.IsPackaged = false;
 
+            // Copy current response type to this child
+            result._mPacketType = _mPacketType;
+
             return result;
         }
 
@@ -101,6 +109,12 @@ namespace PTIRelianceLib.Transport
 
         protected override bool Validate()
         {
+            // If we already know we're malformed, report invalid
+            if (_mPacketType == PacketTypes.Malformed)
+            {
+                return false;
+            }
+
             // Otherwise this is the first validation call so go ahead
             // and perform all packet checks.
             var local = GetBytes();

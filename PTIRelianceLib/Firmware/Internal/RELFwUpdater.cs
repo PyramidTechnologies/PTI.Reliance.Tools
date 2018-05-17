@@ -77,7 +77,7 @@ namespace PTIRelianceLib.Firmware.Internal
             var packets = ProcessFirmware(_mFileToFlash.GetData());
 
             // Transmit to target
-            var streamer = new RELFwStreamer(Reporter, null);
+            var streamer = new RELFwStreamer(Reporter, _mPort);
             result = streamer.StreamFlashData(packets);
 
 
@@ -117,6 +117,11 @@ namespace PTIRelianceLib.Firmware.Internal
             const int blockSize = 0x800;
             var flashCmd = new[] {(byte) RelianceCommands.FlashRequest};
             var result = new List<IPacket>();
+
+            // Inject ID matrix
+            var idMat = _mPort.Package(header.IdMatrix);
+            idMat.Prepend(0x45);
+            result.Add(idMat);
 
             try
             {

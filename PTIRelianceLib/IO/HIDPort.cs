@@ -60,9 +60,9 @@ namespace PTIRelianceLib.IO
             return false;
         }
 
-        public IPacket Read()
+        public IPacket Read(int timeoutMs)
         {
-            var read = _hidWrapper.ReadData();
+            var read = _hidWrapper.ReadData(timeoutMs);
             if (read.Length > 0)
             {
                 return Package(read);

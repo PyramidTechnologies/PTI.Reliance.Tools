@@ -6,16 +6,19 @@
 // 11:30 AM
 #endregion
 
-using PTIRelianceLib.Firmware;
-using PTIRelianceLib.Firmware.Internal;
-using PTIRelianceLib.IO.Internal;
+
 
 namespace PTIRelianceLib
 {
+    using System.Diagnostics;
+    using PTIRelianceLib.Firmware;
+    using PTIRelianceLib.Firmware.Internal;
+    using PTIRelianceLib.IO.Internal;
     using PTIRelianceLib.IO;
     using PTIRelianceLib.Protocol;
     using PTIRelianceLib.Transport;
 
+    [DebuggerDisplay("IsOpen = {_port.IsOpen}")]
     public class ReliancePrinter : IPyramidDevice
     {
         public const int VendorId = 0x0425;
@@ -84,7 +87,7 @@ namespace PTIRelianceLib
                 return _port.PacketLanguage;
             }
 
-            var resp = _port.Read();
+            var resp = _port.Read(10);
             return resp.ExtractPayload();
         }
     }

@@ -51,10 +51,12 @@ namespace PTIRelianceLib
         bool Write(T data);
 
         /// <summary>
-        /// Reads all available port data
+        /// Reads data from port and returns result. If timeout is set to -1 this is effectively a blocking read.
+        /// When timeout >= 0, if no  data is available before timeout then an empty packet will be returned.
         /// </summary>
+        /// <param name="timeoutMs">Timeout in milliseconds for read</param>
         /// <returns>Data that was read, if any</returns>
         /// <exception cref="PTIException">Raised if there is a exception while reading</exception>
-        T Read();
+        T Read(int timeoutMs);
     }
 }

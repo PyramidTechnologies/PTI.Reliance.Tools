@@ -50,12 +50,17 @@ namespace PTIRelianceLib.Firmware.Internal
 
             IPacket Write(IPacket data)
             {
+                if (!data.IsPackaged)
+                {
+                    data.Package();
+                }
+
                 if (!Port.Write(data))
                 {
                     return Port.PacketLanguage;
                 }
 
-                var resp = Port.Read();
+                var resp = Port.Read(20);
                 return resp.ExtractPayload();
             }
 
@@ -235,12 +240,13 @@ namespace PTIRelianceLib.Firmware.Internal
             var kbps = (TotalBytesTx / Delta.TotalSeconds) / 1000.0;
 
             var sb = new StringBuilder();
-            sb.AppendFormat("\tTimeouts: {0}", Timeouts);
-            sb.AppendFormat("\tTotal Retry: {0}", RetryCount);
-            sb.AppendFormat("\tTotal Bytes: {0}", TotalBytesTx);
-            sb.AppendFormat("\tTotal Packets: {0}", TotalPacketsTx);
-            sb.AppendFormat("\tTotal Time: {0}ms", Delta.TotalMilliseconds);
-            sb.AppendFormat("\tThroughput: {0:F3}KBps", kbps);
+            sb.AppendLine("Flash update performance");
+            sb.AppendFormat("\tTimeouts: {0}\n", Timeouts);
+            sb.AppendFormat("\tTotal Retry: {0}\n", RetryCount);
+            sb.AppendFormat("\tTotal Bytes: {0}\n", TotalBytesTx);
+            sb.AppendFormat("\tTotal Packets: {0}\n", TotalPacketsTx);
+            sb.AppendFormat("\tTotal Time: {0}ms\n", Delta.TotalMilliseconds);
+            sb.AppendFormat("\tThroughput: {0:F3}KBps\n", kbps);
 
             return sb.ToString();
         }
