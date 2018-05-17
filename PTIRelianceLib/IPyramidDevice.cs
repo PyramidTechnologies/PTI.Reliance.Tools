@@ -8,7 +8,9 @@
 
 namespace PTIRelianceLib
 {
-    public interface IPyramidDevice
+    using System;
+
+    public interface IPyramidDevice : IDisposable
     {
         ReturnCodes SendConfiguration(BinaryFile config);
 

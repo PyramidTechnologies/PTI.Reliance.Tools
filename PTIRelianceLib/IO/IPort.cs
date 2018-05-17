@@ -10,20 +10,41 @@ using PTIRelianceLib.Transport;
 
 namespace PTIRelianceLib
 {
-    internal interface IPort
+    using System;
+
+    internal interface IPort<T> : IDisposable where T : IPacket
     {
+        T PacketLanguage { get; }
+
+        /// <summary>
+        /// Returns true if port is in an open state
+        /// </summary>
+        bool IsOpen { get;  }
+
+        /// <summary>
+        /// Open port for communication
+        /// </summary>
+        /// <returns>True if port is opened successfully</returns>
+        bool Open();
+
+        /// <summary>
+        /// Shutdown, release port
+        /// </summary>
+        void Close();
+
         /// <summary>
         /// Transmits packet from port
         /// </summary>
-        /// <param name="packet">Data to send</param>
+        /// <param name="data">Data to send</param>
+        /// <returns>True if write is successfull</returns>
         /// <exception cref="PTIException">Raised if data cannot be written</exception>
-        void Write(IPacket packet);
+        bool Write(T data);
 
         /// <summary>
-        /// Reads count bytes from port
+        /// Reads all available port data
         /// </summary>
-        /// <param name="count">Count of bytes to read</param>
         /// <returns>Data that was read, if any</returns>
-        IPacket Read(int count);
+        /// <exception cref="PTIException">Raised if there is a exception while reading</exception>
+        T Read();
     }
 }

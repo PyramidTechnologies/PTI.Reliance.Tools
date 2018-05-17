@@ -35,6 +35,12 @@ namespace PTIRelianceLib.Transport
         }
 
         /// <summary>
+        /// Add all bytes to the beginning of the packet.
+        /// </summary>
+        /// <param name="bytes"></param>
+        void Prepend(params byte[] bytes);
+
+        /// <summary>
         /// Returns the total length of the packet
         /// </summary>
         int Count { get; }
@@ -56,9 +62,10 @@ namespace PTIRelianceLib.Transport
         int HeaderSize { get; }
 
         /// <summary>
-        /// Package this data for transmission
+        /// Package this data for transmission. This modifies
+        /// the current packet and it is also returned, useful for chainging
         /// </summary>
-        /// <returns></returns>
+        /// <returns>This packet</returns>
         IPacket Package();
 
         /// <summary>

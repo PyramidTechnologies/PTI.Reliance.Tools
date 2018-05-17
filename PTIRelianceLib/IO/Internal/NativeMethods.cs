@@ -14,7 +14,7 @@ namespace PTIRelianceLib
     internal class NativeMethods
     {
         [StructLayout(LayoutKind.Sequential)]
-        public struct HidDeviceInfo
+        internal struct HidDeviceInfo
         {
             /// <summary>
             /// Platform-specific device path
@@ -66,13 +66,34 @@ namespace PTIRelianceLib
             public IntPtr Next;
         };
 
+        [DllImport("hidapi", EntryPoint = "hid_error")]
+        public static extern IntPtr HidError(IntPtr device);
+
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_init")]
-        public static extern int HidInit();
+        internal static extern int HidInit();
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_exit")]
-        public static extern int HidExit();
+        internal static extern int HidExit();
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_enumerate")]
-        public static extern IntPtr HidEnumerate(ushort vid, ushort pid);
+        internal static extern IntPtr HidEnumerate(ushort vid, ushort pid);
+
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_free_enumeration")]
+        internal static extern void HidFreeEnumerate(IntPtr devices);
+
+        [DllImport("hidapi", CharSet = CharSet.Ansi, EntryPoint = "hid_open")]
+        internal static extern IntPtr HidOpen(ushort vid, ushort pid, string serialNumber);
+
+        [DllImport("hidapi", CharSet = CharSet.Ansi, EntryPoint = "hid_open_path")]
+        internal static extern IntPtr HidOpen(string devicePath);
+
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_close")]
+        internal static extern void HidClose(IntPtr device);
+
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_read")]
+        public static extern int HidRead(IntPtr device, byte[] data, UIntPtr length);
+
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_write")]
+        public static extern int HidWrite(IntPtr device, byte[] data, UIntPtr length);
     }
 }
