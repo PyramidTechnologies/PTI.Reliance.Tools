@@ -6,6 +6,8 @@
 // 11:30 AM
 #endregion
 
+using PTIRelianceLib.Firmware;
+using PTIRelianceLib.Firmware.Internal;
 using PTIRelianceLib.IO.Internal;
 
 namespace PTIRelianceLib
@@ -40,9 +42,13 @@ namespace PTIRelianceLib
             throw new System.NotImplementedException();
         }
 
-        public ReturnCodes FlashUpdateTarget(BinaryFile firmware)
+        public ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter = null)
         {
-            throw new System.NotImplementedException();
+            var updater = new RELFwUpdater(_port, firmware)
+            {
+                Reporter = reporter ?? new DevNullMonitor()
+            };
+            return updater.ExecuteUpdate();
         }
 
         public Revlev GetRevlev()

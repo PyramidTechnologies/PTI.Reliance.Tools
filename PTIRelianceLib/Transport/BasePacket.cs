@@ -6,6 +6,8 @@
 // 9:57 AM
 #endregion
 
+using PTIRelianceLib.Protocol;
+
 namespace PTIRelianceLib.Transport
 {
     using System;
@@ -35,6 +37,8 @@ namespace PTIRelianceLib.Transport
         }
 
         #region Methods
+
+        /// <inheritdoc />
         public void Add(params byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0)
@@ -55,6 +59,7 @@ namespace PTIRelianceLib.Transport
             
         }
 
+        /// <inheritdoc />
         public void Insert(int index, params byte[] data)
         {
             // New array will include the old data and new data
@@ -69,12 +74,14 @@ namespace PTIRelianceLib.Transport
             _mData = buffer;            
         }
 
+        /// <inheritdoc />
         public byte this[int index]
         {
             get => _mData[index];
             set => _mData[index] = value;
         }
 
+        /// <inheritdoc />
         public void Prepend(params byte[] bytes)
         {
             // New array will include the old data and new data
@@ -86,12 +93,16 @@ namespace PTIRelianceLib.Transport
 
         }
 
+        /// <inheritdoc />
         public int Count => _mData.Length;
 
+        /// <inheritdoc />
         public bool IsPackaged { get; protected set; }
 
+        /// <inheritdoc />
         public virtual bool IsValid { get; protected set; }
 
+        /// <inheritdoc />
         public virtual int HeaderSize
         {
             get => 2;
@@ -104,11 +115,13 @@ namespace PTIRelianceLib.Transport
             }
         }
 
+        /// <inheritdoc />
         public override string ToString()
         {
             return GetBytes().ByteArrayToHexString();
         }
 
+        /// <inheritdoc />
         public byte[] GetBytes()
         {
             return (byte[])_mData.Clone();
@@ -116,11 +129,18 @@ namespace PTIRelianceLib.Transport
         #endregion
 
         #region Must Implement
+
+        /// <inheritdoc />
         public abstract IPacket Package();
 
+        /// <inheritdoc />
         public abstract IPacket ExtractPayload();
 
+        /// <inheritdoc />
         public abstract int GetExpectedPayloadSize();
+
+        /// <inheritdoc />
+        public abstract PacketTypes GetPacketType();
         
         /// <summary>
         /// Validates the current packet contents

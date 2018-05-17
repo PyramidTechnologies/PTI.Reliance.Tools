@@ -6,6 +6,8 @@
 // 7:12 AM
 #endregion
 
+using PTIRelianceLib.Firmware;
+
 namespace PTIRelianceLib
 {
     using System;
@@ -14,7 +16,7 @@ namespace PTIRelianceLib
     {
         ReturnCodes SendConfiguration(BinaryFile config);
 
-        ReturnCodes FlashUpdateTarget(BinaryFile firmware);
+        ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter);
 
         Revlev GetRevlev();
 

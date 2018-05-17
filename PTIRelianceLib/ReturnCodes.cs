@@ -15,6 +15,9 @@ namespace PTIRelianceLib
         InvalidRequest,
         InvalidRequestPayload,
         TargetStoppedResponding,
+        FlashFileInvalid,
+        FlashPermissionDenied,
+        OperationAborted,
         UnknownError
     }
 }
