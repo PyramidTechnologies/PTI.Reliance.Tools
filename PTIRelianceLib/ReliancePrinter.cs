@@ -59,8 +59,18 @@ namespace PTIRelianceLib
         }
 
         /// <inheritdoc />
+        /// <summary>
+        /// Parses configuraion and send to target printer.
+        /// </summary>
+        /// <param name="config">Configuration to send</param>
+        /// <returns>Okay on success, otherwise error code</returns>
+        /// <exception cref="T:PTIRelianceLib.PTIException">Raised if config file cannot be parsed</exception>
         public ReturnCodes SendConfiguration(BinaryFile config)
         {
+            if (!_port.IsOpen)
+            {
+                return ReturnCodes.DeviceNotConnected;
+            }
             var configWriter = new RElConfigUpdater(this);
             return configWriter.WriteConfiguration(config);
         }
@@ -68,6 +78,11 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public BinaryFile ReadConfiguration()
         {
+            if (!_port.IsOpen)
+            {               
+                return BinaryFile.From(new byte[0]);
+            }
+
             var configReader = new RElConfigUpdater(this);
             return configReader.ReadConfiguration();
         }
@@ -75,6 +90,11 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter = null)
         {
+            if (!_port.IsOpen)
+            {
+                return ReturnCodes.DeviceNotConnected;
+            }
+
             reporter = reporter ?? new DevNullMonitor();
             var updater = new RELFwUpdater(_port, firmware)
             {
@@ -98,6 +118,11 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public Revlev GetFirmwareRevision()
         {
+            if (!_port.IsOpen)
+            {
+                return new Revlev();
+            }
+
             var cmd = new ReliancePacket(RelianceCommands.GetRevlev);
             // "Self" param specifies we want revlev for running application
             cmd.Add(0x10);
@@ -108,6 +133,11 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public string GetSerialNumber()
         {
+            if (!_port.IsOpen)
+            {
+                return string.Empty;
+            }
+
             var cmd = new ReliancePacket(RelianceCommands.GetSerialNumber);
             var resp = Write(cmd);
             return PacketParserFactory.Instance.Create<PacketedString>().Parse(resp).Value;
@@ -123,6 +153,11 @@ namespace PTIRelianceLib
         /// <returns>Okay if printer is available, else ExecutionFailure</returns>
         public ReturnCodes Ping()
         {
+            if (!_port.IsOpen)
+            {
+                return ReturnCodes.DeviceNotConnected;
+            }
+
             var cmd = new ReliancePacket(RelianceCommands.Ping);
             var resp = Write(cmd);
             return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
@@ -141,6 +176,11 @@ namespace PTIRelianceLib
         /// (e.g. dispose) and then try again.</exception>
         public ReturnCodes Reboot()
         {
+            if (!_port.IsOpen)
+            {
+                return ReturnCodes.DeviceNotConnected;
+            }
+
             try
             {
                 var cmd = new ReliancePacket(RelianceCommands.Reboot);
@@ -179,6 +219,11 @@ namespace PTIRelianceLib
         /// <returns></returns>
         internal ReturnCodes EnterBootloader()
         {
+            if (!_port.IsOpen)
+            {
+                return ReturnCodes.DeviceNotConnected;
+            }
+
             var resp = Write(RelianceCommands.SetBootMode, 0x21);
             return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.ExecutionFailure : Reboot();
         }
