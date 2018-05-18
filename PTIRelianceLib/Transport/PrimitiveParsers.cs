@@ -46,7 +46,7 @@ namespace PTIRelianceLib.Transport
     /// <summary>
     /// Wrapper for byte response codes
     /// </summary>
-    public class PacketedByte : IParseable
+    internal class PacketedByte : IParseable
     {
         public byte Value { get; set; }
 
@@ -74,7 +74,7 @@ namespace PTIRelianceLib.Transport
     /// <summary>
     /// Wrapper for short response codes
     /// </summary>
-    public class PacketedShort : IParseable
+    internal class PacketedShort : IParseable
     {
         public ushort Value { get; set; }
 
@@ -102,7 +102,7 @@ namespace PTIRelianceLib.Transport
     /// <summary>
     /// Wrapper for integer response codes
     /// </summary>
-    public class PacketedInteger : IParseable
+    internal class PacketedInteger : IParseable
     {
         public uint Value { get; set; }
 
@@ -126,7 +126,8 @@ namespace PTIRelianceLib.Transport
             return packet == null ? null : new PacketedInteger { Value = packet.GetBytes().ToUintBE() };
         }
     }
-    public class PacketedString : IParseable
+
+    internal class PacketedString : IParseable
     {
         public string Value { get; set; }
 

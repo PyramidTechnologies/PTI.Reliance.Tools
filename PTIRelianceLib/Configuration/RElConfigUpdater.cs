@@ -10,8 +10,8 @@ namespace PTIRelianceLib.Configuration
 {
     using System;
     using System.Linq;
-    using PTIRelianceLib.Protocol;
-    using PTIRelianceLib.Transport;
+    using Protocol;
+    using Transport;
 
     /// <summary>
     /// Handles readong from and writing to Reliance configuration space

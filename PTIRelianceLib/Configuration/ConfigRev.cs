@@ -9,7 +9,7 @@
 namespace PTIRelianceLib.Configuration
 {
     using System;
-    using PTIRelianceLib.Transport;
+    using Transport;
 
     /// <summary>
     /// Configuration Revision is embedded in configuration files

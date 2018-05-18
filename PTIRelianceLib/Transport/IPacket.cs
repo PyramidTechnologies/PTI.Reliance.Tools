@@ -6,10 +6,10 @@
 // 7:10 AM
 #endregion
 
-using PTIRelianceLib.Protocol;
-
 namespace PTIRelianceLib.Transport
 {
+    using Protocol;
+
     internal interface IPacket
     {
         /// <summary>

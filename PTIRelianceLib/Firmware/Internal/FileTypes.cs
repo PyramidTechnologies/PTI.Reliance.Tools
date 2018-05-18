@@ -8,7 +8,7 @@
 
 namespace PTIRelianceLib.Firmware.Internal
 {
-    public enum FileTypes
+    internal enum FileTypes
     {
         Base,
         Logo,

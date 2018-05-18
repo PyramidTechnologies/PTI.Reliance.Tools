@@ -10,7 +10,7 @@ namespace PTIRelianceLib.Transport
 {
     using System;
     using System.Collections.Generic;
-    using PTIRelianceLib.Configuration;
+    using Configuration;
 
     /// <summary>
     /// Typesafe parser locator factory. These functions extended objects known to implement IParseAs.

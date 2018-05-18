@@ -6,12 +6,11 @@
 // 10:00 AM
 #endregion
 
-using System.Diagnostics;
-using PTIRelianceLib.Protocol;
-
 namespace PTIRelianceLib.Transport
 {
     using System;
+    using System.Diagnostics;
+    using Protocol;
 
     [DebuggerDisplay("Count = {Count}, Type = {_mPacketType}, Content={ToString()}")]
     internal class ReliancePacket : BasePacket

@@ -8,12 +8,12 @@
 
 namespace PTIRelianceLib.Configuration
 {
-    using System.ComponentModel;
-    using Newtonsoft.Json.Converters;
-    using Newtonsoft.Json;
     using System;
+    using System.ComponentModel;
     using System.IO;
     using System.Text;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
     internal sealed class RELConfig
     {

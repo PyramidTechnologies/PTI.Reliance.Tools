@@ -9,7 +9,7 @@
 namespace PTIRelianceLib.Configuration
 {
     using System;
-    using PTIRelianceLib.Transport;
+    using Transport;
 
     /// <inheritdoc cref="IParseable" />
     internal class RELFont : IParseable

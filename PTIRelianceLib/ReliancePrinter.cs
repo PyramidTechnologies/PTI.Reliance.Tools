@@ -6,19 +6,16 @@
 // 11:30 AM
 #endregion
 
-
-using System;
-using PTIRelianceLib.Configuration;
-
 namespace PTIRelianceLib
 {
+    using System;
     using System.Diagnostics;
-    using PTIRelianceLib.Firmware;
-    using PTIRelianceLib.Firmware.Internal;
-    using PTIRelianceLib.IO.Internal;
-    using PTIRelianceLib.IO;
-    using PTIRelianceLib.Protocol;
-    using PTIRelianceLib.Transport;
+    using Configuration;
+    using Firmware.Internal;
+    using IO;
+    using IO.Internal;
+    using Protocol;
+    using Transport;
 
     /// <inheritdoc />
     /// <summary>

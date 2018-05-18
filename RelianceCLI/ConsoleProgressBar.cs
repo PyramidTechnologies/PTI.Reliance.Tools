@@ -1,5 +1,5 @@
 ﻿using System;
-using PTIRelianceLib.Firmware;
+using PTIRelianceLib;
 
 namespace RelianceCLI
 {

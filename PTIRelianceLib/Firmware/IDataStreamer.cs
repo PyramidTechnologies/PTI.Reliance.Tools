@@ -9,7 +9,7 @@
 namespace PTIRelianceLib.Firmware
 {
     using System.Collections.Generic;
-    using PTIRelianceLib.Transport;
+    using Transport;
 
     /// <summary>
     /// This contract describes a class that, given a PacketList and device, can
@@ -20,7 +20,7 @@ namespace PTIRelianceLib.Firmware
         /// <summary>
         /// Callback monitor for flash events
         /// </summary>
-        IProgressReporter Reporter { get; set;  }
+        IProgressMonitor Reporter { get; set;  }
 
         /// <summary>
         /// Low-level port for writing and reading responses quickly

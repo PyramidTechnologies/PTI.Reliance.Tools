@@ -6,16 +6,15 @@
 // 9:04 AM
 #endregion
 
-using PTIRelianceLib.Transport;
-
 namespace PTIRelianceLib.Firmware.Internal
 {
     using System;
-    using System.IO;
     using System.Collections.Generic;
+    using System.IO;
     using System.Security.Cryptography;
-    using PTIRelianceLib.Protocol;
-    
+    using Protocol;
+    using Transport;
+
     /// <summary>
     /// Executes high-level flash update algorithm
     /// </summary>
@@ -37,7 +36,7 @@ namespace PTIRelianceLib.Firmware.Internal
             RunAfter = new List<Func<ReturnCodes>>();
         }
         
-        public IProgressReporter Reporter { get; set; }
+        public IProgressMonitor Reporter { get; set; }
 
         public FileTypes FileType { get; set; }
 

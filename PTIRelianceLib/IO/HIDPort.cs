@@ -7,12 +7,11 @@
 #endregion
 
 
-using PTIRelianceLib.Transport;
-
 namespace PTIRelianceLib.IO
 {
     using System.Diagnostics;
-    using PTIRelianceLib.IO.Internal;
+    using Internal;
+    using Transport;
 
     internal class HidPort<T> : IPort<IPacket> where T : IPacket, new()
     {

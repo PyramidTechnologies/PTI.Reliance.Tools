@@ -10,9 +10,9 @@
 namespace PTIRelianceLib.Configuration
 {
     using System;
-    using PTIRelianceLib.Transport;
-    using System.Runtime.Serialization;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
+    using Transport;
 
     /// <inheritdoc cref="IParseable" />
     /// <summary>

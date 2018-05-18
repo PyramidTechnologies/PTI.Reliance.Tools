@@ -5,10 +5,11 @@
 // 16-05-2018
 // 7:01 AM
 #endregion
+
 namespace PTIRelianceLib
 {
     using System;
-    using PTIRelianceLib.Transport;
+    using Transport;
 
     public class Revlev : IComparable, IParseable, IEquatable<Revlev>
     {

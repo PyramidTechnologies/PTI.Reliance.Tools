@@ -6,11 +6,10 @@
 // 9:47 AM
 #endregion
 
-
-
-namespace PTIRelianceLib.Firmware
+namespace PTIRelianceLib
 {
     using System;
+    using Firmware;
 
     /// <inheritdoc />
     /// <summary>
@@ -18,7 +17,7 @@ namespace PTIRelianceLib.Firmware
     /// This flashing module will eventually be its own nuget so that is
     /// why it does not implement IProgressReporter.
     /// </summary>
-    public class ProgressMonitor : IProgressReporter
+    public class ProgressMonitor : IProgressMonitor
     {
         /// <summary>
         /// Raised when a unit of progress has been made. Called a cummulative
@@ -58,6 +57,6 @@ namespace PTIRelianceLib.Firmware
     /// As the name implies, this consumes and ignores all data 
     /// passed to it.
     /// </summary>
-    internal class DevNullMonitor : ProgressMonitor
+    public class DevNullMonitor : ProgressMonitor
     { }
 }

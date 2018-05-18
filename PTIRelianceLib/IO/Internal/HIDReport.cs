@@ -6,11 +6,10 @@
 // 11:19 AM
 #endregion
 
-using PTIRelianceLib.IO.Internal;
-
 namespace PTIRelianceLib.IO
 {
     using System;
+    using Internal;
 
     /// <summary>
     /// HID report structure

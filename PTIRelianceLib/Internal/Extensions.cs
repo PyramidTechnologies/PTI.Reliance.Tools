@@ -10,9 +10,9 @@
 namespace PTIRelianceLib
 {
     using System;
-    using System.Text;
     using System.IO;
     using System.Runtime.Serialization;
+    using System.Text;
 
     internal static class Extensions
     {

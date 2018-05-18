@@ -6,12 +6,12 @@
 // 9:01 AM
 #endregion
 
-namespace PTIRelianceLib.Firmware
+namespace PTIRelianceLib
 {
     /// <summary>
     /// Interface for reporting a task's progress in a variety of formats.
     /// </summary>
-    public interface IProgressReporter
+    public interface IProgressMonitor
     {
         /// <summary>
         /// Receive a progress report

@@ -6,8 +6,6 @@
 // 7:12 AM
 #endregion
 
-using PTIRelianceLib.Firmware;
-
 namespace PTIRelianceLib
 {
     using System;

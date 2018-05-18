@@ -6,11 +6,10 @@
 // 7:51 AM
 #endregion
 
-using PTIRelianceLib.Transport;
-
 namespace PTIRelianceLib
 {
     using System;
+    using Transport;
 
     internal interface IPort<T> : IDisposable where T : IPacket
     {

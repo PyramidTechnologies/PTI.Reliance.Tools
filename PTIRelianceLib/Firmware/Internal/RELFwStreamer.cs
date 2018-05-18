@@ -6,15 +6,14 @@
 // 9:42 AM
 #endregion
 
-using System.Linq;
-using System.Text;
-using PTIRelianceLib.Transport;
-
 namespace PTIRelianceLib.Firmware.Internal
 {
-    using System.Collections.Generic;
     using System;
-    using PTIRelianceLib.Protocol;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Protocol;
+    using Transport;
 
     /// <inheritdoc />
     /// <summary>
@@ -22,13 +21,13 @@ namespace PTIRelianceLib.Firmware.Internal
     /// </summary>
     internal class RELFwStreamer : IDataStreamer
     {
-        public RELFwStreamer(IProgressReporter reporter, IPort<IPacket> port)
+        public RELFwStreamer(IProgressMonitor reporter, IPort<IPacket> port)
         {
             Reporter = reporter;
             Port = port;
         }
 
-        public IProgressReporter Reporter { get; set; }
+        public IProgressMonitor Reporter { get; set; }
 
         public IPort<IPacket> Port { get; set; }
 

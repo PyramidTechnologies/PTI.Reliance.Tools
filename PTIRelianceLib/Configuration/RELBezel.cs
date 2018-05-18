@@ -6,14 +6,13 @@
 // 7:22 AM
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using PTIRelianceLib.Transport;
-
 namespace PTIRelianceLib.Configuration
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Runtime.Serialization;
+    using Transport;
 
     /// <summary>
     /// This model represent the bezel configuration options
