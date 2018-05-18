@@ -108,7 +108,7 @@ namespace PTIRelianceLib.Transport
                 return null;
             }
 
-            return packet.IsPackaged ? packet : packet.ExtractPayload();
+            return packet.IsPackaged ? packet.ExtractPayload() : packet;
         }
 
         public abstract T Parse(IPacket packet);
