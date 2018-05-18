@@ -34,11 +34,20 @@ namespace PTIRelianceLib.Configuration
         public ReturnCodes WriteConfiguration(BinaryFile file)
         {
             var config = RELConfig.Load(file);
+            if (config == null)
+            {
+                return ReturnCodes.ConfigFileInvalid;
+            }
 
             var errCount = 0;
 
             // Tediously populate every field
             var serialCfg = GetConfig<RELSerialConfig>(_mPrinter, RelianceCommands.GetSerialConfig);
+            if (serialCfg == null)
+            {
+                return ReturnCodes.TargetStoppedResponding;
+            }
+
             serialCfg.BaudRate = config.BaudRate;
             serialCfg.Databits = (byte) config.Databits;
             serialCfg.Parity = config.Parity;

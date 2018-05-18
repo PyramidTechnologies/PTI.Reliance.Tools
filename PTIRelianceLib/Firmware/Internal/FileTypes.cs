@@ -11,7 +11,6 @@ namespace PTIRelianceLib.Firmware.Internal
     internal enum FileTypes
     {
         Base,
-        Logo,
         FontMap,
         FontModule
     }

@@ -42,7 +42,7 @@ namespace PTIRelianceLib.Configuration
         /// </summary>
         public static RELFont Default => new RELFont()
         {
-            FontSize = RelianceFontSizes.A11B15,
+            FontSize = RelianceFontSizes.A11_B15,
             FontWhich = 'A',
             CodePage = 771,
         };

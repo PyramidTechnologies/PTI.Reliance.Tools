@@ -180,7 +180,7 @@ namespace PTIRelianceLib.Configuration
         /// Get or Set font CPI size
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
-        [DefaultValue(RelianceFontSizes.A11B15)]
+        [DefaultValue(RelianceFontSizes.A11_B15)]
         public RelianceFontSizes FontSize { get; set; }
 
         /// <summary>
@@ -307,6 +307,7 @@ namespace PTIRelianceLib.Configuration
         /// </summary>
         /// <param name="file">Binary file containing configuration data</param>
         /// <returns>RELConfig or null on error</returns>
+        /// <exception cref="PTIException">Raised if file cannot bre properly read or parsed</exception>
         public static RELConfig Load(BinaryFile file)
         {
             try
@@ -321,9 +322,13 @@ namespace PTIRelianceLib.Configuration
                         }).Deserialize(reader, typeof(RELConfig)) as RELConfig;                        
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return null;
+                if (ex.InnerException != null)
+                {
+                    throw new PTIException("Failed to read config: {0}", ex.InnerException.Message);
+                }
+                throw new PTIException("Failed to read config: {0}", ex.Message);
             }
         }
     }

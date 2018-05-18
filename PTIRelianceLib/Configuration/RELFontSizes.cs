@@ -16,15 +16,15 @@ namespace PTIRelianceLib.Configuration
         /// <summary>
         /// A CPI 11, B CPI 15
         /// </summary>
-        A11B15 = 0,
+        A11_B15 = 0,
         /// <summary>
         /// A CPI 15, B CPI 20
         /// </summary>
-        A15B20 = 1,
+        A15_B20 = 1,
         /// <summary>
         /// A CPI 120, B CPI 15
         /// </summary>
-        A20B15 = 2,
+        A20_B15 = 2,
 
         Unset = 0xFF
     }

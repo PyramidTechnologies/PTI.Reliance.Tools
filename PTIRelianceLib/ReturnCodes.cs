@@ -19,6 +19,7 @@ namespace PTIRelianceLib
         FlashFileInvalid,
         FlashPermissionDenied,
         FlashChecksumMismatch,
+        ConfigFileInvalid,
         OperationAborted
     }
 }

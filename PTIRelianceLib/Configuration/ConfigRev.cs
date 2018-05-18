@@ -8,7 +8,6 @@
 
 namespace PTIRelianceLib.Configuration
 {
-    using System;
     using System.Collections.Generic;
     using Transport;
 
