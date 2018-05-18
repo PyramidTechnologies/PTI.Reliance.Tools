@@ -15,31 +15,62 @@ namespace PTIRelianceLib
 
     internal class NativeMethods
     {
+        /// <inheritdoc cref="IDisposable" />
         /// <summary>
         /// Opaque HID device handle
         /// </summary>
-        internal struct HidDevice
+        internal struct HidDevice : IDisposable
         {
             /// <summary>
             /// Handle to device
             /// </summary>
-            internal IntPtr Handle;
+            public readonly IntPtr Handle;
 
             /// <summary>
-            /// Returns true if this is a valid handle
+            /// Invalidated flag so we can keep an immutable Handle reference
             /// </summary>
+            private bool _mInvalidated;
+
+            /// <summary>
+            /// Create a new device with this handle
+            /// </summary>
+            /// <param name="handle"></param>
+            private HidDevice(IntPtr handle)
+            {
+                Handle = handle;
+                _mInvalidated = handle == IntPtr.Zero;
+            }
+
             public bool IsValid => Handle != IntPtr.Zero;
+
+            /// <summary>
+            /// Create new HidDevice from this handle
+            /// </summary>
+            /// <param name="handle"></param>
+            /// <returns></returns>
+            internal static HidDevice From(IntPtr handle)
+            {
+                return new HidDevice(handle);
+            }
 
             /// <summary>
             /// Returns an empty (invalid) device handle
             /// </summary>
             /// <returns>Device handle</returns>
-            public static HidDevice Invalid()
+            internal static HidDevice Invalid()
             {
-                return new HidDevice
+                return new HidDevice(IntPtr.Zero);
+            }
+
+            public void Dispose()
+            {
+                if (_mInvalidated)
                 {
-                    Handle = IntPtr.Zero
-                };
+                    return;
+                }
+
+                _HidClose(Handle);
+                _mInvalidated = true;
             }
         }
 
@@ -230,10 +261,8 @@ namespace PTIRelianceLib
         /// success or NULL on failure.</returns>
         internal static HidDevice HidOpenPath(string devicePath)
         {
-            return new HidDevice
-            {
-                Handle = _HidOpenPath(devicePath)
-            };
+            var handle = _HidOpenPath(devicePath);
+            return HidDevice.From(handle);
         }
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_close")]
@@ -244,7 +273,14 @@ namespace PTIRelianceLib
         /// <param name="device">A device handle returned from hid_open().</param>
         internal static void HidClose(HidDevice device)
         {
-            _HidClose(device.Handle);            
+            try
+            {
+                _HidClose(device.Handle);
+            }
+            catch (SEHException ex)
+            {
+                throw new PTIException("Failed to close HID handle: {0}", ex.Message);
+            }
         }
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_read_timeout")]

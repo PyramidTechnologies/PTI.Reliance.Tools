@@ -9,7 +9,9 @@
 namespace PTIRelianceLib
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Threading;
     using Configuration;
     using Firmware.Internal;
     using IO;
@@ -76,8 +78,11 @@ namespace PTIRelianceLib
             var updater = new RELFwUpdater(_port, firmware)
             {
                 Reporter = reporter,
-                FileType = FileTypes.Base
+                FileType = FileTypes.Base,
+                RunBefore = new List<Func<ReturnCodes>> { EnterBootloader, Reboot },
+                RunAfter = new List<Func<ReturnCodes>> {  Reboot }
             };
+
             try
             {
                 return updater.ExecuteUpdate();
@@ -127,19 +132,44 @@ namespace PTIRelianceLib
         /// For printers, a reboot (and any power up event) will generate a start up ticket that
         /// calibrates the paper path. Rebooting the printer remotely will cause a paper feed
         /// and leave this ticket at the front bezel. If you have auto-retract enabled, the ticket
-        /// will be get pulled back into the kiosk for disposal after a period of time
+        /// will be get pulled back into the kiosk for disposal after a period of time.
         /// </summary>
         /// <returns></returns>
         public ReturnCodes Reboot()
         {
             var cmd = new ReliancePacket(RelianceCommands.Reboot);
-            var resp = Write(cmd);
-            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            Write(cmd);
+
+            // Close immediately
+            _port.Close();
+
+            Thread.Sleep(500);
+
+            // Try for 7 seconds to reconnect
+            var start = DateTime.Now;
+            while ((DateTime.Now - start).TotalMilliseconds < 7000)
+            {
+                if (_port.Open())
+                {
+                    break;
+                }
+            }
+            return _port.IsOpen ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
         }
 
         public void Dispose()
         {
             _port?.Dispose();
+        }
+
+        /// <summary>
+        /// Enter bootloader mode and handle the reconnection dance
+        /// </summary>
+        /// <returns></returns>
+        internal ReturnCodes EnterBootloader()
+        {
+            var resp = Write(RelianceCommands.SetBootMode, 0x21);
+            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
         }
 
         /// <summary>

@@ -63,11 +63,8 @@ namespace PTIRelianceLib.IO.Internal
         /// Close and release USB handle
         /// </summary>
         public void Close()
-        {
-            if (Device.IsValid)
-            {
-                NativeMethods.HidClose(Device);
-            }
+        {            
+            Device = NativeMethods.HidDevice.Invalid();
         }
 
         /// <summary>
