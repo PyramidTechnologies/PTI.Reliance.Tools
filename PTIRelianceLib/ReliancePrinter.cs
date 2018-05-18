@@ -11,6 +11,7 @@ namespace PTIRelianceLib
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading;
     using Configuration;
     using Firmware.Internal;
@@ -214,6 +215,43 @@ namespace PTIRelianceLib
         }
 
         /// <summary>
+        /// Returns a list of installed codepage
+        /// </summary>
+        /// <returns>List of codepage ids or empty if none found</returns>
+        internal IEnumerable<ushort> GetInstalledCodepages()
+        {
+            if (!_port.IsOpen)
+            {
+                return Enumerable.Empty<ushort>();
+            }
+
+            // 2 : get codepage list
+            var raw = Write(RelianceCommands.FontSub, 2);
+            var result = new List<ushort>();
+
+            if (raw.GetPacketType() != PacketTypes.PositiveAck)
+            {
+                return result;
+            }
+            if (raw.Count < 3)
+            {
+                return result;
+            }
+
+            var count = raw[0];
+            if (raw.Count < (count + 1))
+            {
+                return result;
+            }
+            for (var i = 1; i < (count * 2); i += 2)
+            {
+                result.Add((ushort)(raw[i + 1] << 8 | raw[i]));
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Enter bootloader mode and handle the reconnection dance
         /// </summary>
         /// <returns></returns>
@@ -255,7 +293,7 @@ namespace PTIRelianceLib
                 return _port.PacketLanguage;
             }
 
-            var resp = _port.Read(10);
+            var resp = _port.Read(100);
             return resp.ExtractPayload();
         }
     }

@@ -9,6 +9,7 @@
 namespace PTIRelianceLib.Configuration
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using Protocol;
@@ -39,7 +40,7 @@ namespace PTIRelianceLib.Configuration
                 return ReturnCodes.ConfigFileInvalid;
             }
 
-            var errCount = 0;
+            var results = new List<ReturnCodes>();
 
             // Tediously populate every field
             var serialCfg = GetConfig<RELSerialConfig>(_mPrinter, RelianceCommands.GetSerialConfig);
@@ -53,51 +54,26 @@ namespace PTIRelianceLib.Configuration
             serialCfg.Parity = config.Parity;
             serialCfg.Stopbits = config.Stopbits;
             serialCfg.Handshake = config.Handshake;
-            errCount += SetConfig(RelianceCommands.SetSerialConfig, serialCfg) != ReturnCodes.Okay ? 1 : 0;
+            results.Add(SetConfig(RelianceCommands.SetSerialConfig, serialCfg));
 
-            errCount += SetConfig(RelianceCommands.SetPrintQuality, (byte) config.Quality) != ReturnCodes.Okay ? 1 : 0;
-            errCount += SetConfig(RelianceCommands.SetRetractEnabled, (byte) (config.RetractEnabled ? 1 : 0)) !=
-                        ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.SetEjectorMode, (byte) config.Ejector) != ReturnCodes.Okay ? 1 : 0;
-            errCount += SetConfig(RelianceCommands.SetTicketTimeoutPeriod, (byte) config.TicketTimeout) !=
-                        ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.SetTimeoutAction, (byte) config.TicketTimeoutAction) !=
-                        ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.SetNewTicketAction, (byte) config.NewTicketAction) !=
-                        ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.SetPresentLen, (byte) config.PresentLength) != ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.SetCRLFConf, new PacketedBool(config.CRLFEnabled)) != ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.SetPrintDensity, (byte) config.PrintDensity) != ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.AutocutSub, new PacketedBool(config.AutocutEnabled), 0) !=
-                        ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.AutocutSub, 2, (byte) config.AutocutTimeout) != ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.PaperSizeSub, 1, (byte) config.PaperWidth) != ReturnCodes.Okay
-                ? 1
-                : 0;
+            results.Add(SetConfig(RelianceCommands.SetPrintQuality, (byte) config.Quality));
+            results.Add(SetConfig(RelianceCommands.SetRetractEnabled, (byte) (config.RetractEnabled ? 1 : 0)));
+            results.Add(SetConfig(RelianceCommands.SetEjectorMode, (byte) config.Ejector));
+            results.Add(SetConfig(RelianceCommands.SetTicketTimeoutPeriod, (byte) config.TicketTimeout));
+            results.Add(SetConfig(RelianceCommands.SetTimeoutAction, (byte) config.TicketTimeoutAction));
+            results.Add(SetConfig(RelianceCommands.SetNewTicketAction, (byte) config.NewTicketAction));
+            results.Add(SetConfig(RelianceCommands.SetPresentLen, (byte) config.PresentLength));
+            results.Add(SetConfig(RelianceCommands.SetCRLFConf, new PacketedBool(config.CRLFEnabled)));
+            results.Add(SetConfig(RelianceCommands.SetPrintDensity, (byte) config.PrintDensity));
+            results.Add(SetConfig(RelianceCommands.AutocutSub, new PacketedBool(config.AutocutEnabled), 0));
+            results.Add(SetConfig(RelianceCommands.AutocutSub, 2, (byte) config.AutocutTimeout));
+            results.Add(SetConfig(RelianceCommands.PaperSizeSub, 1, (byte) config.PaperWidth));
 
             // TODO what about maps?
-//            var installedCodepage =
-//                new List<int>() {config.Codepage1, config.Codepage2, config.Codepage3, config.Codepage4};
-//            var mapsToInstall = RelianceFontHelper.MakeFileList(installedCodepage);
-//            errCount += _mPrinter.WriteFontMaps(mapsToInstall, new DevNullMonitor()) != ReturnCodes.Okay ? 1 : 0;
+            //            var installedCodepage =
+            //                new List<int>() {config.Codepage1, config.Codepage2, config.Codepage3, config.Codepage4};
+            //            var mapsToInstall = RelianceFontHelper.MakeFileList(installedCodepage);
+            //            results.Add(_mPrinter.WriteFontMaps(mapsToInstall, new DevNullMonitor()));
 
             // Font configuration
             var fontInfo = new RELFont
@@ -106,41 +82,31 @@ namespace PTIRelianceLib.Configuration
                 FontSize = config.FontSize,
                 FontWhich = config.FontWhich,
             };
-            errCount += SetConfig(RelianceCommands.FontSub, fontInfo, 1) != ReturnCodes.Okay ? 1 : 0;
-            errCount += SetConfig(RelianceCommands.FontSub, 6, (byte) config.FontScalingMode) != ReturnCodes.Okay
-                ? 1
-                : 0;
-
-            errCount += SetConfig(RelianceCommands.GeneralConfigSub, new PacketedBool(config.IsCDCEnabled), 4) !=
-                        ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.GeneralConfigSub,
-                            new PacketedBool(config.IsStartupTicketEnabled), 0x0C) != ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.GeneralConfigSub, new PacketedBool(config.IsPaperSlackEnabeld), 2) !=
-                        ReturnCodes.Okay
-                ? 1
-                : 0;
-            errCount += SetConfig(RelianceCommands.GeneralConfigSub, new PacketedBool(config.IsUniqueUSBSNEnabled), 6) !=
-                        ReturnCodes.Okay
-                ? 1
-                : 0;
+            var cps = _mPrinter.GetInstalledCodepages().ToArray();
+            if (!cps.Contains(fontInfo.CodePage))
+            {
+                fontInfo.CodePage = cps.FirstOrDefault();
+            }
+            results.Add(SetConfig(RelianceCommands.FontSub, fontInfo, 1));
+            results.Add(SetConfig(RelianceCommands.FontSub, 6, (byte) config.FontScalingMode));
+            results.Add(SetConfig(RelianceCommands.GeneralConfigSub, new PacketedBool(config.IsCDCEnabled), 4));
+            results.Add(SetConfig(RelianceCommands.GeneralConfigSub, new PacketedBool(config.IsStartupTicketEnabled), 0x0C));
+            results.Add(SetConfig(RelianceCommands.GeneralConfigSub, new PacketedBool(config.IsPaperSlackEnabeld), 2));
+            results.Add(SetConfig(RelianceCommands.GeneralConfigSub, new PacketedBool(config.IsUniqueUSBSNEnabled), 6));
 
             var xonxoff = new XonXoffConfig()
             {
                 Xon = config.XonCode,
                 Xoff = config.XoffCode
             };
-            errCount += SetConfig(RelianceCommands.GeneralConfigSub, xonxoff, 0x0A) != ReturnCodes.Okay ? 1 : 0;
+            results.Add(SetConfig(RelianceCommands.GeneralConfigSub, xonxoff, 0x0A));
 
             var confrev = new ConfigRev()
             {
                 Version = config.Version,
                 Revision = config.Revision,
             };
-            errCount += SetConfig(RelianceCommands.GeneralConfigSub, confrev, 0x0E) != ReturnCodes.Okay ? 1 : 0;
+            results.Add(SetConfig(RelianceCommands.GeneralConfigSub, confrev, 0x0E));
 
 
             // Bezel configuration
@@ -154,12 +120,12 @@ namespace PTIRelianceLib.Configuration
             bezelconfig[(int) RELBezelModes.TicketEjecting].DutyCycle = config.BezelEjectingDutyCycle;
             bezelconfig[(int) RELBezelModes.TicketEjecting].FlashInterval = config.BezelEjectingInterval;
 
-            errCount += bezelconfig.Sum(b => (SetConfig(RelianceCommands.BezelSub, b, 2) != ReturnCodes.Okay ? 1 : 0));
+            results.AddRange(bezelconfig.Select(relBezel => SetConfig(RelianceCommands.BezelSub, relBezel, 2)));
 
             // Don't forget to save these settings!
-            errCount += SetConfig(RelianceCommands.SaveConfig) != ReturnCodes.Okay ? 1 : 0;
+            results.Add(SetConfig(RelianceCommands.SaveConfig));
 
-            return errCount == 0 ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            return results.All(x => x == ReturnCodes.Okay) ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
         }
 
         /// <summary>
