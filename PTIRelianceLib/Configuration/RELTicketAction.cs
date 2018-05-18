@@ -39,7 +39,7 @@ namespace PTIRelianceLib.Configuration
     /// after a period of time
     /// </summary>
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    public enum TicketTimeoutAction
+    internal enum TicketTimeoutAction
     {
         /// <summary>
         /// Do nothing - leave paper until next print event

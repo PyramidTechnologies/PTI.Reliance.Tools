@@ -6,10 +6,6 @@
 // 7:21 AM
 #endregion
 
-
-using System.Text;
-using PTIRelianceLib.Transport;
-
 namespace PTIRelianceLib.Configuration
 {
     using System.ComponentModel;
@@ -17,6 +13,7 @@ namespace PTIRelianceLib.Configuration
     using Newtonsoft.Json;
     using System;
     using System.IO;
+    using System.Text;
 
     internal sealed class RELConfig
     {

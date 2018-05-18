@@ -7,13 +7,12 @@
 #endregion
 
 
-using System.Collections.Generic;
-
 namespace PTIRelianceLib.Configuration
 {
     using System;
     using PTIRelianceLib.Transport;
     using System.Runtime.Serialization;
+    using System.Collections.Generic;
 
     /// <inheritdoc cref="IParseable" />
     /// <summary>
@@ -272,7 +271,7 @@ namespace PTIRelianceLib.Configuration
     /// <summary>
     /// Supported serial stop bits
     /// </summary>
-    public enum SerialStopbits
+    internal enum SerialStopbits
     {
         /// <summary>
         /// 1, 1 stop bit, ah ah ah
@@ -288,7 +287,7 @@ namespace PTIRelianceLib.Configuration
     /// <summary>
     /// Supported handshake modes
     /// </summary>
-    public enum SerialHandshake
+    internal enum SerialHandshake
     {
         /// <summary>
         /// No handshake
@@ -316,7 +315,7 @@ namespace PTIRelianceLib.Configuration
     /// XonXoff configuration
     /// </summary>
     /// <remarks>Requires firmware 1.17+</remarks>
-    public class XonXoffConfig : IParseable
+    internal class XonXoffConfig : IParseable
     {
         /// <summary>
         /// Default Xon byte is DC1

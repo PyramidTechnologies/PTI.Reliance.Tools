@@ -6,15 +6,13 @@
 // 7:41 AM
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using PTIRelianceLib.Firmware;
-using PTIRelianceLib.Protocol;
-using PTIRelianceLib.Transport;
-
 namespace PTIRelianceLib.Configuration
 {
+    using System;
+    using System.Linq;
+    using PTIRelianceLib.Protocol;
+    using PTIRelianceLib.Transport;
+
     /// <summary>
     /// Handles readong from and writing to Reliance configuration space
     /// </summary>
