@@ -92,17 +92,7 @@ namespace PTIRelianceLib
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public byte this[int key]
-        {
-            get => _mData[key];
-            set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
-            }
-        }
+        public byte this[int key] => _mData[key];
 
         /// <summary>
         /// Returns true if this binary file is empty

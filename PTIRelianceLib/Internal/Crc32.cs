@@ -75,26 +75,6 @@ namespace PTIRelianceLib
         #endregion
 
         /// <summary>
-        /// Computes the CRC32 of the file at the specified path.        
-        /// </summary>
-        /// <param name="path">Path to file</param>
-        /// <returns>Interger CRC32</returns>
-        /// <throws>Exception in file cannot be checksumed. Likely cause
-        /// is not being able to obtain an exclusive read-lock on the file.</throws>
-        public static uint OfFile(string path)
-        {
-            try
-            {
-                var bytes = System.IO.File.ReadAllBytes(path);
-                return ComputeChecksum(bytes);
-            }
-            catch
-            {
-                throw new Exception(string.Format("Failed to compute checksum of file: {0}", path));
-            }
-        }
-
-        /// <summary>
         /// Compute the checksum of a binary buffer. This aligns
         /// with the Zlib CRC32 implementation.
         /// </summary>
