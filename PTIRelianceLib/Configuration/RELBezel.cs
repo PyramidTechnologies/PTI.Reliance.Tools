@@ -39,25 +39,6 @@ namespace PTIRelianceLib.Configuration
         /// </summary>
         public uint FlashInterval { get; set; }
 
-        #region IPacketable
-        /// <summary>
-        /// Serialize this instance into a packet
-        /// </summary>
-        /// <param name="dst">Packet to fill</param>
-        public void FillPacket(ref IPacket dst)
-        {
-            if (dst == null)
-            {
-                throw new ArgumentException("dst must not be null");
-            }
-
-            dst.Add((byte)BezelMode);
-            dst.Add(DutyCycle);
-            var buff = FlashInterval.ToBytesBE();
-            dst.Add(buff);
-        }
-        #endregion
-
         /// <summary>
         /// Returns the default values as they are encoded in the firwmare
         /// </summary>
@@ -95,7 +76,9 @@ namespace PTIRelianceLib.Configuration
 
         public byte[] Serialize()
         {
-            throw new NotImplementedException();
+            var buff = new List<byte> {(byte) BezelMode, DutyCycle};
+            buff.AddRange(FlashInterval.ToBytesBE());
+            return buff.ToArray();
         }
     }
 

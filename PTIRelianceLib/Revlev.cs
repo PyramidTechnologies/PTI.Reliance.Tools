@@ -9,6 +9,7 @@
 namespace PTIRelianceLib
 {
     using System;
+    using System.Collections.Generic;
     using Transport;
 
     public class Revlev : IComparable, IParseable, IEquatable<Revlev>
@@ -82,7 +83,11 @@ namespace PTIRelianceLib
 
         public byte[] Serialize()
         {
-            throw new NotImplementedException();
+            var buff = new List<byte>();
+            buff.AddRange(Major.ToBytesBE());
+            buff.AddRange(Minor.ToBytesBE());
+            buff.AddRange(Build.ToBytesBE());
+            return buff.ToArray();
         }
 
         /// <inheritdoc />

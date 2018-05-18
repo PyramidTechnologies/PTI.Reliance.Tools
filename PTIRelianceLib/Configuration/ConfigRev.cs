@@ -9,6 +9,7 @@
 namespace PTIRelianceLib.Configuration
 {
     using System;
+    using System.Collections.Generic;
     using Transport;
 
     /// <summary>
@@ -42,7 +43,8 @@ namespace PTIRelianceLib.Configuration
 
         public byte[] Serialize()
         {
-            throw new NotImplementedException();
+            var buff = new List<byte> {Version, (byte) Revision};
+            return buff.ToArray();
         }
     }
 

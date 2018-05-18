@@ -63,7 +63,7 @@ namespace PTIRelianceLib.Configuration
         public byte[] Serialize()
         {
             var result = new List<byte>();
-            var baud = ((uint)BaudRate).ToBytesBE();
+            var baud = BaudRate.ToBytesBE();
             result.AddRange(baud);
             result.Add(Databits);
             result.Add((byte)Parity);
@@ -366,7 +366,8 @@ namespace PTIRelianceLib.Configuration
 
         public byte[] Serialize()
         {
-            throw new NotImplementedException();
+            var buff = new List<byte> {Xon, Xoff};
+            return buff.ToArray();
         }
     }
 

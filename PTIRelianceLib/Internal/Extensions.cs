@@ -61,6 +61,16 @@ namespace PTIRelianceLib
         }
 
         /// <summary>
+        /// Converts a signed int to a big Endian 4-byte array
+        /// </summary>
+        /// <param name="u"></param>
+        /// <returns></returns>
+        public static byte[] ToBytesBE(this int u)
+        {
+            return new[] { (byte)(u & 0xFF), (byte)((u >> 8) & 0xFF), (byte)((u >> 16) & 0xFF), (byte)((u >> 24) & 0xFF) };
+        }
+
+        /// <summary>
         /// Converts an unsigned int to a big Endian 4-byte array
         /// </summary>
         /// <param name="u"></param>
