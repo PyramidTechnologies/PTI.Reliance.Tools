@@ -68,7 +68,8 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public BinaryFile ReadConfiguration()
         {
-            throw new NotImplementedException();
+            var configReader = new RElConfigUpdater(this);
+            return configReader.ReadConfiguration();
         }
 
         /// <inheritdoc />

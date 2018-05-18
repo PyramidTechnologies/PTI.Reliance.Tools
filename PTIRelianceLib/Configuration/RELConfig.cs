@@ -287,27 +287,18 @@ namespace PTIRelianceLib.Configuration
         public uint BezelEjectingInterval { get; set; }
 
         /// <summary>
-        /// Saves this configuration to the specified path. If the file alreay
-        /// exists, it will be overwritten. If there is an error saving the file
-        /// false will be returned.
-        /// TODO It would be nice to support saving to a stream
+        /// Serializes this object to stream
         /// </summary>
-        /// <param name="path">String path to save as. If file name does not exist, it will be created.</param>
-        /// <returns>bool</returns>
-        public bool Save(string path)
+        /// <param name="stream">Stream to write to</param>
+        public void Save(Stream stream)
         {
-            // Store serialized config to disk and omit any value this is default
-            var serialized = JsonConvert.SerializeObject(this, Formatting.Indented,
-                new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Populate });
-            try
+            using (var writer = new StreamWriter(stream))
+            using (var jsonWriter = new JsonTextWriter(writer))
             {
-                File.WriteAllText(path, serialized);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+                var ser = new JsonSerializer();
+                ser.Serialize(jsonWriter, this);
+                jsonWriter.Flush();
+            }            
         }
 
         /// <summary>

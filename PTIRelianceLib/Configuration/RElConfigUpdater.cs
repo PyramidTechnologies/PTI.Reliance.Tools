@@ -9,6 +9,7 @@
 namespace PTIRelianceLib.Configuration
 {
     using System;
+    using System.IO;
     using System.Linq;
     using Protocol;
     using Transport;
@@ -152,9 +153,21 @@ namespace PTIRelianceLib.Configuration
             return errCount == 0 ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
         }
 
+        /// <summary>
+        /// Reads configuration of printer and returns result
+        /// </summary>
+        /// <returns>JSON configuration</returns>
         public BinaryFile ReadConfiguration()
         {
-            throw new NotImplementedException();
+            var config = new RELConfig();
+
+            // TODO actually read stuff
+
+            using (var stream = new MemoryStream())
+            {
+                config.Save(stream);
+                return BinaryFile.From(stream.GetBuffer());
+            }
         }
 
         /// <summary>
