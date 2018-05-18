@@ -79,7 +79,7 @@ namespace PTIRelianceLib
             {
                 Reporter = reporter,
                 FileType = FileTypes.Base,
-                RunBefore = new List<Func<ReturnCodes>> { EnterBootloader, Reboot },
+                RunBefore = new List<Func<ReturnCodes>> { EnterBootloader },
                 RunAfter = new List<Func<ReturnCodes>> {  Reboot }
             };
 
@@ -134,27 +134,37 @@ namespace PTIRelianceLib
         /// and leave this ticket at the front bezel. If you have auto-retract enabled, the ticket
         /// will be get pulled back into the kiosk for disposal after a period of time.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Okay if printer reboots and comes online, else ExecutionFailure</returns>
+        /// <exception cref="PTIException">Raised if there is an unrecoverable issue during the reboot operation. This usually
+        /// means that the USB port entered an unexpected state. If this happens, dispose of this ReliancePrinter
+        /// (e.g. dispose) and then try again.</exception>
         public ReturnCodes Reboot()
         {
-            var cmd = new ReliancePacket(RelianceCommands.Reboot);
-            Write(cmd);
-
-            // Close immediately
-            _port.Close();
-
-            Thread.Sleep(500);
-
-            // Try for 7 seconds to reconnect
-            var start = DateTime.Now;
-            while ((DateTime.Now - start).TotalMilliseconds < 7000)
+            try
             {
-                if (_port.Open())
+                var cmd = new ReliancePacket(RelianceCommands.Reboot);
+                Write(cmd);
+
+                // Close immediately
+                _port.Close();
+
+                // Try for 7 seconds to reconnect
+                var start = DateTime.Now;
+                while ((DateTime.Now - start).TotalMilliseconds < 7000)
                 {
-                    break;
+                    Thread.Sleep(250);
+                    if (_port.Open())
+                    {
+                        break;
+                    }
                 }
+
+                return _port.IsOpen ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
             }
-            return _port.IsOpen ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            catch (Exception e)
+            {
+                throw new PTIException("Error occurred during reboot: {0}", e.Message);
+            }
         }
 
         public void Dispose()
@@ -169,7 +179,7 @@ namespace PTIRelianceLib
         internal ReturnCodes EnterBootloader()
         {
             var resp = Write(RelianceCommands.SetBootMode, 0x21);
-            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.ExecutionFailure : Reboot();
         }
 
         /// <summary>

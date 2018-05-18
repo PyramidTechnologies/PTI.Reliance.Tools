@@ -190,7 +190,7 @@ namespace PTIRelianceLib.Firmware.Internal
             raw = write(cmd);
             var actualCsum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(raw);
 
-            return expectedCsum == actualCsum ? ReturnCodes.Okay : ReturnCodes.FlashChecksumMismatch;
+            return Equals(expectedCsum, actualCsum) ? ReturnCodes.Okay : ReturnCodes.FlashChecksumMismatch;
         }
     }
 
