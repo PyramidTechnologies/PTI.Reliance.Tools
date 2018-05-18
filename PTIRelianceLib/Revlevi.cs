@@ -79,6 +79,11 @@ namespace PTIRelianceLib
             return string.Format("{0}.{1}.{2}", Major, Minor, Build);
         }
 
+        public byte[] Serialize()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <inheritdoc />
         /// <summary>
         /// Return a value less than zero if this object is less than obj
@@ -229,18 +234,14 @@ namespace PTIRelianceLib
         }
     }
 
-    internal class RevlevParser : IParseAs<Revlev>
+    internal class RevlevParser : BaseModelParser<Revlev>
     {
-        public Revlev Parse(IPacket packet)
+        public override Revlev Parse(IPacket packet)
         {
+            packet = CheckPacket(packet);
             if (packet == null)
             {
-                return new Revlev();
-            }
-
-            if (packet.IsPackaged)
-            {
-                packet = packet.ExtractPayload();
+                return null;
             }
 
             if (packet.Count < 8)

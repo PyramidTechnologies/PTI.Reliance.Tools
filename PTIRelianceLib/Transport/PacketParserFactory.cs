@@ -10,6 +10,7 @@ namespace PTIRelianceLib.Transport
 {
     using System;
     using System.Collections.Generic;
+    using PTIRelianceLib.Configuration;
 
     /// <summary>
     /// Typesafe parser locator factory. These functions extended objects known to implement IParseAs.
@@ -17,12 +18,19 @@ namespace PTIRelianceLib.Transport
     /// </summary>
     internal class PacketParserFactory
     {
-        public delegate int ParseIntPacket(IPacket packet);
-
         static PacketParserFactory()
         {
-            Instance.Register<StringModel, RawASCIIParser>();
+            Instance.Register<PacketedBool, PacketedBoolParser>();
+            Instance.Register<PacketedByte, PacketedByteParser>();
+            Instance.Register<PacketedShort, PacketedShortParser>();
+            Instance.Register<PacketedInteger, PacketedIntegerParser>();
+            Instance.Register<PacketedString, PacketedStringParser>();
             Instance.Register<Revlev, RevlevParser>();
+            Instance.Register<RELSerialConfig, RELSerialConfigParser>();
+            Instance.Register<RELFont, RELFontParser>();
+            Instance.Register<RELBezel, RELBezelParser>();
+            Instance.Register<XonXoffConfig, XonXoffConfigParser>();
+            Instance.Register<ConfigRev, ConfigRevParser>();
         }
 
         private PacketParserFactory() { }
@@ -80,35 +88,29 @@ namespace PTIRelianceLib.Transport
                     $"Creator is not register. Add call to Instance.Register<{shouldFind},SOME_PARSER_CLASS>() to static PacketParserFactory()")
                 : (IParseAs<T>)Activator.CreateInstance(type, parameters);
         }
+    }
 
+    /// <summary>
+    /// Base parser performs standard packet sanitization checks
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    internal abstract class BaseModelParser<T> : IParseAs<T> where T : IParseable
+    {
         /// <summary>
-        /// Parses packets as an integer. Automatically detects best numberic
-        /// type to use (byte, short, or int). Packet will be unpackaged if necessary.
+        /// Checks that packet is non-null and returns the payload of packet
         /// </summary>
-        /// <param name="packet">Data to parse</param>
-        /// <returns>Parsed integer or -1 on error</returns>
-        public static int ParseInteger(IPacket packet)
-        {         
-            if (packet == null || packet.Count == 0)
+        /// <param name="packet">Packet to inspect</param>
+        /// <returns>Payload of packet or null on error</returns>
+        protected IPacket CheckPacket(IPacket packet)
+        {
+            if (packet == null)
             {
-                return -1;
+                return null;
             }
 
-            if (packet.IsPackaged)
-            {
-                packet = packet.ExtractPayload();
-            }
-
-            var data = packet.GetBytes();
-            switch (data.Length)
-            {
-                case 0: return -1;
-                case 1: return data[0];
-                case 2: return (int) data.ToUintBE();
-                case 4: return (int) data.ToUintBE();
-
-                default: return -1;
-            }
+            return packet.IsPackaged ? packet : packet.ExtractPayload();
         }
+
+        public abstract T Parse(IPacket packet);
     }
 }

@@ -8,6 +8,7 @@
 
 
 using System;
+using PTIRelianceLib.Configuration;
 
 namespace PTIRelianceLib
 {
@@ -33,6 +34,7 @@ namespace PTIRelianceLib
         /// <summary>
         /// Create a new Reliance Printer. The printer will be discovered automatically.
         /// </summary>
+        /// <exception cref="PTIException">Raised if native HID library cannot be loaded</exception> 
         public ReliancePrinter()
         {
             // Reliance will "always" use report lengths of 34 bytes
@@ -45,25 +47,35 @@ namespace PTIRelianceLib
                 InReportId = 2,
                 OutReportId = 1
             };
-            _port = new HidPort<ReliancePacket>(config);
+
+            try
+            {
+                _port = new HidPort<ReliancePacket>(config);
+            }
+            catch (DllNotFoundException ex)
+            {
+                // Re throw as our own exception
+                throw new PTIException("Failed to load HID library: {0}", ex.Message);
+            }
         }
 
         /// <inheritdoc />
         public ReturnCodes SendConfiguration(BinaryFile config)
         {
-            throw new NotImplementedException();
+            var configWriter = new RElConfigUpdater(this);
+            return configWriter.WriteConfiguration(config);
         }
 
         /// <inheritdoc />
         public BinaryFile ReadConfiguration()
         {
-            throw new NotImplementedException();                
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
         public ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter = null)
         {
-            reporter = reporter ?? new DevNullMonitor();            
+            reporter = reporter ?? new DevNullMonitor();
             var updater = new RELFwUpdater(_port, firmware)
             {
                 Reporter = reporter,
@@ -95,7 +107,7 @@ namespace PTIRelianceLib
         {
             var cmd = new ReliancePacket(RelianceCommands.GetSerialNumber);
             var resp = Write(cmd);
-            return PacketParserFactory.Instance.Create<StringModel>().Parse(resp).Data;
+            return PacketParserFactory.Instance.Create<PacketedString>().Parse(resp).Value;
         }
 
         /// <inheritdoc />
@@ -125,8 +137,7 @@ namespace PTIRelianceLib
         {
             var cmd = new ReliancePacket(RelianceCommands.Reboot);
             var resp = Write(cmd);
-            return resp.GetPacketType() == PacketTypes.PositiveAck ?
-                ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
         }
 
         public void Dispose()
@@ -138,9 +149,23 @@ namespace PTIRelianceLib
         /// Write wrapper handle the write-wait-read process. The data returned
         /// from this method will be unpackaged for your.
         /// </summary>
+        ///<param name="cmd">Command to send</param>
         /// <param name="data">Data to send</param>
         /// <returns>Response or empty if no response</returns>
-        private IPacket Write(IPacket data)
+        internal IPacket Write(RelianceCommands cmd, params byte[] data)
+        {
+            var packet = new ReliancePacket(cmd);           
+            packet.Add(data);
+            return Write(packet);
+        }
+
+        /// <summary>
+        /// Write wrapper handle the write-wait-read process. The data returned
+        /// from this method will be unpackaged for your.
+        /// </summary>
+        /// <param name="data">Data to send</param>
+        /// <returns>Response or empty if no response</returns>
+        internal IPacket Write(IPacket data)
         {
             if (!_port.Write(data))
             {

@@ -184,12 +184,12 @@ namespace PTIRelianceLib.Firmware.Internal
             // Get expected checksum
             var cmd = Port.Package(0x85, 0x11);
             var raw = write(cmd);
-            var expectedCsum = PacketParserFactory.ParseInteger(raw);
+            var expectedCsum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(raw);
 
             // Check actual checksum
             cmd = Port.Package(0x95, 0x11);
             raw = write(cmd);
-            var actualCsum = PacketParserFactory.ParseInteger(raw);
+            var actualCsum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(raw);
 
             return expectedCsum == actualCsum ? ReturnCodes.Okay : ReturnCodes.FlashChecksumMismatch;
         }

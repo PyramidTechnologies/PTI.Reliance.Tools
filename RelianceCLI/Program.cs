@@ -10,6 +10,27 @@ namespace RelianceCLI
         {
             var opts = Options.Parse(args);
 
+            try
+            {
+                Run(opts);
+            }
+            catch (PTIException ex)
+            {
+                Console.WriteLine("Error: {0}", ex.Message);
+            }
+
+
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+        }
+
+        /// <summary>
+        /// Executes primary application.        
+        /// </summary>
+        /// <param name="opts">Program options</param>
+        /// <exception cref="PTIException">Raised if native HID library cannot be found</exception>
+        private static void Run(Options opts)
+        {
             Console.WriteLine("Testing HID interop");
 
             using (var printer = new ReliancePrinter())
@@ -36,7 +57,7 @@ namespace RelianceCLI
 
                         Console.WriteLine("Result: {0}", result);
                     }
-                    
+
                 }
 
                 if (!string.IsNullOrEmpty(opts.ConfigFilePath))
@@ -56,10 +77,6 @@ namespace RelianceCLI
                     }
                 }
             }
-
-
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
         }
 
         private struct Options

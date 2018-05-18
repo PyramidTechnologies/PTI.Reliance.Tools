@@ -6,11 +6,14 @@
 // 7:07 AM
 #endregion
 
+
 namespace PTIRelianceLib
 {
     using System;
     using System.Text;
-    
+    using System.IO;
+    using System.Runtime.Serialization;
+
     internal static class Extensions
     {
         /// <summary>
@@ -45,6 +48,16 @@ namespace PTIRelianceLib
                         $"Bytes must be between 1 and 4 bytes in length, received: {bytes.Length}");
 
             }
+        }
+
+        /// <summary>
+        /// Converts an unsigned int to a big Endian 2-byte array
+        /// </summary>
+        /// <param name="u"></param>
+        /// <returns></returns>
+        public static byte[] ToBytesBE(this ushort u)
+        {
+            return new[] { (byte)(u & 0xFF), (byte)((u >> 8) & 0xFF) };
         }
 
         /// <summary>
@@ -147,6 +160,57 @@ namespace PTIRelianceLib
             }
 
             return newArray;
+        }
+
+
+        /// <summary>
+        /// Concatentates all arrays into one
+        /// </summary>
+        /// <param name="args">1 or more byte arrays</param>
+        /// <returns>byte[]</returns>
+        public static byte[] Concat(params byte[][] args)
+        {
+            using (var buffer = new MemoryStream())
+            {
+                foreach (var ba in args)
+                {
+                    buffer.Write(ba, 0, ba.Length);
+                }
+
+                var bytes = new byte[buffer.Length];
+                buffer.Position = 0;
+                buffer.Read(bytes, 0, bytes.Length);
+
+                return bytes;
+            }
+        }
+
+
+        /// <summary>
+        /// Gets the EnumMemberAttribute on an enum field value. If the attribute
+        /// is not set, the ToString() result will be returned instead.
+        /// </summary>
+        /// <param name="enumVal">The enum value</param>
+        /// <returns>The string form of this enumVal</returns>
+        public static string GetEnumName(this Enum enumVal)
+        {
+            if (enumVal == null)
+            {
+                return string.Empty;
+            }
+
+
+            var type = enumVal.GetType();
+            var memInfo = type.GetMember(enumVal.ToString());
+            if (memInfo.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            var attributes = memInfo[0].GetCustomAttributes(typeof(EnumMemberAttribute), false);
+            return attributes.Length > 0 && attributes[0] != null
+                ? ((EnumMemberAttribute)attributes[0]).Value
+                : enumVal.ToString();
         }
     }
 }
