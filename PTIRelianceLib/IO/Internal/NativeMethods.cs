@@ -69,7 +69,7 @@ namespace PTIRelianceLib
                     return;
                 }
 
-                _HidClose(Handle);
+                HidClose(this);
                 _mInvalidated = true;
             }
         }
