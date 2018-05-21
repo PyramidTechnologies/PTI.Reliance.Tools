@@ -4,21 +4,30 @@ using PTIRelianceLib;
 
 namespace RelianceCLI
 {
+    using System.IO;
+
     internal class Program
     {
         private static void Main(string[] args)
         {
             var opts = Options.Parse(args);
 
-            try
+            if (opts.Okay)
             {
-                Run(opts);
+                try
+                {
+                    Run(opts);
+                }
+                catch (PTIException ex)
+                {
+                    Console.WriteLine("Error: {0}", ex.Message);
+                }
             }
-            catch (PTIException ex)
+            else
             {
-                Console.WriteLine("Error: {0}", ex.Message);
+                Console.WriteLine(opts.Message);
+                Console.WriteLine(Options.Usage());
             }
-
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
@@ -38,8 +47,11 @@ namespace RelianceCLI
                 var ping = printer.Ping();
                 Console.WriteLine("Ping: {0}", ping);
 
-                var revlev = printer.GetFirmwareRevision();
-                Console.WriteLine("Revision: {0}", revlev);
+                if (opts.GetRevlev)
+                {
+                    var revlev = printer.GetFirmwareRevision();
+                    Console.WriteLine("Revision: {0}", revlev);
+                }
 
                 if (!string.IsNullOrEmpty(opts.FirmwareFilePath))
                 {
@@ -78,14 +90,29 @@ namespace RelianceCLI
                         printer.Reboot();
                     }
                 }
+
+                if (!string.IsNullOrEmpty(opts.SaveConfigPath))
+                {
+                    var config = printer.ReadConfiguration();
+                    File.WriteAllBytes(opts.SaveConfigPath, config.GetData());
+                    Console.WriteLine("Read and saved printer configuration to {0}", opts.SaveConfigPath);
+                }
             }
         }
 
         private struct Options
         {
+            public bool Okay;
+
+            public string Message;
+
             public string FirmwareFilePath;
 
             public string ConfigFilePath;
+
+            public bool GetRevlev;
+
+            public string SaveConfigPath;
 
             public static Options Parse(IEnumerable<string> args)
             {
@@ -110,18 +137,50 @@ namespace RelianceCLI
                                 break;
 
                             case "-c":
-                            case "--configuration":
+                            case "--config":
                                 nextCapture = s => opts.ConfigFilePath = s;
                                 break;
 
+                            case "-r":
+                            case "--revision":
+                                opts.GetRevlev = true;
+                                break;
+
+                            case "-g":
+                            case "--get-config":
+                                nextCapture = s => opts.SaveConfigPath = s;
+                                break;
+
                             default:
-                                Console.WriteLine("Unknown switch: {0}", str);
-                                return new Options();
+                                opts.Message = string.Format("Unknown switch: {0}", str);
+                                return opts;
                         }
                     }
                 }
 
+                if (nextCapture != null)
+                {
+                    opts.Message = "Incomplete command line switch";
+                }
+                else
+                {
+                    opts.Okay = true;
+                }
+
                 return opts;
+            }
+
+
+            public static string Usage()
+            {
+                return "\nPyramid Technologies Inc (c) 2018\n" +
+                       "ptireliance.exe [OPTIONS] [FLAGS]\n\n" +
+                       "OPTIONS\n" +
+                       "\t-f,--firmware\t\tPath to firmware to flash update with\n" +
+                       "\t-c,--config\t\tPath to configuration to apply\n" +
+                       "\t-g,--get-config\t\tPath to file current config will be written to\n" +
+                       "FLAGS\n" +
+                       "\t-r,--revision\t\tRead and display printer firmware revision\n";
             }
         }
     }

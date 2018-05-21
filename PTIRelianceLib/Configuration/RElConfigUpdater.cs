@@ -10,6 +10,7 @@ namespace PTIRelianceLib.Configuration
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
     using Protocol;
@@ -136,41 +137,72 @@ namespace PTIRelianceLib.Configuration
         /// <summary>
         /// Reads configuration of printer and returns result
         /// </summary>
-        /// <param name="printer">Printer to query</param>
         /// <returns>JSON configuration</returns>
-        public BinaryFile ReadConfiguration(ReliancePrinter printer)
+        public BinaryFile ReadConfiguration()
         {
             var config = new RELConfig();
 
-            var serial = GetConfig<RELSerialConfig>(printer, RelianceCommands.GetSerialConfig);
+            var serial = GetConfig<RELSerialConfig>(_mPrinter, RelianceCommands.GetSerialConfig);
             config.BaudRate = serial.BaudRate;
             config.Handshake = serial.Handshake;
             config.Databits = serial.Databits;
             config.Stopbits = serial.Stopbits;
             config.Parity = serial.Parity;
 
-            config.Quality = (ReliancePrintQuality)GetConfig(printer, RelianceCommands.GetPrintQuality);
-            config.RetractEnabled = GetConfig(printer, RelianceCommands.GetRetractEnabled) == 1;
-            config.Ejector = (RelianceEjectorMode)GetConfig(printer, RelianceCommands.GetEjectorMode);
+            config.Quality = (ReliancePrintQuality)(GetConfig(_mPrinter, RelianceCommands.GetPrintQuality) ?? 0);
+            config.RetractEnabled = GetConfig(_mPrinter, RelianceCommands.GetRetractEnabled) == 1;
+            config.Ejector = (RelianceEjectorMode)(GetConfig(_mPrinter, RelianceCommands.GetEjectorMode) ?? 0);
 
-            config.TicketTimeout = GetConfig(printer, RelianceCommands.GetTicketTimeoutPeriod);
-            results.Add(SetConfig(RelianceCommands.SetTimeoutAction, (byte)config.TicketTimeoutAction));
-            results.Add(SetConfig(RelianceCommands.SetNewTicketAction, (byte)config.NewTicketAction));
-            results.Add(SetConfig(RelianceCommands.SetPresentLen, (byte)config.PresentLength));
-            results.Add(SetConfig(RelianceCommands.SetCRLFConf, new PacketedBool(config.CRLFEnabled)));
-            results.Add(SetConfig(RelianceCommands.SetPrintDensity, (byte)config.PrintDensity));
-            results.Add(SetConfig(RelianceCommands.AutocutSub, new PacketedBool(config.AutocutEnabled), 0));
-            results.Add(SetConfig(RelianceCommands.AutocutSub, 2, (byte)config.AutocutTimeout));
-            results.Add(SetConfig(RelianceCommands.PaperSizeSub, 1, (byte)config.PaperWidth));
+            config.TicketTimeout = GetConfig(_mPrinter, RelianceCommands.GetTicketTimeoutPeriod) ?? 5;
+            config.TicketTimeoutAction = (TicketTimeoutAction) (GetConfig(_mPrinter, RelianceCommands.GetTimeoutAction) ?? 0);
+            config.NewTicketAction = (NewTicketAction) (GetConfig(_mPrinter, RelianceCommands.GetNewTicketAction) ?? 1);
+            config.PresentLength = GetConfig(_mPrinter, RelianceCommands.GetPresentLen) ?? 48;
+            config.CRLFEnabled = GetConfig(_mPrinter, RelianceCommands.GetCRLFConf) == 1;
+            config.PrintDensity = GetConfig(_mPrinter, RelianceCommands.GetPrintDensity) ?? 100;
+            config.AutocutEnabled = GetConfig(_mPrinter, RelianceCommands.AutocutSub, 1) == 1;
+            config.AutocutTimeout = GetConfig(_mPrinter, RelianceCommands.AutocutSub, 3) ?? 1;
+            config.PaperWidth = PaperSizeUtils.FromByte((byte)(GetConfig(_mPrinter, RelianceCommands.PaperSizeSub, 0) ?? 80));
 
+            var font = GetConfig<RELFont>(_mPrinter, RelianceCommands.FontSub, 0);
+            config.FontWhich = font.FontWhich;
+            config.FontSize = font.FontSize;
+            config.DefaultCodepage = font.CodePage;
+            config.FontScalingMode = (RelianceScalarMode) (GetConfig(_mPrinter, RelianceCommands.FontSub, 7) ?? 1);
 
-            var font = GetConfig<RELFont>(printer, RelianceCommands.FontSub, 0);
+            var codepages = _mPrinter.GetInstalledCodepages().ToList();
+            config.Codepage1 = codepages.Count > 0 ? codepages[0] : font.CodePage;
+            config.Codepage2 = codepages.Count > 1 ? codepages[1] : 0;
+            config.Codepage3 = codepages.Count > 2 ? codepages[2] : 0;
+            config.Codepage4 = codepages.Count > 3 ? codepages[3] : 0;
+
+            config.IsCDCEnabled = GetConfig(_mPrinter, RelianceCommands.GeneralConfigSub, 5) == 1;
+            config.IsStartupTicketEnabled = GetConfig(_mPrinter, RelianceCommands.GeneralConfigSub, 0x0D) == 1;
+            config.IsPaperSlackEnabeld = GetConfig(_mPrinter, RelianceCommands.GeneralConfigSub, 3) == 1;
+            config.IsUniqueUSBSNEnabled = GetConfig(_mPrinter, RelianceCommands.GeneralConfigSub, 7) == 1;
 
             var bezels = new List<RELBezel>();
-            for (var i = 0; i < 4; ++i)
-            {
-                bezels.Add(GetConfig<RELBezel>(printer, RelianceCommands.BezelSub, 3));
+            for (byte i = 0; i < 4; ++i)
+            {                
+                // [bezel sub] [3] [printer state (i)]
+                bezels.Add(GetConfig<RELBezel>(_mPrinter, RelianceCommands.BezelSub, 3, i));
             }
+
+            config.BezelIdleDutyCycle = bezels[0].DutyCycle;
+            config.BezelIdleInterval = bezels[0].FlashInterval;
+            config.BezelPrintingDutyCycle = bezels[1].DutyCycle;
+            config.BezelPrintingInterval = bezels[1].FlashInterval;
+            config.BezelPresentedDutyCycle = bezels[2].DutyCycle;
+            config.BezelPresentedInterval = bezels[2].FlashInterval;
+            config.BezelEjectingDutyCycle = bezels[3].DutyCycle;
+            config.BezelEjectingInterval = bezels[3].FlashInterval;
+
+            var xonxoff = GetConfig<XonXoffConfig>(_mPrinter, RelianceCommands.GeneralConfigSub, 0x0B);
+            config.XonCode = xonxoff.Xon;
+            config.XoffCode = xonxoff.Xoff;
+
+            var configrev = GetConfig<ConfigRev>(_mPrinter, RelianceCommands.GeneralConfigSub, 0x0F);
+            config.Version = configrev.Version;
+            config.Revision = configrev.Revision;
 
             using (var stream = new MemoryStream())
             {
@@ -220,10 +252,34 @@ namespace PTIRelianceLib.Configuration
             return PacketParserFactory.Instance.Create<T>().Parse(resp);
         }
 
-        private static byte GetConfig(ReliancePrinter printer, RelianceCommands cmd, params byte[] args)
+        /// <summary>
+        /// Reads generic configuration code as an integer.
+        /// </summary>
+        /// <param name="printer">Target device</param>
+        /// <param name="cmd">Control code</param>
+        /// <param name="args">0 or more args</param>
+        /// <returns>Integer code or null on error</returns>
+        private static int? GetConfig(ReliancePrinter printer, RelianceCommands cmd, params byte[] args)
         {
             var resp = printer.Write(cmd, args);
-            return 0;
+            if (resp.GetPacketType() != PacketTypes.PositiveAck)
+            {
+                return null;
+            }
+
+            var payload = resp.GetBytes();
+            switch (payload.Length)
+            {
+                case 1:
+                    return payload[0];
+                case 2:
+                    return payload.ToUshortBE();
+                case 4:
+                    return payload.ToUshortBE();
+                default:
+                    return null;
+            }
+
         }
     }
 }
