@@ -240,7 +240,7 @@ namespace PTIRelianceLib
             packet = CheckPacket(packet);
             if (packet == null)
             {
-                return null;
+                return new Revlev();
             }
 
             if (packet.Count < 8)

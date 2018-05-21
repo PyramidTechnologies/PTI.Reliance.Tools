@@ -39,7 +39,11 @@ namespace PTIRelianceLib.Transport
         public override PacketedBool Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
-            return packet == null ? null : new PacketedBool(packet.GetBytes()[0] != 0);
+            if (packet == null || packet.IsEmpty)
+            {
+                return null;
+            }
+            return new PacketedBool(packet.GetBytes()[0] != 0);
         }
     }
 
@@ -67,7 +71,11 @@ namespace PTIRelianceLib.Transport
         public override PacketedByte Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
-            return packet == null ? null : new PacketedByte { Value = packet.GetBytes()[0]};
+            if (packet == null || packet.IsEmpty)
+            {
+                return null;
+            }
+            return new PacketedByte { Value = packet.GetBytes()[0]};
         }
     }
 
@@ -85,7 +93,7 @@ namespace PTIRelianceLib.Transport
         }
 
         public byte[] Serialize()
-        {
+        {            
             return Value.ToBytesBE();
         }
     }
@@ -95,7 +103,11 @@ namespace PTIRelianceLib.Transport
         public override PacketedShort Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
-            return packet == null ? null : new PacketedShort { Value = packet.GetBytes().ToUshortBE() };
+            if (packet == null || packet.Count < 2)
+            {
+                return null;
+            }
+            return new PacketedShort { Value = packet.GetBytes().ToUshortBE() };
         }
     }
 
@@ -123,13 +135,17 @@ namespace PTIRelianceLib.Transport
         public override PacketedInteger Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
-            return packet == null ? null : new PacketedInteger { Value = packet.GetBytes().ToUintBE() };
+            if (packet == null || packet.Count < 4)
+            {
+                return null;
+            }
+            return new PacketedInteger { Value = packet.GetBytes().ToUintBE() };
         }
     }
 
     internal class PacketedString : IParseable
     {
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
 
         public override bool Equals(object obj)
         {
@@ -154,7 +170,11 @@ namespace PTIRelianceLib.Transport
         public override PacketedString Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
-            return packet == null ? null : new PacketedString { Value = packet.GetBytes().GetPrintableString() };
+            if (packet == null || packet.IsEmpty)
+            {
+                return new PacketedString {Value = string.Empty };
+            }
+            return new PacketedString { Value = packet.GetBytes().GetPrintableString() };
         }
     }
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()

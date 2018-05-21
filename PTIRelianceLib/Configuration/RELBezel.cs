@@ -82,6 +82,7 @@ namespace PTIRelianceLib.Configuration
         }
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Parse that can convert an IPacket into a RelianceBezel model
     /// </summary>

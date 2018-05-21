@@ -43,6 +43,11 @@ namespace PTIRelianceLib.Transport
         void Prepend(params byte[] bytes);
 
         /// <summary>
+        /// Returns true if this is an empty packet
+        /// </summary>
+        bool IsEmpty { get;}
+
+        /// <summary>
         /// Returns the total length of the packet
         /// </summary>
         int Count { get; }

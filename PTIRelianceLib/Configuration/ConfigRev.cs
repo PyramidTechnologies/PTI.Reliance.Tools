@@ -27,19 +27,7 @@ namespace PTIRelianceLib.Configuration
         /// </summary>
         public char Revision { get; set; }
 
-        /// <summary>
-        /// Returns an invalid configrev struct
-        /// </summary>
-        /// <returns></returns>      
-        public static ConfigRev Invalid()
-        {
-            return new ConfigRev
-            {
-                Version = 0xFF,
-                Revision = (char)0xFF
-            };
-        }
-
+        /// <inheritdoc />
         public byte[] Serialize()
         {
             var buff = new List<byte> {Version, (byte) Revision};

@@ -34,6 +34,11 @@ namespace PTIRelianceLib.Transport
 
         public override IPacket Package()
         {
+            if (IsEmpty)
+            {
+                return this;
+            }
+
             var length = (byte)(Count + 1);
             byte checksum = 0;
 
@@ -56,7 +61,7 @@ namespace PTIRelianceLib.Transport
         {
             if (GetPacketType() != PacketTypes.PositiveAck)
             {
-                return this;
+                return ExtractEgressPacket();
             }
 
             // We're not packaged or we're malformed so don't strip away any data
@@ -99,6 +104,32 @@ namespace PTIRelianceLib.Transport
             result._mPacketType = _mPacketType;
 
             return result;
+        }
+
+        private IPacket ExtractEgressPacket()
+        {
+            if (GetPacketType() == PacketTypes.Malformed)
+            {
+                return this;
+            }
+
+            var size = GetExpectedPayloadSize();
+            if (size < 1 || size > Count)
+            {
+                this._mPacketType = PacketTypes.Malformed;
+                return this;
+            }
+
+            var local = GetBytes();
+            var payload = new byte[size];
+            Array.Copy(local, 1, payload, 0, Math.Min(payload.Length, local.Length));
+
+            return new ReliancePacket(payload)
+            {
+                IsValid = true,
+                IsPackaged = false,
+                _mPacketType = _mPacketType
+            };
         }
 
         public override int GetExpectedPayloadSize()
@@ -223,7 +254,7 @@ namespace PTIRelianceLib.Transport
                         _mPacketType = PacketTypes.Timeout;
                         break;
                     default:
-                        _mPacketType = PacketTypes.Malformed;
+                        _mPacketType = PacketTypes.Normal;
                         break;
                 }
             }

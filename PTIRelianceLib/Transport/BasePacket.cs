@@ -93,6 +93,9 @@ namespace PTIRelianceLib.Transport
         }
 
         /// <inheritdoc />
+        public bool IsEmpty => _mData.Length == 0;
+
+        /// <inheritdoc />
         public int Count => _mData.Length;
 
         /// <inheritdoc />
