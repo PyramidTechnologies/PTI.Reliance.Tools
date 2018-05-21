@@ -74,6 +74,8 @@ namespace RelianceCLI
                         var result = printer.SendConfiguration(file);
 
                         Console.WriteLine("Result: {0}", result);
+
+                        printer.Reboot();
                     }
                 }
             }

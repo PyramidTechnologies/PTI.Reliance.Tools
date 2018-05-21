@@ -119,8 +119,13 @@ namespace PTIRelianceLib.Configuration
             bezelconfig[(int) RELBezelModes.TicketPresented].FlashInterval = config.BezelPresentedInterval;
             bezelconfig[(int) RELBezelModes.TicketEjecting].DutyCycle = config.BezelEjectingDutyCycle;
             bezelconfig[(int) RELBezelModes.TicketEjecting].FlashInterval = config.BezelEjectingInterval;
-
-            results.AddRange(bezelconfig.Select(relBezel => SetConfig(RelianceCommands.BezelSub, relBezel, 2)));
+           
+            // Position in array needs to be used in the payload
+            for (byte i = 0; i < bezelconfig.Count; ++i)
+            {
+                // [bezel sub] [2] [printer state (i)] [ ... payload ... ]
+                results.Add(SetConfig(RelianceCommands.BezelSub, bezelconfig[i], 2, i));
+            }
 
             // Don't forget to save these settings!
             results.Add(SetConfig(RelianceCommands.SaveConfig));
