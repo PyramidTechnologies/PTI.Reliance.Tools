@@ -76,7 +76,8 @@ namespace PTIRelianceLib.Configuration
 
         public byte[] Serialize()
         {
-            var buff = new List<byte> {(byte) BezelMode, DutyCycle};
+            // bezel mode is actually an index in the config list, not part of the packet
+            var buff = new List<byte> { DutyCycle };
             buff.AddRange(FlashInterval.ToBytesBE());
             return buff.ToArray();
         }
@@ -107,27 +108,20 @@ namespace PTIRelianceLib.Configuration
                 return null;
             }
 
-            try
-            {
-                // In 1.19 and older, only a subset of this command was supported.
-                // Just in case someone decides to misuse this, don't explode
-                var result = new RELBezel();
+            // In 1.19 and older, only a subset of this command was supported.
+            var result = new RELBezel();
 
-                using (var stream = new MemoryStream(payload))
-                using (var reader = new BinaryReader(stream))
-                {
-                    var duty = reader.ReadByte();
-                    result.BezelMode = RELBezelModes.PrinterIdle;           // Command is unfortunately context sensitive so caller must set this
-                    result.DutyCycle = (byte)(Math.Min((int)duty, 100));    // 0-100, byte is unsigned so just enforce max
-                    result.FlashInterval = reader.ReadUInt32();
-                }
-
-                return result;
-            }
-            catch (Exception)
+            using (var stream = new MemoryStream(payload))
+            using (var reader = new BinaryReader(stream))
             {
-                return null;
+                var duty = reader.ReadByte();
+                result.BezelMode =
+                    RELBezelModes.PrinterIdle; // Command is unfortunately context sensitive so caller must set this
+                result.DutyCycle = (byte) (Math.Min((int) duty, 100)); // 0-100, byte is unsigned so just enforce max
+                result.FlashInterval = reader.ReadUInt32();
             }
+
+            return result;
         }
     }
 

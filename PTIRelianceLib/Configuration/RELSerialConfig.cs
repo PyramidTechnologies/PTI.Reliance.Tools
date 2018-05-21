@@ -146,18 +146,6 @@ namespace PTIRelianceLib.Configuration
         };
 
         /// <summary>
-        /// Returns an invalid serial configuration
-        /// </summary>
-        public static RELSerialConfig Invalid => new RELSerialConfig()
-        {
-            BaudRate = 0,
-            Databits = 0,
-            Parity = DefaultParity,
-            Stopbits = DefaultStopBits,
-            Handshake = DefaultFlowControl
-        };
-
-        /// <summary>
         /// Create a new builder instance
         /// </summary>
         public SerialConfigBuilder()
@@ -347,20 +335,6 @@ namespace PTIRelianceLib.Configuration
             {
                 Xon = DefaultXon,
                 Xoff = DefaultXoff,
-            };
-        }
-
-        /// <summary>
-        /// Returns invalid configuration. An invalid configuration
-        /// is where both on and off codes are equal, 0 in this case.
-        /// </summary>
-        /// <returns></returns>
-        public static XonXoffConfig Invalid()
-        {
-            return new XonXoffConfig()
-            {
-                Xon = 0,
-                Xoff = 0,
             };
         }
 
