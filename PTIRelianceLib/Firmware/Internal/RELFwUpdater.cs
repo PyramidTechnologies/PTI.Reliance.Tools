@@ -135,8 +135,7 @@ namespace PTIRelianceLib.Firmware.Internal
 
                 // There is a chance we will not have an even count of FLASH_BLOCK_SIZE
                 // byte in the stream. Count the bytes and check for this condition. If 
-                // detected, we must random-fill the block so round out the data. This 
-                // is because encrypting small segments can expose portions of our AES surface.
+                // detected, we must random-fill the block so round out the data.
 
                 // read into a block that will be crc'd
                 using (var stream = new MemoryStream(deobfuscated))
