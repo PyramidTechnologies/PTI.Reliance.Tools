@@ -40,6 +40,53 @@ namespace PTIRelianceLib.Tests.Transport
             Assert.False(packet.IsPackaged);
         }
 
+
+        [Fact]
+        public void TestAdd()
+        {
+            var data = new byte[] {1, 2, 3};
+            var packet = new ReliancePacket(data);
+            packet.Add(4,5,6);
+            packet.Prepend(0);
+
+            var expected = new byte[] {0, 1, 2, 3, 4, 5, 6};
+            Assert.Equal(expected.Length, packet.Count);
+            Assert.Equal(expected, packet.GetBytes());
+        }
+
+        [Fact]
+        public void TestBadAdd()
+        {
+            var packet = new ReliancePacket();
+            packet.Add(null);
+            Assert.True(packet.IsEmpty);
+
+            packet.Add(new ReliancePacket().GetBytes());
+            Assert.True(packet.IsEmpty);
+        }
+
+        [Fact]
+        public void TestInsert()
+        {
+            var data = new byte[] { 1, 2, 3 };
+            var packet = new ReliancePacket(data);
+            packet.Add(6, 7);
+            packet.Prepend(0);
+            packet.Insert(4, 4, 5);
+
+            var expected = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7 };
+            Assert.Equal(expected.Length, packet.Count);
+            Assert.Equal(expected, packet.GetBytes());
+        }
+
+        [Fact]
+        public void TestBadInsert()
+        {
+            var packet = new ReliancePacket();
+            Assert.Throws<IndexOutOfRangeException>(() => packet.Insert(10, new byte[3]));
+            Assert.Throws<IndexOutOfRangeException>(() => packet.Insert(-6, new byte[1]));
+        }
+
         [Fact]
         public void TestPackage()
         {
@@ -86,6 +133,8 @@ namespace PTIRelianceLib.Tests.Transport
             // ACK byte gets stripped
             Assert.Equal(payload.Length-1, extracted.Count);
             Assert.Equal(PacketTypes.PositiveAck, extracted.GetPacketType());
+
+            Assert.Equal("48, 65, 6C, 6C, 6F", extracted.ToString());
         }
     }
 }

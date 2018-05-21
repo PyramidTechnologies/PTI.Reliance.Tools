@@ -61,24 +61,21 @@ namespace PTIRelianceLib.Transport
         /// <inheritdoc />
         public void Insert(int index, params byte[] data)
         {
-            // New array will include the old data and new data
-            var buffer = new byte[_mData.Length + data.Length];
+            if (index > Count || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
 
-            // Copy in new data
-            Array.Copy(data, 0, buffer, index, data.Length);
+            var temp = new byte[Count + data.Length];
+            Array.Copy(_mData, 0, temp, 0, index);
+            Array.Copy(data, 0, temp, index, data.Length);
+            Array.Copy(_mData, index, temp, index+data.Length, Count - index);
 
-            // Copy all of new data into buffer starting from the end of the current data
-            Array.Copy(_mData, 0, buffer, index + 1, _mData.Length);
-
-            _mData = buffer;            
+            _mData = temp;            
         }
 
         /// <inheritdoc />
-        public byte this[int index]
-        {
-            get => _mData[index];
-            set => _mData[index] = value;
-        }
+        public byte this[int index] => _mData[index];
 
         /// <inheritdoc />
         public void Prepend(params byte[] bytes)
@@ -103,19 +100,6 @@ namespace PTIRelianceLib.Transport
 
         /// <inheritdoc />
         public virtual bool IsValid { get; protected set; }
-
-        /// <inheritdoc />
-        public virtual int HeaderSize
-        {
-            get => 2;
-            protected set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
-            }
-        }
 
         /// <inheritdoc cref="IPacket" />
         public override string ToString()

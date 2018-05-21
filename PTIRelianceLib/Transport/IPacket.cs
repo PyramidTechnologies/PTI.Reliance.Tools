@@ -8,6 +8,7 @@
 
 namespace PTIRelianceLib.Transport
 {
+    using System;
     using Protocol;
 
     internal interface IPacket
@@ -23,6 +24,7 @@ namespace PTIRelianceLib.Transport
         /// </summary>
         /// <param name="index">Index at which to insert</param>
         /// <param name="data">Data to insert</param>
+        /// <exception cref="IndexOutOfRangeException">Raised if index is greater than current length</exception>
         void Insert(int index, params byte[] data);
 
         /// <summary>
@@ -33,7 +35,6 @@ namespace PTIRelianceLib.Transport
         byte this[int index]
         {
             get;
-            set;
         }
 
         /// <summary>
@@ -62,11 +63,6 @@ namespace PTIRelianceLib.Transport
         /// set when a packaging or unpackaging operation completes successfully.
         /// </summary>
         bool IsValid { get; }
-
-        /// <summary>
-        /// Size in bytes of this packet's header
-        /// </summary>
-        int HeaderSize { get; }
 
         /// <summary>
         /// Package this data for transmission. This modifies

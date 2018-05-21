@@ -63,14 +63,7 @@ namespace PTIRelianceLib.Transport
                 throw new ArgumentException("ReturnType : Cannot create instance of interface or abstract class");
             }
 
-            try
-            {
-                MRegisteredType.Add(returnType, parserType);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            MRegisteredType.Add(returnType, parserType);
         }
 
         /// <summary>
