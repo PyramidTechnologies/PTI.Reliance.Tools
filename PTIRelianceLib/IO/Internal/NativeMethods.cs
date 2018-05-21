@@ -12,68 +12,10 @@ namespace PTIRelianceLib
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using IO.Internal;
 
-    internal class NativeMethods
-    {
-        /// <inheritdoc cref="IDisposable" />
-        /// <summary>
-        /// Opaque HID device handle
-        /// </summary>
-        internal struct HidDevice : IDisposable
-        {
-            /// <summary>
-            /// Handle to device
-            /// </summary>
-            public readonly IntPtr Handle;
-
-            /// <summary>
-            /// Invalidated flag so we can keep an immutable Handle reference
-            /// </summary>
-            private bool _mInvalidated;
-
-            /// <summary>
-            /// Create a new device with this handle
-            /// </summary>
-            /// <param name="handle"></param>
-            private HidDevice(IntPtr handle)
-            {
-                Handle = handle;
-                _mInvalidated = handle == IntPtr.Zero;
-            }
-
-            public bool IsValid => Handle != IntPtr.Zero;
-
-            /// <summary>
-            /// Create new HidDevice from this handle
-            /// </summary>
-            /// <param name="handle"></param>
-            /// <returns></returns>
-            internal static HidDevice From(IntPtr handle)
-            {
-                return new HidDevice(handle);
-            }
-
-            /// <summary>
-            /// Returns an empty (invalid) device handle
-            /// </summary>
-            /// <returns>Device handle</returns>
-            internal static HidDevice Invalid()
-            {
-                return new HidDevice(IntPtr.Zero);
-            }
-
-            public void Dispose()
-            {
-                if (_mInvalidated)
-                {
-                    return;
-                }
-
-                HidClose(this);
-                _mInvalidated = true;
-            }
-        }
-
+    internal class NativeMethods : INativeMethods
+    {     
         /// <summary>
         /// Interal device info enumeration
         /// </summary>
@@ -93,68 +35,10 @@ namespace PTIRelianceLib
             public readonly IntPtr Next;
         }
 
-        /// <summary>
-        /// Public device enumeration
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct HidDeviceInfo
-        {
-            /// <summary>
-            /// Platform-specific device path
-            /// </summary>
-            public string Path;
-            /// <summary>
-            /// Device Vendor ID 
-            /// </summary>
-            public ushort VendorId;
-            /// <summary>
-            /// Device Product ID
-            /// </summary>
-            public ushort ProductId;
-            /// <summary>
-            /// Device serial number
-            /// </summary>
-            public string SerialNumber;
-            /// <summary>
-            /// Device Release Number in binary-coded decimal,
-            /// also known as Device Version Number
-            /// </summary>
-            public ushort ReleaseNumber;
-            /// <summary>
-            /// Manufacturer String
-            /// </summary>
-            public string ManufacturerString;
-            /// <summary>
-            /// Product string
-            /// </summary>
-            public string ProductString;
-            /// <summary>
-            /// Usage Page for this Device/Interface (Windows/Mac only)
-            /// </summary>
-            public ushort UsagePage;
-            /// <summary>
-            /// Usage for this Device/Interface (Windows/Mac only)
-            /// </summary>
-            public ushort Usage;
-            /// <summary>
-            /// The USB interface which this logical device represents.
-            /// Valid on both Linux implementations in all cases, and 
-            /// valid on the Windows implementation only if the device 
-            /// contains more than one interface
-            /// </summary>
-            public int InterfaceNumber;
-        }
-
-
         [DllImport("hidapi", EntryPoint = "hid_error")]
         private static extern IntPtr _HidError(IntPtr device);
-        /// <summary>
-        /// Get a string describing the last error which occurred.
-        /// </summary>
-        /// <param name="device">A device handle returned from HidOpenPath().</param>
-        /// <returns>This function returns a string containing the last error
-        /// which occurred or NULL if none has occurred.</returns>
-        public static string HidError(HidDevice device)
+        /// <inheritdoc />
+        public string Error(HidDevice device)
         {
             return !device.IsValid ? "PTIRelianceLib: Invalid device handle" : Marshal.PtrToStringUni(_HidError(device.Handle));
         }
@@ -171,7 +55,13 @@ namespace PTIRelianceLib
         /// </summary>
         /// <returns>This function returns 0 on success and -1 on error</returns>
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_init")]
-        internal static extern int HidInit();
+        internal static extern int _HidInit();
+
+        /// <inheritdoc />
+        public int Init()
+        {
+            return _HidInit();
+        }
 
         /// <summary>
         /// Finalize the HIDAPI library.
@@ -182,24 +72,11 @@ namespace PTIRelianceLib
         /// </summary>
         /// <returns>This function returns 0 on success and -1 on error.</returns>
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_exit")]
-        internal static extern int HidExit();
+        private static extern int _HidExit();
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_enumerate")]
         internal static extern IntPtr _HidEnumerate(ushort vid, ushort pid);
-        /// <summary>
-        /// Enumerate the HID Devices.
-        /// 
-        /// This function returns a linked list of all the HID devices
-        /// attached to the system which match vid and pid.
-        /// </summary>
-        /// <param name="vid">The Vendor ID (VID) of the types of device
-        /// to open. Set to 0 to match any vendor id.</param>
-        /// <param name="pid">The Product ID (PID) of the types of
-        /// device to open. Set to zero to match and product id.</param>
-        /// <returns>This function returns list of HidDeviceInfo, each containing
-        /// information about the HID devices attached to the system,
-        /// or an empty list case of failure.</returns>
-        internal static IEnumerable<HidDeviceInfo> HidEnumerate(ushort vid, ushort pid)
+        public IEnumerable<HidDeviceInfo> Enumerate(ushort vid, ushort pid)
         {
             var enumerated = _HidEnumerate(vid, pid);
             if (enumerated == IntPtr.Zero)
@@ -249,29 +126,19 @@ namespace PTIRelianceLib
 
         [DllImport("hidapi", CharSet = CharSet.Ansi, EntryPoint = "hid_open_path")]
         private static extern IntPtr _HidOpenPath(string devicePath);
-        /// <summary>
-        /// Open a HID device by its path name.
-        /// 
-        /// The path name be determined by calling HidEnumerate(), or a
-        /// platform-specific path name can be used (eg: /dev/hidraw0 on
-        /// Linux).
-        /// </summary>
-        /// <param name="devicePath">The path name of the device to open</param>
-        /// <returns>This function returns a pointer to a #hid_device object on
-        /// success or NULL on failure.</returns>
-        internal static HidDevice HidOpenPath(string devicePath)
+
+        /// <inheritdoc />
+        public HidDevice OpenPath(string devicePath)
         {
             var handle = _HidOpenPath(devicePath);
-            return HidDevice.From(handle);
+            return new HidDevice(handle);
         }
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_close")]
-        private static extern void _HidClose(IntPtr device);
-        /// <summary>
-        /// Close a HID device.
-        /// </summary>
-        /// <param name="device">A device handle returned from hid_open().</param>
-        internal static void HidClose(HidDevice device)
+        internal static extern void _HidClose(IntPtr device);
+
+        /// <inheritdoc />
+        public void Close(HidDevice device)
         {
             try
             {
@@ -285,56 +152,25 @@ namespace PTIRelianceLib
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_read_timeout")]
         private static extern int _HidRead(IntPtr device, byte[] data, UIntPtr length, int timeout);
-        /// <summary>
-        /// Read an Input report from a HID device with timeout.
-        /// 
-        /// Input reports are returned
-        /// to the host through the INTERRUPT IN endpoint. The first byte will
-        /// contain the Report number if the device uses numbered reports.
-        /// </summary>
-        /// <param name="device">A device handle returned from HidOpenPath().</param>
-        /// <param name="data">A buffer to put the read data into.</param>
-        /// <param name="length">The number of bytes to read. For devices with
-        /// multiple reports, make sure to read an extra byte for
-        /// the report number.</param>
-        /// <param name="timeout">timeout in milliseconds or -1 for blocking wait.</param>
-        /// <returns>This function returns the actual number of bytes read and
-        /// -1 on error. If no packet was available to be read within
-        /// the timeout period, this function returns 0.</returns>
-        internal static int HidRead(HidDevice device, byte[] data, UIntPtr length, int timeout)
+
+        /// <inheritdoc />
+        public int Read(HidDevice device, byte[] data, UIntPtr length, int timeout)
         {
             return _HidRead(device.Handle, data, length, timeout);
         }
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_write")]
         private static extern int _HidWrite(IntPtr device, byte[] data, UIntPtr length);
-        /// <summary>
-        /// Write an Output report to a HID device.
-        /// 
-        /// The first byte of @p data[] must contain the Report ID. For
-        /// devices which only support a single report, this must be set
-        /// to 0x0. The remaining bytes contain the report data. Since
-        /// the Report ID is mandatory, calls to HidWrite() will always
-        /// contain one more byte than the report contains. For example,
-        /// if a hid report is 16 bytes long, 17 bytes must be passed to
-        /// HidWrite(), the Report ID (or 0x0, for devices with a
-        /// single report), followed by the report data (16 bytes). In
-        /// this example, the length passed in would be 17.
-        /// 
-        /// HidWrite() will send the data on the first OUT endpoint, if
-        /// one exists. If it does not, it will send the data through
-        /// the Control Endpoint (Endpoint 0).
-        /// 
-        /// </summary>
-        /// <param name="device"> A device handle returned from HidOpenPath()</param>
-        /// <param name="data">The data to send, including the report number as
-        /// the first byte.</param>
-        /// <param name="length">The length in bytes of the data to send.</param>
-        /// <returns>This function returns the actual number of bytes written and
-        /// -1 on error.</returns>
-        internal static int HidWrite(HidDevice device, byte[] data, UIntPtr length)
+
+        /// <inheritdoc />
+        public int Write(HidDevice device, byte[] data, UIntPtr length)
         {
             return _HidWrite(device.Handle, data, length);
+        }
+
+        public void Dispose()
+        {
+            _HidExit();
         }
     }
 }

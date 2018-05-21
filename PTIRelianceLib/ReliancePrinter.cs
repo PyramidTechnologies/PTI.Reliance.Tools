@@ -45,9 +45,27 @@ namespace PTIRelianceLib
                 InReportLength = 34,
                 OutReportLength = 34,
                 InReportId = 2,
-                OutReportId = 1
+                OutReportId = 1,
+                NativeHid = new NativeMethods()
             };
 
+            try
+            {
+                _port = new HidPort<ReliancePacket>(config);
+            }
+            catch (DllNotFoundException ex)
+            {
+                // Re throw as our own exception
+                throw new PTIException("Failed to load HID library: {0}", ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Internal constructor using specified configuration
+        /// </summary>
+        /// <param name="config">HID library options</param>
+        internal ReliancePrinter(HidDeviceConfig config)
+        {
             try
             {
                 _port = new HidPort<ReliancePacket>(config);
@@ -286,7 +304,7 @@ namespace PTIRelianceLib
         /// </summary>
         /// <param name="data">Data to send</param>
         /// <returns>Response or empty if no response</returns>
-        internal IPacket Write(IPacket data)
+        internal virtual IPacket Write(IPacket data)
         {
             if (!_port.Write(data))
             {

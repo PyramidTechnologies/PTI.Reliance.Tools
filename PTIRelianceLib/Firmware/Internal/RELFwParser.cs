@@ -42,7 +42,7 @@ namespace PTIRelianceLib.Firmware.Internal
 
             switch (Header.Model)
             {
-                case 0x501: // Securit file
+                case 0x501: // Security file
                 case 0x500: // Base file
                     return RelianceV1Deobfuscator();
 

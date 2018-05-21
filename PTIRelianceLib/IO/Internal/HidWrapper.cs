@@ -14,7 +14,7 @@ namespace PTIRelianceLib.IO.Internal
     [DebuggerDisplay("IsOpen = {IsOpen}, LastError = {LastError}")]
     internal class HidWrapper : IDisposable
     {       
-        private NativeMethods.HidDevice Device { get; set; }
+        private HidDevice Device { get; set; }
         private readonly HidDeviceConfig _deviceConfig;
 
         /// <summary>
@@ -24,9 +24,9 @@ namespace PTIRelianceLib.IO.Internal
         public HidWrapper(HidDeviceConfig config)
         {
             // Setup HIDAPI structures
-            NativeMethods.HidInit();
+            config.NativeHid.Init();
 
-            Device = NativeMethods.HidDevice.Invalid();
+            Device = HidDevice.Invalid();
             _deviceConfig = config;
             Open();
         }
@@ -64,7 +64,7 @@ namespace PTIRelianceLib.IO.Internal
         /// </summary>
         public void Close()
         {            
-            Device = NativeMethods.HidDevice.Invalid();
+            Device = HidDevice.Invalid();
         }
 
         /// <summary>
@@ -72,11 +72,11 @@ namespace PTIRelianceLib.IO.Internal
         /// handle to the device if found. Otherwise IntPtr.Zero is returned
         /// </summary>
         /// <returns>Device handle or IntPtr.Zero if no match found</returns>
-        private NativeMethods.HidDevice GetHidHandle()
+        private HidDevice GetHidHandle()
         {
-            foreach (var devinfo in NativeMethods.HidEnumerate(_deviceConfig.VendorId, _deviceConfig.ProductId))
+            foreach (var devinfo in _deviceConfig.NativeHid.Enumerate(_deviceConfig.VendorId, _deviceConfig.ProductId))
             {
-                var handle = NativeMethods.HidOpenPath(devinfo.Path);
+                var handle = _deviceConfig.NativeHid.OpenPath(devinfo.Path);
 
                 if (handle.IsValid)
                 {
@@ -84,7 +84,7 @@ namespace PTIRelianceLib.IO.Internal
                 }
             }
 
-            return NativeMethods.HidDevice.Invalid();
+            return HidDevice.Invalid();
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace PTIRelianceLib.IO.Internal
             }
 
             var report = HidReport.MakeOutputReport(_deviceConfig, data);  
-            var result = NativeMethods.HidWrite(Device, report.Data, report.Size);
+            var result = _deviceConfig.NativeHid.Write(Device, report.Data, report.Size);
 
             CheckError();
 
@@ -120,7 +120,7 @@ namespace PTIRelianceLib.IO.Internal
             }
 
             var inreport = HidReport.MakeInputReport(_deviceConfig);
-            var read = NativeMethods.HidRead(Device, inreport.Data, inreport.Size, timeoutMs);
+            var read = _deviceConfig.NativeHid.Read(Device, inreport.Data, inreport.Size, timeoutMs);
 
             var result = new byte[0];
             if (read > 0)
@@ -137,15 +137,12 @@ namespace PTIRelianceLib.IO.Internal
         /// </summary>
         private void CheckError()
         {
-            LastError = NativeMethods.HidError(Device);            
+            LastError = _deviceConfig.NativeHid.Error(Device);            
         }
 
         public void Dispose()
         {
             Close();
-
-            // Cleanup HID API
-            NativeMethods.HidExit();
         }
 
         public override string ToString()

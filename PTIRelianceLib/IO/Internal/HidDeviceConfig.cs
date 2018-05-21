@@ -21,5 +21,7 @@ namespace PTIRelianceLib.IO.Internal
         public int InReportLength { get; set; }
 
         public int OutReportLength { get; set; }
+
+        public INativeMethods NativeHid { get; set; }
     }
 }

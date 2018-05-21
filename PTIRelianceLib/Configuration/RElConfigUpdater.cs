@@ -136,12 +136,41 @@ namespace PTIRelianceLib.Configuration
         /// <summary>
         /// Reads configuration of printer and returns result
         /// </summary>
+        /// <param name="printer">Printer to query</param>
         /// <returns>JSON configuration</returns>
-        public BinaryFile ReadConfiguration()
+        public BinaryFile ReadConfiguration(ReliancePrinter printer)
         {
             var config = new RELConfig();
 
-            // TODO actually read stuff
+            var serial = GetConfig<RELSerialConfig>(printer, RelianceCommands.GetSerialConfig);
+            config.BaudRate = serial.BaudRate;
+            config.Handshake = serial.Handshake;
+            config.Databits = serial.Databits;
+            config.Stopbits = serial.Stopbits;
+            config.Parity = serial.Parity;
+
+            config.Quality = (ReliancePrintQuality)GetConfig(printer, RelianceCommands.GetPrintQuality);
+            config.RetractEnabled = GetConfig(printer, RelianceCommands.GetRetractEnabled) == 1;
+            config.Ejector = (RelianceEjectorMode)GetConfig(printer, RelianceCommands.GetEjectorMode);
+
+            config.TicketTimeout = GetConfig(printer, RelianceCommands.GetTicketTimeoutPeriod);
+            results.Add(SetConfig(RelianceCommands.SetTimeoutAction, (byte)config.TicketTimeoutAction));
+            results.Add(SetConfig(RelianceCommands.SetNewTicketAction, (byte)config.NewTicketAction));
+            results.Add(SetConfig(RelianceCommands.SetPresentLen, (byte)config.PresentLength));
+            results.Add(SetConfig(RelianceCommands.SetCRLFConf, new PacketedBool(config.CRLFEnabled)));
+            results.Add(SetConfig(RelianceCommands.SetPrintDensity, (byte)config.PrintDensity));
+            results.Add(SetConfig(RelianceCommands.AutocutSub, new PacketedBool(config.AutocutEnabled), 0));
+            results.Add(SetConfig(RelianceCommands.AutocutSub, 2, (byte)config.AutocutTimeout));
+            results.Add(SetConfig(RelianceCommands.PaperSizeSub, 1, (byte)config.PaperWidth));
+
+
+            var font = GetConfig<RELFont>(printer, RelianceCommands.FontSub, 0);
+
+            var bezels = new List<RELBezel>();
+            for (var i = 0; i < 4; ++i)
+            {
+                bezels.Add(GetConfig<RELBezel>(printer, RelianceCommands.BezelSub, 3));
+            }
 
             using (var stream = new MemoryStream())
             {
@@ -189,6 +218,12 @@ namespace PTIRelianceLib.Configuration
         {
             var resp = printer.Write(cmd, args);
             return PacketParserFactory.Instance.Create<T>().Parse(resp);
+        }
+
+        private static byte GetConfig(ReliancePrinter printer, RelianceCommands cmd, params byte[] args)
+        {
+            var resp = printer.Write(cmd, args);
+            return 0;
         }
     }
 }
