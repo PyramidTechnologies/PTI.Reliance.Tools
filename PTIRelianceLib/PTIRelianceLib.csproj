@@ -10,6 +10,11 @@
     <Copyright>2018</Copyright>
     <PackageLicenseUrl>https://pti.mit-license.org/</PackageLicenseUrl>
     <PackageReleaseNotes>Supports flash updating, confguration read, and configuration write</PackageReleaseNotes>
+    <Version>0.1.0</Version>
+    <PackageProjectUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>dotnet-core thermal-printer hid</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
