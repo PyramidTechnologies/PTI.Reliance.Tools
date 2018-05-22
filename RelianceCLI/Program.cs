@@ -97,6 +97,12 @@ namespace RelianceCLI
                     File.WriteAllBytes(opts.SaveConfigPath, config.GetData());
                     Console.WriteLine("Read and saved printer configuration to {0}", opts.SaveConfigPath);
                 }
+
+                if (opts.GetStatus)
+                {
+                    var status = printer.GetStatus();
+                    Console.WriteLine("Printer status:\n{0}", status);
+                }
             }
         }
 
@@ -111,6 +117,8 @@ namespace RelianceCLI
             public string ConfigFilePath;
 
             public bool GetRevlev;
+
+            public bool GetStatus;
 
             public string SaveConfigPath;
 
@@ -144,6 +152,11 @@ namespace RelianceCLI
                             case "-r":
                             case "--revision":
                                 opts.GetRevlev = true;
+                                break;
+
+                            case "-s":
+                            case "--status":
+                                opts.GetStatus = true;
                                 break;
 
                             case "-g":
@@ -180,7 +193,8 @@ namespace RelianceCLI
                        "\t-c,--config\t\tPath to configuration to apply\n" +
                        "\t-g,--get-config\t\tPath to file current config will be written to\n" +
                        "FLAGS\n" +
-                       "\t-r,--revision\t\tRead and display printer firmware revision\n";
+                       "\t-r,--revision\t\tRead and display printer firmware revision\n" +
+                       "\t-s,--status\t\tRead and display printer status\n";
             }
         }
     }

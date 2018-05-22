@@ -81,6 +81,21 @@ namespace PTIRelianceLib.Tests
         }
 
         [Fact]
+        public void TestStatus()
+        {
+            lock (MTestLock)
+            {
+                var data = new Status {HeadVoltage = "23.45"};
+                _mNativeMock.GetNextResponse = (d) => GenerateHidData(data.Serialize());
+                using (var printer = new ReliancePrinter(_mConfig))
+                {
+                    var resp = printer.GetStatus();
+                    Assert.Equal(data.HeadVoltage, resp.HeadVoltage);
+                }
+            }
+        }
+
+        [Fact]
         public void TestSerialNumber()
         {
             lock (MTestLock)
@@ -126,7 +141,17 @@ namespace PTIRelianceLib.Tests
 
             lock (MTestLock)
             {
-                _mNativeMock.GetNextResponse = (d) => GenerateHidData(0xAA);
+                var count = 0;
+                _mNativeMock.GetNextResponse = (d) =>
+                {
+                    if (count++ != 0)
+                    {
+                        return GenerateHidData(0xAA);
+                    }
+
+                    var rev = new Revlev(1, 27, 127);
+                    return GenerateHidData(rev.Serialize());
+                };
                 using (var printer = new ReliancePrinter(_mConfig))
                 {
                     var fakeFirmware = new byte[204848];

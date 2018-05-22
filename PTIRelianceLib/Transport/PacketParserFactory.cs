@@ -31,6 +31,7 @@ namespace PTIRelianceLib.Transport
             Instance.Register<RELBezel, RELBezelParser>();
             Instance.Register<XonXoffConfig, XonXoffConfigParser>();
             Instance.Register<ConfigRev, ConfigRevParser>();
+            Instance.Register<Status, StatusParser>();
         }
 
         private PacketParserFactory() { }

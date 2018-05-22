@@ -166,6 +166,18 @@ namespace PTIRelianceLib
             return PacketParserFactory.Instance.Create<Revlev>().Parse(resp);
         }
 
+        public Status GetStatus()
+        {
+            if (!_port.IsOpen)
+            {
+                return null;
+            }
+
+            var cmd = new ReliancePacket(RelianceCommands.GetPrinterStatus);
+            var resp = Write(cmd);
+            return PacketParserFactory.Instance.Create<Status>().Parse(resp);
+        }
+
         /// <inheritdoc />
         public string GetSerialNumber()
         {
