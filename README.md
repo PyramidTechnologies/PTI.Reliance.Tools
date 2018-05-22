@@ -2,7 +2,7 @@
 This is a collection of tools for flash updating, configuring, and maintaining your Reliance Thermal Printer.
 
 ## Examples
-See RelianceCLI/Program.cs
+See [RelianceCLI](RelianceCLI)
 
 ## Third Party Licenses
-See third-party-license-readme.md
+See [Third Party Licenses](third-party-license-readme.md)
