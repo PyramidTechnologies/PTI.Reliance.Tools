@@ -16,6 +16,7 @@ namespace PTIRelianceLib
         InvalidRequest,
         InvalidRequestPayload,
         TargetStoppedResponding,
+        FlashInstalledFwNotSupported,
         FlashFileInvalid,
         FlashPermissionDenied,
         FlashChecksumMismatch,

@@ -107,11 +107,28 @@ namespace PTIRelianceLib
         }
 
         /// <inheritdoc />
+        ///  <summary>
+        ///  Updates target Reliance Thermal printer with this firmware.
+        ///  This API supports printers with firmware 1.22 or newer. If you
+        ///  have a printer firmware older than 1.22, you must use the PC
+        ///  version of Reliance Tools to upgrade your firmware.
+        ///  </summary>       
+        ///  <param name="firmware">Firwmare file</param>
+        ///  <param name="reporter">Progress monitor</param>
+        ///  <returns>Return code.
+        ///  FlashInstalledFwNotSupported is returned if your printer has too old of firmware.
+        ///  </returns>
         public ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter = null)
         {
             if (!_port.IsOpen)
             {
                 return ReturnCodes.DeviceNotConnected;
+            }
+
+            var revlev = GetFirmwareRevision();
+            if (revlev < new Revlev(1, 22, 0))
+            {
+                return ReturnCodes.FlashInstalledFwNotSupported;
             }
 
             reporter = reporter ?? new DevNullMonitor();
