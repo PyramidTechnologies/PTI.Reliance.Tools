@@ -5,25 +5,29 @@
 // 16-05-2018
 // 7:01 AM
 #endregion
+
 namespace PTIRelianceLib
 {
     using System;
-    using PTIRelianceLib.Transport;
+    using System.Collections.Generic;
+    using Transport;
 
     public class Revlev : IComparable, IParseable, IEquatable<Revlev>
     {
         /// <summary>
         /// First component of version Major.Minor.Build
         /// </summary>
-        public int Major { get; set; }
+        public readonly int Major;
+
         /// <summary>
         /// Second component of version Major.Minor.Build
         /// </summary>
-        public int Minor { get; set; }
+        public readonly int Minor;
+
         /// <summary>
         /// Third component of version Major.Minor.Build
         /// </summary>
-        public int Build { get; set; }
+        public readonly int Build;
 
         /// <inheritdoc />
         public Revlev()
@@ -35,6 +39,7 @@ namespace PTIRelianceLib
         /// The minor and build fields may be omitted. In this case, the values will be set to 0.
         /// </summary>
         /// <param name="revlev">String of conforming format</param>
+        /// <exception cref="ArgumentException">Raised if any value cannot be parsed as an integer</exception>
         public Revlev(string revlev)
         {
             if (string.IsNullOrEmpty(revlev))
@@ -56,16 +61,17 @@ namespace PTIRelianceLib
         }
 
         /// <summary>
-        /// Explicitly construct a new revlev in proper order
+        /// Explicitly construct a new revlev in proper order.
+        /// Only positive values will be stored.
         /// </summary>
         /// <param name="maj">First part of revision</param>
         /// <param name="min">Middle part of revision</param>
         /// <param name="build">Last part of revision</param>
         public Revlev(int maj, int min, int build)
         {
-            Major = maj;
-            Minor = min;
-            Build = build;
+            Major = Math.Abs(maj);
+            Minor = Math.Abs(min);
+            Build = Math.Abs(build);
         }
 
         /// <summary>
@@ -75,6 +81,15 @@ namespace PTIRelianceLib
         public override string ToString()
         {
             return string.Format("{0}.{1}.{2}", Major, Minor, Build);
+        }
+
+        public byte[] Serialize()
+        {
+            var buff = new List<byte>();
+            buff.AddRange(((ushort)Major).ToBytesBE());
+            buff.AddRange(((ushort)Minor).ToBytesBE());
+            buff.AddRange(Build.ToBytesBE());
+            return buff.ToArray();
         }
 
         /// <inheritdoc />
@@ -142,7 +157,7 @@ namespace PTIRelianceLib
         {
             if (int.TryParse(src, out var temp))
             {
-                return temp;
+                return Math.Abs(temp);
             }
 
             throw new ArgumentException("revlev part is not an integer: {0}", src);
@@ -198,7 +213,7 @@ namespace PTIRelianceLib
             {
                 return true;
             }
-            if (ReferenceEquals(r1, null))
+            if (r1 is null)
             {
                 return false;
             }
@@ -210,35 +225,22 @@ namespace PTIRelianceLib
             {
                 return true;
             }
-            if (ReferenceEquals(r1, null))
+            if (r1 is null)
             {
                 return false;
             }
             return r1.CompareTo(r2) != 0;
         }
-
-        public static Revlev From(int major, int minor, int build)
-        {
-            return new Revlev(major, minor, build);
-        }
-        public static Revlev From(string rev)
-        {
-            return new Revlev(rev);
-        }
     }
 
-    internal class RevlevParser : IParseAs<Revlev>
+    internal class RevlevParser : BaseModelParser<Revlev>
     {
-        public Revlev Parse(IPacket packet)
+        public override Revlev Parse(IPacket packet)
         {
+            packet = CheckPacket(packet);
             if (packet == null)
             {
                 return new Revlev();
-            }
-
-            if (packet.IsPackaged)
-            {
-                packet = packet.ExtractPayload();
             }
 
             if (packet.Count < 8)

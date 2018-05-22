@@ -7,12 +7,11 @@
 #endregion
 
 
-using PTIRelianceLib.Transport;
-
 namespace PTIRelianceLib.IO
 {
     using System.Diagnostics;
-    using PTIRelianceLib.IO.Internal;
+    using Internal;
+    using Transport;
 
     internal class HidPort<T> : IPort<IPacket> where T : IPacket, new()
     {
@@ -24,6 +23,13 @@ namespace PTIRelianceLib.IO
         }
 
         public IPacket PacketLanguage => new T();
+
+        public IPacket Package(params byte[] data)
+        {
+            var packet = new T();
+            packet.Add(data);
+            return packet;
+        }
 
         public bool IsOpen => _hidWrapper.IsOpen;
 
@@ -53,14 +59,12 @@ namespace PTIRelianceLib.IO
             return false;
         }
 
-        public IPacket Read()
+        public IPacket Read(int timeoutMs)
         {
-            var read = _hidWrapper.ReadData();
+            var read = _hidWrapper.ReadData(timeoutMs);
             if (read.Length > 0)
             {
-                var resp = PacketLanguage;
-                resp.Add(read);
-                return resp;
+                return Package(read);
             }
 
             Trace.WriteLine(string.Format("HID Read failed: {0}", _hidWrapper.LastError));

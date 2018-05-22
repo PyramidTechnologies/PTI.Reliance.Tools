@@ -8,6 +8,9 @@
 
 namespace PTIRelianceLib.Transport
 {
+    using System;
+    using Protocol;
+
     internal interface IPacket
     {
         /// <summary>
@@ -21,6 +24,7 @@ namespace PTIRelianceLib.Transport
         /// </summary>
         /// <param name="index">Index at which to insert</param>
         /// <param name="data">Data to insert</param>
+        /// <exception cref="IndexOutOfRangeException">Raised if index is greater than current length</exception>
         void Insert(int index, params byte[] data);
 
         /// <summary>
@@ -31,7 +35,6 @@ namespace PTIRelianceLib.Transport
         byte this[int index]
         {
             get;
-            set;
         }
 
         /// <summary>
@@ -39,6 +42,11 @@ namespace PTIRelianceLib.Transport
         /// </summary>
         /// <param name="bytes"></param>
         void Prepend(params byte[] bytes);
+
+        /// <summary>
+        /// Returns true if this is an empty packet
+        /// </summary>
+        bool IsEmpty { get;}
 
         /// <summary>
         /// Returns the total length of the packet
@@ -57,11 +65,6 @@ namespace PTIRelianceLib.Transport
         bool IsValid { get; }
 
         /// <summary>
-        /// Size in bytes of this packet's header
-        /// </summary>
-        int HeaderSize { get; }
-
-        /// <summary>
         /// Package this data for transmission. This modifies
         /// the current packet and it is also returned, useful for chainging
         /// </summary>
@@ -78,6 +81,12 @@ namespace PTIRelianceLib.Transport
         /// </summary>
         /// <returns></returns>
         byte[] GetBytes();
+
+        /// <summary>
+        /// Determines what kind of data this packet represents
+        /// </summary>
+        /// <returns>Packet type</returns>
+        PacketTypes GetPacketType();
 
         /// <summary>
         /// Returns the count in bytes of total

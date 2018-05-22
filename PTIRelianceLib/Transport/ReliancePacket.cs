@@ -6,14 +6,17 @@
 // 10:00 AM
 #endregion
 
-using PTIRelianceLib.Protocol;
-
 namespace PTIRelianceLib.Transport
 {
     using System;
+    using System.Diagnostics;
+    using Protocol;
 
+    [DebuggerDisplay("Count = {Count}, Type = {_mPacketType}, Content={ToString()}")]
     internal class ReliancePacket : BasePacket
     {
+        private PacketTypes _mPacketType = PacketTypes.Unset;
+
         public ReliancePacket()
         { }
 
@@ -31,6 +34,11 @@ namespace PTIRelianceLib.Transport
 
         public override IPacket Package()
         {
+            if (IsEmpty)
+            {
+                return this;
+            }
+
             var length = (byte)(Count + 1);
             byte checksum = 0;
 
@@ -51,6 +59,11 @@ namespace PTIRelianceLib.Transport
 
         public override IPacket ExtractPayload()
         {
+            if (GetPacketType() != PacketTypes.PositiveAck)
+            {
+                return ExtractEgressPacket();
+            }
+
             // We're not packaged or we're malformed so don't strip away any data
             if (!Validate())
             {
@@ -87,7 +100,36 @@ namespace PTIRelianceLib.Transport
             result.IsValid = true;
             result.IsPackaged = false;
 
+            // Copy current response type to this child
+            result._mPacketType = _mPacketType;
+
             return result;
+        }
+
+        private IPacket ExtractEgressPacket()
+        {
+            if (GetPacketType() == PacketTypes.Malformed)
+            {
+                return this;
+            }
+
+            var size = GetExpectedPayloadSize();
+            if (size < 1 || size > Count)
+            {
+                this._mPacketType = PacketTypes.Malformed;
+                return this;
+            }
+
+            var local = GetBytes();
+            var payload = new byte[size];
+            Array.Copy(local, 1, payload, 0, Math.Min(payload.Length, local.Length));
+
+            return new ReliancePacket(payload)
+            {
+                IsValid = true,
+                IsPackaged = false,
+                _mPacketType = _mPacketType
+            };
         }
 
         public override int GetExpectedPayloadSize()
@@ -97,6 +139,12 @@ namespace PTIRelianceLib.Transport
 
         protected override bool Validate()
         {
+            // If we already know we're malformed, report invalid
+            if (_mPacketType == PacketTypes.Malformed)
+            {
+                return false;
+            }
+
             // Otherwise this is the first validation call so go ahead
             // and perform all packet checks.
             var local = GetBytes();
@@ -151,6 +199,68 @@ namespace PTIRelianceLib.Transport
             IsPackaged = true;
             IsValid = true;
             return true;
+        }
+
+        public override PacketTypes GetPacketType()
+        {
+            // If we've already run this check, report the cached value
+            if (_mPacketType != PacketTypes.Unset)
+            {
+                return _mPacketType;
+            }
+
+            // We should always have a 33 bytes packet but
+            // be safe and check anyways.
+            if (Count == 0)
+            {
+                _mPacketType = PacketTypes.Timeout;
+            }
+            else
+            {
+                // Determine where in the buffer our ACK/NAK byte should be
+                var local = GetBytes();
+                int ackIndex;
+
+                // If this is true, we've already validated and unpacked
+                // this packet.
+                if (Count == 1 && IsValid && !IsPackaged)
+                {
+                    ackIndex = 0;
+                }
+                else if (Count >= 3)
+                {
+                    ackIndex = 1;
+                }
+                else
+                {
+                    // Otherwise this might be an invalid packet                    
+                    _mPacketType = PacketTypes.Malformed;
+                    return _mPacketType;
+                }
+
+                // What kind of response is this? 
+                switch (local[ackIndex])
+                {
+                    case (byte)ControlCodes.Ack:
+                        _mPacketType = PacketTypes.PositiveAck;
+                        break;
+                    case (byte)ControlCodes.Nak:
+                        _mPacketType = PacketTypes.NegativeAck;
+                        break;
+                    case (byte)ControlCodes.Ser:
+                        _mPacketType = PacketTypes.SequenceError;
+                        break;
+                    case (byte)ControlCodes.Timeout:
+                        _mPacketType = PacketTypes.Timeout;
+                        break;
+                    default:
+                        _mPacketType = PacketTypes.Normal;
+                        break;
+                }
+            }
+
+            // Packet will always contain an ACK message unless it is malformed
+            return _mPacketType;
         }
     }
 }

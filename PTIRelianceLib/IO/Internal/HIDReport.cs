@@ -6,11 +6,10 @@
 // 11:19 AM
 #endregion
 
-using PTIRelianceLib.IO.Internal;
-
 namespace PTIRelianceLib.IO
 {
     using System;
+    using Internal;
 
     /// <summary>
     /// HID report structure
@@ -41,11 +40,6 @@ namespace PTIRelianceLib.IO
         /// <param name="data">Data to copy into report</param>
         private HidReport(byte[] data)
         {
-            if (!(data?.Length > 0))
-            {
-                return;
-            }
-
             Data = (byte[])data.Clone();
             ReportId = data[0];
         }
@@ -58,7 +52,7 @@ namespace PTIRelianceLib.IO
         /// <summary>
         /// Report data
         /// </summary>
-        public byte[] Data { get; } = { };
+        public byte[] Data { get; }
 
         /// <summary>
         /// Returns a copy of the payload portion of the report
@@ -66,11 +60,6 @@ namespace PTIRelianceLib.IO
         /// <returns></returns>
         public byte[] GetPayload()
         {
-            if (Data == null || Data.Length < 2)
-            {
-                return new byte[0];
-            }
-
             // [id] [length] [... payload ...]
             var payload = new byte[Data[1]];
             Array.Copy(Data, 2, payload, 0, payload.Length);            

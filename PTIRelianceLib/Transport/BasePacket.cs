@@ -10,6 +10,7 @@ namespace PTIRelianceLib.Transport
 {
     using System;
     using System.Diagnostics;
+    using Protocol;
 
     [DebuggerDisplay("Count = {Count}, Content={ToString()}")]
     internal abstract class BasePacket : IPacket
@@ -35,6 +36,8 @@ namespace PTIRelianceLib.Transport
         }
 
         #region Methods
+
+        /// <inheritdoc />
         public void Add(params byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0)
@@ -55,26 +58,26 @@ namespace PTIRelianceLib.Transport
             
         }
 
+        /// <inheritdoc />
         public void Insert(int index, params byte[] data)
         {
-            // New array will include the old data and new data
-            var buffer = new byte[_mData.Length + data.Length];
+            if (index > Count || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
 
-            // Copy in new data
-            Array.Copy(data, 0, buffer, index, data.Length);
+            var temp = new byte[Count + data.Length];
+            Array.Copy(_mData, 0, temp, 0, index);
+            Array.Copy(data, 0, temp, index, data.Length);
+            Array.Copy(_mData, index, temp, index+data.Length, Count - index);
 
-            // Copy all of new data into buffer starting from the end of the current data
-            Array.Copy(_mData, 0, buffer, index + 1, _mData.Length);
-
-            _mData = buffer;            
+            _mData = temp;            
         }
 
-        public byte this[int index]
-        {
-            get => _mData[index];
-            set => _mData[index] = value;
-        }
+        /// <inheritdoc />
+        public byte this[int index] => _mData[index];
 
+        /// <inheritdoc />
         public void Prepend(params byte[] bytes)
         {
             // New array will include the old data and new data
@@ -86,29 +89,25 @@ namespace PTIRelianceLib.Transport
 
         }
 
+        /// <inheritdoc />
+        public bool IsEmpty => _mData.Length == 0;
+
+        /// <inheritdoc />
         public int Count => _mData.Length;
 
+        /// <inheritdoc />
         public bool IsPackaged { get; protected set; }
 
+        /// <inheritdoc />
         public virtual bool IsValid { get; protected set; }
 
-        public virtual int HeaderSize
-        {
-            get => 2;
-            protected set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
-            }
-        }
-
+        /// <inheritdoc cref="IPacket" />
         public override string ToString()
         {
             return GetBytes().ByteArrayToHexString();
         }
 
+        /// <inheritdoc />
         public byte[] GetBytes()
         {
             return (byte[])_mData.Clone();
@@ -116,11 +115,18 @@ namespace PTIRelianceLib.Transport
         #endregion
 
         #region Must Implement
+
+        /// <inheritdoc />
         public abstract IPacket Package();
 
+        /// <inheritdoc />
         public abstract IPacket ExtractPayload();
 
+        /// <inheritdoc />
         public abstract int GetExpectedPayloadSize();
+
+        /// <inheritdoc />
+        public abstract PacketTypes GetPacketType();
         
         /// <summary>
         /// Validates the current packet contents

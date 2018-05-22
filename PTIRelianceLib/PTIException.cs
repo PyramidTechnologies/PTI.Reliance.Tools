@@ -12,7 +12,8 @@ namespace PTIRelianceLib
 
     public class PTIException : Exception
     {
-        public PTIException(string message) : base(message)
+        public PTIException(string fmt, params object[] args) 
+            : base(string.Format(fmt, args))
         {
         }
     }

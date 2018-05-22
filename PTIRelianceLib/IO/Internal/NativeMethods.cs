@@ -9,91 +9,168 @@
 namespace PTIRelianceLib
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.InteropServices;
+    using IO.Internal;
 
-    internal class NativeMethods
-    {
+    internal class NativeMethods : INativeMethods
+    {     
+        /// <summary>
+        /// Interal device info enumeration
+        /// </summary>
         [StructLayout(LayoutKind.Sequential)]
-        internal struct HidDeviceInfo
+        private struct PrivateHidDeviceInfo
         {
-            /// <summary>
-            /// Platform-specific device path
-            /// </summary>
-            public string Path;
-            /// <summary>
-            /// Device Vendor ID 
-            /// </summary>
-            public ushort VendorId;
-            /// <summary>
-            /// Device Product ID
-            /// </summary>
-            public ushort ProductId;
-            /// <summary>
-            /// Device serial number
-            /// </summary>
-            public string SerialNumber;
-            /// <summary>
-            /// Device Release Number in binary-coded decimal,
-            /// also known as Device Version Number
-            /// </summary>
-            public ushort ReleaseNumber;
-            /// <summary>
-            /// Manufacturer String
-            /// </summary>
-            public string ManufacturerString;
-            /// <summary>
-            /// Product string
-            /// </summary>
-            public string ProductString;
-            /// <summary>
-            /// Usage Page for this Device/Interface (Windows/Mac only)
-            /// </summary>
-            public ushort UsagePage;
-            /// <summary>
-            /// Usage for this Device/Interface (Windows/Mac only)
-            /// </summary>
-            public ushort Usage;
-            /// <summary>
-            /// The USB interface which this logical device represents.
-            /// Valid on both Linux implementations in all cases, and 
-            /// valid on the Windows implementation only if the device 
-            /// contains more than one interface
-            /// </summary>
-            public int InterfaceNumber;
-            /// <summary>
-            /// Pointer to the next device
-            /// </summary>
-            public IntPtr Next;
-        };
+            public readonly string Path;
+            public readonly ushort VendorId;
+            public readonly ushort ProductId;
+            public readonly string SerialNumber;
+            public readonly ushort ReleaseNumber;
+            public readonly string ManufacturerString;
+            public readonly string ProductString;
+            public readonly ushort UsagePage;
+            public readonly ushort Usage;
+            public readonly int InterfaceNumber;
+            public readonly IntPtr Next;
+        }
 
         [DllImport("hidapi", EntryPoint = "hid_error")]
-        public static extern IntPtr HidError(IntPtr device);
+        private static extern IntPtr _HidError(IntPtr device);
+        /// <inheritdoc />
+        public string Error(HidDevice device)
+        {
+            return !device.IsValid ? "PTIRelianceLib: Invalid device handle" : Marshal.PtrToStringUni(_HidError(device.Handle));
+        }
 
+        /// <summary>
+        /// Initialize the HIDAPI library.
+        /// 
+        /// This function initializes the HIDAPI library. Calling it is not
+        /// strictly necessary, as it will be called automatically by
+        /// HidEnumerate() and HidOpenPath() functions if it is
+        /// needed.  This function should be called at the beginning of
+        /// execution however, if there is a chance of HIDAPI handles
+        /// being opened by different threads simultaneously.
+        /// </summary>
+        /// <returns>This function returns 0 on success and -1 on error</returns>
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_init")]
-        internal static extern int HidInit();
+        internal static extern int _HidInit();
 
+        /// <inheritdoc />
+        public int Init()
+        {
+            return _HidInit();
+        }
+
+        /// <summary>
+        /// Finalize the HIDAPI library.
+        /// 
+        /// This function frees all of the static data associated with
+        /// HIDAPI. It should be called at the end of execution to avoid
+        /// memory leaks.
+        /// </summary>
+        /// <returns>This function returns 0 on success and -1 on error.</returns>
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_exit")]
-        internal static extern int HidExit();
+        private static extern int _HidExit();
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_enumerate")]
-        internal static extern IntPtr HidEnumerate(ushort vid, ushort pid);
+        internal static extern IntPtr _HidEnumerate(ushort vid, ushort pid);
+        public IEnumerable<HidDeviceInfo> Enumerate(ushort vid, ushort pid)
+        {
+            var enumerated = _HidEnumerate(vid, pid);
+            if (enumerated == IntPtr.Zero)
+            {
+                return Enumerable.Empty<HidDeviceInfo>();
+            }
 
+            var result = new List<HidDeviceInfo>();
+
+            var current = enumerated;
+            while (current != IntPtr.Zero)
+            {
+                var devinfo = (PrivateHidDeviceInfo)Marshal.PtrToStructure(enumerated,
+                    typeof(PrivateHidDeviceInfo));
+
+                result.Add(new HidDeviceInfo
+                {
+                    Path = devinfo.Path,
+                    VendorId = devinfo.VendorId,
+                    ProductId = devinfo.ProductId,
+                    SerialNumber = devinfo.SerialNumber,
+                    ReleaseNumber = devinfo.ReleaseNumber,
+                    ManufacturerString = devinfo.ManufacturerString,
+                    ProductString = devinfo.ProductString,
+                    UsagePage = devinfo.UsagePage,
+                    Usage = devinfo.Usage,
+                    InterfaceNumber = devinfo.InterfaceNumber
+                });
+
+                current = devinfo.Next;
+            }
+
+            _HidFreeEnumerate(enumerated);
+            return result;
+        }
+
+        /// <summary>
+        /// Free an enumeration Linked List
+        /// 
+        /// This function frees a linked list created by HidEnumerate().
+        /// </summary>
+        /// <param name="devices">devs Pointer to a list of HidDeviceInfo returned from
+        /// HidEnumerate()</param>
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_free_enumeration")]
-        internal static extern void HidFreeEnumerate(IntPtr devices);
+        private static extern void _HidFreeEnumerate(IntPtr devices);
 
-        [DllImport("hidapi", CharSet = CharSet.Ansi, EntryPoint = "hid_open")]
-        internal static extern IntPtr HidOpen(ushort vid, ushort pid, string serialNumber);
 
         [DllImport("hidapi", CharSet = CharSet.Ansi, EntryPoint = "hid_open_path")]
-        internal static extern IntPtr HidOpen(string devicePath);
+        private static extern IntPtr _HidOpenPath(string devicePath);
+
+        /// <inheritdoc />
+        public HidDevice OpenPath(string devicePath)
+        {
+            var handle = _HidOpenPath(devicePath);
+            return new HidDevice(handle);
+        }
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_close")]
-        internal static extern void HidClose(IntPtr device);
+        internal static extern void _HidClose(IntPtr device);
 
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_read")]
-        public static extern int HidRead(IntPtr device, byte[] data, UIntPtr length);
+        /// <inheritdoc />
+        public void Close(HidDevice device)
+        {
+            try
+            {
+                _HidClose(device.Handle);
+            }
+            catch (SEHException ex)
+            {
+                throw new PTIException("Failed to close HID handle: {0}", ex.Message);
+            }
+        }
+
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_read_timeout")]
+        private static extern int _HidRead(IntPtr device, byte[] data, UIntPtr length, int timeout);
+
+        /// <inheritdoc />
+        public int Read(HidDevice device, byte[] data, UIntPtr length, int timeout)
+        {
+            return _HidRead(device.Handle, data, length, timeout);
+        }
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_write")]
-        public static extern int HidWrite(IntPtr device, byte[] data, UIntPtr length);
+        private static extern int _HidWrite(IntPtr device, byte[] data, UIntPtr length);
+
+        /// <inheritdoc />
+        public int Write(HidDevice device, byte[] data, UIntPtr length)
+        {
+            return _HidWrite(device.Handle, data, length);
+        }
+
+        public void Dispose()
+        {
+            _HidExit();
+        }
     }
 }

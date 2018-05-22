@@ -10,6 +10,10 @@ namespace PTIRelianceLib.Transport
 {
     public interface IParseable
     {
-        
+        /// <summary>
+        /// Writes self to a byte[]
+        /// </summary>
+        /// <returns>Byte array containing data from this</returns>
+        byte[] Serialize();
     }
 }

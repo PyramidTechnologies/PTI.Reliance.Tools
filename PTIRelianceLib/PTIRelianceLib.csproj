@@ -3,6 +3,22 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Cory Todd &lt;cory@pyramidacceptors.com&gt;</Authors>
+    <Company>Pyramid Technologies Inc.</Company>
+    <Description>A Reliance Thermal printer API that support firmware updates and configuration. This requires the Reliance printer to be connected via USB.</Description>
+    <Copyright>2018</Copyright>
+    <PackageLicenseUrl>https://pti.mit-license.org/</PackageLicenseUrl>
+    <PackageReleaseNotes>Supports flash updating, confguration read, and configuration write</PackageReleaseNotes>
+    <Version>0.1.0</Version>
+    <PackageProjectUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>dotnet-core thermal-printer hid</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
 
 </Project>

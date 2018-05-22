@@ -5,10 +5,12 @@
 // 16-05-2018
 // 7:08 AM
 #endregion
+
 namespace PTIRelianceLib.Transport
 {
     using System;
     using System.Collections.Generic;
+    using Configuration;
 
     /// <summary>
     /// Typesafe parser locator factory. These functions extended objects known to implement IParseAs.
@@ -16,12 +18,20 @@ namespace PTIRelianceLib.Transport
     /// </summary>
     internal class PacketParserFactory
     {
-        public delegate int ParseIntPacket(IPacket packet);
-
         static PacketParserFactory()
         {
-            Instance.Register<StringModel, RawASCIIParser>();
+            Instance.Register<PacketedBool, PacketedBoolParser>();
+            Instance.Register<PacketedByte, PacketedByteParser>();
+            Instance.Register<PacketedShort, PacketedShortParser>();
+            Instance.Register<PacketedInteger, PacketedIntegerParser>();
+            Instance.Register<PacketedString, PacketedStringParser>();
             Instance.Register<Revlev, RevlevParser>();
+            Instance.Register<RELSerialConfig, RELSerialConfigParser>();
+            Instance.Register<RELFont, RELFontParser>();
+            Instance.Register<RELBezel, RELBezelParser>();
+            Instance.Register<XonXoffConfig, XonXoffConfigParser>();
+            Instance.Register<ConfigRev, ConfigRevParser>();
+            Instance.Register<Status, StatusParser>();
         }
 
         private PacketParserFactory() { }
@@ -54,14 +64,7 @@ namespace PTIRelianceLib.Transport
                 throw new ArgumentException("ReturnType : Cannot create instance of interface or abstract class");
             }
 
-            try
-            {
-                MRegisteredType.Add(returnType, parserType);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            MRegisteredType.Add(returnType, parserType);
         }
 
         /// <summary>
@@ -79,5 +82,29 @@ namespace PTIRelianceLib.Transport
                     $"Creator is not register. Add call to Instance.Register<{shouldFind},SOME_PARSER_CLASS>() to static PacketParserFactory()")
                 : (IParseAs<T>)Activator.CreateInstance(type, parameters);
         }
+    }
+
+    /// <summary>
+    /// Base parser performs standard packet sanitization checks
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    internal abstract class BaseModelParser<T> : IParseAs<T> where T : IParseable
+    {
+        /// <summary>
+        /// Checks that packet is non-null and returns the payload of packet
+        /// </summary>
+        /// <param name="packet">Packet to inspect</param>
+        /// <returns>Payload of packet or null on error</returns>
+        protected IPacket CheckPacket(IPacket packet)
+        {
+            if (packet == null)
+            {
+                return null;
+            }
+
+            return packet.IsPackaged ? packet.ExtractPayload() : packet;
+        }
+
+        public abstract T Parse(IPacket packet);
     }
 }

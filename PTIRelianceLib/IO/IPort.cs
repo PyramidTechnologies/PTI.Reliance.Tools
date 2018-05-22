@@ -6,15 +6,24 @@
 // 7:51 AM
 #endregion
 
-using PTIRelianceLib.Transport;
-
 namespace PTIRelianceLib
 {
     using System;
+    using Transport;
 
     internal interface IPort<T> : IDisposable where T : IPacket
     {
+        /// <summary>
+        /// Returns an empty packet
+        /// </summary>
         T PacketLanguage { get; }
+
+        /// <summary>
+        /// Creates a new packet from specified data
+        /// </summary>
+        /// <param name="data">Data to wrap in a packet</param>
+        /// <returns>Packetized data</returns>
+        T Package(params byte[] data);
 
         /// <summary>
         /// Returns true if port is in an open state
@@ -41,10 +50,12 @@ namespace PTIRelianceLib
         bool Write(T data);
 
         /// <summary>
-        /// Reads all available port data
+        /// Reads data from port and returns result. If timeout is set to -1 this is effectively a blocking read.
+        /// When timeout >= 0, if no  data is available before timeout then an empty packet will be returned.
         /// </summary>
+        /// <param name="timeoutMs">Timeout in milliseconds for read</param>
         /// <returns>Data that was read, if any</returns>
         /// <exception cref="PTIException">Raised if there is a exception while reading</exception>
-        T Read();
+        T Read(int timeoutMs);
     }
 }

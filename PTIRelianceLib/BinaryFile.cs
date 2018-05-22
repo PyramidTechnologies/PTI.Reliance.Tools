@@ -13,7 +13,8 @@ namespace PTIRelianceLib
 
     /// <summary>
     /// Convenience wrapper for BinaryFile data. This is a reusable read-only wrapper 
-    /// around the original file source.
+    /// around the original file data and it lives in memory.
+    /// Do not use for massive files.
     /// </summary>
     public class BinaryFile
     {
@@ -22,10 +23,16 @@ namespace PTIRelianceLib
         /// <summary>
         /// Construct a firmware object from a physical file
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
+        /// <param name="path">Path to source file</param>
+        /// <returns>BinaryFile contains data from file. If the file cannot be read, the result
+        /// will be empty.</returns>
         public static BinaryFile From(string path)
         {
+            if (!File.Exists(path))
+            {
+                return new BinaryFile(new byte[0]);
+            }
+
             // Make sure to open in read mode in case the file is located on RO directory
             using (var sr = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
@@ -85,17 +92,12 @@ namespace PTIRelianceLib
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public byte this[int key]
-        {
-            get => _mData[key];
-            set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
-            }
-        }
+        public byte this[int key] => _mData[key];
+
+        /// <summary>
+        /// Returns true if this binary file is empty
+        /// </summary>
+        public bool Empty => Length == 0;
 
         /// <summary>
         /// Creates a new copy of the source data

@@ -227,7 +227,7 @@ namespace PTIRelianceLib.Protocol
         /// <summary>
         /// No command set (reserved)
         /// </summary>
-		None = 0xFF,
+		None = 0xFF
     }
 
     internal enum GeneralConfigCodes
@@ -312,6 +312,6 @@ namespace PTIRelianceLib.Protocol
         /// <summary>
         /// Gets the truncation enabled feature state
         /// </summary>
-        GetTruncationEnabled = 0x11,
+        GetTruncationEnabled = 0x11
     }
 }
