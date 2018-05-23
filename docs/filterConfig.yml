@@ -1,0 +1,5 @@
+apiRules:
+- exclude:
+    uidRegex: ^PTIRelianceLib\.Transport\.IParseable$
+- exclude:    
+    uidRegex: ^PTIRelianceLib\.IProgressMonitor$    

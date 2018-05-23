@@ -10,6 +10,7 @@
         }
       ],
       "dest": "api",
+      "filter": "filterConfig.yml", 
       "disableGitFeatures": false
     }
   ],
@@ -51,7 +52,7 @@
     "xref": [
       "n"
     ],
-    "dest": "_site",
+    "dest": "_site",	
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [

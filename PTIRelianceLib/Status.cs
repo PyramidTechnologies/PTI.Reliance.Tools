@@ -16,8 +16,8 @@ namespace PTIRelianceLib
 
     /// <inheritdoc />
     /// <summary>
-    /// @clr
-    /// CLR wrapper for Printer Status struct
+    /// Printer status data include metrics about temperature
+    /// sensors, and paper movement.
     /// </summary>
     public class Status : IParseable
     {
