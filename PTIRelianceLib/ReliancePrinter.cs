@@ -22,19 +22,41 @@ namespace PTIRelianceLib
 
     /// <inheritdoc />
     /// <summary>
-    /// Reliance Thermal Printer interface.
+    /// Reliance Thermal Printer class provides access access to flash updating, configuration,
+    /// status reporting, and other commands. For best results, we recommend testing against the
+    /// latest available firmware for Reliance.
+    ///
+    /// Use Reliance Tools for PC to update your printer to the latest firmware through the auto
+    /// update feature. You may also contact our support team to get the latest firmware file
+    /// at <see href="mailto:support@pyramidacceptors.com"/>
+    ///
+    /// <see href="https://pyramidacceptors.com/app/reliance-tools/"/>
     /// </summary>
     [DebuggerDisplay("IsOpen = {_port.IsOpen}")]
     public class ReliancePrinter : IPyramidDevice
     {
+        /// <summary>
+        /// USB vendor id for all Reliance USB interfaces
+        /// </summary>
+        /// <value>USB VID</value>
         public const int VendorId = 0x0425;
+        /// <summary>
+        /// USB product id for all Reliance USB interfaces
+        /// </summary>
+        /// <value>USB PID</value>
         public const int ProductId = 0x8147;
+
+        /// <summary>
+        /// Underlying communication handle
+        /// </summary>
         private readonly IPort<IPacket> _port;
 
         /// <summary>
-        /// Create a new Reliance Printer. The printer will be discovered automatically.
+        /// Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
+        /// or one of its depencies cannot be found or loaded, <exception cref="PTIException"></exception>
+        /// will be thrown.
         /// </summary>
-        /// <exception cref="PTIException">Raised if native HID library cannot be loaded</exception> 
+        /// <exception cref="PTIException">Thrown if native HID library cannot be loaded</exception> 
         public ReliancePrinter()
         {
             // Reliance will "always" use report lengths of 34 bytes
@@ -61,7 +83,8 @@ namespace PTIRelianceLib
         }
 
         /// <summary>
-        /// Internal constructor using specified configuration
+        /// Internal constructor using specified HID configurations from
+        /// <see cref="HidDeviceConfig"/>.
         /// </summary>
         /// <param name="config">HID library options</param>
         internal ReliancePrinter(HidDeviceConfig config)
@@ -79,11 +102,11 @@ namespace PTIRelianceLib
 
         /// <inheritdoc />
         /// <summary>
-        /// Parses configuraion and send to target printer.
+        /// Parses <paramref name="config"/> from <see cref="BinaryFile"/> and
+        /// sends to target printer. <exception cref="PTIException"/> is thrown if config file cannot be parsed
         /// </summary>
         /// <param name="config">Configuration to send</param>
-        /// <returns>Okay on success, otherwise error code</returns>
-        /// <exception cref="T:PTIRelianceLib.PTIException">Raised if config file cannot be parsed</exception>
+        /// <exception cref="PTIException">Thrown if config file cannot be parsed</exception> 
         public ReturnCodes SendConfiguration(BinaryFile config)
         {
             if (!_port.IsOpen)
@@ -107,17 +130,26 @@ namespace PTIRelianceLib
         }
 
         /// <inheritdoc />
-        ///  <summary>
+        ///  <remarks>
         ///  Updates target Reliance Thermal printer with this firmware.
-        ///  This API supports printers with firmware 1.22 or newer. If you
-        ///  have a printer firmware older than 1.22, you must use the PC
+        ///  This API supports printers with firmware <c>1.22</c> or newer. If you
+        ///  have a printer firmware older than <c>1.22</c>, you must use the PC
         ///  version of Reliance Tools to upgrade your firmware.
-        ///  </summary>       
-        ///  <param name="firmware">Firwmare file</param>
-        ///  <param name="reporter">Progress monitor</param>
-        ///  <returns>Return code.
-        ///  FlashInstalledFwNotSupported is returned if your printer has too old of firmware.
-        ///  </returns>
+        ///  </remarks>       
+        /// <returns>
+        ///<list type="bullet">
+        ///<item>
+        /// <description><see cref="ReturnCodes.Okay"/> when update is successful</description>
+        /// </item>
+        ///<item>
+        /// <description><see cref="ReturnCodes.FlashInstalledFwNotSupported"/> if your
+        /// printer has too old of firmware.</description>
+        /// </item>
+        ///<item>         
+        /// <description>Another <see cref="ReturnCodes"/> if update fails</description>
+        /// </item>
+        /// </list>
+        /// </returns>
         public ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter = null)
         {
             if (!_port.IsOpen)
@@ -166,6 +198,11 @@ namespace PTIRelianceLib
             return PacketParserFactory.Instance.Create<Revlev>().Parse(resp);
         }
 
+        /// <summary>
+        /// Returns the <see cref="Status"/> for the attached printer. If there
+        /// is no device connected, <c>null</c> will be returned.
+        /// </summary>
+        /// <returns>Status object or <c>null</c> if no connection or error</returns>
         public Status GetStatus()
         {
             if (!_port.IsOpen)
@@ -194,11 +231,11 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         /// <summary>
         /// For printers, all comms are halted while printing (with special exception for ESC/POS realtime status).
-        /// If Ping() is called during a print, this will block for a small period of time and then return
-        /// unsuccessfully. The resulting ReturnCode will be ExecutionFailure. It is recommended to try this
-        /// method multiple times before assuming the printer is offline.
+        /// If <see cref="ReliancePrinter.Ping()"/> is called during a print, this will block for a small period
+        /// of time and then return unsuccessfully. The resulting ReturnCode will be
+        /// <see cref="ReturnCodes.ExecutionFailure"/>. It is recommended to try this method multiple times before
+        /// assuming the printer is offline.
         /// </summary>
-        /// <returns>Okay if printer is available, else ExecutionFailure</returns>
         public ReturnCodes Ping()
         {
             if (!_port.IsOpen)
@@ -216,9 +253,9 @@ namespace PTIRelianceLib
         /// For printers, a reboot (and any power up event) will generate a start up ticket that
         /// calibrates the paper path. Rebooting the printer remotely will cause a paper feed
         /// and leave this ticket at the front bezel. If you have auto-retract enabled, the ticket
-        /// will be get pulled back into the kiosk for disposal after a period of time.
+        /// will be get pulled back into the kiosk for disposal after a period of time. An exception
+        /// of type <exception cref="PTIException"/> may be raised if there is an error during reboot.
         /// </summary>
-        /// <returns>Okay if printer reboots and comes online, else ExecutionFailure</returns>
         /// <exception cref="PTIException">Raised if there is an unrecoverable issue during the reboot operation. This usually
         /// means that the USB port entered an unexpected state. If this happens, dispose of this ReliancePrinter
         /// (e.g. dispose) and then try again.</exception>
@@ -256,15 +293,26 @@ namespace PTIRelianceLib
             }
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Cleanup and dispose of communication source
+        /// </summary>
         public void Dispose()
         {
             _port?.Dispose();
         }
 
         /// <summary>
-        /// Returns a list of installed codepage
+        /// Returns a list of installed codepages. This is a list of
+        /// codepage ids that are installed on the target printer. Only
+        /// codepages that are installed may be selected for usage.
         /// </summary>
-        /// <returns>List of codepage ids or empty if none found</returns>
+        /// <returns>
+        /// <list type="bullet">
+        /// <item><description><see cref="IEnumerable{ushort}"/> of codepage IDs</description></item>
+        /// <item><description><see cref="Enumerable.Empty{ushort}"/> on error</description></item>
+        /// </list>
+        /// </returns>
         internal IEnumerable<ushort> GetInstalledCodepages()
         {
             if (!_port.IsOpen)

@@ -10,17 +10,19 @@ namespace PTIRelianceLib.Firmware
 {
     /// <inheritdoc />
     /// <summary>
-    /// Cross-library flash event message
+    /// Flash event used throughout this library
     /// </summary>
     public class FlashEventMessageArgs : System.EventArgs
     {
         /// <summary>
-        /// Flash event message
+        /// Flash event message contents.
         /// </summary>
+        /// <value>Message contents</value>
         public readonly string Message;
+
         /// <inheritdoc />
         /// <summary>
-        /// Construct new event
+        /// Construct new event from <paramref name="message"/>
         /// </summary>
         /// <param name="message">Message to encapsulate</param>
         public FlashEventMessageArgs(string message) { Message = message; }
