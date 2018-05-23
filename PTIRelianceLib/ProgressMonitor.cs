@@ -58,6 +58,11 @@ namespace PTIRelianceLib
     /// passed to it. This is useful for silent console flash updaters,
     /// particularly on systems where constance console drawing may be expensive.
     /// </summary>
+    /// <code>
+    /// ...
+    /// printer.FlashUpdateTarget(myFirmware, new DevNullMonitor());
+    /// ...
+    /// </code>
     public class DevNullMonitor : ProgressMonitor
     { }
 }

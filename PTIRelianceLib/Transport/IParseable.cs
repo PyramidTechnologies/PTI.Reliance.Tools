@@ -14,6 +14,7 @@ namespace PTIRelianceLib.Transport
         /// Writes self to a byte[]
         /// </summary>
         /// <returns>Byte array containing data from this</returns>
+        /// <value>Payload data</value>
         byte[] Serialize();
     }
 }

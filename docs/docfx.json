@@ -19,7 +19,7 @@
       {
         "files": [
           "api/**.yml",
-          "api/index.md"
+          "api/index.md",
         ]
       },
       {
@@ -34,7 +34,8 @@
     "resource": [
       {
         "files": [
-          "images/**"
+          "images/**",
+		  "favicon.ico"
         ]
       }
     ],
@@ -53,6 +54,9 @@
       "n"
     ],
     "dest": "_site",	
+	"globalMetadata": {
+	  "_appFaviconPath": "favicon.ico"
+	},
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [

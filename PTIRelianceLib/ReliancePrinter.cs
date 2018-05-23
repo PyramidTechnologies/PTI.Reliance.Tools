@@ -294,9 +294,6 @@ namespace PTIRelianceLib
         }
 
         /// <inheritdoc />
-        /// <summary>
-        /// Cleanup and dispose of communication source
-        /// </summary>
         public void Dispose()
         {
             _port?.Dispose();
