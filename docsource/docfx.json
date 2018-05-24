@@ -36,7 +36,8 @@
         "files": [
 		  "tutorials/images/**",
           "images/**",
-		  "favicon.ico"
+		  "favicon.ico",
+		  "logo.svg"
         ]
       }
     ],
@@ -53,7 +54,8 @@
     ],
     "dest": "../docs",	
 	"globalMetadata": {
-	  "_appFaviconPath": "favicon.ico"
+	  "_appFaviconPath": "favicon.ico",
+	  "_appLogoPath": "logo.svg"
 	},
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
