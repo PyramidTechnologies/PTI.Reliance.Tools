@@ -1,17 +1,9 @@
 version: 0.1.{build}
-skip_tags: true
-image: Visual Studio 2017
-skip_commits:
-  message: /README.md edited online/
 branches:
   only:
-	- develop	
-before_build:
-  - cmd: tools\buil_docs.bat
+  - develop
+image: Visual Studio 2017
+build_script:
+- cmd: tools\build_project.bat
 test_script:
-  - cmd: tools\run_tests.bat
-artifacts:
-- path: artifacts/*.nupkg
-  name: NuGet
-- path: artifacts/*.zip
-name: Zip  
+- cmd: tool\run_tests.bat
