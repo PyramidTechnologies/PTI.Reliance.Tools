@@ -493,7 +493,9 @@ of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
   
   <a id="PTIRelianceLib_Revlev_ToString_" data-uid="PTIRelianceLib.Revlev.ToString*"></a>
   <h4 id="PTIRelianceLib_Revlev_ToString" data-uid="PTIRelianceLib.Revlev.ToString">ToString()</h4>
-  <div class="markdown level1 summary"><p>Returns this object in the format <code>X.X.XX</code></p>
+  <div class="markdown level1 summary"><p>Returns this object in the format <code>X.X.XX</code>
+If the device is not conneted, the string &quot;Not Connected&quot;
+will instead be returned.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -511,7 +513,7 @@ of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td><p>string formatted as <code>X.X.XX</code></p>
+        <td><p>string formatted as <code>X.X.XX</code> or &quot;Not Connected&quot;</p>
 </td>
       </tr>
     </tbody>
