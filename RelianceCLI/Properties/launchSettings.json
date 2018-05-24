@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RelianceCLI": {
+      "commandName": "Project",
+      "commandLineArgs": "-f \"C:\\Users\\cory\\Documents\\reliance_1.27.171.ptix\""
+    }
+  }
+}

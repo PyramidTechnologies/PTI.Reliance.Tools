@@ -25,7 +25,7 @@
       {
         "files": [
           "tutorials/**.md",
-          "tutorials/**/toc.yml",
+          "tutorials/**/toc.yml",		  
           "toc.yml",
           "*.md"
         ]
@@ -34,6 +34,7 @@
     "resource": [
       {
         "files": [
+		  "tutorials/images/**",
           "images/**",
 		  "favicon.ico"
         ]

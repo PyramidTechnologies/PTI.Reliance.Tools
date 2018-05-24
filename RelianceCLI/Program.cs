@@ -5,6 +5,7 @@ using PTIRelianceLib;
 namespace RelianceCLI
 {
     using System.IO;
+    using PTIRelianceLib.Protocol;
 
     internal class Program
     {
@@ -64,10 +65,22 @@ namespace RelianceCLI
                     }
                     else
                     {
-                        var monitor = new ConsoleProgressBar();
+                        // You could also use a DevNullMonitor if you want to ignore output entirely
+                        var monitor = new ProgressMonitor();
+                        monitor.OnFlashMessage += (s, o) => Console.WriteLine("\n{0}", o.Message);
+
+                        // Simple progress monitor
+                        monitor.OnFlashProgressUpdated += (s, o) =>
+                        {
+                            Console.CursorLeft = 0;
+                            Console.CursorVisible = false;
+                            Console.Write("{0:0.00}%", o.Progress * 100);
+                        };
+
+                        // Do the update!
                         var result = printer.FlashUpdateTarget(file, monitor);
 
-                        Console.WriteLine("Result: {0}", result);
+                        Console.WriteLine("\nFlash Update Result: {0}", result);
                     }
 
                 }
@@ -102,6 +115,8 @@ namespace RelianceCLI
                 {
                     var status = printer.GetStatus();
                     Console.WriteLine("Printer status:\n{0}", status);
+                    Console.WriteLine("Has Paper? :{0}", status.SensorStatus.HasFlag(SensorStatuses.Path));
+
                 }
             }
         }
