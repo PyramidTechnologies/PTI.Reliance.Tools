@@ -1,6 +1,4 @@
-# Build a bupkg
+# Build a nupkg
 
 del *.nupkg
-msbuild /t:pack /p:Configuration=Release /p:PackageOutputPath=$PSScriptRoot ..\PTIRelianceLib\PTIRelianceLib.csproj
-
-nuget init . S:\nuget\nuget_debug
+msbuild /t:DebugVars /t:pack /p:Configuration=Release /p:PackageOutputPath=$PSScriptRoot ..\PTIRelianceLib\PTIRelianceLib.csproj

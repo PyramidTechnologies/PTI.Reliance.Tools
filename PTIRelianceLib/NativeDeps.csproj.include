@@ -1,8 +1,16 @@
-<!-- Ensures that native libraries are copied to the output directory for Exe targets -->
+<!-- Based on https://github.com/grpc/grpc/tree/master/src/csharp/Grpc.Core -->
 <Project>
 	
+  <PropertyGroup  Condition=" '$(Platform)' == 'x64' And '$(NativeDepsPlatform)' == '' ">	
+	<NativeDependenciesConfiguration>x64</NativeDependenciesConfiguration>	
+  </PropertyGroup >	
+  <PropertyGroup  Condition=" '$(Platform)' == 'x86' ">	
+	<NativeDependenciesConfiguration>x86</NativeDependenciesConfiguration>
+  </PropertyGroup >
+  <PropertyGroup Condition=" '$(NativeDependenciesConfiguration)' == '' ">
+    <NativeDependenciesConfiguration>UNSUPPORTED_PLATFORM</NativeDependenciesConfiguration>		
+  </PropertyGroup>  
 
-  <!-- Autodetect platform -->
   <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
     <NativeDepsPlatform>windows</NativeDepsPlatform>
   </PropertyGroup>

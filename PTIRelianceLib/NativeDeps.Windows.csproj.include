@@ -3,7 +3,7 @@
     <Content Include="..\lib\$(NativeDependenciesConfiguration)\$(NativeDepsPlatform)\hidapi.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>hidapi.dll</Link>
-      <Pack>false</Pack>
+      <Pack>true</Pack>
     </Content>
   </ItemGroup>
 </Project>
