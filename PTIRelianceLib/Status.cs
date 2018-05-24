@@ -16,9 +16,16 @@ namespace PTIRelianceLib
 
     /// <inheritdoc />
     /// <summary>
-    /// @clr
-    /// CLR wrapper for Printer Status struct
+    /// Printer status data include metrics about temperature
+    /// sensors, and paper movement.
     /// </summary>
+    /// <code>
+    /// ...
+    /// var status = printer.<see cref="ReliancePrinter.GetStatus()"/>;
+    /// Console.WriteLine("Printer is: {0}", status.TicketStatus);
+    /// Console.WriteLine("Printer Errors: {0} status.PrinterErrors);
+    /// ...
+    /// </code>
     public class Status : IParseable
     {
         /// <summary>
@@ -29,36 +36,44 @@ namespace PTIRelianceLib
         /// <summary>
         /// ASCII string of the head input voltage. "XX.XX" (Volts)
         /// </summary>
+        /// <value>Head voltage in DC volts</value>
         public string HeadVoltage { get; internal set; }
         /// <summary>
         /// Temperature of the head in deg C
         /// </summary>
+        /// <value>Head temperature in degrees Celsius</value>
         public byte HeadTemp { get; internal set; }
 
         /// <summary>
         /// Sensor statuses
         /// </summary>
+        /// <value>Covered or Uncovered sensor flags</value>
         public SensorStatuses SensorStatus { get; internal set; }
 
         /// <summary>
         /// Raw ADC value for presenter sensor
         /// </summary>
+        /// <value>Raw ADC value for presenter sensor</value>
         public ushort PresenterRaw { get; internal set; }
         /// <summary>
         /// Raw ADC value for path sensor
         /// </summary>
+        /// <value>Raw ADC value for path sensor</value>
         public ushort PathRaw { get; internal set; }
         /// <summary>
         /// Raw ADC value for paper sensor
         /// </summary>
+        /// <value>Raw ADC value for paper sensor</value>
         public ushort PaperRaw { get; internal set; }
         /// <summary>
         /// Raw ADC value for notch sensor
         /// </summary>
+        /// <value>Raw ADC value for notch sensor</value>
         public ushort NotchRaw { get; internal set; }
         /// <summary>
         /// Raw ADC value for arm sensor
         /// </summary>
+        /// <value>Raw ADC value for arm paper sensor</value>
         public ushort ArmRaw { get; internal set; }
 
         /// <summary>
@@ -68,13 +83,25 @@ namespace PTIRelianceLib
         /// - 2 : Un-presented Ticket = Ticket is cut but not presented
         /// - 3 : Presented Ticket = Ticket is cut and presented
         /// </summary>
+        /// <value>Ticket be in exactly one state</value>
         public TicketStates TicketStatus { get; internal set; }
 
         /// <summary>
         /// Printer error status
         /// </summary>
+        /// <value>Zero or more errors may be set at once</value>
         public ErrorStatuses PrinterErrors { get; internal set; }
 
+        /// <summary>
+        /// Returns a summary of the status report a. la
+        /// </summary>
+        /// <example>
+        /// Head Voltage: 24 V DC <para />
+        /// Head Temperate: 22 °C <para />
+        /// Sensor Status: Platen <para />
+        /// ... <para />
+        /// </example>
+        /// <returns>string</returns>
         public override string ToString()
         {
             var sb = new StringBuilder();

@@ -1,0 +1,26 @@
+<!-- Based on https://github.com/grpc/grpc/tree/master/src/csharp/Grpc.Core -->
+<Project>
+	
+  <PropertyGroup  Condition=" '$(Platform)' == 'x64' And '$(NativeDepsPlatform)' == '' ">	
+	<NativeDependenciesConfiguration>x64</NativeDependenciesConfiguration>	
+  </PropertyGroup >	
+  <PropertyGroup  Condition=" '$(Platform)' == 'x86' ">	
+	<NativeDependenciesConfiguration>x86</NativeDependenciesConfiguration>
+  </PropertyGroup >
+  <PropertyGroup Condition=" '$(NativeDependenciesConfiguration)' == '' ">
+    <NativeDependenciesConfiguration>UNSUPPORTED_PLATFORM</NativeDependenciesConfiguration>		
+  </PropertyGroup>  
+
+  <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
+    <NativeDepsPlatform>windows</NativeDepsPlatform>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' == 'Unix' And '$(NativeDepsPlatform)' == '' ">
+    <NativeDepsPlatform>linux</NativeDepsPlatform>		
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(NativeDepsPlatform)' == '' ">
+    <NativeDepsPlatform>UNSUPPORTED_OS</NativeDepsPlatform>		
+  </PropertyGroup>
+
+  <Import Project="NativeDeps.$(NativeDepsPlatform).csproj.include" />
+
+</Project>

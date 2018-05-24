@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+	<Title>PTI.Reliance.Tools</Title>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -10,15 +11,48 @@
     <Copyright>2018</Copyright>
     <PackageLicenseUrl>https://pti.mit-license.org/</PackageLicenseUrl>
     <PackageReleaseNotes>Supports flash updating, confguration read, and configuration write</PackageReleaseNotes>
-    <Version>0.1.0</Version>
+    <Version>0.1.18</Version>
     <PackageProjectUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>dotnet-core thermal-printer hid</PackageTags>
+    <PackageIconUrl>https://pyramidacceptors.com/favicon.ico</PackageIconUrl>
+    <AssemblyVersion>0.1.18.0</AssemblyVersion>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DocumentationFile>bin\x64\Release\netcoreapp2.0\PTIRelianceLib.xml</DocumentationFile>
+    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-  </ItemGroup>
-
+    <Content Include="..\lib\x64\linux\libhidapi.so" Visible="false">
+      <PackagePath>runtimes/linux/native/libhidapi.so</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="..\lib\x64\windows\hidapi.dll" Visible="false">
+      <PackagePath>runtimes/win-x64/native/hidapi.dll</PackagePath>
+      <Pack>true</Pack>
+    </Content>	
+    <Content Include="..\lib\x86\windows\hidapi.dll" Visible="false">
+      <PackagePath>runtimes/win-x86/native/hidapi.dll</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+  </ItemGroup>  
+  
+  <Import Project="NativeDeps.csproj.include"/>
+   
+  <!-- Hide .include files from solution -->
+  <ItemGroup>
+	<None  Update="*.csproj.include" Visible="false" />
+  </ItemGroup>   
+  
+  <Target Name="DebugVars" AfterTargets="Build" >
+	<Message Text="Configuration $(NativeDependenciesConfiguration)" Importance="high"/>
+	<Message Text="Platform $(NativeDepsPlatform)" Importance="high"/>	 
+  </Target>
+  
 </Project>

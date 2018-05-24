@@ -1,0 +1,394 @@
+{
+  "homepages": [],
+  "source_base_path": "F:/code/dotnet/PTIReliance/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.BinaryFile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.BinaryFile.html",
+          "hash": "rMziCR46ykNVq5ZwBhQ3ow=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.DevNullMonitor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.DevNullMonitor.html",
+          "hash": "72aYUVBlvPNi+1NUe88bfA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Firmware.FlashEventMessageArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Firmware.FlashEventMessageArgs.html",
+          "hash": "Af43w6A7HF53h5UaY8v+8A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Firmware.FlashProgressEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Firmware.FlashProgressEventArgs.html",
+          "hash": "4TQGfEuoheD1LcnjLtNVsg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Firmware.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Firmware.html",
+          "hash": "wdI8Hda5C0YmPEmNK6aBCw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.IPyramidDevice.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.IPyramidDevice.html",
+          "hash": "AC0r3aKk0ftqYYXrWhVf5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.PTIException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.PTIException.html",
+          "hash": "bePrEtLvOl0lJCzIFE4Sjg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.ProgressMonitor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.ProgressMonitor.html",
+          "hash": "uzJnMpYH7/d5hbPrBj9SYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Protocol.ErrorStatuses.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Protocol.ErrorStatuses.html",
+          "hash": "itZ5CNAAjcVSh2mrWcsHfQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Protocol.SensorStatuses.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Protocol.SensorStatuses.html",
+          "hash": "hxiFm2mVlRQvIbDWyAf2zw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Protocol.TicketStates.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Protocol.TicketStates.html",
+          "hash": "8wiv3EIb+T0Onejcv55vCg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Protocol.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Protocol.html",
+          "hash": "g5QU6exuLpDVpd0939iwJw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.ReliancePrinter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.ReliancePrinter.html",
+          "hash": "AiHmkwY4pYwqpdwvtfAN3w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.ReturnCodes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.ReturnCodes.html",
+          "hash": "UihMfMX+ZHt1+9RdcYC1Og=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Revlev.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Revlev.html",
+          "hash": "09H1MzV4IrKkPGFxdd2f4w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Status.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Status.html",
+          "hash": "SKIy50bpOjoTox+t4sMqKQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.html",
+          "hash": "/1jGAJ18QCHsXLvE6HEp9Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "/9QCzHLNuawYp+yLHt9pUg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "nh36JxbL3mlKVfmTCdPDuw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "favicon.ico"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "lIg5ydej2lERKW7m9QTKsA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "7rsvqGOFJL+th5mfzE2gRQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "tutorials/configuration.md",
+      "output": {
+        ".html": {
+          "relative_path": "tutorials/configuration.html",
+          "hash": "baQf7eC61KJH+PR+o+oPSg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "tutorials/flash_update.md",
+      "output": {
+        ".html": {
+          "relative_path": "tutorials/flash_update.html",
+          "hash": "H3e3dLrtmytgs37+gtQ5dQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "tutorials/images/config_01.gif",
+      "output": {
+        "resource": {
+          "relative_path": "tutorials/images/config_01.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "tutorials/images/intro_01.gif",
+      "output": {
+        "resource": {
+          "relative_path": "tutorials/images/intro_01.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "tutorials/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "tutorials/intro.html",
+          "hash": "30IUgaabFiISrYRXrpKkXg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "tutorials/status_check.md",
+      "output": {
+        ".html": {
+          "relative_path": "tutorials/status_check.html",
+          "hash": "CGCQSZZeZRmOwB2Q+ffImg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "tutorials/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "tutorials/toc.html",
+          "hash": "/DYv5hHD/JENMEWdBBh3Iw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build"
+      },
+      "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing"
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

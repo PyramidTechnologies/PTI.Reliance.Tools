@@ -43,7 +43,7 @@ namespace PTIRelianceLib.Protocol
         [EnumMember(Value = "Path")]
         Path = 1 << 4,
         /// <summary>
-        /// 0 = No paper at presenter 1 = Paper Present at presenter
+        /// 0 = No paper at path 1 = Paper Present at path
         /// </summary>
         [EnumMember(Value = "Paper")]
         Paper = 1 << 5,
