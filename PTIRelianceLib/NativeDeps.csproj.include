@@ -1,0 +1,18 @@
+<!-- Ensures that native libraries are copied to the output directory for Exe targets -->
+<Project>
+	
+
+  <!-- Autodetect platform -->
+  <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
+    <NativeDepsPlatform>windows</NativeDepsPlatform>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' == 'Unix' And '$(NativeDepsPlatform)' == '' ">
+    <NativeDepsPlatform>linux</NativeDepsPlatform>		
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(NativeDepsPlatform)' == '' ">
+    <NativeDepsPlatform>UNSUPPORTED_OS</NativeDepsPlatform>		
+  </PropertyGroup>
+
+  <Import Project="NativeDeps.$(NativeDepsPlatform).csproj.include" />
+
+</Project>
