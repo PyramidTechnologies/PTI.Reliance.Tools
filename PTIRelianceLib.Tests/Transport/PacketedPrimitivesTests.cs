@@ -10,7 +10,7 @@ namespace PTIRelianceLib.Tests.Transport
         public void TestPacketedBool()
         {
             var packed = new PacketedBool(true);
-            Assert.Equal(true, packed.Value);
+            Assert.True(packed.Value);
             Assert.Equal(new byte[]{1}, packed.Serialize());
             Assert.Equal(packed, new PacketedBool(true));
             Assert.NotEqual(packed, new PacketedBool(false));

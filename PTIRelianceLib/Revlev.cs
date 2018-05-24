@@ -12,7 +12,7 @@ namespace PTIRelianceLib
     using System.Collections.Generic;
     using Transport;
 
-    /// <inheritdoc cref="IEquatable" />
+    /// <inheritdoc cref="IComparable" />
     /// <summary>
     /// Standard <see cref="T:PTIRelianceLib.IPyramidDevice" /> revision descriptor. A revision
     /// can be compared using fluent comparison operations such as Equals,
