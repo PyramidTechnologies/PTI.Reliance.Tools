@@ -14,18 +14,17 @@ namespace PTIRelianceLib
     using Protocol;
     using Transport;
 
-    /// <inheritdoc />
     /// <summary>
     /// Printer status data include metrics about temperature
-    /// sensors, and paper movement.
-    /// </summary>
+    /// sensors, and paper movement. TEST
     /// <code>
     /// ...
     /// var status = printer.<see cref="ReliancePrinter.GetStatus()"/>;
     /// Console.WriteLine("Printer is: {0}", status.TicketStatus);
-    /// Console.WriteLine("Printer Errors: {0} status.PrinterErrors);
+    /// Console.WriteLine("Printer Errors: {0}", status.PrinterErrors);
     /// ...
-    /// </code>
+    /// </code>   
+    /// </summary>
     public class Status : IParseable
     {
         /// <summary>
@@ -121,6 +120,7 @@ namespace PTIRelianceLib
         }
 
         /// <inheritdoc />
+        /// <value>Payload data</value>
         public byte[] Serialize()
         {
             var payload = new List<byte>();

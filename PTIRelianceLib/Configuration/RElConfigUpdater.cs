@@ -27,7 +27,7 @@ namespace PTIRelianceLib.Configuration
         /// Create a new updater
         /// </summary>
         /// <param name="printer">Target printer</param>
-        /// <exception cref="ArgumentException">Raised if printer is null</exception>
+        /// <exception cref="ArgumentException">Raised if printer is <c>null</c></exception>
         public RElConfigUpdater(ReliancePrinter printer)
         {
             _mPrinter = printer ?? throw new ArgumentException("{0} cannot be null", nameof(printer));
@@ -258,7 +258,7 @@ namespace PTIRelianceLib.Configuration
         /// <param name="printer">Target device</param>
         /// <param name="cmd">Control code</param>
         /// <param name="args">0 or more args</param>
-        /// <returns>Integer code or null on error</returns>
+        /// <returns>Integer code or <c>null</c> on error</returns>
         private static int? GetConfig(ReliancePrinter printer, RelianceCommands cmd, params byte[] args)
         {
             var resp = printer.Write(cmd, args);

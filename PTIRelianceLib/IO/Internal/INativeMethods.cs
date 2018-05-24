@@ -22,9 +22,9 @@
         /// <summary>
         /// Get a string describing the last error which occurred.
         /// </summary>
-        /// <param name="device">A device handle returned from HidOpenPath().</param>
+        /// <param name="device">A device handle returned from <see cref="HidOpenPath()"/>.</param>
         /// <returns>This function returns a string containing the last error
-        /// which occurred or NULL if none has occurred.</returns>
+        /// which occurred or empty string if none has occurred.</returns>
         string Error(HidDevice device);
 
         /// <summary>
@@ -51,7 +51,7 @@
         /// </summary>
         /// <param name="devicePath">The path name of the device to open</param>
         /// <returns>This function returns a pointer to a #hid_device object on
-        /// success or NULL on failure.</returns>
+        /// success or <c>null</c> on failure.</returns>
         HidDevice OpenPath(string devicePath);
 
         /// <summary>

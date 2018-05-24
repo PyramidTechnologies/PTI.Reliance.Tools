@@ -555,6 +555,19 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.ReliancePrinter.GetFirmwareRevision
   nameWithType: ReliancePrinter.GetFirmwareRevision
+- uid: PTIRelianceLib.ReliancePrinter.GetInstalledCodepages
+  name: GetInstalledCodepages()
+  href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_GetInstalledCodepages
+  commentId: M:PTIRelianceLib.ReliancePrinter.GetInstalledCodepages
+  fullName: PTIRelianceLib.ReliancePrinter.GetInstalledCodepages()
+  nameWithType: ReliancePrinter.GetInstalledCodepages()
+- uid: PTIRelianceLib.ReliancePrinter.GetInstalledCodepages*
+  name: GetInstalledCodepages
+  href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_GetInstalledCodepages_
+  commentId: Overload:PTIRelianceLib.ReliancePrinter.GetInstalledCodepages
+  isSpec: "True"
+  fullName: PTIRelianceLib.ReliancePrinter.GetInstalledCodepages
+  nameWithType: ReliancePrinter.GetInstalledCodepages
 - uid: PTIRelianceLib.ReliancePrinter.GetSerialNumber
   name: GetSerialNumber()
   href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_GetSerialNumber

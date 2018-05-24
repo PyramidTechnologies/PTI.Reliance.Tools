@@ -8,7 +8,7 @@
     <title>Reliance Thermal Printer API </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Reliance Thermal Printer API ">
-    <meta name="generator" content="docfx 2.36.0.0">
+    <meta name="generator" content="docfx 2.36.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -70,7 +70,38 @@
 <h1 id="reliance-thermal-printer-api">Reliance Thermal Printer API</h1>
 
 <p>This library was designed so that the majority of your tasks can be completed with a single <code>using</code> statement</p>
-<p>For details on the core library, see <a class="xref" href="PTIRelianceLib.html">PTIRelianceLib</a></p>
+<p>We recommend that your create your <a class="xref" href="PTIRelianceLib.ReliancePrinter.html">ReliancePrinter</a> on as as-needed basis. That means we do
+not recommend keeping your printer as a field or property inside your class.</p>
+<div class="tabbedCodeSnippets">
+<pre><code class="lang-cs">
+ public class MyApplication {
+
+     // Don't do this!!
+     private IPyramidDevice _mPrinter;
+
+     // Or this!!
+     public ReliancePrinter Printer { get; private set;}
+
+     // But do this
+     public void DoPrinterThings(MyData data) {
+     
+   		// Printer is automatically discovered and connected
+   		using(var printer = new ReliancePrinter() {
+   		
+   			var stuff = data.GetStuff();
+   			...
+   			// Proceed to work with printer				
+
+   		}
+
+     }
+
+ } 
+
+</code></pre>
+</div>
+<p>You can also do some cool things with the data types we provide such as <a class="xref" href="PTIRelianceLib.Status.html">Status</a> and <a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a>. They
+are automatically disposable so you are free to bind to their properties without having to worry about memory leaks.</p>
 </article>
           </div>
           

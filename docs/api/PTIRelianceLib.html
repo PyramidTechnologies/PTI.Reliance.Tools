@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Namespace PTIRelianceLib
    ">
-    <meta name="generator" content="docfx 2.36.0.0">
+    <meta name="generator" content="docfx 2.36.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -114,7 +114,7 @@ latest available firmware for Reliance.</p>
 <p>Use Reliance Tools for PC to update your printer to the latest firmware through the auto
 update feature. You may also contact our support team to get the latest firmware file
 at <a href="mailto:support@pyramidacceptors.com">mailto:support@pyramidacceptors.com</a></p>
-<p><a href="https://pyramidacceptors.com/app/reliance-tools/">https://pyramidacceptors.com/app/reliance-tools/</a></p>
+<p>Reliance Tools for PC <a href="https://pyramidacceptors.com/app/reliance-tools/">https://pyramidacceptors.com/app/reliance-tools/</a></p>
 </section>
       <h4><a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a></h4>
       <section><p>Standard <a class="xref" href="PTIRelianceLib.IPyramidDevice.html">IPyramidDevice</a> revision descriptor. A revision
@@ -124,7 +124,12 @@ firmware using semantic versioning rules.</p>
 </section>
       <h4><a class="xref" href="PTIRelianceLib.Status.html">Status</a></h4>
       <section><p>Printer status data include metrics about temperature
-sensors, and paper movement.</p>
+sensors, and paper movement. TEST</p>
+<pre><code>...
+var status = printer.<a class="xref" href="PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_GetStatus">GetStatus()</a>;
+Console.WriteLine(&quot;Printer is: {0}&quot;, status.TicketStatus);
+Console.WriteLine(&quot;Printer Errors: {0}&quot;, status.PrinterErrors);
+...</code></pre>   
 </section>
     <h3 id="interfaces">Interfaces
   </h3>

@@ -16,6 +16,4 @@ The most straightforward method is to use <xref:PTIRelianceLib.BinaryFile.From*>
 ## Code Sample
 [!code-csharp[Main](Sample_03.cs)]
 
-## Exceptions
-For clarity, exception handling has been elided. It is advisable to wrap any ReliancePrinter 
-method calls in a try/catch block for <xref:PTIRelianceLib.PTIException>.
+[!include[<Exceptions>](<exceptions.md>)]

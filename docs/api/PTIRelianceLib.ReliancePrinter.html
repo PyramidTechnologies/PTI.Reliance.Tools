@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class ReliancePrinter
    ">
-    <meta name="generator" content="docfx 2.36.0.0">
+    <meta name="generator" content="docfx 2.36.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -79,7 +79,7 @@ latest available firmware for Reliance.</p>
 <p>Use Reliance Tools for PC to update your printer to the latest firmware through the auto
 update feature. You may also contact our support team to get the latest firmware file
 at <a href="mailto:support@pyramidacceptors.com">mailto:support@pyramidacceptors.com</a></p>
-<p><a href="https://pyramidacceptors.com/app/reliance-tools/">https://pyramidacceptors.com/app/reliance-tools/</a></p>
+<p>Reliance Tools for PC <a href="https://pyramidacceptors.com/app/reliance-tools/">https://pyramidacceptors.com/app/reliance-tools/</a></p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -223,7 +223,11 @@ will be thrown.</p>
   
   <a id="PTIRelianceLib_ReliancePrinter_FlashUpdateTarget_" data-uid="PTIRelianceLib.ReliancePrinter.FlashUpdateTarget*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_FlashUpdateTarget_PTIRelianceLib_BinaryFile_PTIRelianceLib_ProgressMonitor_" data-uid="PTIRelianceLib.ReliancePrinter.FlashUpdateTarget(PTIRelianceLib.BinaryFile,PTIRelianceLib.ProgressMonitor)">FlashUpdateTarget(BinaryFile, ProgressMonitor)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Install the specified firmware <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code> on
+this device. With few exceptions, most any firmware can be installed
+using this method. The reporter <code data-dev-comment-type="typeparamref" class="typeparamref">ProgressMonitor</code>
+provides callbacks for messages, progress, and errors.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -242,12 +246,14 @@ will be thrown.</p>
       <tr>
         <td><a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a></td>
         <td><span class="parametername">firmware</span></td>
-        <td></td>
+        <td><p>Firmware image data</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="PTIRelianceLib.ProgressMonitor.html">ProgressMonitor</a></td>
         <td><span class="parametername">reporter</span></td>
-        <td></td>
+        <td><p>Progress callback instance</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -278,7 +284,10 @@ version of Reliance Tools to upgrade your firmware.</p>
   
   <a id="PTIRelianceLib_ReliancePrinter_GetFirmwareRevision_" data-uid="PTIRelianceLib.ReliancePrinter.GetFirmwareRevision*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_GetFirmwareRevision" data-uid="PTIRelianceLib.ReliancePrinter.GetFirmwareRevision">GetFirmwareRevision()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns the firmware <code data-dev-comment-type="typeparamref" class="typeparamref">Revlev</code> of this device.
+If there is an error reading the firmware revision, a Revlev of
+<code>0.0.0</code> will instead be returned.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -295,7 +304,37 @@ version of Reliance Tools to upgrade your firmware.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a></td>
-        <td></td>
+        <td><p>Revision</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter_GetInstalledCodepages_" data-uid="PTIRelianceLib.ReliancePrinter.GetInstalledCodepages*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter_GetInstalledCodepages" data-uid="PTIRelianceLib.ReliancePrinter.GetInstalledCodepages">GetInstalledCodepages()</h4>
+  <div class="markdown level1 summary"><p>Returns a list of installed codepages. This is a list of
+codepage ids that are installed on the target printer. Only
+codepages that are installed may be selected for usage.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;ushort&gt; GetInstalledCodepages()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.UInt16</span>&gt;</td>
+        <td><ul><li>IEnumerable of <code>ushort</code> codepage IDs</li><li>Empty IEnumerable of <code>ushort</code> on error</li></ul>
+</td>
       </tr>
     </tbody>
   </table>
@@ -303,7 +342,8 @@ version of Reliance Tools to upgrade your firmware.</p>
   
   <a id="PTIRelianceLib_ReliancePrinter_GetSerialNumber_" data-uid="PTIRelianceLib.ReliancePrinter.GetSerialNumber*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_GetSerialNumber" data-uid="PTIRelianceLib.ReliancePrinter.GetSerialNumber">GetSerialNumber()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns the serial number for this device</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -320,7 +360,8 @@ version of Reliance Tools to upgrade your firmware.</p>
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><ul><li>9-digit serial number string when successful</li><li>An empty string on failure</li></ul>
+</td>
       </tr>
     </tbody>
   </table>
@@ -378,7 +419,8 @@ assuming the printer is offline.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a></td>
-        <td></td>
+        <td><ul><li><a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_Okay">Okay</a> when device is online and ready</li><li><a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_ExecutionFailure">ExecutionFailure</a> if device is offline or busy</li></ul>
+</td>
       </tr>
     </tbody>
   </table>
@@ -386,7 +428,11 @@ assuming the printer is offline.</p>
   
   <a id="PTIRelianceLib_ReliancePrinter_ReadConfiguration_" data-uid="PTIRelianceLib.ReliancePrinter.ReadConfiguration*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_ReadConfiguration" data-uid="PTIRelianceLib.ReliancePrinter.ReadConfiguration">ReadConfiguration()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Reads current configuration from this device and returns result
+as a JSON <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code>. If there is an error
+reading the configuration, an empty <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code>
+is returned. You can check for an empty result via <a class="xref" href="PTIRelianceLib.BinaryFile.html#PTIRelianceLib_BinaryFile_Empty">Empty</a>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -403,7 +449,8 @@ assuming the printer is offline.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a></td>
-        <td></td>
+        <td><p>BinaryFile</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -433,7 +480,8 @@ of type <a class="xref" href="PTIRelianceLib.PTIException.html">PTIException</a>
     <tbody>
       <tr>
         <td><a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a></td>
-        <td></td>
+        <td><ul><li><a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_Okay">Okay</a> when update is successful</li><li>Other <a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a> if update fails</li></ul>
+</td>
       </tr>
     </tbody>
   </table>
@@ -496,7 +544,8 @@ sends to target printer. <a class="xref" href="PTIRelianceLib.PTIException.html"
     <tbody>
       <tr>
         <td><a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a></td>
-        <td></td>
+        <td><ul><li><a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_Okay">Okay</a> when configuration is successful</li><li>Other <a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a> if configuration fails</li></ul>
+</td>
       </tr>
     </tbody>
   </table>

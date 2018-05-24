@@ -10,6 +10,10 @@ dotnet add package PTIRelianceLib
 ```
 4. Open Program.cs in your favorite editor and replace the code with the following:
 [!code-csharp[Main](Sample_01.cs)]
+
+> [!IMPORTANT]
+> Linux users, please make sure libusb is installed before proceeding
+
 5. Execute
 ```
 dotnet run

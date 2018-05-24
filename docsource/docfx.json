@@ -51,10 +51,7 @@
         ]
       }
     ],
-    "xref": [
-      "n"
-    ],
-    "dest": "_site",	
+    "dest": "../docs",	
 	"globalMetadata": {
 	  "_appFaviconPath": "favicon.ico"
 	},

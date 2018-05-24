@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Status
    ">
-    <meta name="generator" content="docfx 2.36.0.0">
+    <meta name="generator" content="docfx 2.36.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -74,7 +74,12 @@
   <h1 id="PTIRelianceLib_Status" data-uid="PTIRelianceLib.Status" class="text-break">Class Status
   </h1>
   <div class="markdown level0 summary"><p>Printer status data include metrics about temperature
-sensors, and paper movement.</p>
+sensors, and paper movement. TEST</p>
+<pre><code>...
+var status = printer.<a class="xref" href="PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_GetStatus">GetStatus()</a>;
+Console.WriteLine(&quot;Printer is: {0}&quot;, status.TicketStatus);
+Console.WriteLine(&quot;Printer Errors: {0}&quot;, status.PrinterErrors);
+...</code></pre>   
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -410,7 +415,8 @@ sensors, and paper movement.</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Byte</span>[]</td>
-        <td></td>
+        <td><p>Payload data</p>
+</td>
       </tr>
     </tbody>
   </table>

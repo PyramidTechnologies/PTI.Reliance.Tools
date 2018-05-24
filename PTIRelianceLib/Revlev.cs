@@ -100,6 +100,7 @@ namespace PTIRelianceLib
         }
 
         /// <inheritdoc />
+        /// <value>Payload data</value>
         public byte[] Serialize()
         {
             var buff = new List<byte>();

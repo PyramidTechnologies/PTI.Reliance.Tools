@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "F:/code/dotnet/PTIReliance/docs",
+  "source_base_path": "F:/code/dotnet/PTIReliance/docsource",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -9,10 +9,10 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.BinaryFile.html",
-          "hash": "rMziCR46ykNVq5ZwBhQ3ow=="
+          "hash": "lo1k2opFoxE9B7Yb6LOvHw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.DevNullMonitor.html",
-          "hash": "72aYUVBlvPNi+1NUe88bfA=="
+          "hash": "DCzz3XHkEaFuNtKkQokZ4A=="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Firmware.FlashEventMessageArgs.html",
-          "hash": "Af43w6A7HF53h5UaY8v+8A=="
+          "hash": "dN7P3SP3mRnk2w6GOk3Dhw=="
         }
       },
       "is_incremental": false,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Firmware.FlashProgressEventArgs.html",
-          "hash": "4TQGfEuoheD1LcnjLtNVsg=="
+          "hash": "MdyGBGjGyL8sHPo6osSPrw=="
         }
       },
       "is_incremental": false,
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Firmware.html",
-          "hash": "wdI8Hda5C0YmPEmNK6aBCw=="
+          "hash": "3rzUu9b1lf5+FL+7xxgMGQ=="
         }
       },
       "is_incremental": false,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.IPyramidDevice.html",
-          "hash": "AC0r3aKk0ftqYYXrWhVf5w=="
+          "hash": "4XNk1ORo31s8yrOfYgdfuQ=="
         }
       },
       "is_incremental": false,
@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.PTIException.html",
-          "hash": "bePrEtLvOl0lJCzIFE4Sjg=="
+          "hash": "Qw81to96/Ld1UAq65vk5Qw=="
         }
       },
       "is_incremental": false,
@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.ProgressMonitor.html",
-          "hash": "uzJnMpYH7/d5hbPrBj9SYg=="
+          "hash": "UHyLJjFeGApol6nJWvJekg=="
         }
       },
       "is_incremental": false,
@@ -105,10 +105,10 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Protocol.ErrorStatuses.html",
-          "hash": "itZ5CNAAjcVSh2mrWcsHfQ=="
+          "hash": "SMYjrGkgansGR3HPZsG8dQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -117,10 +117,10 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Protocol.SensorStatuses.html",
-          "hash": "hxiFm2mVlRQvIbDWyAf2zw=="
+          "hash": "8xZ2+/OoaudSkbfrnr3MZw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -129,10 +129,10 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Protocol.TicketStates.html",
-          "hash": "8wiv3EIb+T0Onejcv55vCg=="
+          "hash": "TCyZYBUj/wld4+lQ12CX3Q=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -141,10 +141,10 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Protocol.html",
-          "hash": "g5QU6exuLpDVpd0939iwJw=="
+          "hash": "HNv3a7UX97G5zCfwZiM4Ww=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -153,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.ReliancePrinter.html",
-          "hash": "AiHmkwY4pYwqpdwvtfAN3w=="
+          "hash": "2Oxuw9etPmjfpT8fmuO7iA=="
         }
       },
       "is_incremental": false,
@@ -165,7 +165,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.ReturnCodes.html",
-          "hash": "UihMfMX+ZHt1+9RdcYC1Og=="
+          "hash": "W4kIkvzsjKUbhOyufBF+Rg=="
         }
       },
       "is_incremental": false,
@@ -177,7 +177,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Revlev.html",
-          "hash": "09H1MzV4IrKkPGFxdd2f4w=="
+          "hash": "rRaGn/pzoZxmuzu2cKM3KQ=="
         }
       },
       "is_incremental": false,
@@ -189,7 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Status.html",
-          "hash": "SKIy50bpOjoTox+t4sMqKQ=="
+          "hash": "Y0wnz1lOHyo619LCTUGcvQ=="
         }
       },
       "is_incremental": false,
@@ -201,7 +201,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.html",
-          "hash": "/1jGAJ18QCHsXLvE6HEp9Q=="
+          "hash": "i8mY+9j7LWjAlExWuiNHug=="
         }
       },
       "is_incremental": false,
@@ -213,10 +213,10 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "/9QCzHLNuawYp+yLHt9pUg=="
+          "hash": "rSOmkLXGUZIC7C7DpU5Viw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -248,10 +248,10 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "lIg5ydej2lERKW7m9QTKsA=="
+          "hash": "uvjJeOOXJ5S+z9DB5EO1ng=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -272,7 +272,19 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/configuration.html",
-          "hash": "baQf7eC61KJH+PR+o+oPSg=="
+          "hash": "oTxSWqTJEyTarUKyHdtmCA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "tutorials/exceptions.md",
+      "output": {
+        ".html": {
+          "relative_path": "tutorials/exceptions.html",
+          "hash": "AtcOxi/356A8hj0c6FEaSw=="
         }
       },
       "is_incremental": false,
@@ -284,10 +296,10 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/flash_update.html",
-          "hash": "H3e3dLrtmytgs37+gtQ5dQ=="
+          "hash": "KWBJGJXgsg2HieQ/GYMziA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -318,10 +330,10 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/intro.html",
-          "hash": "30IUgaabFiISrYRXrpKkXg=="
+          "hash": "IN4zncGd5mEhry76atSuIg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -330,7 +342,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/status_check.html",
-          "hash": "CGCQSZZeZRmOwB2Q+ffImg=="
+          "hash": "/Mpye8iaOwAiynKekq2wxA=="
         }
       },
       "is_incremental": false,
@@ -352,7 +364,8 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": true,
+        "can_incremental": false,
+        "details": "Disable incremental build by force rebuild option.",
         "incrementalPhase": "build"
       },
       "processors": {
@@ -366,20 +379,20 @@
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": true,
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
           "incrementalPhase": "build"
         },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
           "incrementalPhase": "build"
         }
       }
     },
     {
       "status": {
-        "can_incremental": true,
-        "details": "Can support incremental post processing.",
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: it's disabled.",
         "incrementalPhase": "postProcessing"
       },
       "processors": {}

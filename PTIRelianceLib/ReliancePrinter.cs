@@ -30,7 +30,7 @@ namespace PTIRelianceLib
     /// update feature. You may also contact our support team to get the latest firmware file
     /// at <see href="mailto:support@pyramidacceptors.com"/>
     ///
-    /// <see href="https://pyramidacceptors.com/app/reliance-tools/"/>
+    /// Reliance Tools for PC <see href="https://pyramidacceptors.com/app/reliance-tools/"/>
     /// </summary>
     [DebuggerDisplay("IsOpen = {_port.IsOpen}")]
     public class ReliancePrinter : IPyramidDevice
@@ -306,11 +306,11 @@ namespace PTIRelianceLib
         /// </summary>
         /// <returns>
         /// <list type="bullet">
-        /// <item><description><see cref="IEnumerable{ushort}"/> of codepage IDs</description></item>
-        /// <item><description><see cref="Enumerable.Empty{ushort}"/> on error</description></item>
+        /// <item><description>IEnumerable of <c>ushort</c> codepage IDs</description></item>
+        /// <item><description>Empty IEnumerable of <c>ushort</c> on error</description></item>
         /// </list>
         /// </returns>
-        internal IEnumerable<ushort> GetInstalledCodepages()
+        public IEnumerable<ushort> GetInstalledCodepages()
         {
             if (!_port.IsOpen)
             {

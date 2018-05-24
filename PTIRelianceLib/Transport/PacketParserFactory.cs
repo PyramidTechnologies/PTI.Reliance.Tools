@@ -94,7 +94,7 @@ namespace PTIRelianceLib.Transport
         /// Checks that packet is non-null and returns the payload of packet
         /// </summary>
         /// <param name="packet">Packet to inspect</param>
-        /// <returns>Payload of packet or null on error</returns>
+        /// <returns>Payload of packet or <c>null</c> on error</returns>
         protected IPacket CheckPacket(IPacket packet)
         {
             if (packet == null)

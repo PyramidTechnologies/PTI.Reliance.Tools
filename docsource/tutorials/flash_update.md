@@ -9,6 +9,4 @@ maintain gives you more time to focus on the features that bring value to your p
 ## Code Sample
 [!code-csharp[Main](Sample_02.cs)]
 
-## Exceptions
-For clarity, exception handling has been elided. It is advisable to wrap any ReliancePrinter 
-method calls in a try/catch block for PTIException.
+[!include[<Exceptions>](<exceptions.md>)]

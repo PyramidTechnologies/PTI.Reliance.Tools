@@ -43,16 +43,16 @@
     </Content>
   </ItemGroup>  
   
-  <Import Project="NativeDeps.csproj.include"/>
+  <Import Project="NativeDeps.csproj.include" />
    
   <!-- Hide .include files from solution -->
   <ItemGroup>
-	<None  Update="*.csproj.include" Visible="false" />
+	<None Update="*.csproj.include" Visible="false" />
   </ItemGroup>   
   
-  <Target Name="DebugVars" AfterTargets="Build" >
-	<Message Text="Configuration $(NativeDependenciesConfiguration)" Importance="high"/>
-	<Message Text="Platform $(NativeDepsPlatform)" Importance="high"/>	 
+  <Target Name="DebugVars" AfterTargets="Build">
+	<Message Text="Configuration $(NativeDependenciesConfiguration)" Importance="high" />
+	<Message Text="Platform $(NativeDepsPlatform)" Importance="high" />	 
   </Target>
   
 </Project>

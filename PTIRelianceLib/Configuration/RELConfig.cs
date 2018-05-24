@@ -303,10 +303,10 @@ namespace PTIRelianceLib.Configuration
 
         /// <summary>
         /// Deserialized the provided UTF-8 input file. If there are any issues,
-        /// null will be returned.
+        /// <c>null</c> will be returned.
         /// </summary>
         /// <param name="file">Binary file containing configuration data</param>
-        /// <returns>RELConfig or null on error</returns>
+        /// <returns>RELConfig or <c>null</c> on error</returns>
         /// <exception cref="PTIException">Raised if file cannot bre properly read or parsed</exception>
         public static RELConfig Load(BinaryFile file)
         {
