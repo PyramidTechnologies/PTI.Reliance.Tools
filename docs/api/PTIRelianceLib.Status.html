@@ -1,0 +1,487 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Status
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Status
+   ">
+    <meta name="generator" content="docfx 2.36.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="PTIRelianceLib.Status">
+  
+  
+  <h1 id="PTIRelianceLib_Status" data-uid="PTIRelianceLib.Status" class="text-break">Class Status
+  </h1>
+  <div class="markdown level0 summary"><p>Printer status data include metrics about temperature
+sensors, and paper movement.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">Status</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="PTIRelianceLib.html">PTIRelianceLib</a></h6>
+  <h6><strong>Assembly</strong>: PTIRelianceLib.dll</h6>
+  <h5 id="PTIRelianceLib_Status_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Status : IParseable</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="PTIRelianceLib_Status_ArmRaw_" data-uid="PTIRelianceLib.Status.ArmRaw*"></a>
+  <h4 id="PTIRelianceLib_Status_ArmRaw" data-uid="PTIRelianceLib.Status.ArmRaw">ArmRaw</h4>
+  <div class="markdown level1 summary"><p>Raw ADC value for arm sensor</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ushort ArmRaw { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><p>Raw ADC value for arm paper sensor</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_Status_HeadTemp_" data-uid="PTIRelianceLib.Status.HeadTemp*"></a>
+  <h4 id="PTIRelianceLib_Status_HeadTemp" data-uid="PTIRelianceLib.Status.HeadTemp">HeadTemp</h4>
+  <div class="markdown level1 summary"><p>Temperature of the head in deg C</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte HeadTemp { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span></td>
+        <td><p>Head temperature in degrees Celsius</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_Status_HeadVoltage_" data-uid="PTIRelianceLib.Status.HeadVoltage*"></a>
+  <h4 id="PTIRelianceLib_Status_HeadVoltage" data-uid="PTIRelianceLib.Status.HeadVoltage">HeadVoltage</h4>
+  <div class="markdown level1 summary"><p>ASCII string of the head input voltage. &quot;XX.XX&quot; (Volts)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string HeadVoltage { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>Head voltage in DC volts</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_Status_NotchRaw_" data-uid="PTIRelianceLib.Status.NotchRaw*"></a>
+  <h4 id="PTIRelianceLib_Status_NotchRaw" data-uid="PTIRelianceLib.Status.NotchRaw">NotchRaw</h4>
+  <div class="markdown level1 summary"><p>Raw ADC value for notch sensor</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ushort NotchRaw { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><p>Raw ADC value for notch sensor</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_Status_PaperRaw_" data-uid="PTIRelianceLib.Status.PaperRaw*"></a>
+  <h4 id="PTIRelianceLib_Status_PaperRaw" data-uid="PTIRelianceLib.Status.PaperRaw">PaperRaw</h4>
+  <div class="markdown level1 summary"><p>Raw ADC value for paper sensor</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ushort PaperRaw { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><p>Raw ADC value for paper sensor</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_Status_PathRaw_" data-uid="PTIRelianceLib.Status.PathRaw*"></a>
+  <h4 id="PTIRelianceLib_Status_PathRaw" data-uid="PTIRelianceLib.Status.PathRaw">PathRaw</h4>
+  <div class="markdown level1 summary"><p>Raw ADC value for path sensor</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ushort PathRaw { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><p>Raw ADC value for path sensor</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_Status_PresenterRaw_" data-uid="PTIRelianceLib.Status.PresenterRaw*"></a>
+  <h4 id="PTIRelianceLib_Status_PresenterRaw" data-uid="PTIRelianceLib.Status.PresenterRaw">PresenterRaw</h4>
+  <div class="markdown level1 summary"><p>Raw ADC value for presenter sensor</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ushort PresenterRaw { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><p>Raw ADC value for presenter sensor</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_Status_PrinterErrors_" data-uid="PTIRelianceLib.Status.PrinterErrors*"></a>
+  <h4 id="PTIRelianceLib_Status_PrinterErrors" data-uid="PTIRelianceLib.Status.PrinterErrors">PrinterErrors</h4>
+  <div class="markdown level1 summary"><p>Printer error status</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ErrorStatuses PrinterErrors { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.Protocol.ErrorStatuses.html">ErrorStatuses</a></td>
+        <td><p>Zero or more errors may be set at once</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_Status_SensorStatus_" data-uid="PTIRelianceLib.Status.SensorStatus*"></a>
+  <h4 id="PTIRelianceLib_Status_SensorStatus" data-uid="PTIRelianceLib.Status.SensorStatus">SensorStatus</h4>
+  <div class="markdown level1 summary"><p>Sensor statuses</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SensorStatuses SensorStatus { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.Protocol.SensorStatuses.html">SensorStatuses</a></td>
+        <td><p>Covered or Uncovered sensor flags</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_Status_TicketStatus_" data-uid="PTIRelianceLib.Status.TicketStatus*"></a>
+  <h4 id="PTIRelianceLib_Status_TicketStatus" data-uid="PTIRelianceLib.Status.TicketStatus">TicketStatus</h4>
+  <div class="markdown level1 summary"><p>Where the ticket is at.</p>
+<ul>
+<li>0 : Idle = no ticket</li>
+<li>1 : Printing = Ticket has data</li>
+<li>2 : Un-presented Ticket = Ticket is cut but not presented</li>
+<li>3 : Presented Ticket = Ticket is cut and presented</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TicketStates TicketStatus { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.Protocol.TicketStates.html">TicketStates</a></td>
+        <td><p>Ticket be in exactly one state</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="PTIRelianceLib_Status_Serialize_" data-uid="PTIRelianceLib.Status.Serialize*"></a>
+  <h4 id="PTIRelianceLib_Status_Serialize" data-uid="PTIRelianceLib.Status.Serialize">Serialize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte[] Serialize()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_Status_ToString_" data-uid="PTIRelianceLib.Status.ToString*"></a>
+  <h4 id="PTIRelianceLib_Status_ToString" data-uid="PTIRelianceLib.Status.ToString">ToString()</h4>
+  <div class="markdown level1 summary"><p>Returns a summary of the status report a. la</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>string</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Object.ToString()</span></div>
+  <h5 id="PTIRelianceLib_Status_ToString_examples">Examples</h5>
+  <p>Head Voltage: 24 V DC <p>
+Head Temperate: 22 °C <p>
+Sensor Status: Platen <p>
+... <p>
+
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

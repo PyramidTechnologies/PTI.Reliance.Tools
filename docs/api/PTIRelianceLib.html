@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Namespace PTIRelianceLib
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Namespace PTIRelianceLib
+   ">
+    <meta name="generator" content="docfx 2.36.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="PTIRelianceLib">
+  
+  <h1 id="PTIRelianceLib" data-uid="PTIRelianceLib" class="text-break">Namespace PTIRelianceLib
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+    <h3 id="classes">Classes
+  </h3>
+      <h4><a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a></h4>
+      <section><p>A convenience wrapper for arbitrary data. This is a reusable, read-only wrapper
+around the original file that is used throughout this library. A <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code>
+can be created using the static builder methods <a class="xref" href="PTIRelianceLib.BinaryFile.html#PTIRelianceLib_BinaryFile_From_System_String_">From(String)</a> or
+<a class="xref" href="PTIRelianceLib.BinaryFile.html#PTIRelianceLib_BinaryFile_From_System_Byte___">From(Byte[])</a>. Once a <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code> has been
+created, the contents cannot be changed.</p>
+</section>
+      <h4><a class="xref" href="PTIRelianceLib.DevNullMonitor.html">DevNullMonitor</a></h4>
+      <section><p>As the name implies, this consumes and ignores all data
+passed to it. This is useful for silent console flash updaters,
+particularly on systems where constance console drawing may be expensive.</p>
+</section>
+      <h4><a class="xref" href="PTIRelianceLib.ProgressMonitor.html">ProgressMonitor</a></h4>
+      <section><p>An event container class specialized for flash update workers.</p>
+</section>
+      <h4><a class="xref" href="PTIRelianceLib.PTIException.html">PTIException</a></h4>
+      <section><p>The root of all exception classes in PTIRelianceLib. For convenience,
+you may wrap library calls with a catcher for this class.</p>
+<pre><code>using(var printer = new ReliancePrinter())
+{
+    try
+    {
+        printer.FlashUpdateTarget(myFirmware, myReporter);
+    }
+    catch(PTIException ex)
+    {
+        Console.WriteLine(ex.Message);
+    }    
+}</code></pre>
+</section>
+      <h4><a class="xref" href="PTIRelianceLib.ReliancePrinter.html">ReliancePrinter</a></h4>
+      <section><p>Reliance Thermal Printer class provides access access to flash updating, configuration,
+status reporting, and other commands. For best results, we recommend testing against the
+latest available firmware for Reliance.</p>
+<p>Use Reliance Tools for PC to update your printer to the latest firmware through the auto
+update feature. You may also contact our support team to get the latest firmware file
+at <a href="mailto:support@pyramidacceptors.com">mailto:support@pyramidacceptors.com</a></p>
+<p><a href="https://pyramidacceptors.com/app/reliance-tools/">https://pyramidacceptors.com/app/reliance-tools/</a></p>
+</section>
+      <h4><a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a></h4>
+      <section><p>Standard <a class="xref" href="PTIRelianceLib.IPyramidDevice.html">IPyramidDevice</a> revision descriptor. A revision
+can be compared using fluent comparison operations such as Equals,
+Less Than, Greater Than, etc. Older firmware is considerd &quot;less than&quot; newer
+firmware using semantic versioning rules.</p>
+</section>
+      <h4><a class="xref" href="PTIRelianceLib.Status.html">Status</a></h4>
+      <section><p>Printer status data include metrics about temperature
+sensors, and paper movement.</p>
+</section>
+    <h3 id="interfaces">Interfaces
+  </h3>
+      <h4><a class="xref" href="PTIRelianceLib.IPyramidDevice.html">IPyramidDevice</a></h4>
+      <section><p><code data-dev-comment-type="typeparamref" class="typeparamref">IPyramidDevice</code> is a contract defining what actions all Pyramid
+products in this library will support. These devices own their own communication source
+and can be used in MVC binding patterns which is why they are marked <code data-dev-comment-type="typeparamref" class="typeparamref">IDisposable</code>.</p>
+</section>
+    <h3 id="enums">Enums
+  </h3>
+      <h4><a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a></h4>
+      <section><p>Common return codes generated by this library</p>
+</section>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
