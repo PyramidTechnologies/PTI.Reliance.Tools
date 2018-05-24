@@ -1,6 +1,6 @@
 # Getting Started
 
-1. Install [.NET Core](https://www.microsoft.com/net/download/windows) for your operating system
+1. Install [.NET Core SDK](https://www.microsoft.com/net/download/windows) for your operating system
 2. Open your favorite terminal
 3. Execute
 ```
