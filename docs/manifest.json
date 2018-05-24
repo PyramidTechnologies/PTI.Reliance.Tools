@@ -248,7 +248,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "uvjJeOOXJ5S+z9DB5EO1ng=="
+          "hash": "3wtqPiXhbSxtI+xtSXENdw=="
         }
       },
       "is_incremental": false,
@@ -365,7 +365,7 @@
     {
       "status": {
         "can_incremental": false,
-        "details": "Disable incremental build by force rebuild option.",
+        "details": "Cannot build incrementally because config changed.",
         "incrementalPhase": "build"
       },
       "processors": {
@@ -379,11 +379,11 @@
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
-        "ManagedReferenceDocumentProcessor": {
+        "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },
-        "ConceptualDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         }
