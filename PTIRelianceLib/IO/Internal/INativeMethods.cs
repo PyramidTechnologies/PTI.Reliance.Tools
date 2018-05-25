@@ -22,7 +22,7 @@
         /// <summary>
         /// Get a string describing the last error which occurred.
         /// </summary>
-        /// <param name="device">A device handle returned from <see cref="HidOpenPath()"/>.</param>
+        /// <param name="device">A device handle returned from <see cref="OpenPath"/>.</param>
         /// <returns>This function returns a string containing the last error
         /// which occurred or empty string if none has occurred.</returns>
         string Error(HidDevice device);

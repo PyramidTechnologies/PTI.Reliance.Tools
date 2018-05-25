@@ -8,6 +8,9 @@
 
 namespace PTIRelianceLib.Transport
 {
+    /// <summary>
+    /// Defines a contract for types that can serialize themselves and be deserialized.
+    /// </summary>
     public interface IParseable
     {
         /// <summary>

@@ -8,9 +8,7 @@
 
 namespace PTIRelianceLib.Tests
 {
-    using System.Runtime.InteropServices;
     using PTIRelianceLib.Transport;
-    using Transport;
     using Xunit;
 
     public class RevlevParserTests
@@ -21,7 +19,7 @@ namespace PTIRelianceLib.Tests
             ReliancePacket packet = null;
             var parsed = PacketParserFactory.Instance.Create<Revlev>().Parse(packet);
             Assert.NotNull(parsed);
-            Assert.Equal("0.0.0", parsed.ToString());
+            Assert.Equal("Not Connected", parsed.ToString());
         }
 
         [Fact]
@@ -32,7 +30,7 @@ namespace PTIRelianceLib.Tests
                 var packet = new ReliancePacket(new byte[i]);
                 var parsed = PacketParserFactory.Instance.Create<Revlev>().Parse(packet);
                 Assert.NotNull(parsed);
-                Assert.Equal("0.0.0", parsed.ToString());
+                Assert.Equal("Not Connected", parsed.ToString());
             }
         }
 

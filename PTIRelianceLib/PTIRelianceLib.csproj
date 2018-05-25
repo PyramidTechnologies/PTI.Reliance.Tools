@@ -19,7 +19,7 @@
     <PackageIconUrl>https://pyramidacceptors.com/favicon.ico</PackageIconUrl>
     <AssemblyVersion>0.1.18.0</AssemblyVersion>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -12,17 +12,17 @@ namespace PTIRelianceLib
 
     /// <inheritdoc />
     /// <summary>
-    /// <typeparamref name="IPyramidDevice"/> is a contract defining what actions all Pyramid
+    /// <see cref="IPyramidDevice"/> is a contract defining what actions all Pyramid
     /// products in this library will support. These devices own their own communication source
-    /// and can be used in MVC binding patterns which is why they are marked <typeparamref name="IDisposable"/>.
+    /// and can be used in MVC binding patterns which is why they are marked <see cref="IDisposable"/>.
     /// </summary>
     public interface IPyramidDevice : IDisposable
     {
         /// <summary>
-        /// Writes the configuration <typeparamref name="BinaryFile"/> specified by
-        /// config to this device. The configuration is a JSON file describing the
-        /// configuration to apply. Any fields omitted from the configuration file
-        /// will be set to its default value.
+        /// Writes the configuration <see cref="BinaryFile"/> specified by
+        /// <paramref name="config"/> to this device. The configuration is a JSON file
+        /// describing the configuration to apply. Any fields omitted from the
+        /// configuration file will be set to its default value.
         ///
         /// There are two ways to obtain a JSON configuration file.
         /// <list type="bullet">
@@ -52,17 +52,17 @@ namespace PTIRelianceLib
 
         /// <summary>
         /// Reads current configuration from this device and returns result
-        /// as a JSON <typeparamref name="BinaryFile"/>. If there is an error
-        /// reading the configuration, an empty <typeparamref name="BinaryFile"/>
-        /// is returned. You can check for an empty result via <see cref="BinaryFile.Empty"/>.
+        /// as a JSON <see cref="BinaryFile"/> If there is an error reading the
+        /// configuration, an empty <see cref="BinaryFile"/> is returned. You can check for
+        /// an empty result via <see cref="BinaryFile.Empty"/>.
         /// </summary>
         /// <returns>BinaryFile</returns>
         BinaryFile ReadConfiguration();
 
         /// <summary>
-        /// Install the specified firmware <typeparamref name="BinaryFile"/> on
+        /// Install the specified firmware <see cref="BinaryFile"/> on
         /// this device. With few exceptions, most any firmware can be installed
-        /// using this method. The reporter <typeparamref name="ProgressMonitor"/>
+        /// using this method. The <paramref name="reporter"/> <see cref="ProgressMonitor"/>
         /// provides callbacks for messages, progress, and errors.
         /// </summary>
         /// <param name="firmware">Firmware image data</param>
@@ -80,7 +80,7 @@ namespace PTIRelianceLib
         ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter);
 
         /// <summary>
-        /// Returns the firmware <typeparamref name="Revlev"/> of this device.
+        /// Returns the firmware <see cref="Revlev"/> of this device.
         /// If there is an error reading the firmware revision, a Revlev of
         /// <c>0.0.0</c> will instead be returned.
         /// </summary>

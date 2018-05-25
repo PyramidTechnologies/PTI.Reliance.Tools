@@ -13,9 +13,9 @@ namespace PTIRelianceLib
 
     /// <summary>
     /// A convenience wrapper for arbitrary data. This is a reusable, read-only wrapper 
-    /// around the original file that is used throughout this library. A <typeparamref name="BinaryFile"/>
+    /// around the original file that is used throughout this library. A <see cref="BinaryFile"/>
     /// can be created using the static builder methods <see cref="BinaryFile.From(string)"/> or
-    /// <see cref="BinaryFile.From(byte[])"/>. Once a <typeparamref name="BinaryFile"/> has been
+    /// <see cref="BinaryFile.From(byte[])"/>. Once a <see cref="BinaryFile"/> has been
     /// created, the contents cannot be changed.
     /// </summary>
     public sealed class BinaryFile
@@ -26,7 +26,7 @@ namespace PTIRelianceLib
         private readonly byte[] _mData;
 
         /// <summary>
-        /// Construct a <typeparamref name="BinaryFile"/> from a physical file location at <paramref name="path"/>.
+        /// Construct a <see cref="BinaryFile"/> from a physical file location at <paramref name="path"/>.
         /// </summary>
         /// <param name="path">Path to source file</param>
         /// <returns>BinaryFile contains data from <paramref name="path"/>. If the file cannot be read,
@@ -48,13 +48,13 @@ namespace PTIRelianceLib
         }
 
         /// <summary>
-        /// Construct a <typeparamref name="BinaryFile"/> from a buffer in memory.
+        /// Construct a <see cref="BinaryFile"/> from a <paramref name="buffer"/> in memory.
         /// </summary>
-        /// <param name="raw">Memory to copy into a new BinaryFile</param>
+        /// <param name="buffer">Memory to copy into a new BinaryFile</param>
         /// <returns>BinaryFile</returns>
-        public static BinaryFile From(byte[] raw)
+        public static BinaryFile From(byte[] buffer)
         {
-            return new BinaryFile(raw);
+            return new BinaryFile(buffer);
         }
 
         /// <summary>
@@ -74,11 +74,11 @@ namespace PTIRelianceLib
         }
 
         /// <summary>Returns the length in bytes of this file</summary>
-        /// <value>Integer length of data in this <typeparamref name="BinaryFile"/> in bytes</value>
+        /// <value>Integer length of data in this <see cref="BinaryFile"/> in bytes</value>
         public int Length { get; }
 
         /// <summary>Returns the length in bytes of this file</summary>
-        /// <value>Long length of data in this <typeparamref name="BinaryFile"/> in bytes</value>
+        /// <value>Long length of data in this <see cref="BinaryFile"/> in bytes</value>
         public long LongLength { get; }
 
         /// <summary>
@@ -99,9 +99,9 @@ namespace PTIRelianceLib
         public byte this[int key] => _mData[key];
 
         /// <summary>
-        /// Returns true if this BinaryFile is empty
+        /// Returns <c>true</c> if this BinaryFile is empty
         /// </summary>
-        /// <value>True if no data is in this <typeparamref name="BinaryFile"/></value>
+        /// <value>True if no data is in this <see cref="BinaryFile"/></value>
         public bool Empty => Length == 0;
 
         /// <summary>

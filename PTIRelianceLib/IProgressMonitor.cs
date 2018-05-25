@@ -9,10 +9,10 @@
 namespace PTIRelianceLib
 {
     /// <summary>
-    /// The <typeparamref name="IProgressMonitor"/> interface defines the
+    /// The <see cref="IProgressMonitor"/> interface defines the
     /// contract for reporting a task's progress in a variety of formats. It supports
     /// message events and progress reporting as 0-100% value. Workers classes
-    /// throughout this library require some form of an <typeparamref name="IProgressMonitor"/>.
+    /// throughout this library require some form of an <see cref="IProgressMonitor"/>.
     /// Some workers may be multithreaded so it is best practice to delegate these methods
     /// to your UI thread if you intended to use the data on the UI.
     /// </summary>

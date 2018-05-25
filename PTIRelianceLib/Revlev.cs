@@ -12,7 +12,7 @@ namespace PTIRelianceLib
     using System.Collections.Generic;
     using Transport;
 
-    /// <inheritdoc cref="IEquatable" />
+    /// <inheritdoc cref="IComparable" />
     /// <summary>
     /// Standard <see cref="T:PTIRelianceLib.IPyramidDevice" /> revision descriptor. A revision
     /// can be compared using fluent comparison operations such as Equals,
@@ -92,10 +92,16 @@ namespace PTIRelianceLib
 
         /// <summary>
         /// Returns this object in the format <c>X.X.XX</c>
+        /// If the device is not conneted, the string "Not Connected"
+        /// will instead be returned.
         /// </summary>
-        /// <returns>string formatted as <c>X.X.XX</c></returns>
+        /// <returns>string formatted as <c>X.X.XX</c> or "Not Connected"</returns>
         public override string ToString()
         {
+            if (Major == 0 && Minor == 0 && Build == 0)
+            {
+                return "Not Connected";
+            }
             return string.Format("{0}.{1}.{2}", Major, Minor, Build);
         }
 

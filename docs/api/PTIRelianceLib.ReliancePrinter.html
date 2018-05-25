@@ -223,9 +223,9 @@ will be thrown.</p>
   
   <a id="PTIRelianceLib_ReliancePrinter_FlashUpdateTarget_" data-uid="PTIRelianceLib.ReliancePrinter.FlashUpdateTarget*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_FlashUpdateTarget_PTIRelianceLib_BinaryFile_PTIRelianceLib_ProgressMonitor_" data-uid="PTIRelianceLib.ReliancePrinter.FlashUpdateTarget(PTIRelianceLib.BinaryFile,PTIRelianceLib.ProgressMonitor)">FlashUpdateTarget(BinaryFile, ProgressMonitor)</h4>
-  <div class="markdown level1 summary"><p>Install the specified firmware <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code> on
+  <div class="markdown level1 summary"><p>Install the specified firmware <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> on
 this device. With few exceptions, most any firmware can be installed
-using this method. The reporter <code data-dev-comment-type="typeparamref" class="typeparamref">ProgressMonitor</code>
+using this method. The <code data-dev-comment-type="paramref" class="paramref">reporter</code> <a class="xref" href="PTIRelianceLib.ProgressMonitor.html">ProgressMonitor</a>
 provides callbacks for messages, progress, and errors.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -284,7 +284,7 @@ version of Reliance Tools to upgrade your firmware.</p>
   
   <a id="PTIRelianceLib_ReliancePrinter_GetFirmwareRevision_" data-uid="PTIRelianceLib.ReliancePrinter.GetFirmwareRevision*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_GetFirmwareRevision" data-uid="PTIRelianceLib.ReliancePrinter.GetFirmwareRevision">GetFirmwareRevision()</h4>
-  <div class="markdown level1 summary"><p>Returns the firmware <code data-dev-comment-type="typeparamref" class="typeparamref">Revlev</code> of this device.
+  <div class="markdown level1 summary"><p>Returns the firmware <a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a> of this device.
 If there is an error reading the firmware revision, a Revlev of
 <code>0.0.0</code> will instead be returned.</p>
 </div>
@@ -429,9 +429,9 @@ assuming the printer is offline.</p>
   <a id="PTIRelianceLib_ReliancePrinter_ReadConfiguration_" data-uid="PTIRelianceLib.ReliancePrinter.ReadConfiguration*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_ReadConfiguration" data-uid="PTIRelianceLib.ReliancePrinter.ReadConfiguration">ReadConfiguration()</h4>
   <div class="markdown level1 summary"><p>Reads current configuration from this device and returns result
-as a JSON <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code>. If there is an error
-reading the configuration, an empty <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code>
-is returned. You can check for an empty result via <a class="xref" href="PTIRelianceLib.BinaryFile.html#PTIRelianceLib_BinaryFile_Empty">Empty</a>.</p>
+as a JSON <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> If there is an error reading the
+configuration, an empty <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> is returned. You can check for
+an empty result via <a class="xref" href="PTIRelianceLib.BinaryFile.html#PTIRelianceLib_BinaryFile_Empty">Empty</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>

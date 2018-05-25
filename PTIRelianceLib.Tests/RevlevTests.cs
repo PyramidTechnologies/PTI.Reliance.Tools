@@ -4,7 +4,6 @@ namespace PTIRelianceLib.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     public class RevlevTests
     {
@@ -72,11 +71,20 @@ namespace PTIRelianceLib.Tests
 
             Assert.True(rev0.Equals((object) rev1));
 
+            // Disable to test weird usage case
+            // ReSharper disable once EqualExpressionComparison
+#pragma warning disable CS1718 // Comparison made to same variable
             Assert.True(rev0 == rev0);
+#pragma warning restore CS1718 // Comparison made to same variable
             Assert.False(null == rev0);
             Assert.False(rev0 == null);
 
+            // Disable to test weird usage case
+            // ReSharper disable once EqualExpressionComparison
+#pragma warning disable CS1718 // Comparison made to same variable
             Assert.False(rev0 != rev0);
+#pragma warning restore CS1718 // Comparison made to same variable
+            // ReSharper disable once RedundantCast
             Assert.False(null as Revlev != null as Revlev);
             Assert.True(rev0 != null);
 
@@ -128,8 +136,11 @@ namespace PTIRelianceLib.Tests
         {
             object revnull = null;
             var rev = new Revlev();
+            // ReSharper disable once ExpressionIsAlwaysNull
             Assert.False(rev.Equals(revnull));
+#pragma warning disable CS0253 // Possible unintended reference comparison; right hand side needs cast
             Assert.True(rev != revnull);
+#pragma warning restore CS0253 // Possible unintended reference comparison; right hand side needs cast
         }
 
         [Fact]
@@ -170,9 +181,9 @@ namespace PTIRelianceLib.Tests
         {
             var data = new List<Tuple<Revlev, string>>
             {
-                new Tuple<Revlev, string>(new Revlev(string.Empty), "0.0.0"),
-                new Tuple<Revlev, string>(new Revlev(null), "0.0.0"),
-                new Tuple<Revlev, string>(new Revlev(), "0.0.0"),
+                new Tuple<Revlev, string>(new Revlev(string.Empty), "Not Connected"),
+                new Tuple<Revlev, string>(new Revlev(null), "Not Connected"),
+                new Tuple<Revlev, string>(new Revlev(), "Not Connected"),
                 new Tuple<Revlev, string>(new Revlev("1"), "1.0.0"),
                 new Tuple<Revlev, string>(new Revlev("1.2"), "1.2.0"),
                 new Tuple<Revlev, string>(new Revlev("1.2.3"), "1.2.3"),

@@ -73,9 +73,9 @@
   
   <h1 id="PTIRelianceLib_IPyramidDevice" data-uid="PTIRelianceLib.IPyramidDevice" class="text-break">Interface IPyramidDevice
   </h1>
-  <div class="markdown level0 summary"><p><code data-dev-comment-type="typeparamref" class="typeparamref">IPyramidDevice</code> is a contract defining what actions all Pyramid
+  <div class="markdown level0 summary"><p><a class="xref" href="PTIRelianceLib.IPyramidDevice.html">IPyramidDevice</a> is a contract defining what actions all Pyramid
 products in this library will support. These devices own their own communication source
-and can be used in MVC binding patterns which is why they are marked <code data-dev-comment-type="typeparamref" class="typeparamref">IDisposable</code>.</p>
+and can be used in MVC binding patterns which is why they are marked <span class="xref">System.IDisposable</span>.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritedMembers">
@@ -96,9 +96,9 @@ and can be used in MVC binding patterns which is why they are marked <code data-
   
   <a id="PTIRelianceLib_IPyramidDevice_FlashUpdateTarget_" data-uid="PTIRelianceLib.IPyramidDevice.FlashUpdateTarget*"></a>
   <h4 id="PTIRelianceLib_IPyramidDevice_FlashUpdateTarget_PTIRelianceLib_BinaryFile_PTIRelianceLib_ProgressMonitor_" data-uid="PTIRelianceLib.IPyramidDevice.FlashUpdateTarget(PTIRelianceLib.BinaryFile,PTIRelianceLib.ProgressMonitor)">FlashUpdateTarget(BinaryFile, ProgressMonitor)</h4>
-  <div class="markdown level1 summary"><p>Install the specified firmware <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code> on
+  <div class="markdown level1 summary"><p>Install the specified firmware <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> on
 this device. With few exceptions, most any firmware can be installed
-using this method. The reporter <code data-dev-comment-type="typeparamref" class="typeparamref">ProgressMonitor</code>
+using this method. The <code data-dev-comment-type="paramref" class="paramref">reporter</code> <a class="xref" href="PTIRelianceLib.ProgressMonitor.html">ProgressMonitor</a>
 provides callbacks for messages, progress, and errors.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -150,7 +150,7 @@ provides callbacks for messages, progress, and errors.</p>
   
   <a id="PTIRelianceLib_IPyramidDevice_GetFirmwareRevision_" data-uid="PTIRelianceLib.IPyramidDevice.GetFirmwareRevision*"></a>
   <h4 id="PTIRelianceLib_IPyramidDevice_GetFirmwareRevision" data-uid="PTIRelianceLib.IPyramidDevice.GetFirmwareRevision">GetFirmwareRevision()</h4>
-  <div class="markdown level1 summary"><p>Returns the firmware <code data-dev-comment-type="typeparamref" class="typeparamref">Revlev</code> of this device.
+  <div class="markdown level1 summary"><p>Returns the firmware <a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a> of this device.
 If there is an error reading the firmware revision, a Revlev of
 <code>0.0.0</code> will instead be returned.</p>
 </div>
@@ -234,9 +234,9 @@ If there is an error reading the firmware revision, a Revlev of
   <a id="PTIRelianceLib_IPyramidDevice_ReadConfiguration_" data-uid="PTIRelianceLib.IPyramidDevice.ReadConfiguration*"></a>
   <h4 id="PTIRelianceLib_IPyramidDevice_ReadConfiguration" data-uid="PTIRelianceLib.IPyramidDevice.ReadConfiguration">ReadConfiguration()</h4>
   <div class="markdown level1 summary"><p>Reads current configuration from this device and returns result
-as a JSON <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code>. If there is an error
-reading the configuration, an empty <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code>
-is returned. You can check for an empty result via <a class="xref" href="PTIRelianceLib.BinaryFile.html#PTIRelianceLib_BinaryFile_Empty">Empty</a>.</p>
+as a JSON <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> If there is an error reading the
+configuration, an empty <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> is returned. You can check for
+an empty result via <a class="xref" href="PTIRelianceLib.BinaryFile.html#PTIRelianceLib_BinaryFile_Empty">Empty</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -291,10 +291,10 @@ and reconnection details.</p>
   
   <a id="PTIRelianceLib_IPyramidDevice_SendConfiguration_" data-uid="PTIRelianceLib.IPyramidDevice.SendConfiguration*"></a>
   <h4 id="PTIRelianceLib_IPyramidDevice_SendConfiguration_PTIRelianceLib_BinaryFile_" data-uid="PTIRelianceLib.IPyramidDevice.SendConfiguration(PTIRelianceLib.BinaryFile)">SendConfiguration(BinaryFile)</h4>
-  <div class="markdown level1 summary"><p>Writes the configuration <code data-dev-comment-type="typeparamref" class="typeparamref">BinaryFile</code> specified by
-config to this device. The configuration is a JSON file describing the
-configuration to apply. Any fields omitted from the configuration file
-will be set to its default value.</p>
+  <div class="markdown level1 summary"><p>Writes the configuration <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> specified by
+<code data-dev-comment-type="paramref" class="paramref">config</code> to this device. The configuration is a JSON file
+describing the configuration to apply. Any fields omitted from the
+configuration file will be set to its default value.</p>
 <p>There are two ways to obtain a JSON configuration file.</p>
 <ul><li>Using Reliance Tools for PC you may click File->Save Config.
 This will produce a valid JSON configuration of the attached printer.
