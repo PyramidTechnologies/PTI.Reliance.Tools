@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:latest-runtime-stretch AS base
+FROM microsoft/dotnet:2.0.7-runtime-stretch AS base
 
 # set up network
 ENV ASPNETCORE_URLS http://+:80
