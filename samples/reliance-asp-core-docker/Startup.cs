@@ -10,6 +10,31 @@ using PTIRelianceLib;
 
 namespace reliance_asp_core_docker
 {
+    /// <summary>
+    /// Due to ASP's stateless nature we need to take special care with our hardware access.
+    /// Note, that there are many better was to handle this problem. This is the bare minimum
+    /// to produce a working sample.
+    /// </summary>
+    public static class PrinterService
+    {
+	private static readonly object _mLock = new object();
+        private static ReliancePrinter _mPrinter;	
+
+	static PrinterService() 
+	{
+	    _mPrinter = new ReliancePrinter();
+	}
+
+	public static Revlev GetRevision()
+	{
+	    lock(_mLock)
+	    {
+	        return _mPrinter.GetFirmwareRevision();
+	    }
+	}
+    }
+
+
     public class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -28,12 +53,8 @@ namespace reliance_asp_core_docker
 
             // Simply write the revision to test that a) HID is happy and b) device access is happy
             app.Run(async (context) =>
-            {
-                using(var printer = new ReliancePrinter())
-                {
-                    var rev = printer.GetFirmwareRevision();
-                    await context.Response.WriteAsync(rev.ToString());
-                }
+            {                
+                await context.Response.WriteAsync(PrinterService.GetRevision().ToString());               
             });
         }
     }
