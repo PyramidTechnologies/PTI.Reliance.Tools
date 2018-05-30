@@ -80,6 +80,10 @@ namespace PTIRelianceLib.Firmware.Internal
             }
 
             var packets = ProcessFirmware(_mFileToFlash.GetData());
+            if (packets.Count == 0)
+            {
+                return ReturnCodes.FlashFileInvalid;
+            }
 
             // Transmit to target
             var streamer = new RELFwStreamer(Reporter, _mPort);
@@ -112,8 +116,17 @@ namespace PTIRelianceLib.Firmware.Internal
 
         private IList<IPacket> ProcessFirmware(byte[] data)
         {
+            var result = new List<IPacket>();
+
             var parser = new RELFwParser(data);
             var deobfuscated = parser.Deobfuscate();
+
+            if (deobfuscated.Length == 0)
+            {
+                // Invalid file specified
+                return result;
+            }
+
             var header = RELFwParser.GetHeaderData(_mFileToFlash.GetData());
             var memoryMap = new RelianceMap(header.StartAddr);
 
@@ -121,7 +134,7 @@ namespace PTIRelianceLib.Firmware.Internal
             const int dataLen = 28;
             const int blockSize = 0x800;
             var flashCmd = new[] {(byte) RelianceCommands.FlashRequest};
-            var result = new List<IPacket>();
+
 
             // Inject ID matrix
             var idMat = _mPort.Package(header.IdMatrix);

@@ -143,6 +143,12 @@ namespace PTIRelianceLib.Configuration
             var config = new RELConfig();
 
             var serial = GetConfig<RELSerialConfig>(_mPrinter, RelianceCommands.GetSerialConfig);
+            if (serial == null)
+            {
+                // Read failure
+                return BinaryFile.From(new byte[0]);
+            }
+
             config.BaudRate = serial.BaudRate;
             config.Handshake = serial.Handshake;
             config.Databits = serial.Databits;

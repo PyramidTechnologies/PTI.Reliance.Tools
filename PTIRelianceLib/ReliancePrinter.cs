@@ -160,7 +160,12 @@ namespace PTIRelianceLib
             var revlev = GetFirmwareRevision();
             if (revlev < new Revlev(1, 22, 0))
             {
-                return ReturnCodes.FlashInstalledFwNotSupported;
+                // We support all bootloader versions
+                var appid = GetAppId();
+                if (!appid.ToLower().Equals("bootloader"))
+                {
+                    return ReturnCodes.FlashInstalledFwNotSupported;
+                }
             }
 
             reporter = reporter ?? new DevNullMonitor();
@@ -341,6 +346,22 @@ namespace PTIRelianceLib
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Returns firmware application id string or empty on error
+        /// </summary>
+        /// <returns>Application id string</returns>
+        internal string GetAppId()
+        {
+            if (!_port.IsOpen)
+            {
+                return string.Empty;
+            }
+
+            var cmd = new ReliancePacket((byte)RelianceCommands.GetBootId, 0x10);
+            var resp = Write(cmd);
+            return PacketParserFactory.Instance.Create<PacketedString>().Parse(resp).Value;
         }
 
         /// <summary>
