@@ -1,4 +1,5 @@
 [![NuGet](https://img.shields.io/nuget/v/PTIRelianceLib.svg?style=flat-square)](https://www.nuget.org/packages/PTIRelianceLib/)
+[![Build status](https://ci.appveyor.com/api/projects/status/jjwwqnue2al1j5c5?svg=true)](https://ci.appveyor.com/project/catodd/pti-reliance-tools)
 # Reliance Tools API
 This is a collection of tools for flash updating, configuring, and maintaining your Reliance Thermal Printer.
 
