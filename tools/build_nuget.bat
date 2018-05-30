@@ -1,0 +1,1 @@
+dotnet pack -c Release -o build /p:Platform=x64 --include-symbols PTIRelianceLib\PTIRelianceLib.csproj
