@@ -106,7 +106,7 @@ namespace PTIRelianceLib
             var sb = new StringBuilder();
             sb.AppendFormat("Head Voltage: {0} V DC\n", HeadVoltage);
             sb.AppendFormat("Head Temperature: {0} °C\n", HeadTemp);
-            sb.AppendFormat("Head Temperature: {0} °F\n", HeadTemp);
+            sb.AppendFormat("Head Temperature: {0} °F\n", (HeadTemp * (9 / 5.0) + 32).ToString("N0"));
             sb.AppendFormat("Sensor Status: {0} \n", SensorStatus);
             sb.AppendFormat("Presenter Raw: {0} V DC\n", PresenterRaw * AdcConstant);
             sb.AppendFormat("Path Raw: {0} V DC\n",  PathRaw * AdcConstant);

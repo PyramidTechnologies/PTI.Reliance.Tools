@@ -81,6 +81,34 @@ namespace PTIRelianceLib
         }
 
         /// <summary>
+        /// Converts a signed long to a big Endian 8-byte array
+        /// </summary>
+        /// <param name="u"></param>
+        /// <returns></returns>
+        public static byte[] ToBytesBE(this long u)
+        {
+            return new[]
+            {
+                (byte)(u & 0xFF), (byte)((u >> 8) & 0xFF), (byte)((u >> 16) & 0xFF), (byte)((u >> 24) & 0xFF),
+                (byte)((u >> 32) & 0xFF), (byte)((u >> 40) & 0xFF), (byte)((u >> 48) & 0xFF), (byte)((u >> 56) & 0xFF)
+            };
+        }
+
+        /// <summary>
+        /// Converts an unsigned long to a big Endian 8-byte array
+        /// </summary>
+        /// <param name="u"></param>
+        /// <returns></returns>
+        public static byte[] ToBytesBE(this ulong u)
+        {
+            return new[]
+            {
+                (byte)(u & 0xFF), (byte)((u >> 8) & 0xFF), (byte)((u >> 16) & 0xFF), (byte)((u >> 24) & 0xFF),
+                (byte)((u >> 32) & 0xFF), (byte)((u >> 40) & 0xFF), (byte)((u >> 48) & 0xFF), (byte)((u >> 56) & 0xFF)
+            };
+        }
+
+        /// <summary>
         /// Returns a copy of this string containing only printable
         /// ASCII characters (32-126)
         /// </summary>

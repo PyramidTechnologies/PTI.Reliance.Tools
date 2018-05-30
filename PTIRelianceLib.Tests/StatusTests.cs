@@ -44,5 +44,26 @@ namespace PTIRelianceLib.Tests
             parsed = PacketParserFactory.Instance.Create<Status>().Parse(new ReliancePacket(4,2,7,6,4));
             Assert.Null(parsed);
         }
+
+        [Fact]
+        public void TestToString()
+        {
+            var status = new Status
+            {
+                HeadVoltage = "12.34",
+                HeadTemp = 20 // degree C
+            };
+            Assert.NotNull(status.ToString());
+
+            var serialized = status.Serialize();
+            var packet = new ReliancePacket(serialized);
+            var parsed = PacketParserFactory.Instance.Create<Status>().Parse(packet);
+
+            Assert.NotNull(parsed);
+
+            var str = parsed.ToString();
+            var parts = str.Split('\n');
+            Assert.Equal("Head Temperature: 68 °F", parts[2]);
+        }
     }
 }

@@ -54,6 +54,11 @@ namespace RelianceCLI
                     Console.WriteLine("Revision: {0}", revlev);
                 }
 
+                // Try to write configuration response as a firwmare
+                var c = printer.ReadConfiguration();
+                var r = printer.FlashUpdateTarget(c, new ConsoleProgressBar());
+                Console.WriteLine(r);
+
                 if (!string.IsNullOrEmpty(opts.FirmwareFilePath))
                 {
                     Console.WriteLine("Selected new firmware: {0}", opts.FirmwareFilePath);
