@@ -43,6 +43,7 @@ on_success:
   - git clone https://github.com/PyramidTechnologies/PTI.Reliance.Tools.git -b gh-pages origin_site -q
   - ps: Copy-Item origin_site/.git _site -recurse
   - ps: CD _site
+  - cmd: echo "%CD%"
   - git add -A 2>&1  
   - ps: Copy-Item origin_site/.git _site -recurse  
   - git commit -m "CI Updates" -q

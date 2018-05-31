@@ -49,7 +49,12 @@ namespace PTIRelianceLib
         /// <summary>
         /// Underlying communication handle
         /// </summary>
-        private readonly IPort<IPacket> _port;
+        private IPort<IPacket> _port;
+
+        /// <summary>
+        /// HID configuration parameters for Reliance
+        /// </summary>
+        private readonly HidDeviceConfig _portConfig;
 
         /// <summary>
         /// Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
@@ -60,7 +65,7 @@ namespace PTIRelianceLib
         public ReliancePrinter()
         {
             // Reliance will "always" use report lengths of 34 bytes
-            var config = new HidDeviceConfig
+            _portConfig = new HidDeviceConfig
             {
                 VendorId = VendorId,
                 ProductId = ProductId,
@@ -71,9 +76,14 @@ namespace PTIRelianceLib
                 NativeHid = new NativeMethods()
             };
 
+            MakeNewPort();
+        }
+
+        private void MakeNewPort()
+        {
             try
             {
-                _port = new HidPort<ReliancePacket>(config);
+                _port = new HidPort<ReliancePacket>(_portConfig);
             }
             catch (DllNotFoundException ex)
             {
@@ -284,6 +294,7 @@ namespace PTIRelianceLib
                 while ((DateTime.Now - start).TotalMilliseconds < 30000)
                 {
                     Thread.Sleep(250);
+                    MakeNewPort();
                     if (_port.Open())
                     {
                         break;
