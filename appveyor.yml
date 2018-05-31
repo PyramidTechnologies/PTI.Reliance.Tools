@@ -40,11 +40,11 @@ on_success:
   - ps: Add-Content "$HOME\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
   - git config --global user.email "Bert"
   - git config --global user.name "bertbot@pyramidacceptors.com"
-  - git clone https://github.com/PyramidTechnologies/PTI.Reliance.Tools.git -b gh-pages origin_site -q
-  - ps: Copy-Item origin_site/.git _site -recurse
+  - git clone https://github.com/PyramidTechnologies/PTI.Reliance.Tools.git -b gh-pages ..\origin_site -q
+  - ps: Copy-Item ..\origin_site/.git _site -recurse
   - ps: CD _site
   - cmd: echo "%CD%"
-  - git add -A 2>&1  
-  - ps: Copy-Item origin_site/.git _site -recurse  
+  - cmd: dir /ah
+  - git add -A 2>&1
   - git commit -m "CI Updates" -q
   - git push push origin gh-pages -q

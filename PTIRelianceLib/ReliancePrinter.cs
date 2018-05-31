@@ -281,14 +281,16 @@ namespace PTIRelianceLib
                 Write(cmd);
 
                 // Close immediately
-                _port.Close();
+                _port = null;
 
                 // Try for XX seconds to reconnect
                 var start = DateTime.Now;
                 while ((DateTime.Now - start).TotalMilliseconds < 30000)
                 {
                     Thread.Sleep(250);
+
                     MakeNewPort();
+
                     if (_port?.Open() == true)
                     {
                         break;
