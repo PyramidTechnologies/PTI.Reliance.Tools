@@ -86,23 +86,7 @@ firmware using semantic versioning rules.</p>
   </div>
   <div classs="implements">
     <h5>Implements</h5>
-    <div><span class="xref">System.IComparable</span></div>
-    <div><span class="xref">System.IEquatable</span>&lt;<a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a>&gt;</div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
+    <div><span class="xref">IEquatable</span>&lt;<a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a>&gt;</div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="PTIRelianceLib.html">PTIRelianceLib</a></h6>
   <h6><strong>Assembly</strong>: PTIRelianceLib.dll</h6>
@@ -112,8 +96,6 @@ firmware using semantic versioning rules.</p>
   </div>
   <h3 id="constructors">Constructors
   </h3>
-  
-  
   <a id="PTIRelianceLib_Revlev__ctor_" data-uid="PTIRelianceLib.Revlev.#ctor*"></a>
   <h4 id="PTIRelianceLib_Revlev__ctor" data-uid="PTIRelianceLib.Revlev.#ctor">Revlev()</h4>
   <div class="markdown level1 summary"><p>Create a new Revlev object with default value of <code>0.0.0</code>.</p>
@@ -123,8 +105,6 @@ firmware using semantic versioning rules.</p>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Revlev()</code></pre>
   </div>
-  
-  
   <a id="PTIRelianceLib_Revlev__ctor_" data-uid="PTIRelianceLib.Revlev.#ctor*"></a>
   <h4 id="PTIRelianceLib_Revlev__ctor_System_Int32_System_Int32_System_Int32_" data-uid="PTIRelianceLib.Revlev.#ctor(System.Int32,System.Int32,System.Int32)">Revlev(Int32, Int32, Int32)</h4>
   <div class="markdown level1 summary"><p>Explicitly construct a new revlev in proper order of
@@ -166,15 +146,13 @@ Only positive values will be stored.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_Revlev__ctor_" data-uid="PTIRelianceLib.Revlev.#ctor*"></a>
   <h4 id="PTIRelianceLib_Revlev__ctor_System_String_" data-uid="PTIRelianceLib.Revlev.#ctor(System.String)">Revlev(String)</h4>
   <div class="markdown level1 summary"><p>Build a new <a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a> type by parsing <code data-dev-comment-type="paramref" class="paramref">revlev</code> in the
 format <code>X.X.XX</code>.
 The minor and build fields may be omitted. In this case, the values will be set to 0.
 If a non-numeric or otheriwse invalid <code data-dev-comment-type="paramref" class="paramref">revlev</code> is provided, an exception
-of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
+of type <exception cref="!:ArgumentException"></exception> will be thrown.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -199,26 +177,8 @@ of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
       </tr>
     </tbody>
   </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.ArgumentException</span></td>
-        <td><p>Thrown if any value cannot be parsed as an integer</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
   <h3 id="fields">Fields
   </h3>
-  
-  
   <h4 id="PTIRelianceLib_Revlev_Build" data-uid="PTIRelianceLib.Revlev.Build">Build</h4>
   <div class="markdown level1 summary"><p>Third component of version Major.Minor.Build</p>
 </div>
@@ -243,8 +203,6 @@ of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <h4 id="PTIRelianceLib_Revlev_Major" data-uid="PTIRelianceLib.Revlev.Major">Major</h4>
   <div class="markdown level1 summary"><p>First component of version Major.Minor.Build</p>
 </div>
@@ -269,8 +227,6 @@ of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <h4 id="PTIRelianceLib_Revlev_Minor" data-uid="PTIRelianceLib.Revlev.Minor">Minor</h4>
   <div class="markdown level1 summary"><p>Second component of version Major.Minor.Build</p>
 </div>
@@ -297,8 +253,6 @@ of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
   </table>
   <h3 id="methods">Methods
   </h3>
-  
-  
   <a id="PTIRelianceLib_Revlev_CompareTo_" data-uid="PTIRelianceLib.Revlev.CompareTo*"></a>
   <h4 id="PTIRelianceLib_Revlev_CompareTo_System_Object_" data-uid="PTIRelianceLib.Revlev.CompareTo(System.Object)">CompareTo(Object)</h4>
   <div class="markdown level1 summary"><p>Compares this <a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a> to another object <code data-dev-comment-type="paramref" class="paramref">obj</code></p>
@@ -342,8 +296,6 @@ of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_Revlev_Equals_" data-uid="PTIRelianceLib.Revlev.Equals*"></a>
   <h4 id="PTIRelianceLib_Revlev_Equals_PTIRelianceLib_Revlev_" data-uid="PTIRelianceLib.Revlev.Equals(PTIRelianceLib.Revlev)">Equals(Revlev)</h4>
   <div class="markdown level1 summary"><p>Compares this to another <a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a>.</p>
@@ -387,8 +339,6 @@ of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_Revlev_Equals_" data-uid="PTIRelianceLib.Revlev.Equals*"></a>
   <h4 id="PTIRelianceLib_Revlev_Equals_System_Object_" data-uid="PTIRelianceLib.Revlev.Equals(System.Object)">Equals(Object)</h4>
   <div class="markdown level1 summary"><p>Compares this to another <span class="xref">Object</span>.</p>
@@ -432,10 +382,6 @@ of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
       </tr>
     </tbody>
   </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><span class="xref">System.Object.Equals(System.Object)</span></div>
-  
-  
   <a id="PTIRelianceLib_Revlev_GetHashCode_" data-uid="PTIRelianceLib.Revlev.GetHashCode*"></a>
   <h4 id="PTIRelianceLib_Revlev_GetHashCode" data-uid="PTIRelianceLib.Revlev.GetHashCode">GetHashCode()</h4>
   <div class="markdown level1 summary"><p>Returns hashcode for this revision</p>
@@ -461,10 +407,6 @@ of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
       </tr>
     </tbody>
   </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><span class="xref">System.Object.GetHashCode()</span></div>
-  
-  
   <a id="PTIRelianceLib_Revlev_Serialize_" data-uid="PTIRelianceLib.Revlev.Serialize*"></a>
   <h4 id="PTIRelianceLib_Revlev_Serialize" data-uid="PTIRelianceLib.Revlev.Serialize">Serialize()</h4>
   <div class="markdown level1 summary"></div>
@@ -489,8 +431,6 @@ of type <span class="xref">System.ArgumentException</span> will be thrown.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_Revlev_ToString_" data-uid="PTIRelianceLib.Revlev.ToString*"></a>
   <h4 id="PTIRelianceLib_Revlev_ToString" data-uid="PTIRelianceLib.Revlev.ToString">ToString()</h4>
   <div class="markdown level1 summary"><p>Returns this object in the format <code>X.X.XX</code>
@@ -518,12 +458,8 @@ will instead be returned.</p>
       </tr>
     </tbody>
   </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><span class="xref">System.Object.ToString()</span></div>
   <h3 id="operators">Operators
   </h3>
-  
-  
   <a id="PTIRelianceLib_Revlev_op_Equality_" data-uid="PTIRelianceLib.Revlev.op_Equality*"></a>
   <h4 id="PTIRelianceLib_Revlev_op_Equality_PTIRelianceLib_Revlev_PTIRelianceLib_Revlev_" data-uid="PTIRelianceLib.Revlev.op_Equality(PTIRelianceLib.Revlev,PTIRelianceLib.Revlev)">Equality(Revlev, Revlev)</h4>
   <div class="markdown level1 summary"><p>Returns true if <code data-dev-comment-type="paramref" class="paramref">r1</code> is == <code data-dev-comment-type="paramref" class="paramref">r2</code></p>
@@ -573,8 +509,6 @@ will instead be returned.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_Revlev_op_GreaterThan_" data-uid="PTIRelianceLib.Revlev.op_GreaterThan*"></a>
   <h4 id="PTIRelianceLib_Revlev_op_GreaterThan_PTIRelianceLib_Revlev_PTIRelianceLib_Revlev_" data-uid="PTIRelianceLib.Revlev.op_GreaterThan(PTIRelianceLib.Revlev,PTIRelianceLib.Revlev)">GreaterThan(Revlev, Revlev)</h4>
   <div class="markdown level1 summary"><p>Returns true if <code data-dev-comment-type="paramref" class="paramref">r1</code> is &gt; <code data-dev-comment-type="paramref" class="paramref">r2</code></p>
@@ -624,8 +558,6 @@ will instead be returned.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_Revlev_op_GreaterThanOrEqual_" data-uid="PTIRelianceLib.Revlev.op_GreaterThanOrEqual*"></a>
   <h4 id="PTIRelianceLib_Revlev_op_GreaterThanOrEqual_PTIRelianceLib_Revlev_PTIRelianceLib_Revlev_" data-uid="PTIRelianceLib.Revlev.op_GreaterThanOrEqual(PTIRelianceLib.Revlev,PTIRelianceLib.Revlev)">GreaterThanOrEqual(Revlev, Revlev)</h4>
   <div class="markdown level1 summary"><p>Returns true if <code data-dev-comment-type="paramref" class="paramref">r1</code> is &gt;= <code data-dev-comment-type="paramref" class="paramref">r2</code></p>
@@ -675,8 +607,6 @@ will instead be returned.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_Revlev_op_Inequality_" data-uid="PTIRelianceLib.Revlev.op_Inequality*"></a>
   <h4 id="PTIRelianceLib_Revlev_op_Inequality_PTIRelianceLib_Revlev_PTIRelianceLib_Revlev_" data-uid="PTIRelianceLib.Revlev.op_Inequality(PTIRelianceLib.Revlev,PTIRelianceLib.Revlev)">Inequality(Revlev, Revlev)</h4>
   <div class="markdown level1 summary"><p>Returns true if <code data-dev-comment-type="paramref" class="paramref">r1</code> is != <code data-dev-comment-type="paramref" class="paramref">r2</code></p>
@@ -726,8 +656,6 @@ will instead be returned.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_Revlev_op_LessThan_" data-uid="PTIRelianceLib.Revlev.op_LessThan*"></a>
   <h4 id="PTIRelianceLib_Revlev_op_LessThan_PTIRelianceLib_Revlev_PTIRelianceLib_Revlev_" data-uid="PTIRelianceLib.Revlev.op_LessThan(PTIRelianceLib.Revlev,PTIRelianceLib.Revlev)">LessThan(Revlev, Revlev)</h4>
   <div class="markdown level1 summary"><p>Returns true if <code data-dev-comment-type="paramref" class="paramref">r1</code> is &lt; <code data-dev-comment-type="paramref" class="paramref">r2</code></p>
@@ -777,8 +705,6 @@ will instead be returned.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_Revlev_op_LessThanOrEqual_" data-uid="PTIRelianceLib.Revlev.op_LessThanOrEqual*"></a>
   <h4 id="PTIRelianceLib_Revlev_op_LessThanOrEqual_PTIRelianceLib_Revlev_PTIRelianceLib_Revlev_" data-uid="PTIRelianceLib.Revlev.op_LessThanOrEqual(PTIRelianceLib.Revlev,PTIRelianceLib.Revlev)">LessThanOrEqual(Revlev, Revlev)</h4>
   <div class="markdown level1 summary"><p>Returns true if <code data-dev-comment-type="paramref" class="paramref">r1</code> is &lt;= <code data-dev-comment-type="paramref" class="paramref">r2</code></p>
@@ -830,20 +756,13 @@ will instead be returned.</p>
   </table>
   <h3 id="implements">Implements</h3>
   <div>
-      <span class="xref">System.IComparable</span>
-  </div>
-  <div>
-      <span class="xref">System.IEquatable&lt;T&gt;</span>
+      <span class="xref">IEquatable&lt;&gt;</span>
   </div>
 </article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                </ul>
-              </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
               <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
               </nav>

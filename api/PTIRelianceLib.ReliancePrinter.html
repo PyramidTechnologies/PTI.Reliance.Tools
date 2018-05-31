@@ -90,42 +90,16 @@ at <a href="mailto:support@pyramidacceptors.com">mailto:support@pyramidacceptors
   <div classs="implements">
     <h5>Implements</h5>
     <div><a class="xref" href="PTIRelianceLib.IPyramidDevice.html">IPyramidDevice</a></div>
-    <div><span class="xref">System.IDisposable</span></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
+    <div><span class="xref">IDisposable</span></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="PTIRelianceLib.html">PTIRelianceLib</a></h6>
   <h6><strong>Assembly</strong>: PTIRelianceLib.dll</h6>
   <h5 id="PTIRelianceLib_ReliancePrinter_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ReliancePrinter : IPyramidDevice, IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class ReliancePrinter : object, IPyramidDevice, IDisposable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
-  
-  
   <a id="PTIRelianceLib_ReliancePrinter__ctor_" data-uid="PTIRelianceLib.ReliancePrinter.#ctor*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter__ctor" data-uid="PTIRelianceLib.ReliancePrinter.#ctor">ReliancePrinter()</h4>
   <div class="markdown level1 summary"><p>Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
@@ -155,15 +129,13 @@ will be thrown.</p>
   </table>
   <h3 id="fields">Fields
   </h3>
-  
-  
   <h4 id="PTIRelianceLib_ReliancePrinter_ProductId" data-uid="PTIRelianceLib.ReliancePrinter.ProductId">ProductId</h4>
   <div class="markdown level1 summary"><p>USB product id for all Reliance USB interfaces</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const int ProductId = 33095</code></pre>
+    <pre><code class="lang-csharp hljs">public const int ProductId = null</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -181,15 +153,13 @@ will be thrown.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <h4 id="PTIRelianceLib_ReliancePrinter_VendorId" data-uid="PTIRelianceLib.ReliancePrinter.VendorId">VendorId</h4>
   <div class="markdown level1 summary"><p>USB vendor id for all Reliance USB interfaces</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public const int VendorId = 1061</code></pre>
+    <pre><code class="lang-csharp hljs">public const int VendorId = null</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -209,8 +179,6 @@ will be thrown.</p>
   </table>
   <h3 id="methods">Methods
   </h3>
-  
-  
   <a id="PTIRelianceLib_ReliancePrinter_Dispose_" data-uid="PTIRelianceLib.ReliancePrinter.Dispose*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_Dispose" data-uid="PTIRelianceLib.ReliancePrinter.Dispose">Dispose()</h4>
   <div class="markdown level1 summary"></div>
@@ -219,8 +187,6 @@ will be thrown.</p>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
   </div>
-  
-  
   <a id="PTIRelianceLib_ReliancePrinter_FlashUpdateTarget_" data-uid="PTIRelianceLib.ReliancePrinter.FlashUpdateTarget*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_FlashUpdateTarget_PTIRelianceLib_BinaryFile_PTIRelianceLib_ProgressMonitor_" data-uid="PTIRelianceLib.ReliancePrinter.FlashUpdateTarget(PTIRelianceLib.BinaryFile,PTIRelianceLib.ProgressMonitor)">FlashUpdateTarget(BinaryFile, ProgressMonitor)</h4>
   <div class="markdown level1 summary"><p>Install the specified firmware <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> on
@@ -280,8 +246,6 @@ This API supports printers with firmware <code>1.22</code> or newer. If you
 have a printer firmware older than <code>1.22</code>, you must use the PC
 version of Reliance Tools to upgrade your firmware.</p>
 </div>
-  
-  
   <a id="PTIRelianceLib_ReliancePrinter_GetFirmwareRevision_" data-uid="PTIRelianceLib.ReliancePrinter.GetFirmwareRevision*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_GetFirmwareRevision" data-uid="PTIRelianceLib.ReliancePrinter.GetFirmwareRevision">GetFirmwareRevision()</h4>
   <div class="markdown level1 summary"><p>Returns the firmware <a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a> of this device.
@@ -309,8 +273,6 @@ If there is an error reading the firmware revision, a Revlev of
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_ReliancePrinter_GetInstalledCodepages_" data-uid="PTIRelianceLib.ReliancePrinter.GetInstalledCodepages*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_GetInstalledCodepages" data-uid="PTIRelianceLib.ReliancePrinter.GetInstalledCodepages">GetInstalledCodepages()</h4>
   <div class="markdown level1 summary"><p>Returns a list of installed codepages. This is a list of
@@ -332,14 +294,12 @@ codepages that are installed may be selected for usage.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.UInt16</span>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.UInt16</span>&gt;</td>
         <td><ul><li>IEnumerable of <code>ushort</code> codepage IDs</li><li>Empty IEnumerable of <code>ushort</code> on error</li></ul>
 </td>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_ReliancePrinter_GetSerialNumber_" data-uid="PTIRelianceLib.ReliancePrinter.GetSerialNumber*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_GetSerialNumber" data-uid="PTIRelianceLib.ReliancePrinter.GetSerialNumber">GetSerialNumber()</h4>
   <div class="markdown level1 summary"><p>Returns the serial number for this device</p>
@@ -365,8 +325,6 @@ codepages that are installed may be selected for usage.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_ReliancePrinter_GetStatus_" data-uid="PTIRelianceLib.ReliancePrinter.GetStatus*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_GetStatus" data-uid="PTIRelianceLib.ReliancePrinter.GetStatus">GetStatus()</h4>
   <div class="markdown level1 summary"><p>Returns the <a class="xref" href="PTIRelianceLib.Status.html">Status</a> for the attached printer. If there
@@ -393,8 +351,6 @@ is no device connected, <code>null</code> will be returned.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_ReliancePrinter_Ping_" data-uid="PTIRelianceLib.ReliancePrinter.Ping*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_Ping" data-uid="PTIRelianceLib.ReliancePrinter.Ping">Ping()</h4>
   <div class="markdown level1 summary"><p>For printers, all comms are halted while printing (with special exception for ESC/POS realtime status).
@@ -424,8 +380,6 @@ assuming the printer is offline.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_ReliancePrinter_ReadConfiguration_" data-uid="PTIRelianceLib.ReliancePrinter.ReadConfiguration*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_ReadConfiguration" data-uid="PTIRelianceLib.ReliancePrinter.ReadConfiguration">ReadConfiguration()</h4>
   <div class="markdown level1 summary"><p>Reads current configuration from this device and returns result
@@ -454,8 +408,6 @@ an empty result via <a class="xref" href="PTIRelianceLib.BinaryFile.html#PTIReli
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_ReliancePrinter_Reboot_" data-uid="PTIRelianceLib.ReliancePrinter.Reboot*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_Reboot" data-uid="PTIRelianceLib.ReliancePrinter.Reboot">Reboot()</h4>
   <div class="markdown level1 summary"><p>For printers, a reboot (and any power up event) will generate a start up ticket that
@@ -503,8 +455,6 @@ means that the USB port entered an unexpected state. If this happens, dispose of
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_ReliancePrinter_SendConfiguration_" data-uid="PTIRelianceLib.ReliancePrinter.SendConfiguration*"></a>
   <h4 id="PTIRelianceLib_ReliancePrinter_SendConfiguration_PTIRelianceLib_BinaryFile_" data-uid="PTIRelianceLib.ReliancePrinter.SendConfiguration(PTIRelianceLib.BinaryFile)">SendConfiguration(BinaryFile)</h4>
   <div class="markdown level1 summary"><p>Parses <code data-dev-comment-type="paramref" class="paramref">config</code> from <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> and
@@ -570,17 +520,13 @@ sends to target printer. <a class="xref" href="PTIRelianceLib.PTIException.html"
       <a class="xref" href="PTIRelianceLib.IPyramidDevice.html">IPyramidDevice</a>
   </div>
   <div>
-      <span class="xref">System.IDisposable</span>
+      <span class="xref">IDisposable</span>
   </div>
 </article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                </ul>
-              </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
               <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
               </nav>

@@ -75,15 +75,9 @@
   </h1>
   <div class="markdown level0 summary"><p><a class="xref" href="PTIRelianceLib.IPyramidDevice.html">IPyramidDevice</a> is a contract defining what actions all Pyramid
 products in this library will support. These devices own their own communication source
-and can be used in MVC binding patterns which is why they are marked <span class="xref">System.IDisposable</span>.</p>
+and can be used in MVC binding patterns which is why they are marked <see cref="!:System.IDisposable"></see>.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.IDisposable.Dispose()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="PTIRelianceLib.html">PTIRelianceLib</a></h6>
   <h6><strong>Assembly</strong>: PTIRelianceLib.dll</h6>
   <h5 id="PTIRelianceLib_IPyramidDevice_syntax">Syntax</h5>
@@ -92,8 +86,6 @@ and can be used in MVC binding patterns which is why they are marked <span class
   </div>
   <h3 id="methods">Methods
   </h3>
-  
-  
   <a id="PTIRelianceLib_IPyramidDevice_FlashUpdateTarget_" data-uid="PTIRelianceLib.IPyramidDevice.FlashUpdateTarget*"></a>
   <h4 id="PTIRelianceLib_IPyramidDevice_FlashUpdateTarget_PTIRelianceLib_BinaryFile_PTIRelianceLib_ProgressMonitor_" data-uid="PTIRelianceLib.IPyramidDevice.FlashUpdateTarget(PTIRelianceLib.BinaryFile,PTIRelianceLib.ProgressMonitor)">FlashUpdateTarget(BinaryFile, ProgressMonitor)</h4>
   <div class="markdown level1 summary"><p>Install the specified firmware <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> on
@@ -146,8 +138,6 @@ provides callbacks for messages, progress, and errors.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_IPyramidDevice_GetFirmwareRevision_" data-uid="PTIRelianceLib.IPyramidDevice.GetFirmwareRevision*"></a>
   <h4 id="PTIRelianceLib_IPyramidDevice_GetFirmwareRevision" data-uid="PTIRelianceLib.IPyramidDevice.GetFirmwareRevision">GetFirmwareRevision()</h4>
   <div class="markdown level1 summary"><p>Returns the firmware <a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a> of this device.
@@ -175,8 +165,6 @@ If there is an error reading the firmware revision, a Revlev of
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_IPyramidDevice_GetSerialNumber_" data-uid="PTIRelianceLib.IPyramidDevice.GetSerialNumber*"></a>
   <h4 id="PTIRelianceLib_IPyramidDevice_GetSerialNumber" data-uid="PTIRelianceLib.IPyramidDevice.GetSerialNumber">GetSerialNumber()</h4>
   <div class="markdown level1 summary"><p>Returns the serial number for this device</p>
@@ -202,8 +190,6 @@ If there is an error reading the firmware revision, a Revlev of
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_IPyramidDevice_Ping_" data-uid="PTIRelianceLib.IPyramidDevice.Ping*"></a>
   <h4 id="PTIRelianceLib_IPyramidDevice_Ping" data-uid="PTIRelianceLib.IPyramidDevice.Ping">Ping()</h4>
   <div class="markdown level1 summary"><p>Ping returns <a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_Okay">Okay</a> if the device is online and not in the middle of critical work.</p>
@@ -229,8 +215,6 @@ If there is an error reading the firmware revision, a Revlev of
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_IPyramidDevice_ReadConfiguration_" data-uid="PTIRelianceLib.IPyramidDevice.ReadConfiguration*"></a>
   <h4 id="PTIRelianceLib_IPyramidDevice_ReadConfiguration" data-uid="PTIRelianceLib.IPyramidDevice.ReadConfiguration">ReadConfiguration()</h4>
   <div class="markdown level1 summary"><p>Reads current configuration from this device and returns result
@@ -259,8 +243,6 @@ an empty result via <a class="xref" href="PTIRelianceLib.BinaryFile.html#PTIReli
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_IPyramidDevice_Reboot_" data-uid="PTIRelianceLib.IPyramidDevice.Reboot*"></a>
   <h4 id="PTIRelianceLib_IPyramidDevice_Reboot" data-uid="PTIRelianceLib.IPyramidDevice.Reboot">Reboot()</h4>
   <div class="markdown level1 summary"><p>Immediately reboots this device, taking care to handle any required port disconnection
@@ -287,8 +269,6 @@ and reconnection details.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_IPyramidDevice_SendConfiguration_" data-uid="PTIRelianceLib.IPyramidDevice.SendConfiguration*"></a>
   <h4 id="PTIRelianceLib_IPyramidDevice_SendConfiguration_PTIRelianceLib_BinaryFile_" data-uid="PTIRelianceLib.IPyramidDevice.SendConfiguration(PTIRelianceLib.BinaryFile)">SendConfiguration(BinaryFile)</h4>
   <div class="markdown level1 summary"><p>Writes the configuration <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> specified by
@@ -345,10 +325,6 @@ a configuration file.</li></ul>
           
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                </ul>
-              </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
               <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
               </nav>

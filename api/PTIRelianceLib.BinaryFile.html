@@ -85,40 +85,14 @@ created, the contents cannot be changed.</p>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">BinaryFile</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="PTIRelianceLib.html">PTIRelianceLib</a></h6>
   <h6><strong>Assembly</strong>: PTIRelianceLib.dll</h6>
   <h5 id="PTIRelianceLib_BinaryFile_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class BinaryFile</code></pre>
+    <pre><code class="lang-csharp hljs">public sealed class BinaryFile : object</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
-  
-  
   <a id="PTIRelianceLib_BinaryFile_Empty_" data-uid="PTIRelianceLib.BinaryFile.Empty*"></a>
   <h4 id="PTIRelianceLib_BinaryFile_Empty" data-uid="PTIRelianceLib.BinaryFile.Empty">Empty</h4>
   <div class="markdown level1 summary"><p>Returns <code>true</code> if this BinaryFile is empty</p>
@@ -144,8 +118,6 @@ created, the contents cannot be changed.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_BinaryFile_Item_" data-uid="PTIRelianceLib.BinaryFile.Item*"></a>
   <h4 id="PTIRelianceLib_BinaryFile_Item_System_Int32_" data-uid="PTIRelianceLib.BinaryFile.Item(System.Int32)">Item[Int32]</h4>
   <div class="markdown level1 summary"><p>Read-only indexer</p>
@@ -189,8 +161,6 @@ created, the contents cannot be changed.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_BinaryFile_Length_" data-uid="PTIRelianceLib.BinaryFile.Length*"></a>
   <h4 id="PTIRelianceLib_BinaryFile_Length" data-uid="PTIRelianceLib.BinaryFile.Length">Length</h4>
   <div class="markdown level1 summary"><p>Returns the length in bytes of this file</p>
@@ -216,8 +186,6 @@ created, the contents cannot be changed.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_BinaryFile_LongLength_" data-uid="PTIRelianceLib.BinaryFile.LongLength*"></a>
   <h4 id="PTIRelianceLib_BinaryFile_LongLength" data-uid="PTIRelianceLib.BinaryFile.LongLength">LongLength</h4>
   <div class="markdown level1 summary"><p>Returns the length in bytes of this file</p>
@@ -245,8 +213,6 @@ created, the contents cannot be changed.</p>
   </table>
   <h3 id="methods">Methods
   </h3>
-  
-  
   <a id="PTIRelianceLib_BinaryFile_From_" data-uid="PTIRelianceLib.BinaryFile.From*"></a>
   <h4 id="PTIRelianceLib_BinaryFile_From_System_Byte___" data-uid="PTIRelianceLib.BinaryFile.From(System.Byte[])">From(Byte[])</h4>
   <div class="markdown level1 summary"><p>Construct a <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> from a <code data-dev-comment-type="paramref" class="paramref">buffer</code> in memory.</p>
@@ -290,8 +256,6 @@ created, the contents cannot be changed.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_BinaryFile_From_" data-uid="PTIRelianceLib.BinaryFile.From*"></a>
   <h4 id="PTIRelianceLib_BinaryFile_From_System_String_" data-uid="PTIRelianceLib.BinaryFile.From(System.String)">From(String)</h4>
   <div class="markdown level1 summary"><p>Construct a <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> from a physical file location at <code data-dev-comment-type="paramref" class="paramref">path</code>.</p>
@@ -336,8 +300,6 @@ the result will be empty.</p>
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="PTIRelianceLib_BinaryFile_GetData_" data-uid="PTIRelianceLib.BinaryFile.GetData*"></a>
   <h4 id="PTIRelianceLib_BinaryFile_GetData" data-uid="PTIRelianceLib.BinaryFile.GetData">GetData()</h4>
   <div class="markdown level1 summary"><p>Returns a copy of this data</p>
@@ -368,10 +330,6 @@ the result will be empty.</p>
           
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                </ul>
-              </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
               <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
               </nav>
