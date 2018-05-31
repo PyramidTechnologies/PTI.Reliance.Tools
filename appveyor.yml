@@ -45,4 +45,4 @@ on_success:
   - ps: CD _site
   - git add -A 2>&1
   - git commit -m "CI Updates" -q
-  - git push push origin gh-pages -q 2>&1
+  - git push origin gh-pages -q 2>&1

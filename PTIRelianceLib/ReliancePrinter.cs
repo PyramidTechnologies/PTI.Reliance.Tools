@@ -283,9 +283,12 @@ namespace PTIRelianceLib
                 // Close immediately
                 _port = null;
 
+                // Let hardware disconnect and reconnect
+                Thread.Sleep(1000);
+
                 // Try for XX seconds to reconnect
                 var start = DateTime.Now;
-                while ((DateTime.Now - start).TotalMilliseconds < 30000)
+                while ((DateTime.Now - start).TotalMilliseconds < 10000)
                 {
                     Thread.Sleep(250);
 
