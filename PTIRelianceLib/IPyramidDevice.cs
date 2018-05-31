@@ -14,7 +14,7 @@ namespace PTIRelianceLib
     /// <summary>
     /// <see cref="IPyramidDevice"/> is a contract defining what actions all Pyramid
     /// products in this library will support. These devices own their own communication source
-    /// and can be used in MVC binding patterns which is why they are marked <see cref="System.IDisposable"/>.
+    /// and can be used in MVC binding patterns which is why they are marked IDisposable/>.
     /// </summary>
     public interface IPyramidDevice : IDisposable
     {

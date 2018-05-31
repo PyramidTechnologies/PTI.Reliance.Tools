@@ -51,10 +51,10 @@ namespace PTIRelianceLib
         /// format <c>X.X.XX</c>.
         /// The minor and build fields may be omitted. In this case, the values will be set to 0.
         /// If a non-numeric or otheriwse invalid <paramref name="revlev"/> is provided, an exception
-        /// of type <exception cref="ArgumentException"></exception> will be thrown.
+        /// of type ArgumentException will be thrown.
         /// </summary>
         /// <param name="revlev">String of conforming format <c>X.X.XX</c></param>
-        /// <exception cref="ArgumentException">Thrown if any value cannot be parsed as an integer</exception>
+        /// <exception cref="System.ArgumentException">Thrown if any value cannot be parsed as an integer</exception>
         public Revlev(string revlev)
         {
             if (string.IsNullOrEmpty(revlev))
