@@ -83,6 +83,7 @@ namespace PTIRelianceLib
         {
             try
             {
+                _port = null;                
                 _port = new HidPort<ReliancePacket>(_portConfig);
             }
             catch (DllNotFoundException ex)
@@ -99,15 +100,8 @@ namespace PTIRelianceLib
         /// <param name="config">HID library options</param>
         internal ReliancePrinter(HidDeviceConfig config)
         {
-            try
-            {
-                _port = new HidPort<ReliancePacket>(config);
-            }
-            catch (DllNotFoundException ex)
-            {
-                // Re throw as our own exception
-                throw new PTIException("Failed to load HID library: {0}", ex.Message);
-            }
+            _portConfig = config;
+            MakeNewPort();
         }
 
         /// <inheritdoc />
@@ -295,13 +289,13 @@ namespace PTIRelianceLib
                 {
                     Thread.Sleep(250);
                     MakeNewPort();
-                    if (_port.Open())
+                    if (_port?.Open() == true)
                     {
                         break;
                     }
                 }
 
-                return _port.IsOpen ? ReturnCodes.Okay : ReturnCodes.RebootFailure;
+                return _port?.IsOpen == true ? ReturnCodes.Okay : ReturnCodes.RebootFailure;
             }
             catch (Exception e)
             {
