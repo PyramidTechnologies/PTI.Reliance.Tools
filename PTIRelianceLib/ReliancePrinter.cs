@@ -279,9 +279,9 @@ namespace PTIRelianceLib
                 // Close immediately
                 _port.Close();
 
-                // Try for 7 seconds to reconnect
+                // Try for XX seconds to reconnect
                 var start = DateTime.Now;
-                while ((DateTime.Now - start).TotalMilliseconds < 7000)
+                while ((DateTime.Now - start).TotalMilliseconds < 30000)
                 {
                     Thread.Sleep(250);
                     if (_port.Open())
