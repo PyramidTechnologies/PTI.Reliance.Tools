@@ -52,7 +52,7 @@
         ]
       }
     ],
-    "dest": "../docs",	
+    "dest": "_site",	
 	"globalMetadata": {
 	  "_appFaviconPath": "favicon.ico",
 	  "_appLogoPath": "logo.svg",

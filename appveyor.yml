@@ -13,7 +13,6 @@ before_build:
         {
             git checkout $env:APPVEYOR_REPO_BRANCH -q
             choco install docfx -y
-            # choco install nuget.commandline -y
         }
 dotnet_csproj:
   patch: true
@@ -39,8 +38,6 @@ after_build:
   - ps: |
         if(-Not $env:APPVEYOR_PULL_REQUEST_TITLE)
         {
-            # & nuget install docfx.console -Version 2.18.4 -Source https://www.myget.org/F/docfx/api/v3/index.json
-            # & docfx.console.2.18.4\tools\docfx docfx.json
             & docfx docsource\docfx.json
             if ($lastexitcode -ne 0){
               throw [System.Exception] "docfx build failed with exit code $lastexitcode."
