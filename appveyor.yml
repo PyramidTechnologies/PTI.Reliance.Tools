@@ -1,4 +1,4 @@
-version: 0.2.{build}-alpha
+version: 0.2.{build}
 environment:
   op_build_user: "Bert"
   op_build_user_email: "bertbot@pyramidacceptors.com"
