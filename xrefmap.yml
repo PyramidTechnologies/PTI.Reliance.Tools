@@ -682,6 +682,12 @@ references:
   commentId: F:PTIRelianceLib.ReturnCodes.ExecutionFailure
   fullName: PTIRelianceLib.ReturnCodes.ExecutionFailure
   nameWithType: ReturnCodes.ExecutionFailure
+- uid: PTIRelianceLib.ReturnCodes.FailedBootloaderEntry
+  name: FailedBootloaderEntry
+  href: api/PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_FailedBootloaderEntry
+  commentId: F:PTIRelianceLib.ReturnCodes.FailedBootloaderEntry
+  fullName: PTIRelianceLib.ReturnCodes.FailedBootloaderEntry
+  nameWithType: ReturnCodes.FailedBootloaderEntry
 - uid: PTIRelianceLib.ReturnCodes.FlashChecksumMismatch
   name: FlashChecksumMismatch
   href: api/PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_FlashChecksumMismatch
@@ -730,6 +736,12 @@ references:
   commentId: F:PTIRelianceLib.ReturnCodes.OperationAborted
   fullName: PTIRelianceLib.ReturnCodes.OperationAborted
   nameWithType: ReturnCodes.OperationAborted
+- uid: PTIRelianceLib.ReturnCodes.RebootFailure
+  name: RebootFailure
+  href: api/PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_RebootFailure
+  commentId: F:PTIRelianceLib.ReturnCodes.RebootFailure
+  fullName: PTIRelianceLib.ReturnCodes.RebootFailure
+  nameWithType: ReturnCodes.RebootFailure
 - uid: PTIRelianceLib.ReturnCodes.TargetStoppedResponding
   name: TargetStoppedResponding
   href: api/PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_TargetStoppedResponding

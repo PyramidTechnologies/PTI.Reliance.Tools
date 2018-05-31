@@ -110,6 +110,12 @@ from the target indicates failure.</p>
 </td>
       </tr>
       <tr>
+        <td id="PTIRelianceLib_ReturnCodes_FailedBootloaderEntry">FailedBootloaderEntry</td>
+        <td><p>An attmept to enter bootloader mode failed. Reboot the printer
+and try again if you receive this response.</p>
+</td>
+      </tr>
+      <tr>
         <td id="PTIRelianceLib_ReturnCodes_FlashChecksumMismatch">FlashChecksumMismatch</td>
         <td><p>The flash operation completed but the checksum is incorrect. Try
 flash updating again.</p>
@@ -148,6 +154,13 @@ flash updating again.</p>
       <tr>
         <td id="PTIRelianceLib_ReturnCodes_OperationAborted">OperationAborted</td>
         <td><p>Operation was aborted by library due to sanity check failure</p>
+</td>
+      </tr>
+      <tr>
+        <td id="PTIRelianceLib_ReturnCodes_RebootFailure">RebootFailure</td>
+        <td><p>An attempt to reboot the printer resulted in the connection not
+recovering. Try to reconnect to the printer again if you receive
+this response.</p>
 </td>
       </tr>
       <tr>
