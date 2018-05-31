@@ -1,0 +1,610 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ReliancePrinter
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ReliancePrinter
+   ">
+    <meta name="generator" content="docfx 2.36.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="PTIRelianceLib.ReliancePrinter">
+  
+  
+  <h1 id="PTIRelianceLib_ReliancePrinter" data-uid="PTIRelianceLib.ReliancePrinter" class="text-break">Class ReliancePrinter
+  </h1>
+  <div class="markdown level0 summary"><p>Reliance Thermal Printer class provides access access to flash updating, configuration,
+status reporting, and other commands. For best results, we recommend testing against the
+latest available firmware for Reliance.</p>
+<p>Use Reliance Tools for PC to update your printer to the latest firmware through the auto
+update feature. You may also contact our support team to get the latest firmware file
+at <a href="mailto:support@pyramidacceptors.com">mailto:support@pyramidacceptors.com</a></p>
+<p>Reliance Tools for PC <a href="https://pyramidacceptors.com/app/reliance-tools/">https://pyramidacceptors.com/app/reliance-tools/</a></p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">ReliancePrinter</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="PTIRelianceLib.IPyramidDevice.html">IPyramidDevice</a></div>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="PTIRelianceLib.html">PTIRelianceLib</a></h6>
+  <h6><strong>Assembly</strong>: PTIRelianceLib.dll</h6>
+  <h5 id="PTIRelianceLib_ReliancePrinter_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ReliancePrinter : IPyramidDevice, IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter__ctor_" data-uid="PTIRelianceLib.ReliancePrinter.#ctor*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter__ctor" data-uid="PTIRelianceLib.ReliancePrinter.#ctor">ReliancePrinter()</h4>
+  <div class="markdown level1 summary"><p>Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
+or one of its depencies cannot be found or loaded, <a class="xref" href="PTIRelianceLib.PTIException.html">PTIException</a>
+will be thrown.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReliancePrinter()</code></pre>
+  </div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.PTIException.html">PTIException</a></td>
+        <td><p>Thrown if native HID library cannot be loaded</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="PTIRelianceLib_ReliancePrinter_ProductId" data-uid="PTIRelianceLib.ReliancePrinter.ProductId">ProductId</h4>
+  <div class="markdown level1 summary"><p>USB product id for all Reliance USB interfaces</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int ProductId = 33095</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>USB PID</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="PTIRelianceLib_ReliancePrinter_VendorId" data-uid="PTIRelianceLib.ReliancePrinter.VendorId">VendorId</h4>
+  <div class="markdown level1 summary"><p>USB vendor id for all Reliance USB interfaces</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int VendorId = 1061</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>USB VID</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter_Dispose_" data-uid="PTIRelianceLib.ReliancePrinter.Dispose*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter_Dispose" data-uid="PTIRelianceLib.ReliancePrinter.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter_FlashUpdateTarget_" data-uid="PTIRelianceLib.ReliancePrinter.FlashUpdateTarget*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter_FlashUpdateTarget_PTIRelianceLib_BinaryFile_PTIRelianceLib_ProgressMonitor_" data-uid="PTIRelianceLib.ReliancePrinter.FlashUpdateTarget(PTIRelianceLib.BinaryFile,PTIRelianceLib.ProgressMonitor)">FlashUpdateTarget(BinaryFile, ProgressMonitor)</h4>
+  <div class="markdown level1 summary"><p>Install the specified firmware <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> on
+this device. With few exceptions, most any firmware can be installed
+using this method. The <code data-dev-comment-type="paramref" class="paramref">reporter</code> <a class="xref" href="PTIRelianceLib.ProgressMonitor.html">ProgressMonitor</a>
+provides callbacks for messages, progress, and errors.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a></td>
+        <td><span class="parametername">firmware</span></td>
+        <td><p>Firmware image data</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.ProgressMonitor.html">ProgressMonitor</a></td>
+        <td><span class="parametername">reporter</span></td>
+        <td><p>Progress callback instance</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a></td>
+        <td><ul><li><a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_Okay">Okay</a> when update is successful</li><li><a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_FlashInstalledFwNotSupported">FlashInstalledFwNotSupported</a> if your
+ printer has too old of firmware.</li><li>Another <a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a> if update fails</li></ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="PTIRelianceLib_ReliancePrinter_FlashUpdateTarget_PTIRelianceLib_BinaryFile_PTIRelianceLib_ProgressMonitor__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Updates target Reliance Thermal printer with this firmware.
+This API supports printers with firmware <code>1.22</code> or newer. If you
+have a printer firmware older than <code>1.22</code>, you must use the PC
+version of Reliance Tools to upgrade your firmware.</p>
+</div>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter_GetFirmwareRevision_" data-uid="PTIRelianceLib.ReliancePrinter.GetFirmwareRevision*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter_GetFirmwareRevision" data-uid="PTIRelianceLib.ReliancePrinter.GetFirmwareRevision">GetFirmwareRevision()</h4>
+  <div class="markdown level1 summary"><p>Returns the firmware <a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a> of this device.
+If there is an error reading the firmware revision, a Revlev of
+<code>0.0.0</code> will instead be returned.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Revlev GetFirmwareRevision()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.Revlev.html">Revlev</a></td>
+        <td><p>Revision</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter_GetInstalledCodepages_" data-uid="PTIRelianceLib.ReliancePrinter.GetInstalledCodepages*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter_GetInstalledCodepages" data-uid="PTIRelianceLib.ReliancePrinter.GetInstalledCodepages">GetInstalledCodepages()</h4>
+  <div class="markdown level1 summary"><p>Returns a list of installed codepages. This is a list of
+codepage ids that are installed on the target printer. Only
+codepages that are installed may be selected for usage.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;ushort&gt; GetInstalledCodepages()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.UInt16</span>&gt;</td>
+        <td><ul><li>IEnumerable of <code>ushort</code> codepage IDs</li><li>Empty IEnumerable of <code>ushort</code> on error</li></ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter_GetSerialNumber_" data-uid="PTIRelianceLib.ReliancePrinter.GetSerialNumber*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter_GetSerialNumber" data-uid="PTIRelianceLib.ReliancePrinter.GetSerialNumber">GetSerialNumber()</h4>
+  <div class="markdown level1 summary"><p>Returns the serial number for this device</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetSerialNumber()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><ul><li>9-digit serial number string when successful</li><li>An empty string on failure</li></ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter_GetStatus_" data-uid="PTIRelianceLib.ReliancePrinter.GetStatus*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter_GetStatus" data-uid="PTIRelianceLib.ReliancePrinter.GetStatus">GetStatus()</h4>
+  <div class="markdown level1 summary"><p>Returns the <a class="xref" href="PTIRelianceLib.Status.html">Status</a> for the attached printer. If there
+is no device connected, <code>null</code> will be returned.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Status GetStatus()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.Status.html">Status</a></td>
+        <td><p>Status object or <code>null</code> if no connection or error</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter_Ping_" data-uid="PTIRelianceLib.ReliancePrinter.Ping*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter_Ping" data-uid="PTIRelianceLib.ReliancePrinter.Ping">Ping()</h4>
+  <div class="markdown level1 summary"><p>For printers, all comms are halted while printing (with special exception for ESC/POS realtime status).
+If <a class="xref" href="PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_Ping">Ping()</a> is called during a print, this will block for a small period
+of time and then return unsuccessfully. The resulting ReturnCode will be
+<a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_ExecutionFailure">ExecutionFailure</a>. It is recommended to try this method multiple times before
+assuming the printer is offline.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReturnCodes Ping()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a></td>
+        <td><ul><li><a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_Okay">Okay</a> when device is online and ready</li><li><a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_ExecutionFailure">ExecutionFailure</a> if device is offline or busy</li></ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter_ReadConfiguration_" data-uid="PTIRelianceLib.ReliancePrinter.ReadConfiguration*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter_ReadConfiguration" data-uid="PTIRelianceLib.ReliancePrinter.ReadConfiguration">ReadConfiguration()</h4>
+  <div class="markdown level1 summary"><p>Reads current configuration from this device and returns result
+as a JSON <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> If there is an error reading the
+configuration, an empty <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> is returned. You can check for
+an empty result via <a class="xref" href="PTIRelianceLib.BinaryFile.html#PTIRelianceLib_BinaryFile_Empty">Empty</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BinaryFile ReadConfiguration()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a></td>
+        <td><p>BinaryFile</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter_Reboot_" data-uid="PTIRelianceLib.ReliancePrinter.Reboot*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter_Reboot" data-uid="PTIRelianceLib.ReliancePrinter.Reboot">Reboot()</h4>
+  <div class="markdown level1 summary"><p>For printers, a reboot (and any power up event) will generate a start up ticket that
+calibrates the paper path. Rebooting the printer remotely will cause a paper feed
+and leave this ticket at the front bezel. If you have auto-retract enabled, the ticket
+will be get pulled back into the kiosk for disposal after a period of time. An exception
+of type <a class="xref" href="PTIRelianceLib.PTIException.html">PTIException</a> may be raised if there is an error during reboot.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReturnCodes Reboot()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a></td>
+        <td><ul><li><a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_Okay">Okay</a> when update is successful</li><li>Other <a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a> if update fails</li></ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.PTIException.html">PTIException</a></td>
+        <td><p>Raised if there is an unrecoverable issue during the reboot operation. This usually
+means that the USB port entered an unexpected state. If this happens, dispose of this ReliancePrinter
+(e.g. dispose) and then try again.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="PTIRelianceLib_ReliancePrinter_SendConfiguration_" data-uid="PTIRelianceLib.ReliancePrinter.SendConfiguration*"></a>
+  <h4 id="PTIRelianceLib_ReliancePrinter_SendConfiguration_PTIRelianceLib_BinaryFile_" data-uid="PTIRelianceLib.ReliancePrinter.SendConfiguration(PTIRelianceLib.BinaryFile)">SendConfiguration(BinaryFile)</h4>
+  <div class="markdown level1 summary"><p>Parses <code data-dev-comment-type="paramref" class="paramref">config</code> from <a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a> and
+sends to target printer. <a class="xref" href="PTIRelianceLib.PTIException.html">PTIException</a> is thrown if config file cannot be parsed</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ReturnCodes SendConfiguration(BinaryFile config)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.BinaryFile.html">BinaryFile</a></td>
+        <td><span class="parametername">config</span></td>
+        <td><p>Configuration to send</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a></td>
+        <td><ul><li><a class="xref" href="PTIRelianceLib.ReturnCodes.html#PTIRelianceLib_ReturnCodes_Okay">Okay</a> when configuration is successful</li><li>Other <a class="xref" href="PTIRelianceLib.ReturnCodes.html">ReturnCodes</a> if configuration fails</li></ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="PTIRelianceLib.PTIException.html">PTIException</a></td>
+        <td><p>Thrown if config file cannot be parsed</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="PTIRelianceLib.IPyramidDevice.html">IPyramidDevice</a>
+  </div>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
