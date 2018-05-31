@@ -36,8 +36,8 @@ on_success:
   - git config --global core.autocrlf true
   - git config --global credential.helper store
   - ps: Add-Content "$HOME\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
-  - git config --global user.email "Bert Bot"
-  - git config --global user.name "bertbot@pyramidacceptors.com"
+  - git config --global user.name "Bert Bot"
+  - git config --global user.email "bertbot@pyramidacceptors.com"
   - git clone https://github.com/PyramidTechnologies/PTI.Reliance.Tools.git -b gh-pages _site -q
   - ps: docfx docsource\docfx.json
   - ps: CD _site
