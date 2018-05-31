@@ -55,7 +55,8 @@
     "dest": "../docs",	
 	"globalMetadata": {
 	  "_appFaviconPath": "favicon.ico",
-	  "_appLogoPath": "logo.svg"
+	  "_appLogoPath": "logo.svg",
+	  "_disableContribution": "false",
 	},
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
