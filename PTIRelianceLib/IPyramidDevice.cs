@@ -55,6 +55,9 @@ namespace PTIRelianceLib
         /// as a JSON <see cref="BinaryFile"/> If there is an error reading the
         /// configuration, an empty <see cref="BinaryFile"/> is returned. You can check for
         /// an empty result via <see cref="BinaryFile.Empty"/>.
+        ///
+        /// A configuration is a JSON formatted file that contains settings like baud
+        /// rate, paper width, and print quality.
         /// </summary>
         /// <returns>BinaryFile</returns>
         BinaryFile ReadConfiguration();
