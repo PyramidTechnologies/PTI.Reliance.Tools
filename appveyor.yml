@@ -41,8 +41,7 @@ after_build:
             & docfx docsource\docfx.json
             if ($lastexitcode -ne 0){
               throw [System.Exception] "docfx build failed with exit code $lastexitcode."
-            }
-            
+            }            
             git config --global core.autocrlf true
             git config --global credential.helper store
             Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
