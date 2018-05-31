@@ -290,7 +290,7 @@ namespace PTIRelianceLib
                     }
                 }
 
-                return _port.IsOpen ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+                return _port.IsOpen ? ReturnCodes.Okay : ReturnCodes.RebootFailure;
             }
             catch (Exception e)
             {
@@ -376,7 +376,7 @@ namespace PTIRelianceLib
             }
 
             var resp = Write(RelianceCommands.SetBootMode, 0x21);
-            return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.ExecutionFailure : Reboot();
+            return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.FailedBootloaderEntry : Reboot();
         }
 
         /// <summary>
