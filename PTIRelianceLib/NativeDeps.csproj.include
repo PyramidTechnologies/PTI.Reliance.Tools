@@ -8,7 +8,7 @@
 	<NativeDependenciesConfiguration>x86</NativeDependenciesConfiguration>
   </PropertyGroup >
   <PropertyGroup Condition=" '$(NativeDependenciesConfiguration)' == '' ">
-    <NativeDependenciesConfiguration>UNSUPPORTED_PLATFORM</NativeDependenciesConfiguration>		
+    <NativeDependenciesConfiguration>MUST_SET_PLATFORM_TO_X86_OR_X64</NativeDependenciesConfiguration>		
   </PropertyGroup>  
 
   <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
@@ -18,7 +18,7 @@
     <NativeDepsPlatform>linux</NativeDepsPlatform>		
   </PropertyGroup>
   <PropertyGroup Condition=" '$(NativeDepsPlatform)' == '' ">
-    <NativeDepsPlatform>UNSUPPORTED_OS</NativeDepsPlatform>		
+    <NativeDepsPlatform>YOUR_OS_IS_NOT_SUPPORTED</NativeDepsPlatform>		
   </PropertyGroup>
 
   <Import Project="NativeDeps.$(NativeDepsPlatform).csproj.include" />
