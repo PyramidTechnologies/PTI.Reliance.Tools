@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PTIRelianceLib" Version="0.2.6-alpha" />
+    <PackageReference Include="PTIRelianceLib" Version="0.2.10-alpha" />
   </ItemGroup>
 
 </Project>

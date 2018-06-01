@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "buildForDebug",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "command": "./scripts/dockerTask.sh buildForDebug",
+            "presentation" : { "reveal": "always" },            
+            "problemMatcher": []
+        },
+        {
+            "label": "buildForDebug",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "command": "./scripts/dockerTask.sh cleanup",
+            "presentation" : { "reveal": "always" },            
+            "problemMatcher": []
+        }
+    ]
+}

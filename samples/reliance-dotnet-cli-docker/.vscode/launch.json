@@ -1,0 +1,40 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Docker Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildForDebug",
+            "program": "/app/out/reliance-dotnet-cli-docker.dll",
+            "cwd": "/app/out",
+            "sourceFileMap": {
+                "/app": "${workspaceRoot}/src"
+            },
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeCwd": "${workspaceRoot}",
+                "pipeArgs": [
+                    "exec -i docker.dotnet.debug_1"
+                ],
+                "quoteArgs": false,
+                "debuggerPath": "/vsdbg/vsdbg"
+            },
+            "symbolOptions": {
+                "searchPaths": [
+		            "https://nuget.smbsrc.net",
+                    "http://referencesource.microsoft.com/symbols",
+                    "http://srv.symbolsource.org/pdb/Public",
+                    "http://srv.symbolsource.org/pdb/MyGet",
+                    "http://msdl.microsoft.com/download/symbols",
+                    "/app/out/"
+                ],
+                "searchMicrosoftSymbolServer": true,
+                "cachePath": "/symcache"
+            },
+            "sourceLinkOptions": {
+                "https://raw.githubusercontent.com/*": { "enabled": true }
+            }
+        }
+    ]
+}
