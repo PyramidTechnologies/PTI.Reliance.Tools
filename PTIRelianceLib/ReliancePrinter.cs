@@ -79,11 +79,12 @@ namespace PTIRelianceLib
             MakeNewPort();
         }
 
-        private void MakeNewPort()
+        private IPort<IPacket> MakeNewPort()
         {
             try
             {
-                _port = null;                
+                _port = null;         
+                Thread.Sleep(1000);
                 _port = new HidPort<ReliancePacket>(_portConfig);
             }
             catch (DllNotFoundException ex)
@@ -91,6 +92,8 @@ namespace PTIRelianceLib
                 // Re throw as our own exception
                 throw new PTIException("Failed to load HID library: {0}", ex.Message);
             }
+
+            return _port;
         }
 
         /// <summary>
@@ -177,13 +180,19 @@ namespace PTIRelianceLib
             {
                 Reporter = reporter,
                 FileType = FileTypes.Base,
+                RecoverConnection = MakeNewPort,
                 RunBefore = new List<Func<ReturnCodes>> { EnterBootloader },
                 RunAfter = new List<Func<ReturnCodes>> {  Reboot }
             };
 
             try
             {
-                return updater.ExecuteUpdate();
+                var resp = updater.ExecuteUpdate();
+
+                // Make sure port is in a usuable state
+                MakeNewPort();
+
+                return resp;
             }
             catch (PTIException e)
             {

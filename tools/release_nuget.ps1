@@ -1,5 +1,5 @@
 del PTIRelianceLib\build\*.nupkg
-dotnet pack -c Debug -o build /p:Platform=x64 --include-symbols --include-source PTIRelianceLib\PTIRelianceLib.csproj
+dotnet pack -c Debug -o ..\build /p:Platform=x64 --include-symbols --include-source PTIRelianceLib\PTIRelianceLib.csproj
 
 # Either myself or nuget are too stupid to figure out how to easily push my package + symbols
 # List the files in PTIRelianceLib\build, there should be exactly two.
