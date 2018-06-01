@@ -18,6 +18,7 @@ namespace PTIRelianceLib
     /// can be compared using fluent comparison operations such as Equals,
     /// Less Than, Greater Than, etc. Older firmware is considerd "less than" newer
     /// firmware using semantic versioning rules.
+    /// 0.0.0 is an invalid firmware revision and is used as the detaul "invalid" revision.
     /// </summary>
     public class Revlev : IComparable, IParseable, IEquatable<Revlev>
     {
