@@ -84,7 +84,6 @@ namespace PTIRelianceLib
             try
             {
                 _port = null;         
-                Thread.Sleep(1000);
                 _port = new HidPort<ReliancePacket>(_portConfig);
             }
             catch (DllNotFoundException ex)
@@ -291,9 +290,6 @@ namespace PTIRelianceLib
 
                 // Close immediately
                 _port = null;
-
-                // Let hardware disconnect and reconnect
-                Thread.Sleep(1000);
 
                 // Try for XX seconds to reconnect
                 var start = DateTime.Now;

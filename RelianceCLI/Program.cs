@@ -119,6 +119,12 @@ namespace RelianceCLI
 
                 }
             }
+
+            using (var printer = new ReliancePrinter())
+            {
+                Console.WriteLine("Printer is {0}", printer.Ping() == ReturnCodes.Okay ? "Attached" : "Detached");
+            }
+
         }
 
         private struct Options
