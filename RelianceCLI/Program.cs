@@ -5,12 +5,16 @@ using PTIRelianceLib;
 namespace RelianceCLI
 {
     using System.IO;
+    using System.Threading;
     using PTIRelianceLib.Protocol;
 
     internal class Program
     {
         private static void Main(string[] args)
         {
+            // Github issue dotnet/corefx#23608
+            new ArgumentException();
+
             var opts = Options.Parse(args);
 
             if (opts.Okay)
@@ -47,6 +51,11 @@ namespace RelianceCLI
             {
                 var ping = printer.Ping();
                 Console.WriteLine("Ping: {0}", ping);
+
+                if (opts.Reboot)
+                {
+                    Console.WriteLine("Reboot: {0}", printer.Reboot());
+                }
 
                 if (opts.GetRevlev)
                 {
@@ -119,12 +128,6 @@ namespace RelianceCLI
 
                 }
             }
-
-            using (var printer = new ReliancePrinter())
-            {
-                Console.WriteLine("Printer is {0}", printer.Ping() == ReturnCodes.Okay ? "Attached" : "Detached");
-            }
-
         }
 
         private struct Options
@@ -136,6 +139,8 @@ namespace RelianceCLI
             public string FirmwareFilePath;
 
             public string ConfigFilePath;
+
+            public bool Reboot;
 
             public bool GetRevlev;
 
@@ -160,6 +165,10 @@ namespace RelianceCLI
                     {
                         switch (str)
                         {
+                            case "-p":
+                            case "--power":
+                                opts.Reboot = true;
+                                break;
                             case "-f":
                             case "--firmware":
                                 nextCapture = s => opts.FirmwareFilePath = s;
@@ -215,7 +224,8 @@ namespace RelianceCLI
                        "\t-g,--get-config\t\tPath to file current config will be written to\n" +
                        "FLAGS\n" +
                        "\t-r,--revision\t\tRead and display printer firmware revision\n" +
-                       "\t-s,--status\t\tRead and display printer status\n";
+                       "\t-s,--status\t\tRead and display printer status\n" +
+                       "\t-p,--power\t\tReboot printer immediately\n";
             }
         }
     }

@@ -29,8 +29,17 @@
                     "http://referencesource.microsoft.com/symbols",
                     "http://srv.symbolsource.org/pdb/Public",
                     "http://srv.symbolsource.org/pdb/MyGet",
-                    "http://msdl.microsoft.com/download/symbols",
+                    "http://msdl.microsoft.com/download/symbols",                    
                 ], 
+                "moduleFilter": {
+                    "mode": "loadAllButExcluded",
+                    "excludedModules": [
+                        "System.Private.CoreLib.dll", 
+                        "System.Runtime.InteropServices.dll",
+                        "System.Runtime.InteropServices.dll",
+                        "System.Console.dll"
+                    ]
+                },
                 "cachePath": "/symcache",                
             }
         }

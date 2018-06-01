@@ -35,7 +35,7 @@
             "options": {
                 "cwd": "${workspaceRoot}"
             },
-            "command": "./scripts/dockerTask.sh interactice",
+            "command": "./scripts/dockerTask.sh interactive",
             "presentation": {
                 "reveal": "always"
             },
