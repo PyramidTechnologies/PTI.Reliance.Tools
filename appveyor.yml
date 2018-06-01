@@ -24,9 +24,9 @@ nuget:
   account_feed: false
   project_feed: false
 build_script:
-- cmd: tools\build_project.ps1
+- cmd: .\tools\build_project.ps1
 test_script:
-- ps: tools\run_tests.ps1
+- ps: .\tools\run_tests.ps1
 artifacts:
 - path: PTIRelianceLib/build
   name: /PTIRelianceLib/build/.*\.nupkg/
