@@ -24,7 +24,7 @@ nuget:
   account_feed: false
   project_feed: false
 build_script:
-- cmd: ps1\build_project.ps1
+- cmd: tools\build_project.ps1
 test_script:
 - ps: tools\run_tests.ps1
 artifacts:
