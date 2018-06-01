@@ -39,6 +39,6 @@ on_success:
   - git clone https://github.com/PyramidTechnologies/PTI.Reliance.Tools.git -b gh-pages _site -q
   - ps: docfx docsource\docfx.json
   - ps: CD _site
-  - git add -A 2>&1
-  - git commit -m "CI Updates" -q 2>&1
-  - git push origin gh-pages -q 2>&1
+  - git add -A 2>&1 & 0
+  - git commit -m "CI Updates" -q 2>&1 & 0
+  - git push origin gh-pages -q 2>&1 & 0
