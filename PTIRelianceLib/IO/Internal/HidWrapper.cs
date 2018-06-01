@@ -24,7 +24,10 @@ namespace PTIRelianceLib.IO.Internal
         public HidWrapper(HidDeviceConfig config)
         {
             // Setup HIDAPI structures
-            config.NativeHid.Init();
+            if (config.NativeHid.Init() != 0)
+            {
+                CheckError();
+            }
 
             Device = HidDevice.Invalid();
             _deviceConfig = config;

@@ -14,8 +14,14 @@ namespace PTIRelianceLib
     using System.Runtime.InteropServices;
     using IO.Internal;
 
-    internal class NativeMethods : INativeMethods
+    /// <summary>
+    /// NativeMethods is a globally and instance synchronized interface to the native HID library
+    /// </summary>
+    internal sealed class NativeMethods : INativeMethods
     {
+        private static readonly object GlobalLock = new object();
+        private readonly object _instanceLock = new object();
+
         /// <summary>
         /// Interal device info enumeration
         /// </summary>
@@ -43,7 +49,12 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public string Error(HidDevice device)
         {
-            return !device.IsValid ? "PTIRelianceLib: Invalid device handle" : Marshal.PtrToStringUni(_HidError(device.Handle));
+            lock (GlobalLock)
+            {
+                return !device.IsValid
+                    ? "PTIRelianceLib: Invalid device handle"
+                    : Marshal.PtrToStringUni(_HidError(device.Handle));
+            }
         }
 
         /// <summary>
@@ -63,7 +74,10 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public int Init()
         {
-            return _HidInit();
+            lock (GlobalLock)
+            {
+                return _HidInit();
+            }
         }
 
         /// <summary>
@@ -81,39 +95,42 @@ namespace PTIRelianceLib
         internal static extern IntPtr _HidEnumerate(ushort vid, ushort pid);
         public IEnumerable<HidDeviceInfo> Enumerate(ushort vid, ushort pid)
         {
-            var enumerated = _HidEnumerate(vid, pid);
-            if (enumerated == IntPtr.Zero)
+            lock (GlobalLock)
             {
-                return Enumerable.Empty<HidDeviceInfo>();
-            }
-
-            var result = new List<HidDeviceInfo>();
-
-            var current = enumerated;
-            while (current != IntPtr.Zero)
-            {
-                var devinfo = (PrivateHidDeviceInfo)Marshal.PtrToStructure(enumerated,
-                    typeof(PrivateHidDeviceInfo));
-
-                result.Add(new HidDeviceInfo
+                var enumerated = _HidEnumerate(vid, pid);
+                if (enumerated == IntPtr.Zero)
                 {
-                    Path = devinfo.Path,
-                    VendorId = devinfo.VendorId,
-                    ProductId = devinfo.ProductId,
-                    SerialNumber = devinfo.SerialNumber,
-                    ReleaseNumber = devinfo.ReleaseNumber,
-                    ManufacturerString = devinfo.ManufacturerString,
-                    ProductString = devinfo.ProductString,
-                    UsagePage = devinfo.UsagePage,
-                    Usage = devinfo.Usage,
-                    InterfaceNumber = devinfo.InterfaceNumber
-                });
+                    return Enumerable.Empty<HidDeviceInfo>();
+                }
 
-                current = devinfo.Next;
+                var result = new List<HidDeviceInfo>();
+
+                var current = enumerated;
+                while (current != IntPtr.Zero)
+                {
+                    var devinfo = (PrivateHidDeviceInfo) Marshal.PtrToStructure(enumerated,
+                        typeof(PrivateHidDeviceInfo));
+
+                    result.Add(new HidDeviceInfo
+                    {
+                        Path = devinfo.Path,
+                        VendorId = devinfo.VendorId,
+                        ProductId = devinfo.ProductId,
+                        SerialNumber = devinfo.SerialNumber,
+                        ReleaseNumber = devinfo.ReleaseNumber,
+                        ManufacturerString = devinfo.ManufacturerString,
+                        ProductString = devinfo.ProductString,
+                        UsagePage = devinfo.UsagePage,
+                        Usage = devinfo.Usage,
+                        InterfaceNumber = devinfo.InterfaceNumber
+                    });
+
+                    current = devinfo.Next;
+                }
+
+                _HidFreeEnumerate(enumerated);
+                return result;
             }
-
-            _HidFreeEnumerate(enumerated);
-            return result;
         }
 
         /// <summary>
@@ -133,8 +150,11 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public HidDevice OpenPath(string devicePath)
         {
-            var handle = _HidOpenPath(devicePath);
-            return new HidDevice(handle);
+            lock (GlobalLock)
+            {
+                var handle = _HidOpenPath(devicePath);
+                return new HidDevice(handle);
+            }
         }
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_close")]
@@ -143,13 +163,16 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public void Close(HidDevice device)
         {
-            try
+            lock (GlobalLock)
             {
-                _HidClose(device.Handle);
-            }
-            catch (SEHException ex)
-            {
-                throw new PTIException("Failed to close HID handle: {0}", ex.Message);
+                try
+                {
+                    _HidClose(device.Handle);
+                }
+                catch (SEHException ex)
+                {
+                    throw new PTIException("Failed to close HID handle: {0}", ex.Message);
+                }
             }
         }
 
@@ -159,7 +182,10 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public int Read(HidDevice device, byte[] data, UIntPtr length, int timeout)
         {
-            return _HidRead(device.Handle, data, length, timeout);
+            lock (_instanceLock)
+            {
+                return _HidRead(device.Handle, data, length, timeout);
+            }
         }
 
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_write")]
@@ -168,12 +194,18 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public int Write(HidDevice device, byte[] data, UIntPtr length)
         {
-            return _HidWrite(device.Handle, data, length);
+            lock (_instanceLock)
+            {
+                return _HidWrite(device.Handle, data, length);
+            }
         }
 
         public void Dispose()
         {
-            _HidExit();
+            lock (GlobalLock)
+            {
+                _HidExit();
+            }
         }
     }
 }
