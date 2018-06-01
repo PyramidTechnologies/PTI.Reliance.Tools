@@ -11,3 +11,6 @@ dotnet pack -c Debug -o $path /p:Platform=x64 --include-symbols --include-source
 Get-ChildItem $path -recurse | where {$_.name -notlike "*symbols*"} | % {
 	nuget push $_.FullName -Source https://api.nuget.org/v3/index.json
 }
+Get-ChildItem $path -recurse | where {$_.name -like "*symbols*"} | % {
+	nuget push $_.FullName -source https://nuget.smbsrc.net/
+}
