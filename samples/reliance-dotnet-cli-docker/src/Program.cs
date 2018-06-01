@@ -124,7 +124,7 @@ namespace RelianceCLI
                     Console.WriteLine("Has Paper? :{0}", status.SensorStatus.HasFlag(SensorStatuses.Path));
 
                 }
-            
+            }
         }
 
         private struct Options
