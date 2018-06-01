@@ -1,1 +1,0 @@
-dotnet build -c Release /property:Platform=X64
