@@ -44,7 +44,17 @@ runContainer () {
     if [[ -z $(docker images -q $imageName) ]]; then
         echo "Couldn not find an image named $imageName"
     else
-        docker run -d --name $containerName $imageName
+        docker run --privileged -v ~/.nuget/packages:/root/.nuget/packages:ro -v /dev/bus/usb:/dev/bus/usb  -d --name $containerName $imageName
+    fi
+}
+
+# Runs a new container
+runContainerPrivileged () {
+    echo "Running a new container $containerName"
+    if [[ -z $(docker images -q $imageName) ]]; then
+        echo "Couldn not find an image named $imageName"
+    else
+        docker run --rm -it --privileged -v ~/.nuget/packages:/root/.nuget/packages:ro  -v /dev/bus/usb:/dev/bus/usb -d --name $containerName $imageName
     fi
 }
 
@@ -72,10 +82,15 @@ else
             killContainers
             removeImage
             ;;
-    "buildForDebug")
+    "buildForDebug")            
             killContainers
             buildImage
-            runContainer
+            runContainer            
+            ;;
+    "interactive")            
+            killContainers
+            buildImage               
+            runContainerPrivileged
             ;;
     *)
             showUsage

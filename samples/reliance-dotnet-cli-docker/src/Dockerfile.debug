@@ -14,10 +14,9 @@ COPY nuget.config ./
 COPY *.csproj /app
 RUN dotnet restore --configfile nuget.config
 
-COPY . /app
+COPY *.cs /app/
 RUN dotnet publish -c Debug /p:Platform=x64 -o out
 COPY reliance_1.27.171.ptix /app/out/
-COPY *.pdb /app/out/
 
 # Kick off a container just to wait debugger to attach and run the app
 ENTRYPOINT ["/bin/bash", "-c", "sleep infinity"]

@@ -8,8 +8,14 @@
                 "cwd": "${workspaceRoot}"
             },
             "command": "./scripts/dockerTask.sh buildForDebug",
-            "presentation" : { "reveal": "always" },            
-            "problemMatcher": []
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }        
         },
         {
             "label": "buildForDebug",
@@ -18,8 +24,22 @@
                 "cwd": "${workspaceRoot}"
             },
             "command": "./scripts/dockerTask.sh cleanup",
-            "presentation" : { "reveal": "always" },            
-            "problemMatcher": []
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "interactive",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "command": "./scripts/dockerTask.sh interactice",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": [],
         }
     ]
 }

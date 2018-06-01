@@ -7,33 +7,31 @@
             "request": "launch",
             "preLaunchTask": "buildForDebug",
             "program": "/app/out/reliance-dotnet-cli-docker.dll",
+            "args": ["-r","-f","/app/out/reliance_1.27.171.ptix"],
             "cwd": "/app/out",
+            "justMyCode": false,
             "sourceFileMap": {
-                "/app": "${workspaceRoot}/src"
+                "/app": "${workspaceRoot}/src",
+                "F:\\code\\dotnet\\PTIReliance\\PTIRelianceLib":"${workspaceRoot}/../../PTIRelianceLib"
             },
             "pipeTransport": {
                 "pipeProgram": "docker",
                 "pipeCwd": "${workspaceRoot}",
                 "pipeArgs": [
-                    "exec -i docker.dotnet.debug_1"
+                    "exec --privileged -i docker.dotnet.debug_1"
                 ],
                 "quoteArgs": false,
-                "debuggerPath": "/vsdbg/vsdbg"
+                "debuggerPath": "/vsdbg/vsdbg",            
             },
             "symbolOptions": {
                 "searchPaths": [
-		            "https://nuget.smbsrc.net",
+                    "https://nuget.smbsrc.net/",
                     "http://referencesource.microsoft.com/symbols",
                     "http://srv.symbolsource.org/pdb/Public",
                     "http://srv.symbolsource.org/pdb/MyGet",
                     "http://msdl.microsoft.com/download/symbols",
-                    "/app/out/"
-                ],
-                "searchMicrosoftSymbolServer": true,
-                "cachePath": "/symcache"
-            },
-            "sourceLinkOptions": {
-                "https://raw.githubusercontent.com/*": { "enabled": true }
+                ], 
+                "cachePath": "/symcache",                
             }
         }
     ]

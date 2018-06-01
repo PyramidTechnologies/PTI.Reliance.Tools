@@ -7,6 +7,8 @@
             "type": "process",
             "args": [
                 "build",
+                "-c Release",
+                "/p:Platform=x64",
                 "${workspaceFolder}/RelianceCLI/RelianceCLI.csproj"
             ],
             "problemMatcher": "$msCompile"
