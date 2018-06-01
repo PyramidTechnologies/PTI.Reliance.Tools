@@ -15,7 +15,7 @@ namespace PTIRelianceLib
     using IO.Internal;
 
     internal class NativeMethods : INativeMethods
-    {     
+    {
         /// <summary>
         /// Interal device info enumeration
         /// </summary>
@@ -25,9 +25,12 @@ namespace PTIRelianceLib
             public readonly string Path;
             public readonly ushort VendorId;
             public readonly ushort ProductId;
+            [MarshalAs(UnmanagedType.LPWStr)]
             public readonly string SerialNumber;
             public readonly ushort ReleaseNumber;
+            [MarshalAs(UnmanagedType.LPWStr)]
             public readonly string ManufacturerString;
+            [MarshalAs(UnmanagedType.LPWStr)]
             public readonly string ProductString;
             public readonly ushort UsagePage;
             public readonly ushort Usage;
