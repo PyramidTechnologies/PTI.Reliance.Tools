@@ -14,6 +14,9 @@
   <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
     <NativeDepsPlatform>windows</NativeDepsPlatform>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' == 'Unix' And Exists('/Applications') And Exists('/Library') And Exists('/System') ">
+    <NativeDepsPlatform>osx</NativeDepsPlatform>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' == 'Unix' And '$(NativeDepsPlatform)' == '' ">
     <NativeDepsPlatform>linux</NativeDepsPlatform>		
   </PropertyGroup>

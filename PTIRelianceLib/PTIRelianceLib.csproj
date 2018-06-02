@@ -37,6 +37,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="..\lib\x64\osx\libhidapi.dylib" Visible="false">
+      <PackagePath>runtimes/osx/native/libhidapi.dylib</PackagePath>
+      <Pack>true</Pack>
+    </Content>
     <Content Include="..\lib\x64\linux\libhidapi.so" Visible="false">
       <PackagePath>runtimes/linux/native/libhidapi.so</PackagePath>
       <Pack>true</Pack>
