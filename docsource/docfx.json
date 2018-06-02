@@ -48,11 +48,10 @@
             "_appFaviconPath": "favicon.ico",
             "_appLogoPath": "logo.svg",
             "_disableContribution": "false",
-            "_disableAffix": "false",
             "_gitUrlPattern": "github",
             "_gitContribute": {
                 "repo": "https://github.com/PyramidTechnologies/PTI.Reliance.Tools.git",
-                "branch": "develop",
+                "branch": "develop"
             }
         },
         "globalMetadataFiles": [],
