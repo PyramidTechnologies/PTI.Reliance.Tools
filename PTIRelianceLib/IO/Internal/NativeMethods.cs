@@ -6,6 +6,7 @@
 // 3:06 PM
 #endregion
 
+
 namespace PTIRelianceLib
 {
     using System;
@@ -13,12 +14,15 @@ namespace PTIRelianceLib
     using System.Linq;
     using System.Runtime.InteropServices;
     using IO.Internal;
+    using Logging;
 
     /// <summary>
     /// NativeMethods is a globally and instance synchronized interface to the native HID library
     /// </summary>
     internal sealed class NativeMethods : INativeMethods
     {
+        private static readonly ILog Log = LogProvider.For<NativeMethods>();
+
         private static readonly object GlobalLock = new object();
         private readonly object _instanceLock = new object();
 
@@ -126,6 +130,8 @@ namespace PTIRelianceLib
                     });
 
                     current = devinfo.Next;
+
+                    Log.Trace("Found device: {0}", result.Last());
                 }
 
                 _HidFreeEnumerate(enumerated);

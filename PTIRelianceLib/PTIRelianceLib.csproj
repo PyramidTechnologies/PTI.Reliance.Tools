@@ -58,6 +58,7 @@
   <Import Project="NativeDeps.csproj.include" />  
   
   <ItemGroup>
+    <PackageReference Include="LibLog" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
    

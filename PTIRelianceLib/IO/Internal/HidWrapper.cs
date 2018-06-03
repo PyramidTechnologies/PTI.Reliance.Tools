@@ -6,14 +6,18 @@
 // 11:30 AM
 #endregion
 
+
 namespace PTIRelianceLib.IO.Internal
 {
+    using Logging;
     using System;
     using System.Diagnostics;
 
     [DebuggerDisplay("IsOpen = {IsOpen}, LastError = {LastError}")]
     internal class HidWrapper : IDisposable
-    {       
+    {
+        private static readonly ILog Log = LogProvider.For<NativeMethods>();
+
         private HidDevice Device { get; set; }
         private readonly HidDeviceConfig _deviceConfig;
 
@@ -32,6 +36,8 @@ namespace PTIRelianceLib.IO.Internal
             Device = HidDevice.Invalid();
             _deviceConfig = config;
             Open();
+
+            Log.Trace("New HidWrapper created");            
         }
 
         /// <summary>
@@ -59,6 +65,8 @@ namespace PTIRelianceLib.IO.Internal
 
             CheckError();
 
+            Log.Trace("HidWrapper opened okay: {0}", IsOpen);            
+
             return IsOpen;
         }
 
@@ -85,6 +93,8 @@ namespace PTIRelianceLib.IO.Internal
                 {
                     return handle;
                 }
+                
+                Log.Trace("Enumeration returned invalid handle");                
             }
 
             return HidDevice.Invalid();
@@ -140,12 +150,18 @@ namespace PTIRelianceLib.IO.Internal
         /// </summary>
         private void CheckError()
         {
-            LastError = _deviceConfig.NativeHid.Error(Device);            
+            LastError = _deviceConfig.NativeHid.Error(Device);
+            if (!string.IsNullOrEmpty(LastError))
+            {
+                Log.Info("Error Set: {0}", LastError);
+            }
         }
 
         public void Dispose()
         {
             Close();
+
+            Log.Trace("Disposing of HidWrapper");
         }
 
         public override string ToString()

@@ -9,12 +9,14 @@
 
 namespace PTIRelianceLib.IO
 {
-    using System.Diagnostics;
+    using Logging;
     using Internal;
     using Transport;
 
     internal class HidPort<T> : IPort<IPacket> where T : IPacket, new()
     {
+        private static readonly ILog Log = LogProvider.GetCurrentClassLogger();
+
         private readonly HidWrapper _hidWrapper;
 
         public HidPort(HidDeviceConfig config)
@@ -55,7 +57,7 @@ namespace PTIRelianceLib.IO
                 return true;
             }
 
-            Trace.WriteLine(string.Format("HID Write failed: {0}", _hidWrapper.LastError));
+            Log.Error("HID Write failed: {0}", _hidWrapper.LastError);
             return false;
         }
 
@@ -67,7 +69,7 @@ namespace PTIRelianceLib.IO
                 return Package(read);
             }
 
-            Trace.WriteLine(string.Format("HID Read failed: {0}", _hidWrapper.LastError));
+            Log.Error("HID Read failed: {0}", _hidWrapper.LastError);
             return PacketLanguage;
         }
 
