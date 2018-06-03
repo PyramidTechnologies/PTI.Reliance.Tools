@@ -78,6 +78,7 @@ namespace PTIRelianceLib.IO.Internal
         public void Close()
         {
             _mDeviceConfig.NativeHid.Close(Device);
+            Log.Trace("HidWrapper closed");
         }
 
         /// <summary>

@@ -105,6 +105,7 @@ namespace PTIRelianceLib
                 var enumerated = _HidEnumerate(vid, pid);
                 if (enumerated == IntPtr.Zero)
                 {
+                    Log.Warn("No HID devices found during enumeration");
                     return Enumerable.Empty<HidDeviceInfo>();
                 }
 
