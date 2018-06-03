@@ -301,9 +301,9 @@ namespace PTIRelianceLib
                 var start = DateTime.Now;
                 while ((DateTime.Now - start).TotalMilliseconds < 10000)
                 {
-                    Thread.Sleep(250);
-
                     MakeNewPort();
+
+                    Thread.Sleep(250);
 
                     if (_mPort?.Open() == true)
                     {
