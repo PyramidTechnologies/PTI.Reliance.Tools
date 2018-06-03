@@ -18,10 +18,9 @@ namespace PTIRelianceLib.Tests
         {
         }
 
-        public override void Dispose()
+        public override string ToString()
         {
-            // Do nothing, this has a fake handle
-            Invalidated = true;
+            return "Fake Device";
         }
     }
 

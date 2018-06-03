@@ -15,9 +15,11 @@ namespace PTIRelianceLib.IO
 
     internal class HidPort<T> : IPort<IPacket> where T : IPacket, new()
     {
+        // ReSharper disable once StaticMemberInGenericType
         private static readonly ILog Log = LogProvider.GetCurrentClassLogger();
 
-        private readonly HidWrapper _mHidWrapper;
+        // ReSharper disable once FieldCanBeMadeReadOnly.Local
+        private HidWrapper _mHidWrapper;
 
         public HidPort(HidDeviceConfig config)
         {
@@ -33,16 +35,16 @@ namespace PTIRelianceLib.IO
             return packet;
         }
 
-        public bool IsOpen => _mHidWrapper.IsOpen;
+        public bool IsOpen => _mHidWrapper?.IsOpen == true;
 
         public bool Open()
-        {
-            return _mHidWrapper.Open();
+        {            
+            return _mHidWrapper?.Open() == true;
         }
 
         public void Close()
         {
-            _mHidWrapper.Close();
+            _mHidWrapper?.Close();
         }
 
         public bool Write(IPacket data)
@@ -52,35 +54,40 @@ namespace PTIRelianceLib.IO
                 data.Package();
             }
 
-            if (_mHidWrapper.WriteData(data.GetBytes()) > 0)
+            if (_mHidWrapper?.WriteData(data.GetBytes()) > 0)
             {
                 return true;
             }
 
-            Log.Error("HID Write failed: {0}", _mHidWrapper.LastError);
+            Log.Error("HID Write failed: {0}", _mHidWrapper?.LastError);
+
             return false;
         }
 
         public IPacket Read(int timeoutMs)
         {
+            if (_mHidWrapper == null) return PacketLanguage;
+
             var read = _mHidWrapper.ReadData(timeoutMs);
             if (read.Length > 0)
             {
                 return Package(read);
             }
 
-            Log.Error("HID Read failed: {0}", _mHidWrapper.LastError);
-            return PacketLanguage;
-        }
 
-        public void Dispose()
-        {
-            _mHidWrapper.Dispose();
+            Log.Error("HID Read failed: {0}", _mHidWrapper.LastError);
+
+            return PacketLanguage;
         }
 
         public override string ToString()
         {
-            return _mHidWrapper.ToString();
+           return _mHidWrapper == null ? "Disconnected" : _mHidWrapper.ToString();
+        }
+
+        public void Dispose()
+        {
+            _mHidWrapper?.Dispose();
         }
     }
 }

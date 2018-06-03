@@ -79,11 +79,20 @@ namespace PTIRelianceLib
             MakeNewPort();
         }
 
+        /// <summary>
+        /// Closes current port if possible. A new port is created and an attempt to connect is made.
+        /// The _mPort field will non-null as long as the native HID library is loaded. The _mPort
+        /// value is returned as a convenience.
+        /// A <see cref="PTIException"/> is thrown if the native shared HID library cannot be loaded
+        /// </summary>
+        /// <exception cref="PTIException">Thrown if native HID library cannot be loaded</exception>
+        /// <returns>IPort or null on error</returns>
+        /// <value>IPort instance or null</value>
         private IPort<IPacket> MakeNewPort()
         {
             try
             {
-                _mPort?.Dispose();         
+                _mPort?.Close();         
                 _mPort = new HidPort<ReliancePacket>(_mPortConfig);
             }
             catch (DllNotFoundException ex)
@@ -288,9 +297,6 @@ namespace PTIRelianceLib
                 var cmd = new ReliancePacket(RelianceCommands.Reboot);
                 Write(cmd);
 
-                // Close immediately
-                _mPort?.Dispose();
-
                 // Try for XX seconds to reconnect
                 var start = DateTime.Now;
                 while ((DateTime.Now - start).TotalMilliseconds < 10000)
@@ -311,12 +317,6 @@ namespace PTIRelianceLib
             {
                 throw new PTIException("Error occurred during reboot: {0}", e.Message);
             }
-        }
-
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            _mPort?.Dispose();
         }
 
         /// <summary>
@@ -423,6 +423,12 @@ namespace PTIRelianceLib
 
             var resp = _mPort.Read(100);
             return resp.ExtractPayload();
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            _mPort?.Close();
         }
     }
 }

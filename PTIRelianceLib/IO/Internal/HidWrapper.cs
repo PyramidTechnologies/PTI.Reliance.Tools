@@ -27,6 +27,8 @@ namespace PTIRelianceLib.IO.Internal
         /// <param name="config">USB HID configuration</param>
         public HidWrapper(HidDeviceConfig config)
         {
+            _mDeviceConfig = config;
+
             // Setup HIDAPI structures
             if (config.NativeHid.Init() != 0)
             {
@@ -34,7 +36,7 @@ namespace PTIRelianceLib.IO.Internal
             }
 
             Device = HidDevice.Invalid();
-            _mDeviceConfig = config;
+
             Open();
 
             Log.Trace("New HidWrapper created");            
@@ -74,8 +76,8 @@ namespace PTIRelianceLib.IO.Internal
         /// Close and release USB handle
         /// </summary>
         public void Close()
-        {            
-            Device = HidDevice.Invalid();
+        {
+            _mDeviceConfig.NativeHid.Close(Device);
         }
 
         /// <summary>
@@ -157,17 +159,16 @@ namespace PTIRelianceLib.IO.Internal
             }
         }
 
-        public void Dispose()
-        {
-            Close();
-
-            Log.Trace("Disposing of HidWrapper");
-        }
-
         public override string ToString()
         {
             return string.Format("HID [{0:X4},{1:X4}] (Open? {2})", 
                 _mDeviceConfig.VendorId, _mDeviceConfig.ProductId, IsOpen);
+        }
+
+        public void Dispose()
+        {
+            Close();
+            Log.Trace("HidWrapper destroyed");
         }
     }
 }

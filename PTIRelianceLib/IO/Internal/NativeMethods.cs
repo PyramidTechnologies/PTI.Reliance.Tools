@@ -182,6 +182,7 @@ namespace PTIRelianceLib
                 }
                 catch (SEHException ex)
                 {
+                    Log.Error(ex, "Failed to close HID port");
                     throw new PTIException("Failed to close HID handle: {0}", ex.Message);
                 }
             }

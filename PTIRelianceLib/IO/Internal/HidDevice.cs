@@ -18,12 +18,7 @@ namespace PTIRelianceLib.IO.Internal
         /// <summary>
         /// Handle to device
         /// </summary>
-        public readonly IntPtr Handle;
-
-        /// <summary>
-        /// Invalidated flag so we can keep an immutable Handle reference
-        /// </summary>
-        protected bool Invalidated;
+        public IntPtr Handle { get; private set; }
 
         /// <summary>
         /// Create a new device with this handle
@@ -32,10 +27,16 @@ namespace PTIRelianceLib.IO.Internal
         public HidDevice(IntPtr handle)
         {
             Handle = handle;
-            Invalidated = handle == IntPtr.Zero;
         }
 
-        public bool IsValid => Handle != IntPtr.Zero;
+        /// <summary>
+        /// Returns true if this device has a valid handle
+        /// </summary>
+        public bool IsValid
+        {
+            get=> Handle != IntPtr.Zero;
+            protected set => Handle = value ? Handle : IntPtr.Zero;
+        }
 
         /// <summary>
         /// Returns an empty (invalid) device handle
@@ -45,18 +46,5 @@ namespace PTIRelianceLib.IO.Internal
         {
             return new HidDevice(IntPtr.Zero);
         }
-
-        public virtual void Dispose()
-        {
-            if (Invalidated)
-            {
-                return;
-            }
-
-            NativeMethods._HidClose(Handle);
-            Invalidated = true;
-        }
     }
-
-
 }
