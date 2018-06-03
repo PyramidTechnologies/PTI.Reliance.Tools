@@ -83,7 +83,7 @@ namespace PTIRelianceLib
         {
             try
             {
-                _mPort = null;         
+                _mPort?.Dispose();         
                 _mPort = new HidPort<ReliancePacket>(_mPortConfig);
             }
             catch (DllNotFoundException ex)
