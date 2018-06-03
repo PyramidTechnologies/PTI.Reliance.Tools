@@ -30,7 +30,7 @@ namespace PTIRelianceLib
         /// <summary>
         /// 12-bit ADC factor for a 3.3 volt reference
         /// </summary>
-        private const float AdcConstant = 0.000806f;
+        private const float _mAdcConstant = 0.000806f;
 
         /// <summary>
         /// ASCII string of the head input voltage. "XX.XX" (Volts)
@@ -108,11 +108,11 @@ namespace PTIRelianceLib
             sb.AppendFormat("Head Temperature: {0} °C\n", HeadTemp);
             sb.AppendFormat("Head Temperature: {0} °F\n", (HeadTemp * (9 / 5.0) + 32).ToString("N0"));
             sb.AppendFormat("Sensor Status: {0} \n", SensorStatus);
-            sb.AppendFormat("Presenter Raw: {0} V DC\n", PresenterRaw * AdcConstant);
-            sb.AppendFormat("Path Raw: {0} V DC\n",  PathRaw * AdcConstant);
-            sb.AppendFormat("Paper Raw: {0} V DC\n", PaperRaw * AdcConstant);
-            sb.AppendFormat("Notch Raw: {0} V DC\n", NotchRaw * AdcConstant);
-            sb.AppendFormat("Arm Raw: {0} V DC\n", ArmRaw * AdcConstant);
+            sb.AppendFormat("Presenter Raw: {0} V DC\n", PresenterRaw * _mAdcConstant);
+            sb.AppendFormat("Path Raw: {0} V DC\n",  PathRaw * _mAdcConstant);
+            sb.AppendFormat("Paper Raw: {0} V DC\n", PaperRaw * _mAdcConstant);
+            sb.AppendFormat("Notch Raw: {0} V DC\n", NotchRaw * _mAdcConstant);
+            sb.AppendFormat("Arm Raw: {0} V DC\n", ArmRaw * _mAdcConstant);
             sb.AppendFormat("Ticket Status: {0} \n", TicketStatus);
             sb.AppendFormat("Errors Status: {0} \n", PrinterErrors);
 

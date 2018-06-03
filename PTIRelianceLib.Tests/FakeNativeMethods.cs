@@ -21,7 +21,7 @@ namespace PTIRelianceLib.Tests
         public override void Dispose()
         {
             // Do nothing, this has a fake handle
-            _mInvalidated = true;
+            Invalidated = true;
         }
     }
 

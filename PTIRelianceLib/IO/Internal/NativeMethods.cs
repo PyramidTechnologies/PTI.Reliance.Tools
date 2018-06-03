@@ -24,7 +24,7 @@ namespace PTIRelianceLib
         private static readonly ILog Log = LogProvider.For<NativeMethods>();
 
         private static readonly object GlobalLock = new object();
-        private readonly object _instanceLock = new object();
+        private readonly object _mInstanceLock = new object();
 
         /// <summary>
         /// Interal device info enumeration
@@ -193,7 +193,7 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public int Read(HidDevice device, byte[] data, UIntPtr length, int timeout)
         {
-            lock (_instanceLock)
+            lock (_mInstanceLock)
             {
                 return _HidRead(device.Handle, data, length, timeout);
             }
@@ -205,7 +205,7 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public int Write(HidDevice device, byte[] data, UIntPtr length)
         {
-            lock (_instanceLock)
+            lock (_mInstanceLock)
             {
                 return _HidWrite(device.Handle, data, length);
             }

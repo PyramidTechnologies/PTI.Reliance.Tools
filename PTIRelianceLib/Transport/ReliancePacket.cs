@@ -116,7 +116,7 @@ namespace PTIRelianceLib.Transport
             var size = GetExpectedPayloadSize();
             if (size < 1 || size > Count)
             {
-                this._mPacketType = PacketTypes.Malformed;
+                _mPacketType = PacketTypes.Malformed;
                 return this;
             }
 

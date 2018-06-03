@@ -17,11 +17,11 @@ namespace PTIRelianceLib.IO
     {
         private static readonly ILog Log = LogProvider.GetCurrentClassLogger();
 
-        private readonly HidWrapper _hidWrapper;
+        private readonly HidWrapper _mHidWrapper;
 
         public HidPort(HidDeviceConfig config)
         {
-            _hidWrapper = new HidWrapper(config);           
+            _mHidWrapper = new HidWrapper(config);           
         }
 
         public IPacket PacketLanguage => new T();
@@ -33,16 +33,16 @@ namespace PTIRelianceLib.IO
             return packet;
         }
 
-        public bool IsOpen => _hidWrapper.IsOpen;
+        public bool IsOpen => _mHidWrapper.IsOpen;
 
         public bool Open()
         {
-            return _hidWrapper.Open();
+            return _mHidWrapper.Open();
         }
 
         public void Close()
         {
-            _hidWrapper.Close();
+            _mHidWrapper.Close();
         }
 
         public bool Write(IPacket data)
@@ -52,35 +52,35 @@ namespace PTIRelianceLib.IO
                 data.Package();
             }
 
-            if (_hidWrapper.WriteData(data.GetBytes()) > 0)
+            if (_mHidWrapper.WriteData(data.GetBytes()) > 0)
             {
                 return true;
             }
 
-            Log.Error("HID Write failed: {0}", _hidWrapper.LastError);
+            Log.Error("HID Write failed: {0}", _mHidWrapper.LastError);
             return false;
         }
 
         public IPacket Read(int timeoutMs)
         {
-            var read = _hidWrapper.ReadData(timeoutMs);
+            var read = _mHidWrapper.ReadData(timeoutMs);
             if (read.Length > 0)
             {
                 return Package(read);
             }
 
-            Log.Error("HID Read failed: {0}", _hidWrapper.LastError);
+            Log.Error("HID Read failed: {0}", _mHidWrapper.LastError);
             return PacketLanguage;
         }
 
         public void Dispose()
         {
-            _hidWrapper.Dispose();
+            _mHidWrapper.Dispose();
         }
 
         public override string ToString()
         {
-            return _hidWrapper.ToString();
+            return _mHidWrapper.ToString();
         }
     }
 }

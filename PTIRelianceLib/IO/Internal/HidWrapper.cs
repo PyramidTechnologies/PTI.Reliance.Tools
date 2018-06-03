@@ -19,7 +19,7 @@ namespace PTIRelianceLib.IO.Internal
         private static readonly ILog Log = LogProvider.For<NativeMethods>();
 
         private HidDevice Device { get; set; }
-        private readonly HidDeviceConfig _deviceConfig;
+        private readonly HidDeviceConfig _mDeviceConfig;
 
         /// <summary>
         /// Creates a new HID port wrapper
@@ -34,7 +34,7 @@ namespace PTIRelianceLib.IO.Internal
             }
 
             Device = HidDevice.Invalid();
-            _deviceConfig = config;
+            _mDeviceConfig = config;
             Open();
 
             Log.Trace("New HidWrapper created");            
@@ -85,9 +85,9 @@ namespace PTIRelianceLib.IO.Internal
         /// <returns>Device handle or IntPtr.Zero if no match found</returns>
         private HidDevice GetHidHandle()
         {
-            foreach (var devinfo in _deviceConfig.NativeHid.Enumerate(_deviceConfig.VendorId, _deviceConfig.ProductId))
+            foreach (var devinfo in _mDeviceConfig.NativeHid.Enumerate(_mDeviceConfig.VendorId, _mDeviceConfig.ProductId))
             {
-                var handle = _deviceConfig.NativeHid.OpenPath(devinfo.Path);
+                var handle = _mDeviceConfig.NativeHid.OpenPath(devinfo.Path);
 
                 if (handle.IsValid)
                 {
@@ -112,8 +112,8 @@ namespace PTIRelianceLib.IO.Internal
                 return -1;
             }
 
-            var report = HidReport.MakeOutputReport(_deviceConfig, data);  
-            var result = _deviceConfig.NativeHid.Write(Device, report.Data, report.Size);
+            var report = HidReport.MakeOutputReport(_mDeviceConfig, data);  
+            var result = _mDeviceConfig.NativeHid.Write(Device, report.Data, report.Size);
 
             CheckError();
 
@@ -132,8 +132,8 @@ namespace PTIRelianceLib.IO.Internal
                 return new byte[0];
             }
 
-            var inreport = HidReport.MakeInputReport(_deviceConfig);
-            var read = _deviceConfig.NativeHid.Read(Device, inreport.Data, inreport.Size, timeoutMs);
+            var inreport = HidReport.MakeInputReport(_mDeviceConfig);
+            var read = _mDeviceConfig.NativeHid.Read(Device, inreport.Data, inreport.Size, timeoutMs);
 
             var result = new byte[0];
             if (read > 0)
@@ -150,7 +150,7 @@ namespace PTIRelianceLib.IO.Internal
         /// </summary>
         private void CheckError()
         {
-            LastError = _deviceConfig.NativeHid.Error(Device);
+            LastError = _mDeviceConfig.NativeHid.Error(Device);
             if (!string.IsNullOrEmpty(LastError))
             {
                 Log.Info("Error Set: {0}", LastError);
@@ -167,7 +167,7 @@ namespace PTIRelianceLib.IO.Internal
         public override string ToString()
         {
             return string.Format("HID [{0:X4},{1:X4}] (Open? {2})", 
-                _deviceConfig.VendorId, _deviceConfig.ProductId, IsOpen);
+                _mDeviceConfig.VendorId, _mDeviceConfig.ProductId, IsOpen);
         }
     }
 }

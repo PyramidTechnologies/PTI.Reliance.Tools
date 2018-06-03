@@ -32,7 +32,7 @@ namespace PTIRelianceLib
     ///
     /// Reliance Tools for PC <see href="https://pyramidacceptors.com/app/reliance-tools/"/>
     /// </summary>
-    [DebuggerDisplay("IsOpen = {_port.IsOpen}")]
+    [DebuggerDisplay("IsOpen = {_mPort.IsOpen}")]
     public class ReliancePrinter : IPyramidDevice
     {
         /// <summary>
@@ -49,12 +49,12 @@ namespace PTIRelianceLib
         /// <summary>
         /// Underlying communication handle
         /// </summary>
-        private IPort<IPacket> _port;
+        private IPort<IPacket> _mPort;
 
         /// <summary>
         /// HID configuration parameters for Reliance
         /// </summary>
-        private readonly HidDeviceConfig _portConfig;
+        private readonly HidDeviceConfig _mPortConfig;
 
         /// <summary>
         /// Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
@@ -65,7 +65,7 @@ namespace PTIRelianceLib
         public ReliancePrinter()
         {
             // Reliance will "always" use report lengths of 34 bytes
-            _portConfig = new HidDeviceConfig
+            _mPortConfig = new HidDeviceConfig
             {
                 VendorId = VendorId,
                 ProductId = ProductId,
@@ -83,8 +83,8 @@ namespace PTIRelianceLib
         {
             try
             {
-                _port = null;         
-                _port = new HidPort<ReliancePacket>(_portConfig);
+                _mPort = null;         
+                _mPort = new HidPort<ReliancePacket>(_mPortConfig);
             }
             catch (DllNotFoundException ex)
             {
@@ -92,7 +92,7 @@ namespace PTIRelianceLib
                 throw new PTIException("Failed to load HID library: {0}", ex.Message);
             }
 
-            return _port;
+            return _mPort;
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace PTIRelianceLib
         /// <param name="config">HID library options</param>
         internal ReliancePrinter(HidDeviceConfig config)
         {
-            _portConfig = config;
+            _mPortConfig = config;
             MakeNewPort();
         }
 
@@ -115,7 +115,7 @@ namespace PTIRelianceLib
         /// <exception cref="PTIException">Thrown if config file cannot be parsed</exception> 
         public ReturnCodes SendConfiguration(BinaryFile config)
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return ReturnCodes.DeviceNotConnected;
             }
@@ -126,7 +126,7 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public BinaryFile ReadConfiguration()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {               
                 return BinaryFile.From(new byte[0]);
             }
@@ -158,7 +158,7 @@ namespace PTIRelianceLib
         /// </returns>
         public ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter = null)
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return ReturnCodes.DeviceNotConnected;
             }
@@ -175,7 +175,7 @@ namespace PTIRelianceLib
             }
 
             reporter = reporter ?? new DevNullMonitor();
-            var updater = new RELFwUpdater(_port, firmware)
+            var updater = new RELFwUpdater(_mPort, firmware)
             {
                 Reporter = reporter,
                 FileType = FileTypes.Base,
@@ -203,7 +203,7 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public Revlev GetFirmwareRevision()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return new Revlev();
             }
@@ -222,7 +222,7 @@ namespace PTIRelianceLib
         /// <returns>Status object or <c>null</c> if no connection or error</returns>
         public Status GetStatus()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return null;
             }
@@ -235,7 +235,7 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public string GetSerialNumber()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return string.Empty;
             }
@@ -255,7 +255,7 @@ namespace PTIRelianceLib
         /// </summary>
         public ReturnCodes Ping()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return ReturnCodes.DeviceNotConnected;
             }
@@ -278,7 +278,7 @@ namespace PTIRelianceLib
         /// (e.g. dispose) and then try again.</exception>
         public ReturnCodes Reboot()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return ReturnCodes.DeviceNotConnected;
             }
@@ -289,7 +289,7 @@ namespace PTIRelianceLib
                 Write(cmd);
 
                 // Close immediately
-                _port = null;
+                _mPort = null;
 
                 // Try for XX seconds to reconnect
                 var start = DateTime.Now;
@@ -299,13 +299,13 @@ namespace PTIRelianceLib
 
                     MakeNewPort();
 
-                    if (_port?.Open() == true)
+                    if (_mPort?.Open() == true)
                     {
                         break;
                     }
                 }
 
-                return _port?.IsOpen == true ? ReturnCodes.Okay : ReturnCodes.RebootFailure;
+                return _mPort?.IsOpen == true ? ReturnCodes.Okay : ReturnCodes.RebootFailure;
             }
             catch (Exception e)
             {
@@ -316,7 +316,7 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public void Dispose()
         {
-            _port?.Dispose();
+            _mPort?.Dispose();
         }
 
         /// <summary>
@@ -332,7 +332,7 @@ namespace PTIRelianceLib
         /// </returns>
         public IEnumerable<ushort> GetInstalledCodepages()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return Enumerable.Empty<ushort>();
             }
@@ -369,7 +369,7 @@ namespace PTIRelianceLib
         /// <returns>Application id string</returns>
         internal string GetAppId()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return string.Empty;
             }
@@ -385,7 +385,7 @@ namespace PTIRelianceLib
         /// <returns></returns>
         internal ReturnCodes EnterBootloader()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return ReturnCodes.DeviceNotConnected;
             }
@@ -416,12 +416,12 @@ namespace PTIRelianceLib
         /// <returns>Response or empty if no response</returns>
         internal virtual IPacket Write(IPacket data)
         {
-            if (!_port.Write(data))
+            if (!_mPort.Write(data))
             {
-                return _port.PacketLanguage;
+                return _mPort.PacketLanguage;
             }
 
-            var resp = _port.Read(100);
+            var resp = _mPort.Read(100);
             return resp.ExtractPayload();
         }
     }

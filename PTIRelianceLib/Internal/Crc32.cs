@@ -8,8 +8,6 @@
 
 namespace PTIRelianceLib
 {
-    using System;
-
     /// <summary>
     /// Calculates the CRC32 of a value using the zlib crc32 table from crc32.htable method
     /// </summary>
