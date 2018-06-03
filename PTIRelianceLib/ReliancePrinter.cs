@@ -289,7 +289,7 @@ namespace PTIRelianceLib
                 Write(cmd);
 
                 // Close immediately
-                _mPort = null;
+                _mPort?.Dispose();
 
                 // Try for XX seconds to reconnect
                 var start = DateTime.Now;
