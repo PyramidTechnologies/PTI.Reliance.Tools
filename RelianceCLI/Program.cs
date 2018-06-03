@@ -15,6 +15,8 @@ namespace RelianceCLI
             // Github issue dotnet/corefx#23608
             new ArgumentException();
 
+            Console.WriteLine("Connected to PTIRelianceLib Version: {0}", PTIRelianceLib.Library.Version);
+
             var opts = Options.Parse(args);
 
             if (opts.Okay)
@@ -36,6 +38,8 @@ namespace RelianceCLI
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
+
+            NLog.LogManager.Shutdown();
         }
 
         /// <summary>
