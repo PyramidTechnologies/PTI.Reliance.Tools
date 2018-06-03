@@ -75,7 +75,7 @@ namespace PTIRelianceLib.IO
 
         public void Dispose()
         {
-            _hidWrapper.Close();
+            _hidWrapper.Dispose();
         }
 
         public override string ToString()

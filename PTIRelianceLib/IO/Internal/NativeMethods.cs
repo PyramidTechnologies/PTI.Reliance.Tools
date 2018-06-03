@@ -29,9 +29,10 @@ namespace PTIRelianceLib
         /// <summary>
         /// Interal device info enumeration
         /// </summary>
-        [StructLayout(LayoutKind.Sequential)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         private struct PrivateHidDeviceInfo
         {
+            [MarshalAs(UnmanagedType.LPStr)]
             public readonly string Path;
             public readonly ushort VendorId;
             public readonly ushort ProductId;
@@ -112,7 +113,11 @@ namespace PTIRelianceLib
                 var current = enumerated;
                 while (current != IntPtr.Zero)
                 {
-                    var devinfo = (PrivateHidDeviceInfo) Marshal.PtrToStructure(enumerated,
+                    var ptr = Environment.Is64BitProcess
+                        ? new IntPtr(current.ToInt64())
+                        : new IntPtr(current.ToInt32());
+
+                    var devinfo = (PrivateHidDeviceInfo) Marshal.PtrToStructure(ptr,
                         typeof(PrivateHidDeviceInfo));
 
                     result.Add(new HidDeviceInfo
