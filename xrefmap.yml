@@ -262,6 +262,25 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.IPyramidDevice.SendConfiguration
   nameWithType: IPyramidDevice.SendConfiguration
+- uid: PTIRelianceLib.Library
+  name: Library
+  href: api/PTIRelianceLib.Library.html
+  commentId: T:PTIRelianceLib.Library
+  fullName: PTIRelianceLib.Library
+  nameWithType: Library
+- uid: PTIRelianceLib.Library.Version
+  name: Version
+  href: api/PTIRelianceLib.Library.html#PTIRelianceLib_Library_Version
+  commentId: P:PTIRelianceLib.Library.Version
+  fullName: PTIRelianceLib.Library.Version
+  nameWithType: Library.Version
+- uid: PTIRelianceLib.Library.Version*
+  name: Version
+  href: api/PTIRelianceLib.Library.html#PTIRelianceLib_Library_Version_
+  commentId: Overload:PTIRelianceLib.Library.Version
+  isSpec: "True"
+  fullName: PTIRelianceLib.Library.Version
+  nameWithType: Library.Version
 - uid: PTIRelianceLib.ProgressMonitor
   name: ProgressMonitor
   href: api/PTIRelianceLib.ProgressMonitor.html
