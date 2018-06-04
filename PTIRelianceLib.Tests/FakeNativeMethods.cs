@@ -75,6 +75,21 @@ namespace PTIRelianceLib.Tests
             return data.Length;
         }
 
+        public string GetManufacturerString(HidDevice device)
+        {
+            return "Pyramid Technologies";
+        }
+
+        public string GetProductString(HidDevice device)
+        {
+            return "Test Device";
+        }
+
+        public string GetSerialNumber(HidDevice device)
+        {
+            return "DEADBEEF1234567890";
+        }
+
         public Func<byte[], byte[]> GetNextResponse { get; set; }
     }
 }

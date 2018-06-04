@@ -103,5 +103,30 @@
         /// <returns>This function returns the actual number of bytes written and
         /// -1 on error.</returns>
         int Write(HidDevice device, byte[] data, UIntPtr length);
+
+        /// <summary>
+        /// Reads and returns the manufacturer string of the specified device. If there is an
+        /// error or no string is found, an empty string will be returned.
+        /// </summary>
+        /// <param name="device">Device handle</param>
+        /// <returns>String</returns>
+        string GetManufacturerString(HidDevice device);
+
+        /// <summary>
+        /// Reads and returns the product string of the specified device. If there is an
+        /// error or no string is found, an empty string will be returned.
+        /// </summary>
+        /// <param name="device">Device handle</param>
+        /// <returns>String</returns>
+        string GetProductString(HidDevice device);
+
+        /// <summary>
+        /// Returns the product serial number of the specified device, if any. Note
+        /// that it is common for USB vendors to not program them with serial numbers.
+        /// If the event of an error or missing serial number, an empty string will be returned.
+        /// </summary>        
+        /// <param name="device">Device handle</param>
+        /// <returns>String</returns>
+        string GetSerialNumber(HidDevice device);
     }
 }

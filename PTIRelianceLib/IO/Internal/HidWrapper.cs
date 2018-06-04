@@ -68,7 +68,18 @@ namespace PTIRelianceLib.IO.Internal
 
             CheckError();
 
-            Log.Trace("HidWrapper opened okay: {0}", IsOpen);            
+            Log.Trace("HidWrapper opened okay: {0}", IsOpen);
+
+            if (!IsOpen)
+            {
+                return IsOpen;
+            }
+
+            // TODO it would be nice to store these somewhere
+            var mfg = _mDeviceConfig.NativeHid.GetManufacturerString(Device);
+            var product = _mDeviceConfig.NativeHid.GetProductString(Device);
+            var sn = _mDeviceConfig.NativeHid.GetSerialNumber(Device);
+            Log.Info("Connected to: {0}, {1}, SN# {2}", mfg, product, sn);
 
             return IsOpen;
         }

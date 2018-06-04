@@ -13,6 +13,7 @@ namespace PTIRelianceLib
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Text;
     using System.Threading;
     using IO.Internal;
     using Logging;
@@ -179,7 +180,14 @@ namespace PTIRelianceLib
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_free_enumeration")]
         private static extern void _HidFreeEnumerate(IntPtr devices);
 
-
+        /// <summary>
+        /// Open a HID device by its path name.
+        /// The path name be determined by calling hid_enumerate(), or a
+        /// platform-specific path name can be used(eg: /dev/hidraw0 onLinux).
+        /// </summary>
+        /// <param name="devicePath">The path name of the device to open</param>
+        /// <returns>returns a pointer to a #hid_device object on
+        /// success or NULL on failure.</returns>
         [DllImport("hidapi", CharSet = CharSet.Ansi, EntryPoint = "hid_open_path")]
         private static extern IntPtr _HidOpenPath(string devicePath);
 
@@ -235,6 +243,67 @@ namespace PTIRelianceLib
             {
                 return _HidWrite(device.Handle, data, length);
             }
+        }
+
+        /// <summary>
+        /// Get The Manufacturer String from a HID device.
+        /// </summary>
+        /// <param name="device">A device handle returned from hid_open()</param>
+        /// <param name="str">A wide string buffer to put the data into</param>
+        /// <param name="length">The length of the buffer in multiples of wchar_t</param>
+        /// <returns>This function returns 0 on success and -1 on error</returns>
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_manufacturer_string")]
+        private static extern int _HidGetManufacturerString(IntPtr device, StringBuilder str, uint length);
+
+        /// <inheritdoc />
+        public string GetManufacturerString(HidDevice device)
+        {
+            return ReadUnicodeString(device, _HidGetManufacturerString);
+        }
+
+        /// <summary>
+        /// Get The Product String from a HID device.
+        /// </summary>
+        /// <param name="device">A device handle returned from hid_open().</param>
+        /// <param name="str">A wide string buffer to put the data into.</param>
+        /// <param name="size">The length of the buffer in multiples of wchar_t.</param>
+        /// <returns>This function returns 0 on success and -1 on error.</returns>
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_product_string")]
+        private static extern int _HidGetProductString(IntPtr device, StringBuilder str, uint size);
+
+        /// <inheritdoc />
+        public string GetProductString(HidDevice device)
+        {
+            return ReadUnicodeString(device, _HidGetProductString);
+        }
+
+        /// <summary>
+        /// Get The Serial Number String from a HID device.
+        /// </summary>
+        /// <param name="device">A device handle returned from hid_open().</param>
+        /// <param name="str">A wide string buffer to put the data into.</param>
+        /// <param name="size">The length of the buffer in multiples of wchar_t.</param>
+        /// <returns>This function returns 0 on success and -1 on error.</returns>
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_serial_number_string")]
+        private static extern int _HidGetSerialNumber(IntPtr device, StringBuilder str, uint size);
+
+        /// <inheritdoc />
+        public string GetSerialNumber(HidDevice device)
+        {
+            return ReadUnicodeString(device, _HidGetSerialNumber);
+        }
+
+        /// <summary>
+        /// Executes fn to read a unicode string from an HID device. The string will
+        /// be parsed and returned as a regular, managed string.
+        /// </summary>
+        /// <param name="device">Device handle</param>
+        /// <param name="fn">Function to execute</param>
+        /// <returns>string</returns>
+        private static string ReadUnicodeString(HidDevice device, Func<IntPtr, StringBuilder, uint, int> fn)
+        {
+            var sb = new StringBuilder();
+            return fn.Invoke(device.Handle, sb, 255) != 0 ? string.Empty : sb.ToString();
         }
     }
 }
