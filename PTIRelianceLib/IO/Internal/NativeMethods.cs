@@ -13,6 +13,7 @@ namespace PTIRelianceLib
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Threading;
     using IO.Internal;
     using Logging;
 
@@ -111,7 +112,12 @@ namespace PTIRelianceLib
                 var enumerated = _HidEnumerate(vid, pid);
                 if (enumerated == IntPtr.Zero)
                 {
-                    Log.Warn("No HID devices found during enumeration");
+                    Log.Warn("No HID devices found during enumeration, flushing HID structures...");
+                    _HidExit();
+
+                    Thread.Sleep(Library.HidCleanupDelayMs);
+                    Log.Info("HID structure flush completed");
+
                     return Enumerable.Empty<HidDeviceInfo>();
                 }
 
