@@ -268,19 +268,12 @@ references:
   commentId: T:PTIRelianceLib.Library
   fullName: PTIRelianceLib.Library
   nameWithType: Library
-- uid: PTIRelianceLib.Library.HidCleanupDelayMs
-  name: HidCleanupDelayMs
-  href: api/PTIRelianceLib.Library.html#PTIRelianceLib_Library_HidCleanupDelayMs
-  commentId: P:PTIRelianceLib.Library.HidCleanupDelayMs
-  fullName: PTIRelianceLib.Library.HidCleanupDelayMs
-  nameWithType: Library.HidCleanupDelayMs
-- uid: PTIRelianceLib.Library.HidCleanupDelayMs*
-  name: HidCleanupDelayMs
-  href: api/PTIRelianceLib.Library.html#PTIRelianceLib_Library_HidCleanupDelayMs_
-  commentId: Overload:PTIRelianceLib.Library.HidCleanupDelayMs
-  isSpec: "True"
-  fullName: PTIRelianceLib.Library.HidCleanupDelayMs
-  nameWithType: Library.HidCleanupDelayMs
+- uid: PTIRelianceLib.Library.Options
+  name: Options
+  href: api/PTIRelianceLib.Library.html#PTIRelianceLib_Library_Options
+  commentId: F:PTIRelianceLib.Library.Options
+  fullName: PTIRelianceLib.Library.Options
+  nameWithType: Library.Options
 - uid: PTIRelianceLib.Library.Version
   name: Version
   href: api/PTIRelianceLib.Library.html#PTIRelianceLib_Library_Version
@@ -294,6 +287,77 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.Library.Version
   nameWithType: Library.Version
+- uid: PTIRelianceLib.LibraryOptions
+  name: LibraryOptions
+  href: api/PTIRelianceLib.LibraryOptions.html
+  commentId: T:PTIRelianceLib.LibraryOptions
+  fullName: PTIRelianceLib.LibraryOptions
+  nameWithType: LibraryOptions
+- uid: PTIRelianceLib.LibraryOptions.Default
+  name: Default
+  href: api/PTIRelianceLib.LibraryOptions.html#PTIRelianceLib_LibraryOptions_Default
+  commentId: P:PTIRelianceLib.LibraryOptions.Default
+  fullName: PTIRelianceLib.LibraryOptions.Default
+  nameWithType: LibraryOptions.Default
+- uid: PTIRelianceLib.LibraryOptions.Default*
+  name: Default
+  href: api/PTIRelianceLib.LibraryOptions.html#PTIRelianceLib_LibraryOptions_Default_
+  commentId: Overload:PTIRelianceLib.LibraryOptions.Default
+  isSpec: "True"
+  fullName: PTIRelianceLib.LibraryOptions.Default
+  nameWithType: LibraryOptions.Default
+- uid: PTIRelianceLib.LibraryOptions.DockerLinuxStretch
+  name: DockerLinuxStretch
+  href: api/PTIRelianceLib.LibraryOptions.html#PTIRelianceLib_LibraryOptions_DockerLinuxStretch
+  commentId: P:PTIRelianceLib.LibraryOptions.DockerLinuxStretch
+  fullName: PTIRelianceLib.LibraryOptions.DockerLinuxStretch
+  nameWithType: LibraryOptions.DockerLinuxStretch
+- uid: PTIRelianceLib.LibraryOptions.DockerLinuxStretch*
+  name: DockerLinuxStretch
+  href: api/PTIRelianceLib.LibraryOptions.html#PTIRelianceLib_LibraryOptions_DockerLinuxStretch_
+  commentId: Overload:PTIRelianceLib.LibraryOptions.DockerLinuxStretch
+  isSpec: "True"
+  fullName: PTIRelianceLib.LibraryOptions.DockerLinuxStretch
+  nameWithType: LibraryOptions.DockerLinuxStretch
+- uid: PTIRelianceLib.LibraryOptions.HidCleanupDelayMs
+  name: HidCleanupDelayMs
+  href: api/PTIRelianceLib.LibraryOptions.html#PTIRelianceLib_LibraryOptions_HidCleanupDelayMs
+  commentId: P:PTIRelianceLib.LibraryOptions.HidCleanupDelayMs
+  fullName: PTIRelianceLib.LibraryOptions.HidCleanupDelayMs
+  nameWithType: LibraryOptions.HidCleanupDelayMs
+- uid: PTIRelianceLib.LibraryOptions.HidCleanupDelayMs*
+  name: HidCleanupDelayMs
+  href: api/PTIRelianceLib.LibraryOptions.html#PTIRelianceLib_LibraryOptions_HidCleanupDelayMs_
+  commentId: Overload:PTIRelianceLib.LibraryOptions.HidCleanupDelayMs
+  isSpec: "True"
+  fullName: PTIRelianceLib.LibraryOptions.HidCleanupDelayMs
+  nameWithType: LibraryOptions.HidCleanupDelayMs
+- uid: PTIRelianceLib.LibraryOptions.HidFlushStructuresOnEnumError
+  name: HidFlushStructuresOnEnumError
+  href: api/PTIRelianceLib.LibraryOptions.html#PTIRelianceLib_LibraryOptions_HidFlushStructuresOnEnumError
+  commentId: P:PTIRelianceLib.LibraryOptions.HidFlushStructuresOnEnumError
+  fullName: PTIRelianceLib.LibraryOptions.HidFlushStructuresOnEnumError
+  nameWithType: LibraryOptions.HidFlushStructuresOnEnumError
+- uid: PTIRelianceLib.LibraryOptions.HidFlushStructuresOnEnumError*
+  name: HidFlushStructuresOnEnumError
+  href: api/PTIRelianceLib.LibraryOptions.html#PTIRelianceLib_LibraryOptions_HidFlushStructuresOnEnumError_
+  commentId: Overload:PTIRelianceLib.LibraryOptions.HidFlushStructuresOnEnumError
+  isSpec: "True"
+  fullName: PTIRelianceLib.LibraryOptions.HidFlushStructuresOnEnumError
+  nameWithType: LibraryOptions.HidFlushStructuresOnEnumError
+- uid: PTIRelianceLib.LibraryOptions.HidReconnectDelayMs
+  name: HidReconnectDelayMs
+  href: api/PTIRelianceLib.LibraryOptions.html#PTIRelianceLib_LibraryOptions_HidReconnectDelayMs
+  commentId: P:PTIRelianceLib.LibraryOptions.HidReconnectDelayMs
+  fullName: PTIRelianceLib.LibraryOptions.HidReconnectDelayMs
+  nameWithType: LibraryOptions.HidReconnectDelayMs
+- uid: PTIRelianceLib.LibraryOptions.HidReconnectDelayMs*
+  name: HidReconnectDelayMs
+  href: api/PTIRelianceLib.LibraryOptions.html#PTIRelianceLib_LibraryOptions_HidReconnectDelayMs_
+  commentId: Overload:PTIRelianceLib.LibraryOptions.HidReconnectDelayMs
+  isSpec: "True"
+  fullName: PTIRelianceLib.LibraryOptions.HidReconnectDelayMs
+  nameWithType: LibraryOptions.HidReconnectDelayMs
 - uid: PTIRelianceLib.ProgressMonitor
   name: ProgressMonitor
   href: api/PTIRelianceLib.ProgressMonitor.html
