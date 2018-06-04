@@ -3,7 +3,7 @@ if( Test-Path -Path $path )
 {
 	del $path\*.nupkg
 }
-dotnet pack -c Debug -o $path /p:Platform=x64 --include-symbols --include-source PTIRelianceLib\PTIRelianceLib.csproj
+dotnet pack -c Release -o $path /p:Platform=x64 --include-symbols --include-source PTIRelianceLib\PTIRelianceLib.csproj
 
 # Either myself or nuget are too stupid to figure out how to easily push my package + symbols
 # List the files in nuget, there should be exactly two.

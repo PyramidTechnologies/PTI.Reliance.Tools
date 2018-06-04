@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="NLog.Config" Version="4.5.6" />
-    <PackageReference Include="PTIRelianceLib" Version="0.2.14-alpha" />
+    <PackageReference Include="PTIRelianceLib" Version="0.2.29-alpha" />
   </ItemGroup>
   
   <ItemGroup>
