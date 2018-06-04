@@ -15,12 +15,13 @@ namespace RelianceCLI
             // Github issue dotnet/corefx#23608
             new ArgumentException();
             
-			Console.WriteLine("Connected to PTIRelianceLib Version: {0}", PTIRelianceLib.Library.Version);
-			
+	        Console.WriteLine("Connected to PTIRelianceLib Version: {0}", PTIRelianceLib.Library.Version);
+		    PTIRelianceLib.Library.Options = PTIRelianceLib.LibraryOptions.DockerLinuxStretch;
+
             var opts = Options.Parse(args);
 
             if (opts.Okay)
-            {
+            {		                                       
                 try
                 {
                     Run(opts);
@@ -153,7 +154,6 @@ namespace RelianceCLI
             public static Options Parse(IEnumerable<string> args)
             {
                 var opts = new Options();
-
                 Action<string> nextCapture = null;
 
                 foreach (var str in args)
@@ -225,7 +225,7 @@ namespace RelianceCLI
                        "\t-f,--firmware\t\tPath to firmware to flash update with\n" +
                        "\t-c,--config\t\tPath to configuration to apply\n" +
                        "\t-g,--get-config\t\tPath to file current config will be written to\n" +
-                       "FLAGS\n" +
+		               "FLAGS\n" +
                        "\t-r,--revision\t\tRead and display printer firmware revision\n" +
                        "\t-s,--status\t\tRead and display printer status\n" +
                        "\t-p,--power\t\tReboot printer immediately\n";
