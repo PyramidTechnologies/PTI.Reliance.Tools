@@ -3,8 +3,16 @@
 # Reliance Tools API
 This is a collection of tools for flash updating, configuring, and maintaining your Reliance Thermal Printer.
 
-## Tutorials
+# Installation
+### Package Manager  
 
+    Install-Package PTIRelianceLib
+    
+### Dotnet CLI
+
+    dotnet add package PTIRelianceLib
+
+## Tutorials
 See [the quick-start guide](http://developers.pyramidacceptors.com/PTI.Reliance.Tools/)
 
 ## Examples
