@@ -11,16 +11,16 @@
     <Copyright>2018 Pyramid Technologies</Copyright>
     <PackageLicenseUrl>https://pti.mit-license.org/</PackageLicenseUrl>
     <PackageReleaseNotes>Supports flash updating, confguration read, and configuration write</PackageReleaseNotes>
-    <Version>0.2.27.0-alpha</Version>
+    <Version>0.2.28.0-alpha</Version>
     <PackageProjectUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>dotnet-core thermal-printer hid</PackageTags>
     <PackageIconUrl>https://pyramidacceptors.com/favicon.ico</PackageIconUrl>
-    <AssemblyVersion>0.2.27.0</AssemblyVersion>
+    <AssemblyVersion>0.2.28.0</AssemblyVersion>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <FileVersion>0.2.27.0</FileVersion>
+    <FileVersion>0.2.28.0</FileVersion>
 	<IncludeSource>true</IncludeSource>
 	<IncludeSymbols>true</IncludeSymbols>
   </PropertyGroup>
@@ -28,6 +28,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DocumentationFile>bin\x64\Release\netcoreapp2.0\PTIRelianceLib.xml</DocumentationFile>
     <WarningLevel>0</WarningLevel>
+    <NoWarn>1701;1702;NU5100</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
