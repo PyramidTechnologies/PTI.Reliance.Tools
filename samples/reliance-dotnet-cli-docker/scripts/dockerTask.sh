@@ -21,19 +21,13 @@ removeImage () {
 
 # Builds the Docker image.
 buildImage () {
-  if [[ -z $ENVIRONMENT ]]; then
-    ENVIRONMENT="debug"
-  fi
 
   dockerFileName="Dockerfile"
-  if [[ $ENVIRONMENT != "release" ]]; then
-    dockerFileName="Dockerfile.$ENVIRONMENT"
-  fi
 
   if [[ ! -f "$workdir/$dockerFileName" ]]; then
-    echo "$ENVIRONMENT is not a valid parameter. File '$dockerFileName' does not exist."
+    echo "File '$dockerFileName' does not exist."
   else
-    echo "Building the image $imageName ($ENVIRONMENT)."
+    echo "Building the image $imageName."
     docker build -t $imageName -f "$workdir/$dockerFileName" $workdir
   fi
 }
@@ -49,7 +43,7 @@ runContainer () {
 }
 
 # Runs a new container
-runContainerPrivileged () {
+runContainerInteractive () {
     echo "Running a new container $containerName"
     if [[ -z $(docker images -q $imageName) ]]; then
         echo "Couldn not find an image named $imageName"
@@ -66,6 +60,7 @@ showUsage () {
   echo "Commands:"
   echo "    cleanup: Removes the image '$imageName' and kills all containers based on this image."
   echo "    buildForDebug: Builds the debug image and runs docker container."
+  echo "    interactive: Builds the image in interactive mode, overwriting the default entry point."
   echo ""
   echo "Example:"
   echo "    ./dockerTask.sh buildForDebug"
@@ -90,7 +85,7 @@ else
     "interactive")            
             killContainers
             buildImage               
-            runContainerPrivileged
+            runContainerInteractive
             ;;
     *)
             showUsage
