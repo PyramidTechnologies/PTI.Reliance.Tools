@@ -189,9 +189,16 @@ namespace PTIRelianceLib
                 Reporter = reporter,
                 FileType = FileTypes.Base,
                 RecoverConnection = AcquireHidPort,
-                RunBefore = new List<Func<ReturnCodes>> { EnterBootloader },
-                RunAfter = new List<Func<ReturnCodes>> {  Reboot }
+                RunBefore = new List<Func<ReturnCodes>>(),
+                RunAfter = new List<Func<ReturnCodes>> { Reboot }
             };
+
+            // If not already in bootloader mode, do so before flash update
+            var appID = GetAppId();
+            if (!appID.ToLower().Equals("bootloader"))
+            {
+                updater.RunBefore.Add(EnterBootloader);
+            }
 
             try
             {
