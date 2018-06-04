@@ -83,7 +83,7 @@ namespace PTIRelianceLib.IO.Internal
 
             // Make sure handle is closed in case enumeration call is made immedately
             // after device is closed.
-            Thread.Sleep(50);
+            Thread.Sleep(Library.HidCleanupDelayMs);
         }
 
         /// <summary>
