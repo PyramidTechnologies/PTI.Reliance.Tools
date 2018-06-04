@@ -5,12 +5,18 @@ using PTIRelianceLib;
 namespace RelianceCLI
 {
     using System.IO;
+    using System.Threading;
     using PTIRelianceLib.Protocol;
 
     internal class Program
     {
         private static void Main(string[] args)
         {
+            // Github issue dotnet/corefx#23608
+            new ArgumentException();
+
+            Console.WriteLine("Connected to PTIRelianceLib Version: {0}", PTIRelianceLib.Library.Version);
+
             var opts = Options.Parse(args);
 
             if (opts.Okay)
@@ -32,6 +38,8 @@ namespace RelianceCLI
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
+
+            NLog.LogManager.Shutdown();
         }
 
         /// <summary>
@@ -48,16 +56,16 @@ namespace RelianceCLI
                 var ping = printer.Ping();
                 Console.WriteLine("Ping: {0}", ping);
 
+                if (opts.Reboot)
+                {
+                    Console.WriteLine("Reboot: {0}", printer.Reboot());
+                }
+
                 if (opts.GetRevlev)
                 {
                     var revlev = printer.GetFirmwareRevision();
                     Console.WriteLine("Revision: {0}", revlev);
                 }
-
-                // Try to write configuration response as a firwmare
-                var c = printer.ReadConfiguration();
-                var r = printer.FlashUpdateTarget(c, new ConsoleProgressBar());
-                Console.WriteLine(r);
 
                 if (!string.IsNullOrEmpty(opts.FirmwareFilePath))
                 {
@@ -136,6 +144,8 @@ namespace RelianceCLI
 
             public string ConfigFilePath;
 
+            public bool Reboot;
+
             public bool GetRevlev;
 
             public bool GetStatus;
@@ -159,6 +169,10 @@ namespace RelianceCLI
                     {
                         switch (str)
                         {
+                            case "-p":
+                            case "--power":
+                                opts.Reboot = true;
+                                break;
                             case "-f":
                             case "--firmware":
                                 nextCapture = s => opts.FirmwareFilePath = s;
@@ -214,7 +228,8 @@ namespace RelianceCLI
                        "\t-g,--get-config\t\tPath to file current config will be written to\n" +
                        "FLAGS\n" +
                        "\t-r,--revision\t\tRead and display printer firmware revision\n" +
-                       "\t-s,--status\t\tRead and display printer status\n";
+                       "\t-s,--status\t\tRead and display printer status\n" +
+                       "\t-p,--power\t\tReboot printer immediately\n";
             }
         }
     }

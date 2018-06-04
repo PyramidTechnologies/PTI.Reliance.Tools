@@ -14,7 +14,7 @@ namespace PTIRelianceLib
     /// <summary>
     /// <see cref="IPyramidDevice"/> is a contract defining what actions all Pyramid
     /// products in this library will support. These devices own their own communication source
-    /// and can be used in MVC binding patterns which is why they are marked <see cref="IDisposable"/>.
+    /// and can be used in MVC binding patterns which is why they are marked IDisposable/>.
     /// </summary>
     public interface IPyramidDevice : IDisposable
     {
@@ -55,6 +55,9 @@ namespace PTIRelianceLib
         /// as a JSON <see cref="BinaryFile"/> If there is an error reading the
         /// configuration, an empty <see cref="BinaryFile"/> is returned. You can check for
         /// an empty result via <see cref="BinaryFile.Empty"/>.
+        ///
+        /// A configuration is a JSON formatted file that contains settings like baud
+        /// rate, paper width, and print quality.
         /// </summary>
         /// <returns>BinaryFile</returns>
         BinaryFile ReadConfiguration();

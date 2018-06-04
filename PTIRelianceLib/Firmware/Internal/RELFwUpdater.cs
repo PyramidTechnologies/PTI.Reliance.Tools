@@ -23,7 +23,7 @@ namespace PTIRelianceLib.Firmware.Internal
 
         private readonly BinaryFile _mFileToFlash;
 
-        private readonly IPort<IPacket> _mPort;
+        private IPort<IPacket> _mPort;
 
         /// <summary>
         /// Constructs a new flasher
@@ -53,6 +53,12 @@ namespace PTIRelianceLib.Firmware.Internal
         /// </summary>
         public IList<Func<ReturnCodes>> RunAfter { get; set; }
 
+        /// <summary>
+        /// Gets or Sets function for recovering device connection in the event of an
+        /// error or connection break
+        /// </summary>
+        public Func<IPort<IPacket>> RecoverConnection { get; set; }
+
         /// <inheritdoc />
         public virtual ReturnCodes ExecuteUpdate()
         {
@@ -77,6 +83,12 @@ namespace PTIRelianceLib.Firmware.Internal
                 {
                     return result;
                 }
+            }
+
+            var recover = RecoverConnection;
+            if (recover != null)
+            {
+                _mPort = RecoverConnection();
             }
 
             var packets = ProcessFirmware(_mFileToFlash.GetData());

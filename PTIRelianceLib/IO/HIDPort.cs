@@ -9,17 +9,21 @@
 
 namespace PTIRelianceLib.IO
 {
-    using System.Diagnostics;
+    using Logging;
     using Internal;
     using Transport;
 
     internal class HidPort<T> : IPort<IPacket> where T : IPacket, new()
     {
-        private readonly HidWrapper _hidWrapper;
+        // ReSharper disable once StaticMemberInGenericType
+        private static readonly ILog Log = LogProvider.GetCurrentClassLogger();
+
+        // ReSharper disable once FieldCanBeMadeReadOnly.Local
+        private HidWrapper _mHidWrapper;
 
         public HidPort(HidDeviceConfig config)
         {
-            _hidWrapper = new HidWrapper(config);           
+            _mHidWrapper = new HidWrapper(config);           
         }
 
         public IPacket PacketLanguage => new T();
@@ -31,16 +35,16 @@ namespace PTIRelianceLib.IO
             return packet;
         }
 
-        public bool IsOpen => _hidWrapper.IsOpen;
+        public bool IsOpen => _mHidWrapper?.IsOpen == true;
 
         public bool Open()
-        {
-            return _hidWrapper.Open();
+        {            
+            return _mHidWrapper?.Open() == true;
         }
 
         public void Close()
         {
-            _hidWrapper.Close();
+            _mHidWrapper?.Close();
         }
 
         public bool Write(IPacket data)
@@ -50,35 +54,40 @@ namespace PTIRelianceLib.IO
                 data.Package();
             }
 
-            if (_hidWrapper.WriteData(data.GetBytes()) > 0)
+            if (_mHidWrapper?.WriteData(data.GetBytes()) > 0)
             {
                 return true;
             }
 
-            Trace.WriteLine(string.Format("HID Write failed: {0}", _hidWrapper.LastError));
+            Log.Error("HID Write failed: {0}", _mHidWrapper?.LastError);
+
             return false;
         }
 
         public IPacket Read(int timeoutMs)
         {
-            var read = _hidWrapper.ReadData(timeoutMs);
+            if (_mHidWrapper == null) return PacketLanguage;
+
+            var read = _mHidWrapper.ReadData(timeoutMs);
             if (read.Length > 0)
             {
                 return Package(read);
             }
 
-            Trace.WriteLine(string.Format("HID Read failed: {0}", _hidWrapper.LastError));
-            return PacketLanguage;
-        }
 
-        public void Dispose()
-        {
-            _hidWrapper.Close();
+            Log.Error("HID Read failed: {0}", _mHidWrapper.LastError);
+
+            return PacketLanguage;
         }
 
         public override string ToString()
         {
-            return _hidWrapper.ToString();
+           return _mHidWrapper == null ? "Disconnected" : _mHidWrapper.ToString();
+        }
+
+        public void Dispose()
+        {
+            _mHidWrapper?.Dispose();
         }
     }
 }

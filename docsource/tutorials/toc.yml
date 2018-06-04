@@ -6,3 +6,5 @@
   href: configuration.md
 - name: Status Check
   href: status_check.md
+- name: Customizations
+  href: customizations.md  

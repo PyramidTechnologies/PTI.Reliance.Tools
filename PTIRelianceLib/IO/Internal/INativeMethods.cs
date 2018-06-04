@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using IO.Internal;
 
-    internal interface INativeMethods : IDisposable
+    internal interface INativeMethods
     {
         /// <summary>
         /// Initialize the HIDAPI library.
@@ -103,5 +103,31 @@
         /// <returns>This function returns the actual number of bytes written and
         /// -1 on error.</returns>
         int Write(HidDevice device, byte[] data, UIntPtr length);
+
+        /// <summary>
+        /// Reads and returns the manufacturer string of the specified device. If there is an
+        /// error null will be returned, else a string with zero or more characters will be returned.
+        /// </summary>
+        /// <param name="device">Device handle</param>
+        /// <returns>String or null on error</returns>
+        string GetManufacturerString(HidDevice device);
+
+        /// <summary>
+        /// Reads and returns the product string of the specified device. If there is an
+        /// error null will be returned, else a string with zero or more characters will be returned.
+        /// </summary>
+        /// <param name="device">Device handle</param>
+        /// <returns>String or null on error</returns>
+        string GetProductString(HidDevice device);
+
+        /// <summary>
+        /// Returns the product serial number of the specified device, if any. Note
+        /// that it is common for USB vendors to not program them with serial numbers.
+        /// If there is an error null will be returned, else a string with zero or
+        /// more characters will be returned.
+        /// </summary>        
+        /// <param name="device">Device handle</param>
+        /// <returns>String or null on error</returns>
+        string GetSerialNumber(HidDevice device);
     }
 }

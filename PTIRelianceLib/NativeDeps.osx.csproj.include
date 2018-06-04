@@ -1,0 +1,9 @@
+<Project>
+  <ItemGroup>
+    <Content Include="..\lib\$(NativeDependenciesConfiguration)\$(NativeDepsPlatform)\libhidapi.dylib">  
+      <Link>libhidapi.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>false</Pack>
+    </Content>
+  </ItemGroup>
+</Project>

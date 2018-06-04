@@ -215,6 +215,7 @@ namespace PTIRelianceLib.Configuration
 
         /// <summary>
         /// Get or Set unique usb serial number feture enabled
+        /// Serialization format requires this name
         /// </summary>
         [DefaultValue(false)]
         public bool IsUniqueUSBSNEnabled { get; set; }

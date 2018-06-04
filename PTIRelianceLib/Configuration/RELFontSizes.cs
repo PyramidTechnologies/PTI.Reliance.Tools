@@ -15,15 +15,21 @@ namespace PTIRelianceLib.Configuration
     {
         /// <summary>
         /// A CPI 11, B CPI 15
-        /// </summary>
+        /// Serialization format requires this name
+        /// </summary>        
+        // ReSharper disable once InconsistentNaming
         A11_B15 = 0,
         /// <summary>
         /// A CPI 15, B CPI 20
+        /// Serialization format requires this name
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         A15_B20 = 1,
         /// <summary>
         /// A CPI 120, B CPI 15
+        /// Serialization format requires this name
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         A20_B15 = 2,
 
         Unset = 0xFF

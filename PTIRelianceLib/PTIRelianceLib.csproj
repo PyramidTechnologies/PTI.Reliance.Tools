@@ -8,28 +8,40 @@
     <Authors>Cory Todd &lt;cory@pyramidacceptors.com&gt;</Authors>
     <Company>Pyramid Technologies Inc.</Company>
     <Description>A Reliance Thermal printer API that support firmware updates and configuration. This requires the Reliance printer to be connected via USB.</Description>
-    <Copyright>2018</Copyright>
+    <Copyright>2018 Pyramid Technologies</Copyright>
     <PackageLicenseUrl>https://pti.mit-license.org/</PackageLicenseUrl>
     <PackageReleaseNotes>Supports flash updating, confguration read, and configuration write</PackageReleaseNotes>
-    <Version>0.2.0.0</Version>
+    <Version>0.3.0.0</Version>
     <PackageProjectUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>dotnet-core thermal-printer hid</PackageTags>
     <PackageIconUrl>https://pyramidacceptors.com/favicon.ico</PackageIconUrl>
-    <AssemblyVersion>0.2.0.0</AssemblyVersion>
+    <AssemblyVersion>0.3.0.0</AssemblyVersion>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <FileVersion>0.2.0.0</FileVersion>
+    <FileVersion>0.3.0.0</FileVersion>
+	<IncludeSource>true</IncludeSource>
+	<IncludeSymbols>true</IncludeSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DocumentationFile>bin\x64\Release\netcoreapp2.0\PTIRelianceLib.xml</DocumentationFile>
     <WarningLevel>0</WarningLevel>
+    <NoWarn>1701;1702;NU5100</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NoWarn>1701;1702;NU5100</NoWarn>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <Content Include="..\lib\x64\osx\libhidapi.dylib" Visible="false">
+      <PackagePath>runtimes/osx/native/libhidapi.dylib</PackagePath>
+      <Pack>true</Pack>
+    </Content>
     <Content Include="..\lib\x64\linux\libhidapi.so" Visible="false">
       <PackagePath>runtimes/linux/native/libhidapi.so</PackagePath>
       <Pack>true</Pack>
@@ -44,7 +56,12 @@
     </Content>
   </ItemGroup>  
   
-  <Import Project="NativeDeps.csproj.include" />
+  <Import Project="NativeDeps.csproj.include" />  
+  
+  <ItemGroup>
+    <PackageReference Include="LibLog" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
    
   <!-- Hide .include files from solution -->
   <ItemGroup>
@@ -54,6 +71,6 @@
   <Target Name="DebugVars" AfterTargets="Build">
 	<Message Text="Configuration $(NativeDependenciesConfiguration)" Importance="high" />
 	<Message Text="Platform $(NativeDepsPlatform)" Importance="high" />	 
-  </Target>
+  </Target> 
   
 </Project>

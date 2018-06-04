@@ -18,10 +18,9 @@ namespace PTIRelianceLib.Tests
         {
         }
 
-        public override void Dispose()
+        public override string ToString()
         {
-            // Do nothing, this has a fake handle
-            _mInvalidated = true;
+            return "Fake Device";
         }
     }
 
@@ -76,9 +75,19 @@ namespace PTIRelianceLib.Tests
             return data.Length;
         }
 
-        public void Dispose()
+        public string GetManufacturerString(HidDevice device)
         {
-            // Override so we don't try to shutdown the non-existent HID data strucutres
+            return "Pyramid Technologies";
+        }
+
+        public string GetProductString(HidDevice device)
+        {
+            return "Test Device";
+        }
+
+        public string GetSerialNumber(HidDevice device)
+        {
+            return "DEADBEEF1234567890";
         }
 
         public Func<byte[], byte[]> GetNextResponse { get; set; }

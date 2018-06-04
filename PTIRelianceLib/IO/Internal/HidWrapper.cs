@@ -6,16 +6,21 @@
 // 11:30 AM
 #endregion
 
+
 namespace PTIRelianceLib.IO.Internal
 {
+    using Logging;
     using System;
     using System.Diagnostics;
+    using System.Threading;
 
     [DebuggerDisplay("IsOpen = {IsOpen}, LastError = {LastError}")]
     internal class HidWrapper : IDisposable
-    {       
+    {
+        private static readonly ILog Log = LogProvider.For<NativeMethods>();
+
         private HidDevice Device { get; set; }
-        private readonly HidDeviceConfig _deviceConfig;
+        private readonly HidDeviceConfig _mDeviceConfig;
 
         /// <summary>
         /// Creates a new HID port wrapper
@@ -23,12 +28,17 @@ namespace PTIRelianceLib.IO.Internal
         /// <param name="config">USB HID configuration</param>
         public HidWrapper(HidDeviceConfig config)
         {
+            _mDeviceConfig = config;
+
+            Device = HidDevice.Invalid();
+
             // Setup HIDAPI structures
             config.NativeHid.Init();
 
-            Device = HidDevice.Invalid();
-            _deviceConfig = config;
+            // Attempt to open device
             Open();
+
+            Log.Trace("New HidWrapper created and is {0}", IsOpen ? "Open" : "Not Open");            
         }
 
         /// <summary>
@@ -53,9 +63,7 @@ namespace PTIRelianceLib.IO.Internal
             }
 
             Device = GetHidHandle();
-
-            CheckError();
-
+            
             return IsOpen;
         }
 
@@ -63,8 +71,21 @@ namespace PTIRelianceLib.IO.Internal
         /// Close and release USB handle
         /// </summary>
         public void Close()
-        {            
-            Device = HidDevice.Invalid();
+        {
+            _mDeviceConfig.NativeHid.Close(Device);
+
+            Log.Trace("HidWrapper closed");
+
+            if (Library.Options.HidCleanupDelayMs <= 0)
+            {
+                return;
+            }
+
+            Log.Info(" ({0} ms delay here)", Library.Options.HidCleanupDelayMs);
+
+            // Make sure handle is closed in case enumeration call is made immedately
+            // after device is closed.
+            Thread.Sleep(Library.Options.HidCleanupDelayMs);
         }
 
         /// <summary>
@@ -74,14 +95,17 @@ namespace PTIRelianceLib.IO.Internal
         /// <returns>Device handle or IntPtr.Zero if no match found</returns>
         private HidDevice GetHidHandle()
         {
-            foreach (var devinfo in _deviceConfig.NativeHid.Enumerate(_deviceConfig.VendorId, _deviceConfig.ProductId))
+            var devices = _mDeviceConfig.NativeHid.Enumerate(_mDeviceConfig.VendorId, _mDeviceConfig.ProductId);
+            foreach (var devinfo in devices)
             {
-                var handle = _deviceConfig.NativeHid.OpenPath(devinfo.Path);
+                var handle = _mDeviceConfig.NativeHid.OpenPath(devinfo.Path);
 
                 if (handle.IsValid)
                 {
                     return handle;
                 }
+                
+                Log.Trace("Enumeration returned invalid handle");                
             }
 
             return HidDevice.Invalid();
@@ -91,7 +115,7 @@ namespace PTIRelianceLib.IO.Internal
         /// Writes data to USB port
         /// </summary>
         /// <param name="data">Data to write</param>
-        /// <returns></returns>
+        /// <returns>Actual number of bytes written, -1 on error</returns>
         public int WriteData(byte[] data)
         {
             if (!Device.IsValid)
@@ -99,10 +123,13 @@ namespace PTIRelianceLib.IO.Internal
                 return -1;
             }
 
-            var report = HidReport.MakeOutputReport(_deviceConfig, data);  
-            var result = _deviceConfig.NativeHid.Write(Device, report.Data, report.Size);
+            var report = HidReport.MakeOutputReport(_mDeviceConfig, data);  
+            var result = _mDeviceConfig.NativeHid.Write(Device, report.Data, report.Size);
 
-            CheckError();
+            if (result < 0)
+            {
+                CheckError();
+            }
 
             return result;
         }
@@ -119,16 +146,18 @@ namespace PTIRelianceLib.IO.Internal
                 return new byte[0];
             }
 
-            var inreport = HidReport.MakeInputReport(_deviceConfig);
-            var read = _deviceConfig.NativeHid.Read(Device, inreport.Data, inreport.Size, timeoutMs);
+            var inreport = HidReport.MakeInputReport(_mDeviceConfig);
+            var read = _mDeviceConfig.NativeHid.Read(Device, inreport.Data, inreport.Size, timeoutMs);
 
             var result = new byte[0];
             if (read > 0)
             {
                 result = inreport.GetPayload();
             }
-
-            CheckError();
+            else
+            {
+                CheckError();
+            }
 
             return result;
         }
@@ -137,18 +166,23 @@ namespace PTIRelianceLib.IO.Internal
         /// </summary>
         private void CheckError()
         {
-            LastError = _deviceConfig.NativeHid.Error(Device);            
-        }
-
-        public void Dispose()
-        {
-            Close();
+            LastError = _mDeviceConfig.NativeHid.Error(Device);
+            if (!string.IsNullOrEmpty(LastError))
+            {
+                Log.Info("Error Set: {0}", LastError);
+            }
         }
 
         public override string ToString()
         {
             return string.Format("HID [{0:X4},{1:X4}] (Open? {2})", 
-                _deviceConfig.VendorId, _deviceConfig.ProductId, IsOpen);
+                _mDeviceConfig.VendorId, _mDeviceConfig.ProductId, IsOpen);
+        }
+
+        public void Dispose()
+        {
+            Close();
+            Log.Trace("HidWrapper destroyed");
         }
     }
 }

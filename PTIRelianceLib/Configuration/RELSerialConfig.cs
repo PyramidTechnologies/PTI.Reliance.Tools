@@ -116,11 +116,11 @@ namespace PTIRelianceLib.Configuration
     {
 
         #region Default Serial Parameters
-        private const int DefaultBaudRate = 19200;
-        private const byte DefaultDataBits = 8;
-        private const SerialParity DefaultParity = SerialParity.None;
-        private const SerialStopbits DefaultStopBits = SerialStopbits.One;
-        private const SerialHandshake DefaultFlowControl = SerialHandshake.None;
+        private const int _mDefaultBaudRate = 19200;
+        private const byte _mDefaultDataBits = 8;
+        private const SerialParity _mDefaultParity = SerialParity.None;
+        private const SerialStopbits _mDefaultStopBits = SerialStopbits.One;
+        private const SerialHandshake _mDefaultFlowControl = SerialHandshake.None;
         #endregion
 
         #region Properties
@@ -138,11 +138,11 @@ namespace PTIRelianceLib.Configuration
         /// <returns>SerialConfig</returns>
         public static RELSerialConfig Default => new RELSerialConfig()
         {
-            BaudRate = DefaultBaudRate,
-            Databits = DefaultDataBits,
-            Parity = DefaultParity,
-            Stopbits = DefaultStopBits,
-            Handshake = DefaultFlowControl
+            BaudRate = _mDefaultBaudRate,
+            Databits = _mDefaultDataBits,
+            Parity = _mDefaultParity,
+            Stopbits = _mDefaultStopBits,
+            Handshake = _mDefaultFlowControl
         };
 
         /// <summary>
@@ -150,11 +150,11 @@ namespace PTIRelianceLib.Configuration
         /// </summary>
         public SerialConfigBuilder()
         {
-            BaudRate = DefaultBaudRate;
-            Databits = DefaultDataBits;
-            Parity = DefaultParity;
-            StopBits = DefaultStopBits;
-            FlowControl = DefaultFlowControl;
+            BaudRate = _mDefaultBaudRate;
+            Databits = _mDefaultDataBits;
+            Parity = _mDefaultParity;
+            StopBits = _mDefaultStopBits;
+            FlowControl = _mDefaultFlowControl;
         }
 
         /// <summary>

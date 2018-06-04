@@ -1,0 +1,43 @@
+version: 0.3.{build}
+environment:
+  access_token:
+    secure: YSFDm4ei5xaIqx0zLMGKHXz/No0BEXDrBxdViLp1W8GKKEAmDu/mXP9fL0Bjh4jg
+pull_requests:
+  do_not_increment_build_number: true
+image: Visual Studio 2017
+before_build:
+  - ps: |
+        if(-Not $env:APPVEYOR_PULL_REQUEST_TITLE)
+        {
+            git checkout $env:APPVEYOR_REPO_BRANCH -q
+            choco install docfx -y
+        }
+dotnet_csproj:
+  patch: true
+  file: PTIRelianceLib\PTIRelianceLib.csproj
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+nuget:
+  account_feed: false
+  project_feed: false
+build_script:
+- ps: .\tools\build_project.ps1
+test_script:
+- ps: .\tools\run_tests.ps1
+artifacts:
+- path: PTIRelianceLib/build
+  name: /PTIRelianceLib/build/.*\.nupkg/
+on_success:
+  - git config --global core.autocrlf true
+  - git config --global credential.helper store
+  - ps: Add-Content "$HOME\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+  - git config --global user.name "Bert Bot"
+  - git config --global user.email "bertbot@pyramidacceptors.com"
+  - git clone https://github.com/PyramidTechnologies/PTI.Reliance.Tools.git -b gh-pages _site -q
+  - ps: docfx docsource\docfx.json
+  - ps: CD _site
+  - git add -A
+  - git diff-index --quiet HEAD || git commit -m "CI Updates" -q && git push origin gh-pages -q

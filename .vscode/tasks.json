@@ -7,9 +7,15 @@
             "type": "process",
             "args": [
                 "build",
+                "-c", "Debug",
+                "/p:Platform=x64",
                 "${workspaceFolder}/RelianceCLI/RelianceCLI.csproj"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

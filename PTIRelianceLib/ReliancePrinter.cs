@@ -17,6 +17,7 @@ namespace PTIRelianceLib
     using Firmware.Internal;
     using IO;
     using IO.Internal;
+    using Logging;
     using Protocol;
     using Transport;
 
@@ -32,9 +33,11 @@ namespace PTIRelianceLib
     ///
     /// Reliance Tools for PC <see href="https://pyramidacceptors.com/app/reliance-tools/"/>
     /// </summary>
-    [DebuggerDisplay("IsOpen = {_port.IsOpen}")]
+    [DebuggerDisplay("IsOpen = {_mPort.IsOpen}")]
     public class ReliancePrinter : IPyramidDevice
     {
+        private static readonly ILog Log = LogProvider.For<ReliancePrinter>();
+
         /// <summary>
         /// USB vendor id for all Reliance USB interfaces
         /// </summary>
@@ -49,7 +52,12 @@ namespace PTIRelianceLib
         /// <summary>
         /// Underlying communication handle
         /// </summary>
-        private readonly IPort<IPacket> _port;
+        private IPort<IPacket> _mPort;
+
+        /// <summary>
+        /// HID configuration parameters for Reliance
+        /// </summary>
+        private readonly HidDeviceConfig _mPortConfig;
 
         /// <summary>
         /// Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
@@ -60,7 +68,7 @@ namespace PTIRelianceLib
         public ReliancePrinter()
         {
             // Reliance will "always" use report lengths of 34 bytes
-            var config = new HidDeviceConfig
+            _mPortConfig = new HidDeviceConfig
             {
                 VendorId = VendorId,
                 ProductId = ProductId,
@@ -71,15 +79,7 @@ namespace PTIRelianceLib
                 NativeHid = new NativeMethods()
             };
 
-            try
-            {
-                _port = new HidPort<ReliancePacket>(config);
-            }
-            catch (DllNotFoundException ex)
-            {
-                // Re throw as our own exception
-                throw new PTIException("Failed to load HID library: {0}", ex.Message);
-            }
+            AcquireHidPort();
         }
 
         /// <summary>
@@ -89,15 +89,33 @@ namespace PTIRelianceLib
         /// <param name="config">HID library options</param>
         internal ReliancePrinter(HidDeviceConfig config)
         {
+            _mPortConfig = config;
+            AcquireHidPort();
+        }
+
+        /// <summary>
+        /// Closes current port if possible. A new port is created and an attempt to connect is made.
+        /// The _mPort field will non-null as long as the native HID library is loaded. The _mPort
+        /// value is returned as a convenience.
+        /// A <see cref="PTIException"/> is thrown if the native shared HID library cannot be loaded
+        /// </summary>
+        /// <exception cref="PTIException">Thrown if native HID library cannot be loaded</exception>
+        /// <returns>IPort or null on error</returns>
+        /// <value>IPort instance or null</value>
+        private IPort<IPacket> AcquireHidPort()
+        {
             try
             {
-                _port = new HidPort<ReliancePacket>(config);
+                _mPort?.Close();         
+                _mPort = new HidPort<ReliancePacket>(_mPortConfig);
             }
             catch (DllNotFoundException ex)
             {
                 // Re throw as our own exception
                 throw new PTIException("Failed to load HID library: {0}", ex.Message);
             }
+
+            return _mPort;
         }
 
         /// <inheritdoc />
@@ -109,7 +127,7 @@ namespace PTIRelianceLib
         /// <exception cref="PTIException">Thrown if config file cannot be parsed</exception> 
         public ReturnCodes SendConfiguration(BinaryFile config)
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return ReturnCodes.DeviceNotConnected;
             }
@@ -120,7 +138,7 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public BinaryFile ReadConfiguration()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {               
                 return BinaryFile.From(new byte[0]);
             }
@@ -152,7 +170,7 @@ namespace PTIRelianceLib
         /// </returns>
         public ReturnCodes FlashUpdateTarget(BinaryFile firmware, ProgressMonitor reporter = null)
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return ReturnCodes.DeviceNotConnected;
             }
@@ -169,17 +187,30 @@ namespace PTIRelianceLib
             }
 
             reporter = reporter ?? new DevNullMonitor();
-            var updater = new RELFwUpdater(_port, firmware)
+            var updater = new RELFwUpdater(_mPort, firmware)
             {
                 Reporter = reporter,
                 FileType = FileTypes.Base,
-                RunBefore = new List<Func<ReturnCodes>> { EnterBootloader },
-                RunAfter = new List<Func<ReturnCodes>> {  Reboot }
+                RecoverConnection = AcquireHidPort,
+                RunBefore = new List<Func<ReturnCodes>>(),
+                RunAfter = new List<Func<ReturnCodes>> { Reboot }
             };
+
+            // If not already in bootloader mode, do so before flash update
+            var appID = GetAppId();
+            if (!appID.ToLower().Equals("bootloader"))
+            {
+                updater.RunBefore.Add(EnterBootloader);
+            }
 
             try
             {
-                return updater.ExecuteUpdate();
+                var resp = updater.ExecuteUpdate();
+
+                // Make sure port is in a usuable state
+                AcquireHidPort();
+
+                return resp;
             }
             catch (PTIException e)
             {
@@ -191,7 +222,7 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public Revlev GetFirmwareRevision()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return new Revlev();
             }
@@ -210,7 +241,7 @@ namespace PTIRelianceLib
         /// <returns>Status object or <c>null</c> if no connection or error</returns>
         public Status GetStatus()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return null;
             }
@@ -223,7 +254,7 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public string GetSerialNumber()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return string.Empty;
             }
@@ -243,14 +274,15 @@ namespace PTIRelianceLib
         /// </summary>
         public ReturnCodes Ping()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return ReturnCodes.DeviceNotConnected;
             }
 
             var cmd = new ReliancePacket(RelianceCommands.Ping);
             var resp = Write(cmd);
-            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            return resp.GetPacketType() == PacketTypes.PositiveAck ?
+                ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
         }
 
         /// <inheritdoc />
@@ -266,7 +298,7 @@ namespace PTIRelianceLib
         /// (e.g. dispose) and then try again.</exception>
         public ReturnCodes Reboot()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return ReturnCodes.DeviceNotConnected;
             }
@@ -276,32 +308,39 @@ namespace PTIRelianceLib
                 var cmd = new ReliancePacket(RelianceCommands.Reboot);
                 Write(cmd);
 
-                // Close immediately
-                _port.Close();
-
-                // Try for 7 seconds to reconnect
-                var start = DateTime.Now;
-                while ((DateTime.Now - start).TotalMilliseconds < 7000)
+                var retry = 0;
+                while (++retry < 10)
                 {
-                    Thread.Sleep(250);
-                    if (_port.Open())
+                    // Calls port close which has delay baked in
+                    AcquireHidPort();
+
+                    if (Library.Options.HidReconnectDelayMs > 0)
+                    {
+                        Thread.Sleep(Library.Options.HidReconnectDelayMs);
+                    }
+
+                    if (_mPort?.IsOpen == true)
                     {
                         break;
                     }
+
+                    Log.Trace("Reboot reconnet attempt: {0}", retry);
                 }
 
-                return _port.IsOpen ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+                if (!_mPort?.IsOpen != true)
+                {
+                    return ReturnCodes.Okay;
+                }
+
+                Log.Warn("Failing to reboot indicates that Reliance is having trouble reconnecting to your hardware." +
+                         "It is recommended to check PTIRelianceLib.Library.Options for configuration options.");
+                return ReturnCodes.RebootFailure;
+
             }
             catch (Exception e)
             {
                 throw new PTIException("Error occurred during reboot: {0}", e.Message);
             }
-        }
-
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            _port?.Dispose();
         }
 
         /// <summary>
@@ -317,7 +356,7 @@ namespace PTIRelianceLib
         /// </returns>
         public IEnumerable<ushort> GetInstalledCodepages()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return Enumerable.Empty<ushort>();
             }
@@ -354,7 +393,7 @@ namespace PTIRelianceLib
         /// <returns>Application id string</returns>
         internal string GetAppId()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return string.Empty;
             }
@@ -370,13 +409,14 @@ namespace PTIRelianceLib
         /// <returns></returns>
         internal ReturnCodes EnterBootloader()
         {
-            if (!_port.IsOpen)
+            if (!_mPort.IsOpen)
             {
                 return ReturnCodes.DeviceNotConnected;
             }
 
             var resp = Write(RelianceCommands.SetBootMode, 0x21);
-            return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.ExecutionFailure : Reboot();
+
+            return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.FailedBootloaderEntry : Reboot();
         }
 
         /// <summary>
@@ -395,19 +435,25 @@ namespace PTIRelianceLib
 
         /// <summary>
         /// Write wrapper handle the write-wait-read process. The data returned
-        /// from this method will be unpackaged for your.
+        /// from this method will be payload portion of the HID packet.
         /// </summary>
         /// <param name="data">Data to send</param>
         /// <returns>Response or empty if no response</returns>
         internal virtual IPacket Write(IPacket data)
         {
-            if (!_port.Write(data))
+            if (!_mPort.Write(data))
             {
-                return _port.PacketLanguage;
+                return _mPort.PacketLanguage;
             }
 
-            var resp = _port.Read(100);
+            var resp = _mPort.Read(100);
             return resp.ExtractPayload();
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            _mPort?.Close();
         }
     }
 }

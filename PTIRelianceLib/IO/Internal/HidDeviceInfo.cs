@@ -60,7 +60,15 @@ namespace PTIRelianceLib.IO.Internal
         /// contains more than one interface
         /// </summary>
         public int InterfaceNumber;
+
+        /// <summary>
+        /// Returns device info in form:
+        /// VID:PID|Mfg. String|Prod. String|Path
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"{VendorId:X4}:{ProductId:X4}|{ManufacturerString}|{ProductString}|{Path}";
+        }
     }
-
-
 }

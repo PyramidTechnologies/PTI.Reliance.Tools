@@ -1,9 +1,0 @@
-version: 0.1.{build}
-branches:
-  only:
-  - develop
-image: Visual Studio 2017
-build_script:
-- cmd: tools\build_project.bat
-test_script:
-- cmd: tool\run_tests.bat

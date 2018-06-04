@@ -63,6 +63,17 @@ namespace PTIRelianceLib
         /// <summary>
         /// Operation was aborted by library due to sanity check failure
         /// </summary>
-        OperationAborted
+        OperationAborted,
+        /// <summary>
+        /// An attempt to reboot the printer resulted in the connection not
+        /// recovering. Try to reconnect to the printer again if you receive
+        /// this response.
+        /// </summary>
+        RebootFailure,
+        /// <summary>
+        /// An attmept to enter bootloader mode failed. Reboot the printer
+        /// and try again if you receive this response.
+        /// </summary>
+        FailedBootloaderEntry,
     }
 }
