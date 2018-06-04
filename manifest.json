@@ -90,7 +90,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Library.html",
-          "hash": "GcLQe9Rijv+P/NuCJ2YAAw=="
+          "hash": "NxJlLgFpUeYGqlPj8nGWLA=="
         }
       },
       "is_incremental": false,
@@ -174,7 +174,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.ReliancePrinter.html",
-          "hash": "WIRjzR+n78dFNBZI0JV6mA=="
+          "hash": "uqvCGFitKFl0cGtR9OSqmA=="
         }
       },
       "is_incremental": false,
@@ -412,11 +412,11 @@
         "incrementalPhase": "build"
       },
       "processors": {
-        "ConceptualDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },
-        "ManagedReferenceDocumentProcessor": {
+        "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
         },
