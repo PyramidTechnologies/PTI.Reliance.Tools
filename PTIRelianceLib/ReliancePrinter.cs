@@ -12,11 +12,11 @@ namespace PTIRelianceLib
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Threading;
     using Configuration;
     using Firmware.Internal;
     using IO;
     using IO.Internal;
+    using Logging;
     using Protocol;
     using Transport;
 
@@ -35,6 +35,8 @@ namespace PTIRelianceLib
     [DebuggerDisplay("IsOpen = {_mPort.IsOpen}")]
     public class ReliancePrinter : IPyramidDevice
     {
+        private static readonly ILog Log = LogProvider.For<ReliancePrinter>();
+
         /// <summary>
         /// USB vendor id for all Reliance USB interfaces
         /// </summary>
@@ -305,19 +307,20 @@ namespace PTIRelianceLib
                 var cmd = new ReliancePacket(RelianceCommands.Reboot);
                 Write(cmd);
 
-                // Try for XX seconds to reconnect
-                var start = DateTime.Now;
-                while ((DateTime.Now - start).TotalMilliseconds < 10000)
+                _mPort?.Close();
+
+                var retry = 0;
+                while (++retry < 10)
                 {
-                    // Calls port close which has a 50 ms delay baked in
+                    // Calls port close which has delay baked in
                     AcquireHidPort();
-
-                    Thread.Sleep(250);
-
+                    
                     if (_mPort?.IsOpen == true)
                     {
                         break;
                     }
+
+                    Log.Trace("Reboot reconnet attempt #{0}", retry);
                 }
 
                 return _mPort?.IsOpen == true ? ReturnCodes.Okay : ReturnCodes.RebootFailure;
@@ -400,8 +403,8 @@ namespace PTIRelianceLib
             }
 
             var resp = Write(RelianceCommands.SetBootMode, 0x21);
-            return resp.GetPacketType() != PacketTypes.PositiveAck ?
-                ReturnCodes.FailedBootloaderEntry : Reboot();
+
+            return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.FailedBootloaderEntry : Reboot();
         }
 
         /// <summary>
