@@ -1,1 +1,1 @@
-dotnet build -c Debug /property:Platform=X64
+dotnet build -c Release /property:Platform=X64
