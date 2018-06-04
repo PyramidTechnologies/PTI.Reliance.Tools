@@ -308,8 +308,6 @@ namespace PTIRelianceLib
                 var cmd = new ReliancePacket(RelianceCommands.Reboot);
                 Write(cmd);
 
-                _mPort?.Close();
-
                 var retry = 0;
                 while (++retry < 10)
                 {
