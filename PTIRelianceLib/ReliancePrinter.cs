@@ -314,7 +314,10 @@ namespace PTIRelianceLib
                     // Calls port close which has delay baked in
                     AcquireHidPort();
 
-                    Thread.Sleep(250);
+                    if (Library.Options.HidReconnectDelayMs > 0)
+                    {
+                        Thread.Sleep(Library.Options.HidReconnectDelayMs);
+                    }
 
                     if (_mPort?.IsOpen == true)
                     {

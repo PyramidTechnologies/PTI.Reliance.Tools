@@ -31,19 +31,16 @@ namespace PTIRelianceLib
         /// <summary>
         /// Interal device info enumeration
         /// </summary>
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        [StructLayout(LayoutKind.Sequential)]
         private struct PrivateHidDeviceInfo
         {
             [MarshalAs(UnmanagedType.LPStr)]
             public readonly string Path;
             public readonly ushort VendorId;
             public readonly ushort ProductId;
-            [MarshalAs(UnmanagedType.LPWStr)]
             public readonly string SerialNumber;
             public readonly ushort ReleaseNumber;
-            [MarshalAs(UnmanagedType.LPWStr)]
             public readonly string ManufacturerString;
-            [MarshalAs(UnmanagedType.LPWStr)]
             public readonly string ProductString;
             public readonly ushort UsagePage;
             public readonly ushort Usage;
@@ -115,18 +112,22 @@ namespace PTIRelianceLib
                 {
                     Log.Warn("No HID devices found during enumeration");
 
-                    if (!Library.Options.FlushHidOnEnumerationErr)
+                    if (!Library.Options.HidFlushStructuresOnEnumError)
                     {
                         return Enumerable.Empty<HidDeviceInfo>();
                     }
 
                     Log.Info("flushing HID structures...");
-                    if (_HidExit() > 0)
+                    if (_HidExit() != 0)
                     {
                         Log.Error("Failed to flush HID structures");
                     }
 
-                    Thread.Sleep(Library.Options.HidCleanupDelayMs);
+                    if (Library.Options.HidCleanupDelayMs > 0)
+                    {
+                        Thread.Sleep(Library.Options.HidCleanupDelayMs);
+                    }
+
                     Log.Info("HID structure flush completed");
 
                     return Enumerable.Empty<HidDeviceInfo>();
@@ -303,7 +304,7 @@ namespace PTIRelianceLib
         private static string ReadUnicodeString(HidDevice device, Func<IntPtr, StringBuilder, uint, int> fn)
         {
             var sb = new StringBuilder();
-            return fn.Invoke(device.Handle, sb, 255) != 0 ? string.Empty : sb.ToString();
+            return fn.Invoke(device.Handle, sb, 255) != 0 ? null : sb.ToString();
         }
     }
 }

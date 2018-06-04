@@ -156,7 +156,7 @@ namespace PTIRelianceLib.Firmware.Internal
                     }
                 }
 
-                if (tracker.RetryCount <= tracker.RetryLimit)
+                if (tracker.RetryCount < tracker.RetryLimit)
                 {
                     continue;
                 }

@@ -30,17 +30,15 @@ namespace PTIRelianceLib.IO.Internal
         {
             _mDeviceConfig = config;
 
-            // Setup HIDAPI structures
-            if (config.NativeHid.Init() != 0)
-            {
-                CheckError();
-            }
-
             Device = HidDevice.Invalid();
 
+            // Setup HIDAPI structures
+            config.NativeHid.Init();
+
+            // Attempt to open device
             Open();
 
-            Log.Trace("New HidWrapper created");            
+            Log.Trace("New HidWrapper created and is {0}", IsOpen ? "Open" : "Not Open");            
         }
 
         /// <summary>
@@ -65,22 +63,7 @@ namespace PTIRelianceLib.IO.Internal
             }
 
             Device = GetHidHandle();
-
-            CheckError();
-
-            Log.Trace("HidWrapper opened okay: {0}", IsOpen);
-
-            if (!IsOpen)
-            {
-                return IsOpen;
-            }
-
-            // TODO it would be nice to store these somewhere
-            var mfg = _mDeviceConfig.NativeHid.GetManufacturerString(Device);
-            var product = _mDeviceConfig.NativeHid.GetProductString(Device);
-            var sn = _mDeviceConfig.NativeHid.GetSerialNumber(Device);
-            Log.Info("Connected to: {0}, {1}, SN# {2}", mfg, product, sn);
-
+            
             return IsOpen;
         }
 
@@ -90,7 +73,15 @@ namespace PTIRelianceLib.IO.Internal
         public void Close()
         {
             _mDeviceConfig.NativeHid.Close(Device);
-            Log.Trace("HidWrapper closed ({0} ms delay here)", Library.Options.HidCleanupDelayMs);
+
+            Log.Trace("HidWrapper closed");
+
+            if (Library.Options.HidCleanupDelayMs <= 0)
+            {
+                return;
+            }
+
+            Log.Info(" ({0} ms delay here)", Library.Options.HidCleanupDelayMs);
 
             // Make sure handle is closed in case enumeration call is made immedately
             // after device is closed.
@@ -124,7 +115,7 @@ namespace PTIRelianceLib.IO.Internal
         /// Writes data to USB port
         /// </summary>
         /// <param name="data">Data to write</param>
-        /// <returns></returns>
+        /// <returns>Actual number of bytes written, -1 on error</returns>
         public int WriteData(byte[] data)
         {
             if (!Device.IsValid)
@@ -135,7 +126,10 @@ namespace PTIRelianceLib.IO.Internal
             var report = HidReport.MakeOutputReport(_mDeviceConfig, data);  
             var result = _mDeviceConfig.NativeHid.Write(Device, report.Data, report.Size);
 
-            CheckError();
+            if (result < 0)
+            {
+                CheckError();
+            }
 
             return result;
         }
@@ -160,8 +154,10 @@ namespace PTIRelianceLib.IO.Internal
             {
                 result = inreport.GetPayload();
             }
-
-            CheckError();
+            else
+            {
+                CheckError();
+            }
 
             return result;
         }

@@ -106,27 +106,28 @@
 
         /// <summary>
         /// Reads and returns the manufacturer string of the specified device. If there is an
-        /// error or no string is found, an empty string will be returned.
+        /// error null will be returned, else a string with zero or more characters will be returned.
         /// </summary>
         /// <param name="device">Device handle</param>
-        /// <returns>String</returns>
+        /// <returns>String or null on error</returns>
         string GetManufacturerString(HidDevice device);
 
         /// <summary>
         /// Reads and returns the product string of the specified device. If there is an
-        /// error or no string is found, an empty string will be returned.
+        /// error null will be returned, else a string with zero or more characters will be returned.
         /// </summary>
         /// <param name="device">Device handle</param>
-        /// <returns>String</returns>
+        /// <returns>String or null on error</returns>
         string GetProductString(HidDevice device);
 
         /// <summary>
         /// Returns the product serial number of the specified device, if any. Note
         /// that it is common for USB vendors to not program them with serial numbers.
-        /// If the event of an error or missing serial number, an empty string will be returned.
+        /// If there is an error null will be returned, else a string with zero or
+        /// more characters will be returned.
         /// </summary>        
         /// <param name="device">Device handle</param>
-        /// <returns>String</returns>
+        /// <returns>String or null on error</returns>
         string GetSerialNumber(HidDevice device);
     }
 }

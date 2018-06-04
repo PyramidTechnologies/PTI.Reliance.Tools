@@ -14,13 +14,22 @@ namespace PTIRelianceLib
     public class LibraryOptions
     {
         /// <summary>
-        /// Gets or Sets the delay in milliseconds that is used to way after
+        /// Gets or Sets the delay in milliseconds to block for after
         /// closing and cleaning up after an HID port. This primarily affects
         /// reboot calls during the flash update process.
-        /// Default: 50 ms
+        /// Default: 0 ms
         /// </summary>
         /// <value>Integer delay in milliseconds</value>
         public int HidCleanupDelayMs { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the delay in millisecond that is used during Hid reconnection
+        /// attempts. For devices with slow/no device event loops this has no effect.
+        /// Instead, set <see cref="HidFlushStructuresOnEnumError"/> to make sure
+        /// that fresh HID devices are getting discovered on enumeration.
+        /// Default: 500
+        /// </summary>
+        public int HidReconnectDelayMs { get; set; }
 
         /// <summary>
         /// When true, if HID enumeration returns no results, flush the
@@ -31,15 +40,16 @@ namespace PTIRelianceLib
         /// during the flash update process.
         /// Default: false
         /// </summary>
-        public bool FlushHidOnEnumerationErr { get; set; }
+        public bool HidFlushStructuresOnEnumError { get; set; }
 
         /// <summary>
         /// Returns the default library options for this library.
         /// </summary>
         public static LibraryOptions Default => new LibraryOptions
         {
-            HidCleanupDelayMs = 50,
-            FlushHidOnEnumerationErr = false
+            HidCleanupDelayMs = 0,
+            HidReconnectDelayMs = 500,
+            HidFlushStructuresOnEnumError = false,
         };
 
         /// <summary>
@@ -47,8 +57,9 @@ namespace PTIRelianceLib
         /// </summary>
         public static LibraryOptions DockerLinuxStretch => new LibraryOptions
         {
-            HidCleanupDelayMs = 50,
-            FlushHidOnEnumerationErr = false
+            HidCleanupDelayMs = 250,
+            HidReconnectDelayMs = 500,
+            HidFlushStructuresOnEnumError = true,
         };
     }    
 }
