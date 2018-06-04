@@ -76,7 +76,18 @@ namespace PTIRelianceLib
                 NativeHid = new NativeMethods()
             };
 
-            MakeNewPort();
+            AcquireHidPort();
+        }
+
+        /// <summary>
+        /// Internal constructor using specified HID configurations from
+        /// <see cref="HidDeviceConfig"/>.
+        /// </summary>
+        /// <param name="config">HID library options</param>
+        internal ReliancePrinter(HidDeviceConfig config)
+        {
+            _mPortConfig = config;
+            AcquireHidPort();
         }
 
         /// <summary>
@@ -88,7 +99,7 @@ namespace PTIRelianceLib
         /// <exception cref="PTIException">Thrown if native HID library cannot be loaded</exception>
         /// <returns>IPort or null on error</returns>
         /// <value>IPort instance or null</value>
-        private IPort<IPacket> MakeNewPort()
+        private IPort<IPacket> AcquireHidPort()
         {
             try
             {
@@ -102,17 +113,6 @@ namespace PTIRelianceLib
             }
 
             return _mPort;
-        }
-
-        /// <summary>
-        /// Internal constructor using specified HID configurations from
-        /// <see cref="HidDeviceConfig"/>.
-        /// </summary>
-        /// <param name="config">HID library options</param>
-        internal ReliancePrinter(HidDeviceConfig config)
-        {
-            _mPortConfig = config;
-            MakeNewPort();
         }
 
         /// <inheritdoc />
@@ -188,7 +188,7 @@ namespace PTIRelianceLib
             {
                 Reporter = reporter,
                 FileType = FileTypes.Base,
-                RecoverConnection = MakeNewPort,
+                RecoverConnection = AcquireHidPort,
                 RunBefore = new List<Func<ReturnCodes>> { EnterBootloader },
                 RunAfter = new List<Func<ReturnCodes>> {  Reboot }
             };
@@ -198,7 +198,7 @@ namespace PTIRelianceLib
                 var resp = updater.ExecuteUpdate();
 
                 // Make sure port is in a usuable state
-                MakeNewPort();
+                AcquireHidPort();
 
                 return resp;
             }
@@ -271,7 +271,8 @@ namespace PTIRelianceLib
 
             var cmd = new ReliancePacket(RelianceCommands.Ping);
             var resp = Write(cmd);
-            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            return resp.GetPacketType() == PacketTypes.PositiveAck ?
+                ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
         }
 
         /// <inheritdoc />
@@ -301,11 +302,12 @@ namespace PTIRelianceLib
                 var start = DateTime.Now;
                 while ((DateTime.Now - start).TotalMilliseconds < 10000)
                 {
-                    MakeNewPort();
+                    // Calls port close which has a 50 ms delay baked in
+                    AcquireHidPort();
 
                     Thread.Sleep(250);
 
-                    if (_mPort?.Open() == true)
+                    if (_mPort?.IsOpen == true)
                     {
                         break;
                     }
@@ -391,7 +393,8 @@ namespace PTIRelianceLib
             }
 
             var resp = Write(RelianceCommands.SetBootMode, 0x21);
-            return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.FailedBootloaderEntry : Reboot();
+            return resp.GetPacketType() != PacketTypes.PositiveAck ?
+                ReturnCodes.FailedBootloaderEntry : Reboot();
         }
 
         /// <summary>
@@ -410,7 +413,7 @@ namespace PTIRelianceLib
 
         /// <summary>
         /// Write wrapper handle the write-wait-read process. The data returned
-        /// from this method will be unpackaged for your.
+        /// from this method will be payload portion of the HID packet.
         /// </summary>
         /// <param name="data">Data to send</param>
         /// <returns>Response or empty if no response</returns>

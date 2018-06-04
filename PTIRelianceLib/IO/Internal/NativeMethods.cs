@@ -22,7 +22,7 @@ namespace PTIRelianceLib
     internal sealed class NativeMethods : INativeMethods
     {
         private static readonly ILog Log = LogProvider.For<NativeMethods>();
-
+        private static bool _hidInitialized;
         private static readonly object GlobalLock = new object();
         private readonly object _mInstanceLock = new object();
 
@@ -81,6 +81,12 @@ namespace PTIRelianceLib
         {
             lock (GlobalLock)
             {
+                if (_hidInitialized)
+                {
+                    return 0;
+                }
+
+                _hidInitialized = true;
                 return _HidInit();
             }
         }
@@ -217,7 +223,8 @@ namespace PTIRelianceLib
         {
             lock (GlobalLock)
             {
-                _HidExit();
+                // TODO it doesn't seem right to dispose eveytime
+                //_HidExit();
             }
         }
     }

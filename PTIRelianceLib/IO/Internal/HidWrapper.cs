@@ -12,6 +12,7 @@ namespace PTIRelianceLib.IO.Internal
     using Logging;
     using System;
     using System.Diagnostics;
+    using System.Threading;
 
     [DebuggerDisplay("IsOpen = {IsOpen}, LastError = {LastError}")]
     internal class HidWrapper : IDisposable
@@ -78,7 +79,11 @@ namespace PTIRelianceLib.IO.Internal
         public void Close()
         {
             _mDeviceConfig.NativeHid.Close(Device);
-            Log.Trace("HidWrapper closed");
+            Log.Trace("HidWrapper closed (50 ms delay here)");
+
+            // Make sure handle is closed in case enumeration call is made immedately
+            // after device is closed.
+            Thread.Sleep(50);
         }
 
         /// <summary>
@@ -88,7 +93,8 @@ namespace PTIRelianceLib.IO.Internal
         /// <returns>Device handle or IntPtr.Zero if no match found</returns>
         private HidDevice GetHidHandle()
         {
-            foreach (var devinfo in _mDeviceConfig.NativeHid.Enumerate(_mDeviceConfig.VendorId, _mDeviceConfig.ProductId))
+            var devices = _mDeviceConfig.NativeHid.Enumerate(_mDeviceConfig.VendorId, _mDeviceConfig.ProductId);
+            foreach (var devinfo in devices)
             {
                 var handle = _mDeviceConfig.NativeHid.OpenPath(devinfo.Path);
 
