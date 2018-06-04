@@ -12,6 +12,7 @@ namespace PTIRelianceLib
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading;
     using Configuration;
     using Firmware.Internal;
     using IO;
@@ -312,6 +313,8 @@ namespace PTIRelianceLib
                 var retry = 0;
                 while (++retry < 10)
                 {
+                    Thread.Sleep(250);
+
                     // Calls port close which has delay baked in
                     AcquireHidPort();
                     
