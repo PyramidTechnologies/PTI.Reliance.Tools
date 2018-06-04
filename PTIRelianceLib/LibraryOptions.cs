@@ -27,7 +27,7 @@ namespace PTIRelianceLib
         /// attempts. For devices with slow/no device event loops this has no effect.
         /// Instead, set <see cref="HidFlushStructuresOnEnumError"/> to make sure
         /// that fresh HID devices are getting discovered on enumeration.
-        /// Default: 500
+        /// Default: 1000
         /// </summary>
         public int HidReconnectDelayMs { get; set; }
 
@@ -48,7 +48,7 @@ namespace PTIRelianceLib
         public static LibraryOptions Default => new LibraryOptions
         {
             HidCleanupDelayMs = 0,
-            HidReconnectDelayMs = 500,
+            HidReconnectDelayMs = 1000,
             HidFlushStructuresOnEnumError = false,
         };
 
@@ -58,7 +58,7 @@ namespace PTIRelianceLib
         public static LibraryOptions DockerLinuxStretch => new LibraryOptions
         {
             HidCleanupDelayMs = 250,
-            HidReconnectDelayMs = 500,
+            HidReconnectDelayMs = 1000,
             HidFlushStructuresOnEnumError = true,
         };
     }    

@@ -327,7 +327,15 @@ namespace PTIRelianceLib
                     Log.Trace("Reboot reconnet attempt: {0}", retry);
                 }
 
-                return _mPort?.IsOpen == true ? ReturnCodes.Okay : ReturnCodes.RebootFailure;
+                if (!_mPort?.IsOpen != true)
+                {
+                    return ReturnCodes.Okay;
+                }
+
+                Log.Warn("Failing to reboot indicates that Reliance is having trouble reconnecting to your hardware." +
+                         "It is recommended to check PTIRelianceLib.Library.Options for configuration options.");
+                return ReturnCodes.RebootFailure;
+
             }
             catch (Exception e)
             {
