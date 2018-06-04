@@ -79,7 +79,7 @@ namespace PTIRelianceLib.IO.Internal
         public void Close()
         {
             _mDeviceConfig.NativeHid.Close(Device);
-            Log.Trace("HidWrapper closed ({0} ms delay here)", Library.HidCleanupDelayMs);
+            Log.Trace("HidWrapper closed (HidCleanupDelayMs ms delay here)");
 
             // Make sure handle is closed in case enumeration call is made immedately
             // after device is closed.

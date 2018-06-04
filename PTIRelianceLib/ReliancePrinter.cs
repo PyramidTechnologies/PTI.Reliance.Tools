@@ -311,17 +311,17 @@ namespace PTIRelianceLib
                 var retry = 0;
                 while (++retry < 10)
                 {
-                    Thread.Sleep(250);
-
                     // Calls port close which has delay baked in
                     AcquireHidPort();
-                    
+
+                    Thread.Sleep(250);
+
                     if (_mPort?.IsOpen == true)
                     {
                         break;
                     }
 
-                    Log.Trace("Reboot reconnet attempt #{0}", retry);
+                    Log.Trace("Reboot reconnet attempt: {0}", retry);
                 }
 
                 return _mPort?.IsOpen == true ? ReturnCodes.Okay : ReturnCodes.RebootFailure;
