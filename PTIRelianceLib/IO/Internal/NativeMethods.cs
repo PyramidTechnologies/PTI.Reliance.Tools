@@ -112,10 +112,20 @@ namespace PTIRelianceLib
                 var enumerated = _HidEnumerate(vid, pid);
                 if (enumerated == IntPtr.Zero)
                 {
-                    Log.Warn("No HID devices found during enumeration, flushing HID structures...");
-                    _HidExit();
+                    Log.Warn("No HID devices found during enumeration");
 
-                    Thread.Sleep(Library.HidCleanupDelayMs);
+                    if (!Library.Options.FlushHidOnEnumerationErr)
+                    {
+                        return Enumerable.Empty<HidDeviceInfo>();
+                    }
+
+                    Log.Info("flushing HID structures...");
+                    if (_HidExit() > 0)
+                    {
+                        Log.Error("Failed to flush HID structures");
+                    }
+
+                    Thread.Sleep(Library.Options.HidCleanupDelayMs);
                     Log.Info("HID structure flush completed");
 
                     return Enumerable.Empty<HidDeviceInfo>();
@@ -126,6 +136,7 @@ namespace PTIRelianceLib
                 var current = enumerated;
                 while (current != IntPtr.Zero)
                 {
+                    // Use correct pointer type for our system
                     var ptr = Environment.Is64BitProcess
                         ? new IntPtr(current.ToInt64())
                         : new IntPtr(current.ToInt32());
@@ -133,6 +144,7 @@ namespace PTIRelianceLib
                     var devinfo = (PrivateHidDeviceInfo) Marshal.PtrToStructure(ptr,
                         typeof(PrivateHidDeviceInfo));
 
+                    // Copy to fully managed (e.g. no pointers) data type
                     result.Add(new HidDeviceInfo
                     {
                         Path = devinfo.Path,
@@ -222,15 +234,6 @@ namespace PTIRelianceLib
             lock (_mInstanceLock)
             {
                 return _HidWrite(device.Handle, data, length);
-            }
-        }
-
-        public void Dispose()
-        {
-            lock (GlobalLock)
-            {
-                // TODO it doesn't seem right to dispose eveytime
-                //_HidExit();
             }
         }
     }

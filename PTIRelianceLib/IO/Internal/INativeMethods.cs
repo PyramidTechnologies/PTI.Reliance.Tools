@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using IO.Internal;
 
-    internal interface INativeMethods : IDisposable
+    internal interface INativeMethods
     {
         /// <summary>
         /// Initialize the HIDAPI library.

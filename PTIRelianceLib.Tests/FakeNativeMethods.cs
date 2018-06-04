@@ -75,11 +75,6 @@ namespace PTIRelianceLib.Tests
             return data.Length;
         }
 
-        public void Dispose()
-        {
-            // Override so we don't try to shutdown the non-existent HID data strucutres
-        }
-
         public Func<byte[], byte[]> GetNextResponse { get; set; }
     }
 }

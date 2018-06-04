@@ -15,10 +15,11 @@
             .GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
 
         /// <summary>
-        /// Gets or Sets the delay in milliseconds that is used to way after
-        /// closing and cleaning up after an HID port.
+        /// Gets or Sets Library options for this duration of your application.
+        /// It is recommended to set this field only once, at the start of your
+        /// application. Altering this property or the contents of this property
+        /// during runtime may result in undefined behavior.
         /// </summary>
-        /// <value>Integer delay in milliseconds</value>
-        public static int HidCleanupDelayMs { get; set; } = 50;
+        public static LibraryOptions Options = LibraryOptions.Default;
     }
 }
