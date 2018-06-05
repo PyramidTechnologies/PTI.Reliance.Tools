@@ -1,0 +1,2 @@
+# Reliance Thermal Printer HID interface
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0425", ATTRS{idProduct}=="8147", MODE="0666"

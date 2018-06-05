@@ -1,3 +1,6 @@
+---
+uid: tut_configuration
+---
 # Device Configuration
 
 Configuration can be managed through this API with use of Reliance RFG

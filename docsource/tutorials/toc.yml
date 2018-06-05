@@ -6,5 +6,9 @@
   href: configuration.md
 - name: Status Check
   href: status_check.md
-- name: Customizations
-  href: customizations.md  
+- name: Library Logging
+  href: logging.md    
+- name: Library Customization
+  href: customization.md  
+- name: Docker Support
+  href: docker.md
