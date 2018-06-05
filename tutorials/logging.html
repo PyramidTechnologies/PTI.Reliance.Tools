@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Enum SensorStatuses
-   </title>
+    <title>Logging </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Enum SensorStatuses
-   ">
+    <meta name="title" content="Logging ">
     <meta name="generator" content="docfx 2.36.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -78,72 +76,31 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="PTIRelianceLib.Protocol.SensorStatuses">
-  
-  
-  <h1 id="PTIRelianceLib_Protocol_SensorStatuses" data-uid="PTIRelianceLib.Protocol.SensorStatuses" class="text-break">Enum SensorStatuses
-  </h1>
-  <div class="markdown level0 summary"><p>Translates status byte to sensor status</p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="PTIRelianceLib.Protocol.html">PTIRelianceLib.Protocol</a></h6>
-  <h6><strong>Assembly</strong>: PTIRelianceLib.dll</h6>
-  <h5 id="PTIRelianceLib_Protocol_SensorStatuses_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public enum SensorStatuses : byte</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    <thead>
-    <tbody>
-      <tr>
-        <td id="PTIRelianceLib_Protocol_SensorStatuses_Arm">Arm</td>
-        <td><p>0 = No paper on arm		1 = Paper detected on arm</p>
-</td>
-      </tr>
-      <tr>
-        <td id="PTIRelianceLib_Protocol_SensorStatuses_Cutter">Cutter</td>
-        <td><p>0 = cutter not home		1 = cutter home</p>
-</td>
-      </tr>
-      <tr>
-        <td id="PTIRelianceLib_Protocol_SensorStatuses_Notch">Notch</td>
-        <td><p>0 = No notch detected	1 = Notch detected</p>
-</td>
-      </tr>
-      <tr>
-        <td id="PTIRelianceLib_Protocol_SensorStatuses_Paper">Paper</td>
-        <td><p>0 = No paper at path 1 = Paper Present at path</p>
-</td>
-      </tr>
-      <tr>
-        <td id="PTIRelianceLib_Protocol_SensorStatuses_Path">Path</td>
-        <td><p>0 = No paper in path 	1 = Paper Present in path</p>
-</td>
-      </tr>
-      <tr>
-        <td id="PTIRelianceLib_Protocol_SensorStatuses_Platen">Platen</td>
-        <td><p>0 = platen off			1 = platen on</p>
-</td>
-      </tr>
-      <tr>
-        <td id="PTIRelianceLib_Protocol_SensorStatuses_Presenter">Presenter</td>
-        <td><p>0 = No paper at presenter 	1 = Paper Present at presenter</p>
-</td>
-      </tr>
-      <tr>
-        <td id="PTIRelianceLib_Protocol_SensorStatuses_Tach">Tach</td>
-        <td><p>0 = Tach error 			1 = Tach OK</p>
-</td>
-      </tr>
-    </tbody>
-  </thead></thead></table>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="logging">Logging</h1>
+
+<p>PTIRelianceLig uses a the framework agnostic logging library <a href="%5Bhttps://github.com/damianh/LibLog">LibLog</a>. Integrating with your application is simple and we use NLog throughout the sample projects.</p>
+<h2 id="nlog-setup">NLog Setup</h2>
+<p>Install NLog</p>
+<pre><code class="lang-sh">    dotnet add package NLog.Config
+</code></pre>
+<p>Add a config file named <code>NLog.config</code> to the root of <strong>your</strong> application. This is typically next to your csproj file. Here is a sample config file:</p>
+<pre><code class="lang-xml" name="Main">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;nlog xmlns=&quot;http://www.nlog-project.org/schemas/NLog.xsd&quot;
+      xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+
+  &lt;targets&gt;
+    &lt;target name=&quot;logfile&quot; xsi:type=&quot;File&quot; fileName=&quot;MyApplication.log&quot; /&gt;
+    &lt;target name=&quot;logconsole&quot; xsi:type=&quot;Console&quot; /&gt;
+  &lt;/targets&gt;
+
+  &lt;rules&gt;
+    &lt;logger name=&quot;*&quot; minlevel=&quot;Debug&quot; writeTo=&quot;logconsole&quot; /&gt;
+    &lt;logger name=&quot;*&quot; minlevel=&quot;Trace&quot; writeTo=&quot;logfile&quot; /&gt;
+  &lt;/rules&gt;
+&lt;/nlog&gt;
+</code></pre><h2 id="other-frameworks">Other Frameworks</h2>
+<p>See <a href="https://github.com/damianh/LibLog/tree/master/src">LibLog's sample directory</a></p>
 </article>
           </div>
           
@@ -152,10 +109,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/PyramidTechnologies/PTI.Reliance.Tools/new/develop/apiSpec/new?filename=PTIRelianceLib_Protocol_SensorStatuses.md&amp;value=---%0Auid%3A%20PTIRelianceLib.Protocol.SensorStatuses%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/PyramidTechnologies/PTI.Reliance.Tools/blob/develop/PTIRelianceLib/Protocol/SensorStatuses.cs/#L17" class="contribution-link">View Source</a>
+                    <a href="https://github.com/PyramidTechnologies/PTI.Reliance.Tools/blob/develop/docsource/tutorials/logging.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

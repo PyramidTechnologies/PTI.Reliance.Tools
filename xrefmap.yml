@@ -1204,3 +1204,21 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.Status.ToString
   nameWithType: Status.ToString
+- uid: tut_configuration
+  name: Device Configuration
+  href: tutorials/configuration.html
+- uid: tut_customization
+  name: Library Customization
+  href: tutorials/customization.html
+- uid: tut_docker
+  name: Docker Support
+  href: tutorials/docker.html
+- uid: tut_exceptions
+  name: Exceptions
+  href: tutorials/exceptions.html
+- uid: tut_flashupdate
+  name: Firmware Flash Updates
+  href: tutorials/flash_update.html
+- uid: tut_intro
+  name: Getting Started
+  href: tutorials/intro.html

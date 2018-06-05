@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Docker Support </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Docker Support ">
+    <meta name="generator" content="docfx 2.36.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="tut_docker">
+<h1 id="docker-support">Docker Support</h1>
+
+<p>The abstraction mechanisms of Docker make certain types of hardware integration quite challenging in Docker. As long as your device is not removed and reinserted during the lifetime of your container you will likely not have any issues. However, certain operations like our flash update process generate USB reset event that will confound Docker. This tutorial explains solutions for this particular problem.</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Only Linux hosts are supported for Docker containers</p>
+</div>
+<h2 id="privileged">Privileged</h2>
+<p>The most reliable implementation we've tested leverages the <code>--privileged</code> flag and the mounting of <code>/dev/bus/usb</code> volume from host to container. Your results may vary and you may find this to be unnecessary for your environment.</p>
+<pre><code class="lang-sh">sudo docker run --rm -it \
+     -v /dev/bus/usb:/dev/bus/usb \
+     --privileged \
+     &lt;YOUR_CONTAINER&gt;:&lt;VERSION&gt;
+</code></pre>
+<h2 id="host-permissions">Host Permissions</h2>
+<p>Your host system may require additional permissions or even udev rules in order to reliably attach to your Reliance Thermal Printer. This is typically achieved by adding your user to the dialout group or equivalent for your environment. Another option is to create a udev rule, <code>/etc/udev/rules.d/99-udev.rules</code> with the following contents.</p>
+<pre><code name="Main"># Reliance Thermal Printer HID interface
+SUBSYSTEM==&quot;usb&quot;, ATTRS{idVendor}==&quot;0425&quot;, ATTRS{idProduct}==&quot;8147&quot;, MODE=&quot;0666&quot;
+</code></pre><h1 id="special-configurations">Special Configurations</h1>
+<p>A pre-made configuration for the Debian Stretch Docker image can be configured with the following in your application start up code.</p>
+<pre><code class="lang-cs">PTIRelianceLib.Library.Options = PTIRelianceLib.LibraryOptions.DockerLinuxStretch;
+</code></pre>
+<h1 id="library-customization">Library Customization</h1>
+<p>PTIRelianceLib is designed to support as many operating systems as possible. We try to support as much as possible with defaults but in some cases, there are outliers that we need to make special accommodations for without affecting other systems.</p>
+<p>These options are accessible in the <a class="xref" href="../api/PTIRelianceLib.LibraryOptions.html">LibraryOptions</a> class and should be attached to the global <a class="xref" href="../api/PTIRelianceLib.Library.html">Library</a>.</p>
+<h1 id="connection-failures">Connection Failures</h1>
+<p>The most common issue users experience with hardware SDKs is with the initial connection. This can be due to driver issues, operating system configuration, or many other possibilities. In this library, there are two likely causes for your connection issue.</p>
+<ul>
+<li>1 Incorrect native library version: We use HIDAPI to access the Reliance Printer as a HID USB device. Our nuget package installs the native library for Windows(x86 and x64), Linux x64, ans OSX x64. If you use a different CPU or operating system, your environment is not supported at this time. Contact us!</li>
+<li>2 Your operating system is not propagating device information in a standard way. This is common in Docker containers.</li>
+</ul>
+<p>If your system is supported and you've followed all the tutorials, read on to learn how to customize PTIRelianceLib for your environment.</p>
+<h1 id="options">Options</h1>
+<p><a class="xref" href="../api/PTIRelianceLib.LibraryOptions.html">LibraryOptions</a> provides following properties:</p>
+<ul>
+<li>HidCleanupDelayMs: Used to ensure operating system is given enough time to remove and create device handles</li>
+<li>HidReconnectDelayMs: Used to give the operating system more time to enumerate devices during reconnection</li>
+<li>HidFlushStructuresOnEnumError: When no devices are found during enumeration, this may indicate stale device data is being forwarded by your system. Set this flag to force receipt of fresh information.</li>
+</ul>
+<h1 id="relation-to-flash-update">Relation to Flash Update</h1>
+<p>The Reliance Thermal Printer executes a reboot at the start and end of the flash update process. This generates USB disconnect and reconnect events which, as stated above, can be tricky on some systems. If you are having trouble flash updating for your system, take as look at some of the preconfigured settings available in <a class="xref" href="../api/PTIRelianceLib.LibraryOptions.html">LibraryOptions</a> such as DockerLinuxStretch.</p>
+<div class="WARNING">
+<h5>Warning</h5>
+<h2 id="exceptions">Exceptions</h2>
+<p>For clarity, exception handling has been elided. It is advisable to wrap any ReliancePrinter
+method calls in a try/catch block for <a class="xref" href="../api/PTIRelianceLib.PTIException.html">PTIException</a>.</p>
+</div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/PyramidTechnologies/PTI.Reliance.Tools/blob/develop/docsource/tutorials/docker.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © 2018 Pyramid Technologies <br>Generated by <strong>DocFX</strong></span>
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
