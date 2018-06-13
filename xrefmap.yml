@@ -358,6 +358,168 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.LibraryOptions.HidReconnectDelayMs
   nameWithType: LibraryOptions.HidReconnectDelayMs
+- uid: PTIRelianceLib.Logging
+  name: PTIRelianceLib.Logging
+  href: api/PTIRelianceLib.Logging.html
+  commentId: N:PTIRelianceLib.Logging
+  fullName: PTIRelianceLib.Logging
+  nameWithType: PTIRelianceLib.Logging
+- uid: PTIRelianceLib.Logging.ILogProvider
+  name: ILogProvider
+  href: api/PTIRelianceLib.Logging.ILogProvider.html
+  commentId: T:PTIRelianceLib.Logging.ILogProvider
+  fullName: PTIRelianceLib.Logging.ILogProvider
+  nameWithType: ILogProvider
+- uid: PTIRelianceLib.Logging.ILogProvider.GetLogger(System.String)
+  name: GetLogger(String)
+  href: api/PTIRelianceLib.Logging.ILogProvider.html#PTIRelianceLib_Logging_ILogProvider_GetLogger_System_String_
+  commentId: M:PTIRelianceLib.Logging.ILogProvider.GetLogger(System.String)
+  fullName: PTIRelianceLib.Logging.ILogProvider.GetLogger(System.String)
+  nameWithType: ILogProvider.GetLogger(String)
+- uid: PTIRelianceLib.Logging.ILogProvider.GetLogger*
+  name: GetLogger
+  href: api/PTIRelianceLib.Logging.ILogProvider.html#PTIRelianceLib_Logging_ILogProvider_GetLogger_
+  commentId: Overload:PTIRelianceLib.Logging.ILogProvider.GetLogger
+  isSpec: "True"
+  fullName: PTIRelianceLib.Logging.ILogProvider.GetLogger
+  nameWithType: ILogProvider.GetLogger
+- uid: PTIRelianceLib.Logging.ILogProvider.OpenMappedContext(System.String,System.Object,System.Boolean)
+  name: OpenMappedContext(String, Object, Boolean)
+  href: api/PTIRelianceLib.Logging.ILogProvider.html#PTIRelianceLib_Logging_ILogProvider_OpenMappedContext_System_String_System_Object_System_Boolean_
+  commentId: M:PTIRelianceLib.Logging.ILogProvider.OpenMappedContext(System.String,System.Object,System.Boolean)
+  fullName: PTIRelianceLib.Logging.ILogProvider.OpenMappedContext(System.String, System.Object, System.Boolean)
+  nameWithType: ILogProvider.OpenMappedContext(String, Object, Boolean)
+- uid: PTIRelianceLib.Logging.ILogProvider.OpenMappedContext*
+  name: OpenMappedContext
+  href: api/PTIRelianceLib.Logging.ILogProvider.html#PTIRelianceLib_Logging_ILogProvider_OpenMappedContext_
+  commentId: Overload:PTIRelianceLib.Logging.ILogProvider.OpenMappedContext
+  isSpec: "True"
+  fullName: PTIRelianceLib.Logging.ILogProvider.OpenMappedContext
+  nameWithType: ILogProvider.OpenMappedContext
+- uid: PTIRelianceLib.Logging.ILogProvider.OpenNestedContext(System.String)
+  name: OpenNestedContext(String)
+  href: api/PTIRelianceLib.Logging.ILogProvider.html#PTIRelianceLib_Logging_ILogProvider_OpenNestedContext_System_String_
+  commentId: M:PTIRelianceLib.Logging.ILogProvider.OpenNestedContext(System.String)
+  fullName: PTIRelianceLib.Logging.ILogProvider.OpenNestedContext(System.String)
+  nameWithType: ILogProvider.OpenNestedContext(String)
+- uid: PTIRelianceLib.Logging.ILogProvider.OpenNestedContext*
+  name: OpenNestedContext
+  href: api/PTIRelianceLib.Logging.ILogProvider.html#PTIRelianceLib_Logging_ILogProvider_OpenNestedContext_
+  commentId: Overload:PTIRelianceLib.Logging.ILogProvider.OpenNestedContext
+  isSpec: "True"
+  fullName: PTIRelianceLib.Logging.ILogProvider.OpenNestedContext
+  nameWithType: ILogProvider.OpenNestedContext
+- uid: PTIRelianceLib.Logging.Logger
+  name: Logger
+  href: api/PTIRelianceLib.Logging.Logger.html
+  commentId: T:PTIRelianceLib.Logging.Logger
+  fullName: PTIRelianceLib.Logging.Logger
+  nameWithType: Logger
+- uid: PTIRelianceLib.Logging.LogLevel
+  name: LogLevel
+  href: api/PTIRelianceLib.Logging.LogLevel.html
+  commentId: T:PTIRelianceLib.Logging.LogLevel
+  fullName: PTIRelianceLib.Logging.LogLevel
+  nameWithType: LogLevel
+- uid: PTIRelianceLib.Logging.LogLevel.Debug
+  name: Debug
+  href: api/PTIRelianceLib.Logging.LogLevel.html#PTIRelianceLib_Logging_LogLevel_Debug
+  commentId: F:PTIRelianceLib.Logging.LogLevel.Debug
+  fullName: PTIRelianceLib.Logging.LogLevel.Debug
+  nameWithType: LogLevel.Debug
+- uid: PTIRelianceLib.Logging.LogLevel.Error
+  name: Error
+  href: api/PTIRelianceLib.Logging.LogLevel.html#PTIRelianceLib_Logging_LogLevel_Error
+  commentId: F:PTIRelianceLib.Logging.LogLevel.Error
+  fullName: PTIRelianceLib.Logging.LogLevel.Error
+  nameWithType: LogLevel.Error
+- uid: PTIRelianceLib.Logging.LogLevel.Fatal
+  name: Fatal
+  href: api/PTIRelianceLib.Logging.LogLevel.html#PTIRelianceLib_Logging_LogLevel_Fatal
+  commentId: F:PTIRelianceLib.Logging.LogLevel.Fatal
+  fullName: PTIRelianceLib.Logging.LogLevel.Fatal
+  nameWithType: LogLevel.Fatal
+- uid: PTIRelianceLib.Logging.LogLevel.Info
+  name: Info
+  href: api/PTIRelianceLib.Logging.LogLevel.html#PTIRelianceLib_Logging_LogLevel_Info
+  commentId: F:PTIRelianceLib.Logging.LogLevel.Info
+  fullName: PTIRelianceLib.Logging.LogLevel.Info
+  nameWithType: LogLevel.Info
+- uid: PTIRelianceLib.Logging.LogLevel.Trace
+  name: Trace
+  href: api/PTIRelianceLib.Logging.LogLevel.html#PTIRelianceLib_Logging_LogLevel_Trace
+  commentId: F:PTIRelianceLib.Logging.LogLevel.Trace
+  fullName: PTIRelianceLib.Logging.LogLevel.Trace
+  nameWithType: LogLevel.Trace
+- uid: PTIRelianceLib.Logging.LogLevel.Warn
+  name: Warn
+  href: api/PTIRelianceLib.Logging.LogLevel.html#PTIRelianceLib_Logging_LogLevel_Warn
+  commentId: F:PTIRelianceLib.Logging.LogLevel.Warn
+  fullName: PTIRelianceLib.Logging.LogLevel.Warn
+  nameWithType: LogLevel.Warn
+- uid: PTIRelianceLib.Logging.LogProvider
+  name: LogProvider
+  href: api/PTIRelianceLib.Logging.LogProvider.html
+  commentId: T:PTIRelianceLib.Logging.LogProvider
+  fullName: PTIRelianceLib.Logging.LogProvider
+  nameWithType: LogProvider
+- uid: PTIRelianceLib.Logging.LogProvider.IsDisabled
+  name: IsDisabled
+  href: api/PTIRelianceLib.Logging.LogProvider.html#PTIRelianceLib_Logging_LogProvider_IsDisabled
+  commentId: P:PTIRelianceLib.Logging.LogProvider.IsDisabled
+  fullName: PTIRelianceLib.Logging.LogProvider.IsDisabled
+  nameWithType: LogProvider.IsDisabled
+- uid: PTIRelianceLib.Logging.LogProvider.IsDisabled*
+  name: IsDisabled
+  href: api/PTIRelianceLib.Logging.LogProvider.html#PTIRelianceLib_Logging_LogProvider_IsDisabled_
+  commentId: Overload:PTIRelianceLib.Logging.LogProvider.IsDisabled
+  isSpec: "True"
+  fullName: PTIRelianceLib.Logging.LogProvider.IsDisabled
+  nameWithType: LogProvider.IsDisabled
+- uid: PTIRelianceLib.Logging.LogProvider.SetCurrentLogProvider(PTIRelianceLib.Logging.ILogProvider)
+  name: SetCurrentLogProvider(ILogProvider)
+  href: api/PTIRelianceLib.Logging.LogProvider.html#PTIRelianceLib_Logging_LogProvider_SetCurrentLogProvider_PTIRelianceLib_Logging_ILogProvider_
+  commentId: M:PTIRelianceLib.Logging.LogProvider.SetCurrentLogProvider(PTIRelianceLib.Logging.ILogProvider)
+  fullName: PTIRelianceLib.Logging.LogProvider.SetCurrentLogProvider(PTIRelianceLib.Logging.ILogProvider)
+  nameWithType: LogProvider.SetCurrentLogProvider(ILogProvider)
+- uid: PTIRelianceLib.Logging.LogProvider.SetCurrentLogProvider*
+  name: SetCurrentLogProvider
+  href: api/PTIRelianceLib.Logging.LogProvider.html#PTIRelianceLib_Logging_LogProvider_SetCurrentLogProvider_
+  commentId: Overload:PTIRelianceLib.Logging.LogProvider.SetCurrentLogProvider
+  isSpec: "True"
+  fullName: PTIRelianceLib.Logging.LogProvider.SetCurrentLogProvider
+  nameWithType: LogProvider.SetCurrentLogProvider
+- uid: PTIRelianceLib.Logging.LogProviders
+  name: PTIRelianceLib.Logging.LogProviders
+  href: api/PTIRelianceLib.Logging.LogProviders.html
+  commentId: N:PTIRelianceLib.Logging.LogProviders
+  fullName: PTIRelianceLib.Logging.LogProviders
+  nameWithType: PTIRelianceLib.Logging.LogProviders
+- uid: PTIRelianceLib.Logging.LogProviders.LibLogException
+  name: LibLogException
+  href: api/PTIRelianceLib.Logging.LogProviders.LibLogException.html
+  commentId: T:PTIRelianceLib.Logging.LogProviders.LibLogException
+  fullName: PTIRelianceLib.Logging.LogProviders.LibLogException
+  nameWithType: LibLogException
+- uid: PTIRelianceLib.Logging.LogProviders.LibLogException.#ctor(System.String)
+  name: LibLogException(String)
+  href: api/PTIRelianceLib.Logging.LogProviders.LibLogException.html#PTIRelianceLib_Logging_LogProviders_LibLogException__ctor_System_String_
+  commentId: M:PTIRelianceLib.Logging.LogProviders.LibLogException.#ctor(System.String)
+  fullName: PTIRelianceLib.Logging.LogProviders.LibLogException.LibLogException(System.String)
+  nameWithType: LibLogException.LibLogException(String)
+- uid: PTIRelianceLib.Logging.LogProviders.LibLogException.#ctor(System.String,System.Exception)
+  name: LibLogException(String, Exception)
+  href: api/PTIRelianceLib.Logging.LogProviders.LibLogException.html#PTIRelianceLib_Logging_LogProviders_LibLogException__ctor_System_String_System_Exception_
+  commentId: M:PTIRelianceLib.Logging.LogProviders.LibLogException.#ctor(System.String,System.Exception)
+  fullName: PTIRelianceLib.Logging.LogProviders.LibLogException.LibLogException(System.String, System.Exception)
+  nameWithType: LibLogException.LibLogException(String, Exception)
+- uid: PTIRelianceLib.Logging.LogProviders.LibLogException.#ctor*
+  name: LibLogException
+  href: api/PTIRelianceLib.Logging.LogProviders.LibLogException.html#PTIRelianceLib_Logging_LogProviders_LibLogException__ctor_
+  commentId: Overload:PTIRelianceLib.Logging.LogProviders.LibLogException.#ctor
+  isSpec: "True"
+  fullName: PTIRelianceLib.Logging.LogProviders.LibLogException.LibLogException
+  nameWithType: LibLogException.LibLogException
 - uid: PTIRelianceLib.ProgressMonitor
   name: ProgressMonitor
   href: api/PTIRelianceLib.ProgressMonitor.html
@@ -1204,21 +1366,3 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.Status.ToString
   nameWithType: Status.ToString
-- uid: tut_configuration
-  name: Device Configuration
-  href: tutorials/configuration.html
-- uid: tut_customization
-  name: Library Customization
-  href: tutorials/customization.html
-- uid: tut_docker
-  name: Docker Support
-  href: tutorials/docker.html
-- uid: tut_exceptions
-  name: Exceptions
-  href: tutorials/exceptions.html
-- uid: tut_flashupdate
-  name: Firmware Flash Updates
-  href: tutorials/flash_update.html
-- uid: tut_intro
-  name: Getting Started
-  href: tutorials/intro.html
