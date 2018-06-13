@@ -1,8 +1,7 @@
 {
   "profiles": {
     "RelianceCLI": {
-      "commandName": "Project",
-      "commandLineArgs": "-r"
+      "commandName": "Project"
     }
   }
 }

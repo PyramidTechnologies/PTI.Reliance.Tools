@@ -9,7 +9,7 @@
 namespace PTIRelianceLib
 {
     using System;
-    using Firmware;
+    using Flash;
 
     /// <inheritdoc />
     /// <summary>

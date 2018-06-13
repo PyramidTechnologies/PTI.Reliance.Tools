@@ -6,7 +6,7 @@
 // 9:07 AM
 #endregion
 
-namespace PTIRelianceLib.Firmware.Internal
+namespace PTIRelianceLib.Protocol
 {
     internal enum FileTypes
     {
