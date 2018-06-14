@@ -140,8 +140,7 @@ namespace RelianceCLI
                         var result = printer.StoreLogos(logos, new ConsoleProgressBar(), config);
                         Console.WriteLine("Store Result: {0}", result);
 
-                        result = printer.PrintLogo(0);
-                        Console.WriteLine("Print Result: {0}", result);
+                        printer.PrintLogo(0);
                     }
                 }
 
