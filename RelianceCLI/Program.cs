@@ -134,7 +134,10 @@ namespace RelianceCLI
                     else
                     {
                         var logos = new List<BinaryFile> {logo};
-                        var result = printer.StoreLogos(logos, new ConsoleProgressBar(), LogoStorageConfig.Default);
+                        var config = LogoStorageConfig.Default;
+                        config.Algorithm = DitherAlgorithms.Atkinson;
+
+                        var result = printer.StoreLogos(logos, new ConsoleProgressBar(), config);
                         Console.WriteLine("Store Result: {0}", result);
 
                         result = printer.PrintLogo(0);

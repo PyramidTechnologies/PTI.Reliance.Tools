@@ -35,6 +35,12 @@ namespace PTIRelianceLib.Transport
             _mData = data;
         }
 
+        // Clear all data in this packet
+        protected void Clear()
+        {            
+            _mData = new byte[0];
+        }
+
         #region Methods
 
         /// <inheritdoc />

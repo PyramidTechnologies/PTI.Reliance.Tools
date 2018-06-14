@@ -4,6 +4,7 @@ using Xunit;
 
 namespace PTIRelianceLib.Tests.Transport
 {
+    using System.Collections.Generic;
     using Protocol;
 
     public class ReliancePacketTests
@@ -135,6 +136,75 @@ namespace PTIRelianceLib.Tests.Transport
             Assert.Equal(PacketTypes.PositiveAck, extracted.GetPacketType());
 
             Assert.Equal("48, 65, 6C, 6C, 6F", extracted.ToString());
+        }
+
+        [Fact()]
+        public void TestValidateTooShort()
+        {
+            var packet = new ReliancePacket(1,2);
+            var payload = packet.ExtractPayload();
+            Assert.Equal(new byte[]{1,2}, payload.GetBytes());
+        }
+
+        [Fact()]
+        public void TestValidateNak()
+        {
+            var codes = new Dictionary<byte, PacketTypes>
+            {
+                { 0xAC, PacketTypes.NegativeAck},
+                { 0xAB, PacketTypes.SequenceError },
+                { 0xFF, PacketTypes.Timeout },
+                { 0xF1, PacketTypes.Normal },
+            };
+            foreach (var c in codes)
+            {
+                var payload = new [] {c.Key, (byte) 'H', (byte) 'e', (byte) 'l', (byte) 'l', (byte) 'o'};
+
+                var packet = new ReliancePacket(payload);
+                packet.Package();
+
+                var extracted = packet.ExtractPayload();
+
+                Assert.Equal(payload.Length, extracted.Count);
+                Assert.Equal(c.Value, extracted.GetPacketType());
+
+                var str = string.Format("{0:X2}, 48, 65, 6C, 6C, 6F", c.Key);
+                Assert.Equal(str, extracted.ToString());
+            }
+        }
+
+        [Fact]
+        public void TestZeroFill()
+        {
+            var payload = new byte[] { 0xAA, (byte)'H', (byte)'e', (byte)'l', (byte)'l', (byte)'o' };
+            var packet = new MutableReliancePacket(payload);
+            packet.Package();
+
+            packet.Mutate(packet.Count, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0);
+
+            var extracted = packet.ExtractPayload();
+
+            // ACK byte gets stripped
+            Assert.Equal(payload.Length - 1, extracted.Count);
+            Assert.Equal(PacketTypes.PositiveAck, extracted.GetPacketType());
+
+            Assert.Equal("48, 65, 6C, 6C, 6F", extracted.ToString());
+        }
+
+        [Fact]
+        public void TestBadChecksumIngress()
+        {
+            var payload = new byte[] { 0xAA, (byte)'H', (byte)'e', (byte)'l', (byte)'l', (byte)'o' };
+            var packet = new MutableReliancePacket(payload);
+            packet.Package();
+
+            packet.BreakChecksum();
+
+            var extracted = packet.ExtractPayload();
+
+            // Malformed packet does not get stripped
+            Assert.Equal(payload.Length + 2, extracted.Count);
+            Assert.Equal(PacketTypes.PositiveAck, extracted.GetPacketType());
         }
     }
 }

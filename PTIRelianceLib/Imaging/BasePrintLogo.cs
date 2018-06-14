@@ -9,7 +9,6 @@
 namespace PTIRelianceLib.Imaging
 {
     using System;
-    using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
@@ -47,24 +46,7 @@ namespace PTIRelianceLib.Imaging
             SetImageData(file);
         }
 
-        /// <summary>
-        /// Create from an existing bitmap which preserves dimensions
-        /// </summary>
-        /// <param name="bitmap">Source bitmap</param>
-        public BasePrintLogo(Image bitmap)
-        {
-            MaxWidth = bitmap.Width;
-            MaxHeight = bitmap.Height;
-            SetImageData(bitmap);
-        }
-
         #region Properties
-        /// <summary>
-        /// Temporary path for this logo that is used to avoid heap allocating
-        /// a buffer just to pass into libcore.
-        /// </summary>
-        public string TransmitPath { get; set; }
-
         /// <inheritdoc />
         /// <summary>
         /// Gets the raw image data
@@ -140,66 +122,7 @@ namespace PTIRelianceLib.Imaging
             bitmap.InvertColorChannels();
             SetImageData(bitmap);
         }
-
-        /// <summary>
-        /// Save the current state of this logo as a bitmap at the specified path
-        /// </summary>
-        /// <param name="outpath">Output path</param>
-        public void ExportLogo(string outpath)
-        {
-            ImageData.Save(outpath);
-        }
-
-        /// <summary>
-        /// Export the current state of this logo as a binary file at the specific path
-        /// </summary>
-        /// <param name="outpath">Outpuat path</param>
-        public void ExportLogoBin(string outpath)
-        {
-            // Append the bitmap data as a packed dot logo
-            var bmpData = ImageData.ToLogoBuffer();
-
-            // Write to file
-            File.WriteAllBytes(outpath, bmpData);
-        }
-
-        /// <summary>
-        /// Export the current state of this logo as a binary file, wrapped in the 1D 76 
-        /// ESC/POS bitmap command.
-        /// </summary>
-        /// <param name="outpath"></param>
-        public void ExportLogoEscPos(string outpath)
-        {
-            // Build up the ESC/POS 1D 76 30 command
-            var buffer = new List<byte> {0x1D, 0x76, 0x30, 0x00};
-
-            // Get correct dimensions
-            var w = Dimensions.WidthBytes;
-            var h = Dimensions.Height;
-
-            // reliance-escpos-commands.readthedocs.io/en/latest/intro.html#
-            // Calculate xL and xH
-            var xH = (byte)(w / 256);
-            var xL = (byte)(w - (xH * 256));
-
-            // Calculate yL and yH
-            var yH = (byte)(h / 256);
-            var yL = (byte)(h - (yH * 256));
-
-            // Pack up these dimensions
-            buffer.Add(xL);
-            buffer.Add(xH);
-            buffer.Add(yL);
-            buffer.Add(yH);
-
-            // Append the bitmap data as a packed dot logo
-            var bmpData = ImageData.ToLogoBuffer();
-            buffer.AddRange(bmpData);
-
-            // Write to file
-            File.WriteAllBytes(outpath, buffer.ToArray());
-        }
-
+      
         /// <inheritdoc />
         /// <summary>
         /// Returns this logo encoded as a bitmap
@@ -210,18 +133,6 @@ namespace PTIRelianceLib.Imaging
             using (var bitmap = ImageData)
             {
                 return bitmap.ToBase64String();
-            }
-        }
-
-        /// <summary>
-        /// Set the bitmap data from an encoded base64 string
-        /// </summary>
-        /// <param name="base64">Base64 encoded string</param>
-        public void FromBase64String(string base64)
-        {
-            using (var bitmap = ImageExt.FromBase64String(base64))
-            {
-                SetImageData(bitmap);
             }
         }
 

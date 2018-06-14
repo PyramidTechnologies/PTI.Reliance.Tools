@@ -45,8 +45,12 @@ namespace PTIRelianceLib.Tests.Logo
                 _mNativeMock.GetNextResponse = (d) => GenerateHidData(0xAA);
                 var port = new HidPort<ReliancePacket>(_mConfig);
                 var logo = Properties.Resources.white_bitmap;
+                var header = new RELLogoHeader
+                {
+                    LogoData = logo,
+                };
 
-                var updater = new RELLogoUpdater(port, logo)
+                var updater = new RELLogoUpdater(port, header)
                 {
                     Reporter = _mReporter
                 };
@@ -63,8 +67,12 @@ namespace PTIRelianceLib.Tests.Logo
                 _mNativeMock.GetNextResponse = (d) => GenerateHidData(0xAA);
                 var port = new HidPort<ReliancePacket>(_mConfig);
                 var logo = new byte[0];
+                var header = new RELLogoHeader
+                {
+                    LogoData = logo,
+                };
 
-                var updater = new RELLogoUpdater(port, logo)
+                var updater = new RELLogoUpdater(port, header)
                 {
                     Reporter = _mReporter
                 };
@@ -80,7 +88,12 @@ namespace PTIRelianceLib.Tests.Logo
             {
                 IPort<IPacket> port = null;
                 var logo = Properties.Resources.gray_burkes;
-                Assert.Throws<ArgumentNullException>(() => new RELLogoUpdater(port, logo));
+                var header = new RELLogoHeader
+                {
+                    LogoData = logo,
+                };
+
+                Assert.Throws<ArgumentNullException>(() => new RELLogoUpdater(port, header));
             }
         }
 
@@ -90,8 +103,9 @@ namespace PTIRelianceLib.Tests.Logo
             lock (MTestLock)
             {
                 var port = new HidPort<ReliancePacket>(_mConfig);
-                byte[] logo = null;
-                Assert.Throws<ArgumentNullException>(() => new RELLogoUpdater(port, logo));
+                RELLogoHeader header = null;
+
+                Assert.Throws<ArgumentNullException>(() => new RELLogoUpdater(port, header));
             }
         }
 

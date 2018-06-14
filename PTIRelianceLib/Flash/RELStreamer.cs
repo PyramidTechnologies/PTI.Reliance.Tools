@@ -23,11 +23,6 @@ namespace PTIRelianceLib.Flash
     {
         public RELStreamer(IProgressMonitor reporter, IPort<IPacket> port)
         {
-            if (reporter == null)
-            {
-                reporter = new DevNullMonitor();
-            }
-
             Reporter = reporter;
             Port = port;
         }

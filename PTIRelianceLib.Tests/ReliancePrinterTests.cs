@@ -89,9 +89,11 @@ namespace PTIRelianceLib.Tests
                 _mNativeMock.GetNextResponse = (d) => GenerateHidData(data.Serialize());
                 using (var printer = new ReliancePrinter(_mConfig))
                 {
-                    var resp = printer.GetStatus();
+                    var resp = printer.GetStatus();                   
                     Assert.Equal(data.HeadVoltage, resp.HeadVoltage);
                 }
+
+
             }
         }
 
@@ -164,6 +166,39 @@ namespace PTIRelianceLib.Tests
                     var magic = Encoding.ASCII.GetBytes("PTIXPTIX");
                     Array.Copy(magic, 0, fakeFirmware, 0, magic.Length);
                     var resp = printer.FlashUpdateTarget(BinaryFile.From(fakeFirmware), monitor);
+                    Assert.Equal(ReturnCodes.Okay, resp);
+                }
+            }
+        }
+
+        [Fact]
+        public void TestFlashUpdateNoReporter()
+        {
+            lock (MTestLock)
+            {
+                var count = 0;
+                _mNativeMock.GetNextResponse = (d) =>
+                {
+                    if (count++ != 0)
+                    {
+                        return GenerateHidData(0xAA);
+                    }
+
+                    var rev = new Revlev(1, 27, 127);
+                    return GenerateHidData(rev.Serialize());
+                };
+                using (var printer = new ReliancePrinter(_mConfig))
+                {
+                    var fakeFirmware = new byte[204848];
+                    var csum = ((uint)0xCC731E7E).ToBytesBE();
+                    var model = ((uint)0x500).ToBytesBE();
+                    var size = ((ulong)0x32000).ToBytesBE();
+                    Array.Copy(csum, 0, fakeFirmware, 8, csum.Length);
+                    Array.Copy(model, 0, fakeFirmware, 12, model.Length);
+                    Array.Copy(size, 0, fakeFirmware, 40, size.Length);
+                    var magic = Encoding.ASCII.GetBytes("PTIXPTIX");
+                    Array.Copy(magic, 0, fakeFirmware, 0, magic.Length);
+                    var resp = printer.FlashUpdateTarget(BinaryFile.From(fakeFirmware));
                     Assert.Equal(ReturnCodes.Okay, resp);
                 }
             }

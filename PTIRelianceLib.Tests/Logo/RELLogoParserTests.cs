@@ -12,7 +12,7 @@ namespace PTIRelianceLib.Tests.Logo
         {
             var logoParser = new RELLogoParser();
 
-            var result = logoParser.Parse(Properties.Resources.white_bitmap);
+            var result = logoParser.Parse(0, Properties.Resources.white_bitmap);
             Assert.NotNull(result);
         }
 
@@ -21,7 +21,7 @@ namespace PTIRelianceLib.Tests.Logo
         {
             var logoParser = new RELLogoParser();
 
-            var result = logoParser.Parse(null);
+            var result = logoParser.Parse(0, null);
             Assert.Null(result);
         }
     }

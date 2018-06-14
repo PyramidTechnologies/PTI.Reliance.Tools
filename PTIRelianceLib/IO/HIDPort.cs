@@ -9,6 +9,7 @@
 
 namespace PTIRelianceLib.IO
 {
+    using System.Data;
     using Logging;
     using Internal;
     using Transport;
@@ -54,8 +55,13 @@ namespace PTIRelianceLib.IO
                 data.Package();
             }
 
-            if (_mHidWrapper?.WriteData(data.GetBytes()) > 0)
+            var payload = data.GetBytes();
+            if (_mHidWrapper?.WriteData(payload) > 0)
             {
+                if (Log.IsTraceEnabled())
+                {
+                    Log.TraceFormat(">> {0}", payload.ByteArrayToHexString());
+                }
                 return true;
             }
 
@@ -66,11 +72,18 @@ namespace PTIRelianceLib.IO
 
         public IPacket Read(int timeoutMs)
         {
-            if (_mHidWrapper == null) return PacketLanguage;
+            if (_mHidWrapper == null)
+            {
+                return PacketLanguage;
+            }
 
             var read = _mHidWrapper.ReadData(timeoutMs);
             if (read.Length > 0)
             {
+                if (Log.IsTraceEnabled())
+                {
+                    Log.TraceFormat("<< {0}", read.ByteArrayToHexString());
+                }
                 return Package(read);
             }
 

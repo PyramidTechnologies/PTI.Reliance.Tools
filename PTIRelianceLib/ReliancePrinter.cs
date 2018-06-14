@@ -243,6 +243,8 @@ namespace PTIRelianceLib
         /// <summary>
         /// Returns the <see cref="Status"/> for the attached printer. If there
         /// is no device connected, <c>null</c> will be returned.
+        /// You can use this method to read the ticket status. See <seealso cref="TicketStates"/>,
+        /// which are a member of <seealso cref="Status"/>.
         /// </summary>
         /// <returns>Status object or <c>null</c> if no connection or error</returns>
         public Status GetStatus()
@@ -478,9 +480,13 @@ namespace PTIRelianceLib
         /// <returns>Return Code</returns>
         public ReturnCodes PrintLogo(int index)
         {
+            if (index < 0 || index > byte.MaxValue)
+            {
+                return ReturnCodes.InvalidRequestPayload;
+            }
             // 7 == print logo sub command
-            var resp = Write(RelianceCommands.LogoSub, 7, (byte) index);
-            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            Write(RelianceCommands.LogoSub, 7, (byte) index);
+            return ReturnCodes.Okay;
         }
 
         /// <summary>
