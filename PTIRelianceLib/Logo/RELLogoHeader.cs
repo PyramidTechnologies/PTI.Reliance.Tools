@@ -9,9 +9,12 @@
 namespace PTIRelianceLib.Logo
 {
     using System.Collections.Generic;
-    using Imaging;
     using Transport;
 
+    /// <inheritdoc />
+    /// <summary>
+    /// The logo header describes the location of a single logo
+    /// </summary>
     internal class RELLogoHeader : IParseable
     {       
         /// <summary>

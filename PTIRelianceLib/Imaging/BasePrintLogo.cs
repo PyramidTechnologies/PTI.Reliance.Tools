@@ -85,12 +85,6 @@ namespace PTIRelianceLib.Imaging
         /// Gets the enforced max height. Set to 0 to ignore.
         /// </summary>
         public int MaxWidth { get; }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Returns true if this image is inverted
-        /// </summary>
-        public bool IsInverted { get; private set; }
         #endregion
 
         /// <inheritdoc />
@@ -106,34 +100,6 @@ namespace PTIRelianceLib.Imaging
 
             // Update ImageData with dithered result
             SetImageData(dithered);
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Apply color inversion to this image. Inversion is relative to the source
-        /// image. The image begins in the non-inverted state. Calling ApplyColorInversion
-        /// once wil put this image in the reverted state. Calling it twice will return it to
-        /// the non-inverted state, etc.
-        /// </summary>
-        public void ApplyColorInversion()
-        {
-            IsInverted = !IsInverted;
-            var bitmap = ImageData;
-            bitmap.InvertColorChannels();
-            SetImageData(bitmap);
-        }
-      
-        /// <inheritdoc />
-        /// <summary>
-        /// Returns this logo encoded as a bitmap
-        /// </summary>
-        /// <returns></returns>
-        public string AsBase64String()
-        {
-            using (var bitmap = ImageData)
-            {
-                return bitmap.ToBase64String();
-            }
         }
 
         /// <inheritdoc />

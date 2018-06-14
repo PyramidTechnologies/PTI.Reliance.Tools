@@ -14,7 +14,6 @@ namespace PTIRelianceLib.Imaging
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices;
 
@@ -177,53 +176,7 @@ namespace PTIRelianceLib.Imaging
             Marshal.Copy(bitmapBgra, 0, bmpWo.Scan0, bmpLen);
             bitmapImage.UnlockBits(bmpWo);
         }
-
-        /// <summary>
-        /// Converts this image into a base64 encoded string.
-        /// </summary>
-        /// <param name="bitmap">Source image</param>
-        /// <returns>string</returns>
-        public static string ToBase64String(this Bitmap bitmap)
-        {
-            // Do not encode null or empty image
-            if (bitmap == null || (bitmap.Width == 0 && bitmap.Height == 0))
-            {
-                return string.Empty;
-            }
-
-            // Extract bitmap image into bitmap and save to memory
-            using (var m = new MemoryStream())
-            {
-                bitmap.Save(m, ImageFormat.Bmp);
-                var imageBytes = m.ToArray();
-
-                return Convert.ToBase64String(imageBytes);
-            }
-        }
-
-        /// <summary>
-        /// Converts base64 encoded string to bitmap.
-        /// </summary>
-        /// <remarks>Be sure to dispose of Bitmap when done</remarks>
-        /// <param name="content">string to convert</param>
-        /// <returns>Bitmap or null on error</returns>
-        public static Bitmap FromBase64String(string content)
-        {
-            try
-            {
-                var raw = Convert.FromBase64String(content);
-
-                // Do not dispose of stream. Bitmap now owns it and will close it when disposed.
-                // DO NOT WRAP IN USING STATEMENT!
-                var ms = new MemoryStream(raw, 0, raw.Length);
-                return Image.FromStream(ms, true) as Bitmap;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
+          
         /// <summary>
         /// Creates an MSB ordered, bit-reversed buffer of the logo data located in this bitmap.
         /// The input data's pixels are reduced into an 8bpp image. That means that 8 PC bitmap

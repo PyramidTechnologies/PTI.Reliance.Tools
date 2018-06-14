@@ -19,22 +19,11 @@ namespace PTIRelianceLib.Imaging
     internal interface IPrintLogo
     {
         /// <summary>
-        /// Insert color
-        /// </summary>
-        void ApplyColorInversion();
-
-        /// <summary>
         /// Apply a dithering ditherAlgorithm
         /// </summary>
         /// <param name="ditherAlgorithm">Algorithm</param>
         /// <param name="threshhold">Pixel on/off threshhold</param>
         void ApplyDithering(DitherAlgorithms ditherAlgorithm, byte threshhold);
-
-        /// <summary>
-        /// Returns image as base64 string
-        /// </summary>
-        /// <returns></returns>
-        string AsBase64String();
 
         /// <summary>
         /// Returns image as raw array with correct bit ordering
@@ -60,18 +49,6 @@ namespace PTIRelianceLib.Imaging
         int IdealWidth { get; }
 
         /// <summary>
-        /// Backing image data
-        /// </summary>
-        Bitmap ImageData { get; }
-
-        /// <summary>
-        /// Returns true if this image is in an inverted state relative
-        /// to the original source. This is toggled on every call
-        /// to ApplyColorInversion.
-        /// </summary>
-        bool IsInverted { get; }
-
-        /// <summary>
         /// Returns the maximum height that was specified when this image was created
         /// </summary>
         int MaxHeight { get; }
@@ -80,5 +57,10 @@ namespace PTIRelianceLib.Imaging
         /// Returns the maximum width that was specified when this image was crearted
         /// </summary>
         int MaxWidth { get; }
+
+        /// <summary>
+        /// Backing image data
+        /// </summary>
+        Bitmap ImageData { get; }
     }
 }

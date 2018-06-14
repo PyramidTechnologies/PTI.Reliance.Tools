@@ -13,6 +13,9 @@ namespace PTIRelianceLib.Logo
     using Flash;
     using Transport;
 
+    /// <summary>
+    /// Used to write a set of logos to external flash
+    /// </summary>
     internal class RELLogoUpdater : IFlashUpdater
     {
         private readonly RELLogoHeader _mLogoHeader;

@@ -10,6 +10,9 @@
 
 namespace PTIRelianceLib.Imaging
 {
+    /// <summary>
+    /// Producer of ditherable data
+    /// </summary>
     internal static class DitherFactory
     {
         /// <summary>

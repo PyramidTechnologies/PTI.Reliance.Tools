@@ -10,6 +10,9 @@
 
 namespace PTIRelianceLib.Imaging
 {
+    /// <summary>
+    /// Describes the dimensions of a logo in both dots (pixels) and bytes
+    /// </summary>
     internal class LogoSize
     {
         /// <summary>

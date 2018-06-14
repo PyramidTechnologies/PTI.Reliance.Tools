@@ -72,9 +72,6 @@ namespace PTIRelianceLib.Tests.Imaging
             var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.white_bitmap)).ImageData;
             var dithered = DitherFactory.GetDitherer(DitherAlgorithms.None).GenerateDithered(input);
 
-            expected.Save(@"C:\temp\expected.bmp");
-            dithered.Save(@"C:\temp\dithered.bmp");
-
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
         }
 

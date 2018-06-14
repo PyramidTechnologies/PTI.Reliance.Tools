@@ -11,7 +11,10 @@ namespace PTIRelianceLib.Logo
     using System.Collections.Generic;
     using Imaging;
 
-    public class RELLogoBank
+    /// <summary>
+    /// The logo bank describes where the actual logos can be found and how large they are
+    /// </summary>
+    internal class RELLogoBank
     {      
         /// <summary>
         /// See logos.h in firmware

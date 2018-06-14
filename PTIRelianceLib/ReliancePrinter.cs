@@ -403,20 +403,29 @@ namespace PTIRelianceLib
         /// flash and you will degrade the flash chip.
         /// <example>        
         /// myLogos = { logoA, logoB, logoC };
-        /// 
+        /// StoreLogos(myLogos, monitor, storageConfig);
         /// printer.PrintLogo(0); // Print logo A
         /// printer.PrintLogo(2); // Print logo C
         /// </example>
+        /// LogoStorageConfig can be used to alter the dithering algorithm and logo scaling behavior.
         /// </summary>
         /// <param name="logoData">List of raw logo image data</param>
         /// <param name="monitor">Progress reporter</param>        
-        /// <param name="storageConfig">Logo alteration and storage options</param>
+        /// <param name="storageConfig">Logo alteration and storage options.
+        /// Uses <seealso cref="LogoStorageConfig.Default"/> if storageConfig is set to null.
+        /// You probably want to configure this yourself.</param>
         /// <returns>Return Code</returns>
+        /// <exception cref="ArgumentNullException">Thrown if logodata is null</exception>
         public ReturnCodes StoreLogos(IList<BinaryFile> logoData, IProgressMonitor monitor, LogoStorageConfig storageConfig)
         {
             if (logoData == null)
             {
                 throw new ArgumentNullException(nameof(logoData));
+            }
+
+            if (storageConfig == null)
+            {
+                storageConfig = LogoStorageConfig.Default;
             }
 
             var result = ReturnCodes.InvalidRequest;
@@ -474,7 +483,9 @@ namespace PTIRelianceLib
 
         /// <summary>
         /// Prints logo from internal bank specified by index. If the specified
-        /// logo index does not exist, the first logo in the bank will instead be printed.       
+        /// logo index does not exist, the first logo in the bank will instead be printed.
+        /// Negative indicies and indicies larger than 255 will generate a
+        /// <see cref="ReturnCodes.InvalidRequestPayload"/> return code.
         /// </summary>
         /// <param name="index">Logo index, zero based</param>
         /// <returns>Return Code</returns>
@@ -523,7 +534,9 @@ namespace PTIRelianceLib
 
 
         /// <summary>
-        /// Check checksum of target device
+        /// Check checksum of target device. If checksum is okay,
+        /// return is <see cref="ReturnCodes.Okay"/>. Otherwise
+        /// <see cref="ReturnCodes.FlashChecksumMismatch"/> is returned.
         /// </summary>
         /// <returns>Return code</returns>
         internal ReturnCodes CheckChecksum()
