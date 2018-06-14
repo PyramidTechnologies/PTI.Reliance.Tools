@@ -146,90 +146,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Logging.ILogProvider.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Logging.ILogProvider.html",
-          "hash": "3+2gm5DnzrzBzsuOqwN7Sw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Logging.LogLevel.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Logging.LogLevel.html",
-          "hash": "q95dxjgSyCOxk2LLt/Hz7A=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Logging.LogProvider.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Logging.LogProvider.html",
-          "hash": "UsNMLUcO8VoC2WwZmZSqVw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Logging.LogProviders.LibLogException.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Logging.LogProviders.LibLogException.html",
-          "hash": "P7XZ91ZqRCHDYwNUdazQcA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Logging.LogProviders.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Logging.LogProviders.html",
-          "hash": "qQovjWviI+iYEgPVv/Fmvg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Logging.Logger.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Logging.Logger.html",
-          "hash": "gratbPhtyyEyAwEAcPKA2Q=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Logging.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Logging.html",
-          "hash": "Q2UhSgGPn7edoiiAvbXI4g=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/PTIRelianceLib.PTIException.yml",
       "output": {
         ".html": {
@@ -378,7 +294,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "IGWgMI0TDRhKfRb6dxXIqQ=="
+          "hash": "AONvWEmCsW99oWA3hT4tkA=="
         }
       },
       "is_incremental": false,
@@ -592,6 +508,14 @@
         "incrementalPhase": "build"
       },
       "processors": {
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build"
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build"
+        },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
@@ -600,14 +524,6 @@
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build"
-        },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
           "incrementalPhase": "build"
         }
       }
