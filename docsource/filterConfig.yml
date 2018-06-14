@@ -1,5 +1,9 @@
 apiRules:
 - exclude:
     uidRegex: ^PTIRelianceLib\.Transport\.IParseable$
-- exclude:    
-    uidRegex: ^PTIRelianceLib\.IProgressMonitor$    
+- exclude:
+    uidRegex: ^PTIRelianceLib\.IProgressMonitor$
+- exclude:
+    uidRegex: ^PTIRelianceLib\.Logging$
+- exclude:
+    uidRegex: ^PTIRelianceLib\.Logging\.LogProviders$

@@ -6,7 +6,7 @@
 // 9:02 AM
 #endregion
 
-namespace PTIRelianceLib.Firmware.Internal
+namespace PTIRelianceLib.Firmware
 {
     internal interface IMemoryMap
     {

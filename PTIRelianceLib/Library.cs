@@ -20,6 +20,7 @@
         /// application. Altering this property or the contents of this property
         /// during runtime may result in undefined behavior.
         /// </summary>
+        /// <value>Current Library Options</value>
         public static LibraryOptions Options = LibraryOptions.Default;
     }
 }

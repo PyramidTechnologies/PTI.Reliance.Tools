@@ -6,12 +6,13 @@
 // 9:04 AM
 #endregion
 
-namespace PTIRelianceLib.Firmware.Internal
+namespace PTIRelianceLib.Firmware
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Security.Cryptography;
+    using Flash;
     using Protocol;
     using Transport;
 
@@ -98,7 +99,7 @@ namespace PTIRelianceLib.Firmware.Internal
             }
 
             // Transmit to target
-            var streamer = new RELFwStreamer(Reporter, _mPort);
+            var streamer = new RELStreamer(Reporter, _mPort);
             result = streamer.StreamFlashData(packets);
 
 

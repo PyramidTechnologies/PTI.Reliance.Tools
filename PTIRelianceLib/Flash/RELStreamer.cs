@@ -6,7 +6,7 @@
 // 9:42 AM
 #endregion
 
-namespace PTIRelianceLib.Firmware.Internal
+namespace PTIRelianceLib.Flash
 {
     using System;
     using System.Collections.Generic;
@@ -19,9 +19,9 @@ namespace PTIRelianceLib.Firmware.Internal
     /// <summary>
     /// Handles the low-level protocol for flash updating a Reliance thermal printer
     /// </summary>
-    internal class RELFwStreamer : IDataStreamer
+    internal class RELStreamer : IDataStreamer
     {
-        public RELFwStreamer(IProgressMonitor reporter, IPort<IPacket> port)
+        public RELStreamer(IProgressMonitor reporter, IPort<IPacket> port)
         {
             Reporter = reporter;
             Port = port;
@@ -65,7 +65,7 @@ namespace PTIRelianceLib.Firmware.Internal
 
 
             var payload = packetQ.Dequeue();
-            Reporter.ReportMessage("Starting flash update process");
+            Reporter.ReportMessage("Starting stream writer update process");
             do
             {
                 var resp = Write(payload);
@@ -88,7 +88,7 @@ namespace PTIRelianceLib.Firmware.Internal
                     case PacketTypes.Malformed:
                     case PacketTypes.NegativeAck:
                     case PacketTypes.SequenceError:
-                        Reporter.ReportMessage("Flash Error: {0}", resp.GetPacketType());
+                        Reporter.ReportMessage("Error: {0}", resp.GetPacketType());
                         tracker.Status = FlashState.Retry;
                         ++tracker.RetryCount;
                         break;
@@ -97,7 +97,7 @@ namespace PTIRelianceLib.Firmware.Internal
                         tracker.Status = FlashState.Retry;
                         ++tracker.Timeouts;
                         ++tracker.RetryCount;
-                        Reporter.ReportMessage("Flash Timeout {0}/{1}", tracker.Timeouts, tracker.RetryLimit);
+                        Reporter.ReportMessage("Timeout {0}/{1}", tracker.Timeouts, tracker.RetryLimit);
                         break;
 
                     default:
@@ -140,7 +140,7 @@ namespace PTIRelianceLib.Firmware.Internal
                         {
                             // If this happens then that means the file parser is broken.
                             Reporter.ReportMessage(
-                                "Error flashing because of invalid payload, contact PTI and report this message");
+                                "Error streaming because of invalid payload, contact PTI and report this message");
                             status = ReturnCodes.OperationAborted;
                             break;
                         }
@@ -161,7 +161,7 @@ namespace PTIRelianceLib.Firmware.Internal
                     continue;
                 }
 
-                Reporter.ReportFailure("Too many retries. Aborting flash operation");
+                Reporter.ReportFailure("Too many retries. Aborting operation");
                 tracker.Status = FlashState.Giveup;
                 status = ReturnCodes.OperationAborted;
 
@@ -170,27 +170,7 @@ namespace PTIRelianceLib.Firmware.Internal
 #if DEBUG
             Reporter.ReportMessage(tracker.ToString());
 #endif
-            return status == ReturnCodes.Okay ? CheckChecksum(Write) : status;
-        }
-
-        /// <summary>
-        /// Check checksum of target device
-        /// </summary>
-        /// <param name="write">Device transmit function</param>
-        /// <returns>Return code</returns>
-        private ReturnCodes CheckChecksum(Func<IPacket, IPacket> write)
-        {
-            // Get expected checksum
-            var cmd = Port.Package(0x85, 0x11);
-            var raw = write(cmd);
-            var expectedCsum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(raw);
-
-            // Check actual checksum
-            cmd = Port.Package(0x95, 0x11);
-            raw = write(cmd);
-            var actualCsum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(raw);
-
-            return Equals(expectedCsum, actualCsum) ? ReturnCodes.Okay : ReturnCodes.FlashChecksumMismatch;
+            return status;
         }
     }
 

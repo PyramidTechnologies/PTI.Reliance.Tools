@@ -6,12 +6,12 @@
 // 8:58 AM
 #endregion
 
-namespace PTIRelianceLib.Firmware
+namespace PTIRelianceLib.Flash
 {
     internal interface IFlashUpdater
     {
         /// <summary>
-        /// Perform the flash update and return result
+        /// Perform the flash data write and return result
         /// </summary>
         /// <returns>Result</returns>
         ReturnCodes ExecuteUpdate();

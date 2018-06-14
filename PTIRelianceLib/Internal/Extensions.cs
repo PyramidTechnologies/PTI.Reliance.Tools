@@ -250,5 +250,60 @@ namespace PTIRelianceLib
                 ? ((EnumMemberAttribute)attributes[0]).Value
                 : enumVal.ToString();
         }
+
+        /// <summary>
+        /// Rounds this integer to the nearest positive multiple of N
+        /// </summary>
+        /// <param name="i">Value to round</param>
+        /// <param name="N">Multiple to round to</param>
+        /// <returns></returns>
+        public static int RoundUp(this int i, int N)
+        {
+            return (int)RoundUp(i, (uint)N);
+        }
+
+        /// <summary>
+        /// Rounds this integer to the nearest positive multiple of N
+        /// </summary>
+        /// <param name="i">Value to round</param>
+        /// <param name="N">Multiple to round to</param>
+        /// <returns></returns>
+        public static long RoundUp(this long i, int N)
+        {
+            return RoundUp(i, (uint)N);
+        }
+
+        /// <summary>
+        /// Rounds this integer to the nearest positive multiple of N
+        /// </summary>
+        /// <param name="i">Value to round</param>
+        /// <param name="N">Multiple to round to</param>
+        /// <returns></returns>
+        public static uint RoundUp(this uint i, int N)
+        {
+            return (uint)RoundUp(i, (uint)N);
+        }
+
+
+        /// <summary>
+        /// Rounds this integer to the nearest positive multiple of N
+        /// </summary>
+        /// <param name="i">Value to round</param>
+        /// <param name="N">Multiple to round to</param>
+        /// <returns></returns>
+        private static long RoundUp(long i, uint N)
+        {
+            if (N == 0)
+            {
+                return 0;
+            }
+
+            if (i == 0)
+            {
+                return N;
+            }
+
+            return (long)(Math.Ceiling(Math.Abs(i) / (double)N) * N);
+        }
     }
 }

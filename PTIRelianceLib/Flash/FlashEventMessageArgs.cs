@@ -6,7 +6,7 @@
 // 9:49 AM
 #endregion
 
-namespace PTIRelianceLib.Firmware
+namespace PTIRelianceLib.Flash
 {
     /// <inheritdoc />
     /// <summary>

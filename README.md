@@ -3,11 +3,7 @@
 # Reliance Tools API
 This is a collection of tools for flash updating, configuring, and maintaining your Reliance Thermal Printer.
 
-# Installation
-### Package Manager  
-
-    Install-Package PTIRelianceLib
-    
+# Installation    
 ### Dotnet CLI
 
     dotnet add package PTIRelianceLib
@@ -16,7 +12,8 @@ This is a collection of tools for flash updating, configuring, and maintaining y
 See [the quick-start guide](http://developers.pyramidacceptors.com/PTI.Reliance.Tools/)
 
 ## Examples
-See [RelianceCLI](RelianceCLI)
-
+- [RelianceCLI](RelianceCLI) is a traditional command line tool
+- [ASP.NET Core](samples/reliance-asp-core-docker) is a bare-bones ASP.NET example that can be run inside a Docker container
+- [Docker](samples/reliance--docker) is an example of a non-ASP.NET core application running inside a container. This example also includes the scripts and VS Code tasks required for debugging inside your container.
 ## Third Party Licenses
 See [Third Party Licenses](third-party-license-readme.md)

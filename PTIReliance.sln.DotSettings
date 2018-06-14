@@ -4,4 +4,5 @@
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=REL/@EntryIndexedValue">REL</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=RTC/@EntryIndexedValue">RTC</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=USB/@EntryIndexedValue">USB</s:String>
-	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=USBSN/@EntryIndexedValue">USBSN</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=USBSN/@EntryIndexedValue">USBSN</s:String>
+	<s:String x:Key="/Default/FilterSettingsManager/CoverageFilterXml/@EntryValue">&lt;data&gt;&lt;IncludeFilters /&gt;&lt;ExcludeFilters&gt;&lt;Filter ModuleMask="PTIRelianceLib" ModuleVersionMask="*" ClassMask="PTIRelianceLib.Logging.LogProviders.*" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="PTIRelianceLib" ModuleVersionMask="*" ClassMask="PTIRelianceLib.Logging.*" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="RelianceCLI" ModuleVersionMask="*" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="PTIRelianceLib.Tests" ModuleVersionMask="*" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;/ExcludeFilters&gt;&lt;/data&gt;</s:String></wpf:ResourceDictionary>

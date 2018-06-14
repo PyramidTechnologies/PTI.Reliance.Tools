@@ -5,7 +5,7 @@ using PTIRelianceLib;
 namespace RelianceCLI
 {
     using System.IO;
-    using System.Threading;
+    using PTIRelianceLib.Imaging;
     using PTIRelianceLib.Protocol;
 
     internal class Program
@@ -124,6 +124,26 @@ namespace RelianceCLI
                     Console.WriteLine("Read and saved printer configuration to {0}", opts.SaveConfigPath);
                 }
 
+                if (!string.IsNullOrEmpty(opts.LogoFilePath))
+                {
+                    var logo = BinaryFile.From(opts.LogoFilePath);
+                    if (logo.Empty)
+                    {
+                        Console.WriteLine("Logo file cannot be read. Does it exist?");
+                    }
+                    else
+                    {
+                        var logos = new List<BinaryFile> {logo};
+                        var config = LogoStorageConfig.Default;
+                        config.Algorithm = DitherAlgorithms.Atkinson;
+
+                        var result = printer.StoreLogos(logos, new ConsoleProgressBar(), config);
+                        Console.WriteLine("Store Result: {0}", result);
+
+                        printer.PrintLogo(0);
+                    }
+                }
+
                 if (opts.GetStatus)
                 {
                     var status = printer.GetStatus();
@@ -143,6 +163,8 @@ namespace RelianceCLI
             public string FirmwareFilePath;
 
             public string ConfigFilePath;
+
+            public string LogoFilePath;
 
             public bool Reboot;
 
@@ -188,6 +210,11 @@ namespace RelianceCLI
                                 opts.GetRevlev = true;
                                 break;
 
+                            case "-l":
+                            case "--logo":
+                                nextCapture = s => opts.LogoFilePath = s;
+                                break;
+
                             case "-s":
                             case "--status":
                                 opts.GetStatus = true;
@@ -226,6 +253,7 @@ namespace RelianceCLI
                        "\t-f,--firmware\t\tPath to firmware to flash update with\n" +
                        "\t-c,--config\t\tPath to configuration to apply\n" +
                        "\t-g,--get-config\t\tPath to file current config will be written to\n" +
+                       "\t-l,--set-logo\t\tPath to image file to store as logo\n" +
                        "FLAGS\n" +
                        "\t-r,--revision\t\tRead and display printer firmware revision\n" +
                        "\t-s,--status\t\tRead and display printer status\n" +

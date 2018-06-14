@@ -1,8 +1,11 @@
+---
+uid: tut_intro
+---
 # Getting Started
 
 1. Install [.NET Core SDK](https://www.microsoft.com/net/download/windows) for your operating system
 2. Open your favorite terminal
-3. Execute
+3. Setup Project and install library
 ```
 dotnet new console -o reliance_sample 
 cd reliance_sample
@@ -15,7 +18,7 @@ dotnet add package PTIRelianceLib
 > Linux users, please make sure libusb is installed before proceeding
 
 5. Execute
-```
+```sh
 dotnet run
 ```
 

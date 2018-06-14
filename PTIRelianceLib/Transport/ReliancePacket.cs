@@ -1,9 +1,11 @@
 ﻿#region Header
+
 // ReliancePacket.cs
 // PTIRelianceLib
 // Cory Todd
 // 16-05-2018
 // 10:00 AM
+
 #endregion
 
 namespace PTIRelianceLib.Transport
@@ -18,17 +20,19 @@ namespace PTIRelianceLib.Transport
         private PacketTypes _mPacketType = PacketTypes.Unset;
 
         public ReliancePacket()
-        { }
+        {
+        }
 
         public ReliancePacket(params byte[] cmd)
             : base(cmd)
-        { }
+        {
+        }
 
         public ReliancePacket(params RelianceCommands[] cmd)
         {
             foreach (var c in cmd)
             {
-                Add((byte)c);
+                Add((byte) c);
             }
         }
 
@@ -39,7 +43,7 @@ namespace PTIRelianceLib.Transport
                 return this;
             }
 
-            var length = (byte)(Count + 1);
+            var length = (byte) (Count + 1);
             byte checksum = 0;
 
             Prepend(length);
@@ -79,7 +83,6 @@ namespace PTIRelianceLib.Transport
 
             if (totalLen <= 0)
             {
-
                 // If this is an ACK packet, there is no payload
                 // to extract
                 result = new ReliancePacket();
@@ -94,7 +97,6 @@ namespace PTIRelianceLib.Transport
 
                 result = new ReliancePacket(response);
             }
-
 
 
             result.IsValid = true;
@@ -241,16 +243,16 @@ namespace PTIRelianceLib.Transport
                 // What kind of response is this? 
                 switch (local[ackIndex])
                 {
-                    case (byte)ControlCodes.Ack:
+                    case (byte) ControlCodes.Ack:
                         _mPacketType = PacketTypes.PositiveAck;
                         break;
-                    case (byte)ControlCodes.Nak:
+                    case (byte) ControlCodes.Nak:
                         _mPacketType = PacketTypes.NegativeAck;
                         break;
-                    case (byte)ControlCodes.Ser:
+                    case (byte) ControlCodes.Ser:
                         _mPacketType = PacketTypes.SequenceError;
                         break;
-                    case (byte)ControlCodes.Timeout:
+                    case (byte) ControlCodes.Timeout:
                         _mPacketType = PacketTypes.Timeout;
                         break;
                     default:

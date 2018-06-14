@@ -1,3 +1,6 @@
+---
+uid: tut_flashupdate
+---
 # Firmware Flash Updates
 
 This library is designed promote natural use of good design practices. One of the most
@@ -10,3 +13,6 @@ maintain gives you more time to focus on the features that bring value to your p
 [!code-csharp[Main](Sample_02.cs)]
 
 [!include[<Exceptions>](<exceptions.md>)]
+
+> [!TIP]
+> Flash udpating may be unreliable on Docker. See the [Docker](xref:tut_docker) section for more details.

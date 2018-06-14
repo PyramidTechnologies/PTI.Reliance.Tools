@@ -1,4 +1,7 @@
-# Customizations
+---
+uid: tut_customization
+---
+# Library Customization
 
 PTIRelianceLib is designed to support as many operating systems as possible. We try to support as much as possible with defaults but in some cases, there are outliers that we need to make special accommodations for without affecting other systems.
 

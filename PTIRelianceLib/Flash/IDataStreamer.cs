@@ -6,14 +6,14 @@
 // 9:40 AM
 #endregion
 
-namespace PTIRelianceLib.Firmware
+namespace PTIRelianceLib.Flash
 {
     using System.Collections.Generic;
     using Transport;
 
     /// <summary>
     /// This contract describes a class that, given a PacketList and device, can
-    /// perform an event-driven flash update.
+    /// perform an event-driven flash write.
     /// </summary>
     internal interface IDataStreamer
     {

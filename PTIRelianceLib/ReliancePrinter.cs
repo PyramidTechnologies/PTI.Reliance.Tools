@@ -1,9 +1,11 @@
 ﻿#region Header
+
 // HidWrapper.cs
 // PTIRelianceLib
 // Cory Todd
 // 16-05-2018
 // 11:30 AM
+
 #endregion
 
 namespace PTIRelianceLib
@@ -14,10 +16,12 @@ namespace PTIRelianceLib
     using System.Linq;
     using System.Threading;
     using Configuration;
-    using Firmware.Internal;
+    using Firmware;
+    using Imaging;
     using IO;
     using IO.Internal;
     using Logging;
+    using Logo;
     using Protocol;
     using Transport;
 
@@ -43,6 +47,7 @@ namespace PTIRelianceLib
         /// </summary>
         /// <value>USB VID</value>
         public const int VendorId = 0x0425;
+
         /// <summary>
         /// USB product id for all Reliance USB interfaces
         /// </summary>
@@ -106,7 +111,7 @@ namespace PTIRelianceLib
         {
             try
             {
-                _mPort?.Close();         
+                _mPort?.Close();
                 _mPort = new HidPort<ReliancePacket>(_mPortConfig);
             }
             catch (DllNotFoundException ex)
@@ -131,6 +136,7 @@ namespace PTIRelianceLib
             {
                 return ReturnCodes.DeviceNotConnected;
             }
+
             var configWriter = new RElConfigUpdater(this);
             return configWriter.WriteConfiguration(config);
         }
@@ -139,7 +145,7 @@ namespace PTIRelianceLib
         public BinaryFile ReadConfiguration()
         {
             if (!_mPort.IsOpen)
-            {               
+            {
                 return BinaryFile.From(new byte[0]);
             }
 
@@ -193,7 +199,7 @@ namespace PTIRelianceLib
                 FileType = FileTypes.Base,
                 RecoverConnection = AcquireHidPort,
                 RunBefore = new List<Func<ReturnCodes>>(),
-                RunAfter = new List<Func<ReturnCodes>> { Reboot }
+                RunAfter = new List<Func<ReturnCodes>> {Reboot, CheckChecksum}
             };
 
             // If not already in bootloader mode, do so before flash update
@@ -237,6 +243,8 @@ namespace PTIRelianceLib
         /// <summary>
         /// Returns the <see cref="Status"/> for the attached printer. If there
         /// is no device connected, <c>null</c> will be returned.
+        /// You can use this method to read the ticket status. See <seealso cref="TicketStates"/>,
+        /// which are a member of <seealso cref="Status"/>.
         /// </summary>
         /// <returns>Status object or <c>null</c> if no connection or error</returns>
         public Status GetStatus()
@@ -281,8 +289,7 @@ namespace PTIRelianceLib
 
             var cmd = new ReliancePacket(RelianceCommands.Ping);
             var resp = Write(cmd);
-            return resp.GetPacketType() == PacketTypes.PositiveAck ?
-                ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
         }
 
         /// <inheritdoc />
@@ -335,7 +342,6 @@ namespace PTIRelianceLib
                 Log.Warn("Failing to reboot indicates that Reliance is having trouble reconnecting to your hardware." +
                          "It is recommended to check PTIRelianceLib.Library.Options for configuration options.");
                 return ReturnCodes.RebootFailure;
-
             }
             catch (Exception e)
             {
@@ -369,6 +375,7 @@ namespace PTIRelianceLib
             {
                 return result;
             }
+
             if (raw.Count < 3)
             {
                 return result;
@@ -379,12 +386,118 @@ namespace PTIRelianceLib
             {
                 return result;
             }
+
             for (var i = 1; i < (count * 2); i += 2)
             {
-                result.Add((ushort)(raw[i + 1] << 8 | raw[i]));
+                result.Add((ushort) (raw[i + 1] << 8 | raw[i]));
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Writes the provided logos to internal logo bank. These logos can be accessed
+        /// by their index in the list using <see cref="PrintLogo"/>. Logos are stored in
+        /// non-volatile memory so these only need to be written once. It is not recommended
+        /// to call this method excessively (e.g. on every print job) as this is writing to
+        /// flash and you will degrade the flash chip.
+        /// <example>        
+        /// myLogos = { logoA, logoB, logoC };
+        /// StoreLogos(myLogos, monitor, storageConfig);
+        /// printer.PrintLogo(0); // Print logo A
+        /// printer.PrintLogo(2); // Print logo C
+        /// </example>
+        /// LogoStorageConfig can be used to alter the dithering algorithm and logo scaling behavior.
+        /// </summary>
+        /// <param name="logoData">List of raw logo image data</param>
+        /// <param name="monitor">Progress reporter</param>        
+        /// <param name="storageConfig">Logo alteration and storage options.
+        /// Uses <seealso cref="LogoStorageConfig.Default"/> if storageConfig is set to null.
+        /// You probably want to configure this yourself.</param>
+        /// <returns>Return Code</returns>
+        /// <exception cref="ArgumentNullException">Thrown if logodata is null</exception>
+        public ReturnCodes StoreLogos(IList<BinaryFile> logoData, IProgressMonitor monitor, LogoStorageConfig storageConfig)
+        {
+            if (logoData == null)
+            {
+                throw new ArgumentNullException(nameof(logoData));
+            }
+
+            if (storageConfig == null)
+            {
+                storageConfig = LogoStorageConfig.Default;
+            }
+
+            var result = ReturnCodes.InvalidRequest;
+
+            if (logoData.Count == 0)
+            {
+                return result;
+            }
+
+            var logoBank = new RELLogoBank();
+            var ditheredLogos = logoData.Select(logo => 
+                new BasePrintLogo(logo, maxWidth: storageConfig.MaxPixelWidth)).Cast<IPrintLogo>().ToList();
+            ditheredLogos.ForEach(x => x.ApplyDithering(storageConfig.Algorithm, storageConfig.Threshold));
+            
+            // MakeHeaders locks in our scaling and dithering options
+            foreach(var header in logoBank.MakeHeaders(ditheredLogos))
+            {
+                // sub command 2: Set Logo header
+                var cmd = _mPort.Package((byte) RelianceCommands.LogoSub, 0x02);
+                cmd.Add(header.Serialize());
+
+                // Send the data and parse response
+                var resp = Write(cmd);
+                if (resp.GetPacketType() != PacketTypes.PositiveAck)
+                {
+                    Log.ErrorFormat("Failed to write logo header: {0}", resp.GetPacketType());
+                    return ReturnCodes.ExecutionFailure;
+                }
+
+                // Specify start address to that when the big logo buffer is built,
+                // the correct address is injected in the flash permission command
+                var logoFlasher = new RELLogoUpdater(_mPort, header)
+                {
+                    Reporter = monitor,
+                };
+
+                result = logoFlasher.ExecuteUpdate();
+                if (result == ReturnCodes.Okay)
+                {
+                    continue;
+                }
+
+                Log.ErrorFormat("Failed to write logo: {0}", result.GetEnumName());
+                return result;
+            }
+
+            if (result == ReturnCodes.Okay)
+            {
+                // Store logo header data
+                Write(RelianceCommands.SaveConfig);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Prints logo from internal bank specified by index. If the specified
+        /// logo index does not exist, the first logo in the bank will instead be printed.
+        /// Negative indicies and indicies larger than 255 will generate a
+        /// <see cref="ReturnCodes.InvalidRequestPayload"/> return code.
+        /// </summary>
+        /// <param name="index">Logo index, zero based</param>
+        /// <returns>Return Code</returns>
+        public ReturnCodes PrintLogo(int index)
+        {
+            if (index < 0 || index > byte.MaxValue)
+            {
+                return ReturnCodes.InvalidRequestPayload;
+            }
+            // 7 == print logo sub command
+            Write(RelianceCommands.LogoSub, 7, (byte) index);
+            return ReturnCodes.Okay;
         }
 
         /// <summary>
@@ -398,7 +511,7 @@ namespace PTIRelianceLib
                 return string.Empty;
             }
 
-            var cmd = new ReliancePacket((byte)RelianceCommands.GetBootId, 0x10);
+            var cmd = new ReliancePacket((byte) RelianceCommands.GetBootId, 0x10);
             var resp = Write(cmd);
             return PacketParserFactory.Instance.Create<PacketedString>().Parse(resp).Value;
         }
@@ -419,6 +532,26 @@ namespace PTIRelianceLib
             return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.FailedBootloaderEntry : Reboot();
         }
 
+
+        /// <summary>
+        /// Check checksum of target device. If checksum is okay,
+        /// return is <see cref="ReturnCodes.Okay"/>. Otherwise
+        /// <see cref="ReturnCodes.FlashChecksumMismatch"/> is returned.
+        /// </summary>
+        /// <returns>Return code</returns>
+        internal ReturnCodes CheckChecksum()
+        {
+            // Get expected checksum
+            var resp = Write(RelianceCommands.GetExpectedCsum, 0x11);
+            var expectedCsum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(resp);
+
+            // Check actual checksum
+            resp = Write(RelianceCommands.GetActualCsum, 0x11);
+            var actualCsum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(resp);
+
+            return Equals(expectedCsum, actualCsum) ? ReturnCodes.Okay : ReturnCodes.FlashChecksumMismatch;
+        }
+
         /// <summary>
         /// Write wrapper handle the write-wait-read process. The data returned
         /// from this method will be unpackaged for your.
@@ -428,7 +561,7 @@ namespace PTIRelianceLib
         /// <returns>Response or empty if no response</returns>
         internal IPacket Write(RelianceCommands cmd, params byte[] data)
         {
-            var packet = new ReliancePacket(cmd);           
+            var packet = new ReliancePacket(cmd);
             packet.Add(data);
             return Write(packet);
         }

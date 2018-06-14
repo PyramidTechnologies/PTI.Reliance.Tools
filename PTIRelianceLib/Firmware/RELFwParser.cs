@@ -6,7 +6,7 @@
 // 9:11 AM
 #endregion
 
-namespace PTIRelianceLib.Firmware.Internal
+namespace PTIRelianceLib.Firmware
 {
     using System;
     using System.IO;
