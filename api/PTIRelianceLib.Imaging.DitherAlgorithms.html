@@ -5,9 +5,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Getting Started </title>
+    <title>Enum DitherAlgorithms
+   </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Getting Started ">
+    <meta name="title" content="Enum DitherAlgorithms
+   ">
     <meta name="generator" content="docfx 2.36.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -76,50 +78,82 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="tut_intro">
-<h1 id="getting-started">Getting Started</h1>
-
-<ol>
-<li>Install <a href="https://www.microsoft.com/net/download/windows">.NET Core SDK</a> for your operating system</li>
-<li>Open your favorite terminal</li>
-<li>Setup Project and install library</li>
-</ol>
-<pre><code>dotnet new console -o reliance_sample 
-cd reliance_sample
-dotnet add package PTIRelianceLib
-</code></pre>
-<ol start="4">
-<li>Open Program.cs in your favorite editor and replace the code with the following:</li>
-</ol>
-<pre><code class="lang-csharp" name="Main">using System;
-using PTIRelianceLib;
-
-namespace reliance_sample
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            using(var printer = new ReliancePrinter())
-            {
-                var rev = printer.GetFirmwareRevision();
-                Console.WriteLine(&quot;Firmware revision: {0}&quot;, rev);
-            }
-        }
-    }
-}
-</code></pre>
-<div class="IMPORTANT">
-<h5>Important</h5>
-<p>Linux users, please make sure libusb is installed before proceeding</p>
+            <article class="content wrap" id="_content" data-uid="PTIRelianceLib.Imaging.DitherAlgorithms">
+  
+  
+  <h1 id="PTIRelianceLib_Imaging_DitherAlgorithms" data-uid="PTIRelianceLib.Imaging.DitherAlgorithms" class="text-break">Enum DitherAlgorithms
+  </h1>
+  <div class="markdown level0 summary"><p>List of available dithering algorithms</p>
 </div>
-<ol start="5">
-<li>Execute</li>
-</ol>
-<pre><code class="lang-sh">dotnet run
-</code></pre>
-<h2 id="results">Results</h2>
-<p><img src="images/intro_01.gif" alt="Output"></p>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="PTIRelianceLib.Imaging.html">PTIRelianceLib.Imaging</a></h6>
+  <h6><strong>Assembly</strong>: PTIRelianceLib.dll</h6>
+  <h5 id="PTIRelianceLib_Imaging_DitherAlgorithms_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public enum DitherAlgorithms</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    <thead>
+    <tbody>
+      <tr>
+        <td id="PTIRelianceLib_Imaging_DitherAlgorithms_Atkinson">Atkinson</td>
+        <td><p>Simple dither</p>
+</td>
+      </tr>
+      <tr>
+        <td id="PTIRelianceLib_Imaging_DitherAlgorithms_Burkes">Burkes</td>
+        <td><p>Decent dithering</p>
+</td>
+      </tr>
+      <tr>
+        <td id="PTIRelianceLib_Imaging_DitherAlgorithms_FloydSteinberg">FloydSteinberg</td>
+        <td><p>Better color deptch, lower accuracy</p>
+</td>
+      </tr>
+      <tr>
+        <td id="PTIRelianceLib_Imaging_DitherAlgorithms_FloydSteinbergFalse">FloydSteinbergFalse</td>
+        <td><p>Simple dither</p>
+</td>
+      </tr>
+      <tr>
+        <td id="PTIRelianceLib_Imaging_DitherAlgorithms_JarvisJudiceNinke">JarvisJudiceNinke</td>
+        <td><p>Dither algorithm reduces color depth but maintains detail accuracy</p>
+</td>
+      </tr>
+      <tr>
+        <td id="PTIRelianceLib_Imaging_DitherAlgorithms_None">None</td>
+        <td><p>Raw image</p>
+</td>
+      </tr>
+      <tr>
+        <td id="PTIRelianceLib_Imaging_DitherAlgorithms_Sierra">Sierra</td>
+        <td><p>Decent dithering</p>
+</td>
+      </tr>
+      <tr>
+        <td id="PTIRelianceLib_Imaging_DitherAlgorithms_Sierra2">Sierra2</td>
+        <td><p>Slightly better Sierra kernel</p>
+</td>
+      </tr>
+      <tr>
+        <td id="PTIRelianceLib_Imaging_DitherAlgorithms_SierraLite">SierraLite</td>
+        <td><p>Fast Sierra kernel</p>
+</td>
+      </tr>
+      <tr>
+        <td id="PTIRelianceLib_Imaging_DitherAlgorithms_Stucki">Stucki</td>
+        <td><p>Simple dither</p>
+</td>
+      </tr>
+    </tbody>
+  </thead></thead></table>
 </article>
           </div>
           
@@ -128,7 +162,10 @@ namespace reliance_sample
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/PyramidTechnologies/PTI.Reliance.Tools/blob/develop/docsource/tutorials/intro.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/PyramidTechnologies/PTI.Reliance.Tools/new/develop/apiSpec/new?filename=PTIRelianceLib_Imaging_DitherAlgorithms.md&amp;value=---%0Auid%3A%20PTIRelianceLib.Imaging.DitherAlgorithms%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/PyramidTechnologies/PTI.Reliance.Tools/blob/develop/PTIRelianceLib/Imaging/DitherAlgorithms.cs/#L16" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

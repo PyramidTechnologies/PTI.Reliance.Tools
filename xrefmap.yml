@@ -109,62 +109,192 @@ references:
   commentId: T:PTIRelianceLib.DevNullMonitor
   fullName: PTIRelianceLib.DevNullMonitor
   nameWithType: DevNullMonitor
-- uid: PTIRelianceLib.Firmware
-  name: PTIRelianceLib.Firmware
-  href: api/PTIRelianceLib.Firmware.html
-  commentId: N:PTIRelianceLib.Firmware
-  fullName: PTIRelianceLib.Firmware
-  nameWithType: PTIRelianceLib.Firmware
-- uid: PTIRelianceLib.Firmware.FlashEventMessageArgs
+- uid: PTIRelianceLib.Flash
+  name: PTIRelianceLib.Flash
+  href: api/PTIRelianceLib.Flash.html
+  commentId: N:PTIRelianceLib.Flash
+  fullName: PTIRelianceLib.Flash
+  nameWithType: PTIRelianceLib.Flash
+- uid: PTIRelianceLib.Flash.FlashEventMessageArgs
   name: FlashEventMessageArgs
-  href: api/PTIRelianceLib.Firmware.FlashEventMessageArgs.html
-  commentId: T:PTIRelianceLib.Firmware.FlashEventMessageArgs
-  fullName: PTIRelianceLib.Firmware.FlashEventMessageArgs
+  href: api/PTIRelianceLib.Flash.FlashEventMessageArgs.html
+  commentId: T:PTIRelianceLib.Flash.FlashEventMessageArgs
+  fullName: PTIRelianceLib.Flash.FlashEventMessageArgs
   nameWithType: FlashEventMessageArgs
-- uid: PTIRelianceLib.Firmware.FlashEventMessageArgs.#ctor(System.String)
+- uid: PTIRelianceLib.Flash.FlashEventMessageArgs.#ctor(System.String)
   name: FlashEventMessageArgs(String)
-  href: api/PTIRelianceLib.Firmware.FlashEventMessageArgs.html#PTIRelianceLib_Firmware_FlashEventMessageArgs__ctor_System_String_
-  commentId: M:PTIRelianceLib.Firmware.FlashEventMessageArgs.#ctor(System.String)
-  fullName: PTIRelianceLib.Firmware.FlashEventMessageArgs.FlashEventMessageArgs(System.String)
+  href: api/PTIRelianceLib.Flash.FlashEventMessageArgs.html#PTIRelianceLib_Flash_FlashEventMessageArgs__ctor_System_String_
+  commentId: M:PTIRelianceLib.Flash.FlashEventMessageArgs.#ctor(System.String)
+  fullName: PTIRelianceLib.Flash.FlashEventMessageArgs.FlashEventMessageArgs(System.String)
   nameWithType: FlashEventMessageArgs.FlashEventMessageArgs(String)
-- uid: PTIRelianceLib.Firmware.FlashEventMessageArgs.#ctor*
+- uid: PTIRelianceLib.Flash.FlashEventMessageArgs.#ctor*
   name: FlashEventMessageArgs
-  href: api/PTIRelianceLib.Firmware.FlashEventMessageArgs.html#PTIRelianceLib_Firmware_FlashEventMessageArgs__ctor_
-  commentId: Overload:PTIRelianceLib.Firmware.FlashEventMessageArgs.#ctor
+  href: api/PTIRelianceLib.Flash.FlashEventMessageArgs.html#PTIRelianceLib_Flash_FlashEventMessageArgs__ctor_
+  commentId: Overload:PTIRelianceLib.Flash.FlashEventMessageArgs.#ctor
   isSpec: "True"
-  fullName: PTIRelianceLib.Firmware.FlashEventMessageArgs.FlashEventMessageArgs
+  fullName: PTIRelianceLib.Flash.FlashEventMessageArgs.FlashEventMessageArgs
   nameWithType: FlashEventMessageArgs.FlashEventMessageArgs
-- uid: PTIRelianceLib.Firmware.FlashEventMessageArgs.Message
+- uid: PTIRelianceLib.Flash.FlashEventMessageArgs.Message
   name: Message
-  href: api/PTIRelianceLib.Firmware.FlashEventMessageArgs.html#PTIRelianceLib_Firmware_FlashEventMessageArgs_Message
-  commentId: F:PTIRelianceLib.Firmware.FlashEventMessageArgs.Message
-  fullName: PTIRelianceLib.Firmware.FlashEventMessageArgs.Message
+  href: api/PTIRelianceLib.Flash.FlashEventMessageArgs.html#PTIRelianceLib_Flash_FlashEventMessageArgs_Message
+  commentId: F:PTIRelianceLib.Flash.FlashEventMessageArgs.Message
+  fullName: PTIRelianceLib.Flash.FlashEventMessageArgs.Message
   nameWithType: FlashEventMessageArgs.Message
-- uid: PTIRelianceLib.Firmware.FlashProgressEventArgs
+- uid: PTIRelianceLib.Flash.FlashProgressEventArgs
   name: FlashProgressEventArgs
-  href: api/PTIRelianceLib.Firmware.FlashProgressEventArgs.html
-  commentId: T:PTIRelianceLib.Firmware.FlashProgressEventArgs
-  fullName: PTIRelianceLib.Firmware.FlashProgressEventArgs
+  href: api/PTIRelianceLib.Flash.FlashProgressEventArgs.html
+  commentId: T:PTIRelianceLib.Flash.FlashProgressEventArgs
+  fullName: PTIRelianceLib.Flash.FlashProgressEventArgs
   nameWithType: FlashProgressEventArgs
-- uid: PTIRelianceLib.Firmware.FlashProgressEventArgs.#ctor(System.Double)
+- uid: PTIRelianceLib.Flash.FlashProgressEventArgs.#ctor(System.Double)
   name: FlashProgressEventArgs(Double)
-  href: api/PTIRelianceLib.Firmware.FlashProgressEventArgs.html#PTIRelianceLib_Firmware_FlashProgressEventArgs__ctor_System_Double_
-  commentId: M:PTIRelianceLib.Firmware.FlashProgressEventArgs.#ctor(System.Double)
-  fullName: PTIRelianceLib.Firmware.FlashProgressEventArgs.FlashProgressEventArgs(System.Double)
+  href: api/PTIRelianceLib.Flash.FlashProgressEventArgs.html#PTIRelianceLib_Flash_FlashProgressEventArgs__ctor_System_Double_
+  commentId: M:PTIRelianceLib.Flash.FlashProgressEventArgs.#ctor(System.Double)
+  fullName: PTIRelianceLib.Flash.FlashProgressEventArgs.FlashProgressEventArgs(System.Double)
   nameWithType: FlashProgressEventArgs.FlashProgressEventArgs(Double)
-- uid: PTIRelianceLib.Firmware.FlashProgressEventArgs.#ctor*
+- uid: PTIRelianceLib.Flash.FlashProgressEventArgs.#ctor*
   name: FlashProgressEventArgs
-  href: api/PTIRelianceLib.Firmware.FlashProgressEventArgs.html#PTIRelianceLib_Firmware_FlashProgressEventArgs__ctor_
-  commentId: Overload:PTIRelianceLib.Firmware.FlashProgressEventArgs.#ctor
+  href: api/PTIRelianceLib.Flash.FlashProgressEventArgs.html#PTIRelianceLib_Flash_FlashProgressEventArgs__ctor_
+  commentId: Overload:PTIRelianceLib.Flash.FlashProgressEventArgs.#ctor
   isSpec: "True"
-  fullName: PTIRelianceLib.Firmware.FlashProgressEventArgs.FlashProgressEventArgs
+  fullName: PTIRelianceLib.Flash.FlashProgressEventArgs.FlashProgressEventArgs
   nameWithType: FlashProgressEventArgs.FlashProgressEventArgs
-- uid: PTIRelianceLib.Firmware.FlashProgressEventArgs.Progress
+- uid: PTIRelianceLib.Flash.FlashProgressEventArgs.Progress
   name: Progress
-  href: api/PTIRelianceLib.Firmware.FlashProgressEventArgs.html#PTIRelianceLib_Firmware_FlashProgressEventArgs_Progress
-  commentId: F:PTIRelianceLib.Firmware.FlashProgressEventArgs.Progress
-  fullName: PTIRelianceLib.Firmware.FlashProgressEventArgs.Progress
+  href: api/PTIRelianceLib.Flash.FlashProgressEventArgs.html#PTIRelianceLib_Flash_FlashProgressEventArgs_Progress
+  commentId: F:PTIRelianceLib.Flash.FlashProgressEventArgs.Progress
+  fullName: PTIRelianceLib.Flash.FlashProgressEventArgs.Progress
   nameWithType: FlashProgressEventArgs.Progress
+- uid: PTIRelianceLib.Imaging
+  name: PTIRelianceLib.Imaging
+  href: api/PTIRelianceLib.Imaging.html
+  commentId: N:PTIRelianceLib.Imaging
+  fullName: PTIRelianceLib.Imaging
+  nameWithType: PTIRelianceLib.Imaging
+- uid: PTIRelianceLib.Imaging.DitherAlgorithms
+  name: DitherAlgorithms
+  href: api/PTIRelianceLib.Imaging.DitherAlgorithms.html
+  commentId: T:PTIRelianceLib.Imaging.DitherAlgorithms
+  fullName: PTIRelianceLib.Imaging.DitherAlgorithms
+  nameWithType: DitherAlgorithms
+- uid: PTIRelianceLib.Imaging.DitherAlgorithms.Atkinson
+  name: Atkinson
+  href: api/PTIRelianceLib.Imaging.DitherAlgorithms.html#PTIRelianceLib_Imaging_DitherAlgorithms_Atkinson
+  commentId: F:PTIRelianceLib.Imaging.DitherAlgorithms.Atkinson
+  fullName: PTIRelianceLib.Imaging.DitherAlgorithms.Atkinson
+  nameWithType: DitherAlgorithms.Atkinson
+- uid: PTIRelianceLib.Imaging.DitherAlgorithms.Burkes
+  name: Burkes
+  href: api/PTIRelianceLib.Imaging.DitherAlgorithms.html#PTIRelianceLib_Imaging_DitherAlgorithms_Burkes
+  commentId: F:PTIRelianceLib.Imaging.DitherAlgorithms.Burkes
+  fullName: PTIRelianceLib.Imaging.DitherAlgorithms.Burkes
+  nameWithType: DitherAlgorithms.Burkes
+- uid: PTIRelianceLib.Imaging.DitherAlgorithms.FloydSteinberg
+  name: FloydSteinberg
+  href: api/PTIRelianceLib.Imaging.DitherAlgorithms.html#PTIRelianceLib_Imaging_DitherAlgorithms_FloydSteinberg
+  commentId: F:PTIRelianceLib.Imaging.DitherAlgorithms.FloydSteinberg
+  fullName: PTIRelianceLib.Imaging.DitherAlgorithms.FloydSteinberg
+  nameWithType: DitherAlgorithms.FloydSteinberg
+- uid: PTIRelianceLib.Imaging.DitherAlgorithms.FloydSteinbergFalse
+  name: FloydSteinbergFalse
+  href: api/PTIRelianceLib.Imaging.DitherAlgorithms.html#PTIRelianceLib_Imaging_DitherAlgorithms_FloydSteinbergFalse
+  commentId: F:PTIRelianceLib.Imaging.DitherAlgorithms.FloydSteinbergFalse
+  fullName: PTIRelianceLib.Imaging.DitherAlgorithms.FloydSteinbergFalse
+  nameWithType: DitherAlgorithms.FloydSteinbergFalse
+- uid: PTIRelianceLib.Imaging.DitherAlgorithms.JarvisJudiceNinke
+  name: JarvisJudiceNinke
+  href: api/PTIRelianceLib.Imaging.DitherAlgorithms.html#PTIRelianceLib_Imaging_DitherAlgorithms_JarvisJudiceNinke
+  commentId: F:PTIRelianceLib.Imaging.DitherAlgorithms.JarvisJudiceNinke
+  fullName: PTIRelianceLib.Imaging.DitherAlgorithms.JarvisJudiceNinke
+  nameWithType: DitherAlgorithms.JarvisJudiceNinke
+- uid: PTIRelianceLib.Imaging.DitherAlgorithms.None
+  name: None
+  href: api/PTIRelianceLib.Imaging.DitherAlgorithms.html#PTIRelianceLib_Imaging_DitherAlgorithms_None
+  commentId: F:PTIRelianceLib.Imaging.DitherAlgorithms.None
+  fullName: PTIRelianceLib.Imaging.DitherAlgorithms.None
+  nameWithType: DitherAlgorithms.None
+- uid: PTIRelianceLib.Imaging.DitherAlgorithms.Sierra
+  name: Sierra
+  href: api/PTIRelianceLib.Imaging.DitherAlgorithms.html#PTIRelianceLib_Imaging_DitherAlgorithms_Sierra
+  commentId: F:PTIRelianceLib.Imaging.DitherAlgorithms.Sierra
+  fullName: PTIRelianceLib.Imaging.DitherAlgorithms.Sierra
+  nameWithType: DitherAlgorithms.Sierra
+- uid: PTIRelianceLib.Imaging.DitherAlgorithms.Sierra2
+  name: Sierra2
+  href: api/PTIRelianceLib.Imaging.DitherAlgorithms.html#PTIRelianceLib_Imaging_DitherAlgorithms_Sierra2
+  commentId: F:PTIRelianceLib.Imaging.DitherAlgorithms.Sierra2
+  fullName: PTIRelianceLib.Imaging.DitherAlgorithms.Sierra2
+  nameWithType: DitherAlgorithms.Sierra2
+- uid: PTIRelianceLib.Imaging.DitherAlgorithms.SierraLite
+  name: SierraLite
+  href: api/PTIRelianceLib.Imaging.DitherAlgorithms.html#PTIRelianceLib_Imaging_DitherAlgorithms_SierraLite
+  commentId: F:PTIRelianceLib.Imaging.DitherAlgorithms.SierraLite
+  fullName: PTIRelianceLib.Imaging.DitherAlgorithms.SierraLite
+  nameWithType: DitherAlgorithms.SierraLite
+- uid: PTIRelianceLib.Imaging.DitherAlgorithms.Stucki
+  name: Stucki
+  href: api/PTIRelianceLib.Imaging.DitherAlgorithms.html#PTIRelianceLib_Imaging_DitherAlgorithms_Stucki
+  commentId: F:PTIRelianceLib.Imaging.DitherAlgorithms.Stucki
+  fullName: PTIRelianceLib.Imaging.DitherAlgorithms.Stucki
+  nameWithType: DitherAlgorithms.Stucki
+- uid: PTIRelianceLib.Imaging.LogoStorageConfig
+  name: LogoStorageConfig
+  href: api/PTIRelianceLib.Imaging.LogoStorageConfig.html
+  commentId: T:PTIRelianceLib.Imaging.LogoStorageConfig
+  fullName: PTIRelianceLib.Imaging.LogoStorageConfig
+  nameWithType: LogoStorageConfig
+- uid: PTIRelianceLib.Imaging.LogoStorageConfig.Algorithm
+  name: Algorithm
+  href: api/PTIRelianceLib.Imaging.LogoStorageConfig.html#PTIRelianceLib_Imaging_LogoStorageConfig_Algorithm
+  commentId: P:PTIRelianceLib.Imaging.LogoStorageConfig.Algorithm
+  fullName: PTIRelianceLib.Imaging.LogoStorageConfig.Algorithm
+  nameWithType: LogoStorageConfig.Algorithm
+- uid: PTIRelianceLib.Imaging.LogoStorageConfig.Algorithm*
+  name: Algorithm
+  href: api/PTIRelianceLib.Imaging.LogoStorageConfig.html#PTIRelianceLib_Imaging_LogoStorageConfig_Algorithm_
+  commentId: Overload:PTIRelianceLib.Imaging.LogoStorageConfig.Algorithm
+  isSpec: "True"
+  fullName: PTIRelianceLib.Imaging.LogoStorageConfig.Algorithm
+  nameWithType: LogoStorageConfig.Algorithm
+- uid: PTIRelianceLib.Imaging.LogoStorageConfig.Default
+  name: Default
+  href: api/PTIRelianceLib.Imaging.LogoStorageConfig.html#PTIRelianceLib_Imaging_LogoStorageConfig_Default
+  commentId: P:PTIRelianceLib.Imaging.LogoStorageConfig.Default
+  fullName: PTIRelianceLib.Imaging.LogoStorageConfig.Default
+  nameWithType: LogoStorageConfig.Default
+- uid: PTIRelianceLib.Imaging.LogoStorageConfig.Default*
+  name: Default
+  href: api/PTIRelianceLib.Imaging.LogoStorageConfig.html#PTIRelianceLib_Imaging_LogoStorageConfig_Default_
+  commentId: Overload:PTIRelianceLib.Imaging.LogoStorageConfig.Default
+  isSpec: "True"
+  fullName: PTIRelianceLib.Imaging.LogoStorageConfig.Default
+  nameWithType: LogoStorageConfig.Default
+- uid: PTIRelianceLib.Imaging.LogoStorageConfig.MaxPixelWidth
+  name: MaxPixelWidth
+  href: api/PTIRelianceLib.Imaging.LogoStorageConfig.html#PTIRelianceLib_Imaging_LogoStorageConfig_MaxPixelWidth
+  commentId: P:PTIRelianceLib.Imaging.LogoStorageConfig.MaxPixelWidth
+  fullName: PTIRelianceLib.Imaging.LogoStorageConfig.MaxPixelWidth
+  nameWithType: LogoStorageConfig.MaxPixelWidth
+- uid: PTIRelianceLib.Imaging.LogoStorageConfig.MaxPixelWidth*
+  name: MaxPixelWidth
+  href: api/PTIRelianceLib.Imaging.LogoStorageConfig.html#PTIRelianceLib_Imaging_LogoStorageConfig_MaxPixelWidth_
+  commentId: Overload:PTIRelianceLib.Imaging.LogoStorageConfig.MaxPixelWidth
+  isSpec: "True"
+  fullName: PTIRelianceLib.Imaging.LogoStorageConfig.MaxPixelWidth
+  nameWithType: LogoStorageConfig.MaxPixelWidth
+- uid: PTIRelianceLib.Imaging.LogoStorageConfig.Threshold
+  name: Threshold
+  href: api/PTIRelianceLib.Imaging.LogoStorageConfig.html#PTIRelianceLib_Imaging_LogoStorageConfig_Threshold
+  commentId: P:PTIRelianceLib.Imaging.LogoStorageConfig.Threshold
+  fullName: PTIRelianceLib.Imaging.LogoStorageConfig.Threshold
+  nameWithType: LogoStorageConfig.Threshold
+- uid: PTIRelianceLib.Imaging.LogoStorageConfig.Threshold*
+  name: Threshold
+  href: api/PTIRelianceLib.Imaging.LogoStorageConfig.html#PTIRelianceLib_Imaging_LogoStorageConfig_Threshold_
+  commentId: Overload:PTIRelianceLib.Imaging.LogoStorageConfig.Threshold
+  isSpec: "True"
+  fullName: PTIRelianceLib.Imaging.LogoStorageConfig.Threshold
+  nameWithType: LogoStorageConfig.Threshold
 - uid: PTIRelianceLib.IPyramidDevice
   name: IPyramidDevice
   href: api/PTIRelianceLib.IPyramidDevice.html
@@ -865,6 +995,19 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.ReliancePrinter.Ping
   nameWithType: ReliancePrinter.Ping
+- uid: PTIRelianceLib.ReliancePrinter.PrintLogo(System.Int32)
+  name: PrintLogo(Int32)
+  href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_PrintLogo_System_Int32_
+  commentId: M:PTIRelianceLib.ReliancePrinter.PrintLogo(System.Int32)
+  fullName: PTIRelianceLib.ReliancePrinter.PrintLogo(System.Int32)
+  nameWithType: ReliancePrinter.PrintLogo(Int32)
+- uid: PTIRelianceLib.ReliancePrinter.PrintLogo*
+  name: PrintLogo
+  href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_PrintLogo_
+  commentId: Overload:PTIRelianceLib.ReliancePrinter.PrintLogo
+  isSpec: "True"
+  fullName: PTIRelianceLib.ReliancePrinter.PrintLogo
+  nameWithType: ReliancePrinter.PrintLogo
 - uid: PTIRelianceLib.ReliancePrinter.ProductId
   name: ProductId
   href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_ProductId
@@ -910,6 +1053,22 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.ReliancePrinter.SendConfiguration
   nameWithType: ReliancePrinter.SendConfiguration
+- uid: PTIRelianceLib.ReliancePrinter.StoreLogos(System.Collections.Generic.IList{PTIRelianceLib.BinaryFile},PTIRelianceLib.IProgressMonitor,PTIRelianceLib.Imaging.LogoStorageConfig)
+  name: StoreLogos(IList<BinaryFile>, IProgressMonitor, LogoStorageConfig)
+  href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_StoreLogos_System_Collections_Generic_IList_PTIRelianceLib_BinaryFile__PTIRelianceLib_IProgressMonitor_PTIRelianceLib_Imaging_LogoStorageConfig_
+  commentId: M:PTIRelianceLib.ReliancePrinter.StoreLogos(System.Collections.Generic.IList{PTIRelianceLib.BinaryFile},PTIRelianceLib.IProgressMonitor,PTIRelianceLib.Imaging.LogoStorageConfig)
+  name.vb: StoreLogos(IList(Of BinaryFile), IProgressMonitor, LogoStorageConfig)
+  fullName: PTIRelianceLib.ReliancePrinter.StoreLogos(System.Collections.Generic.IList<PTIRelianceLib.BinaryFile>, PTIRelianceLib.IProgressMonitor, PTIRelianceLib.Imaging.LogoStorageConfig)
+  fullName.vb: PTIRelianceLib.ReliancePrinter.StoreLogos(System.Collections.Generic.IList(Of PTIRelianceLib.BinaryFile), PTIRelianceLib.IProgressMonitor, PTIRelianceLib.Imaging.LogoStorageConfig)
+  nameWithType: ReliancePrinter.StoreLogos(IList<BinaryFile>, IProgressMonitor, LogoStorageConfig)
+  nameWithType.vb: ReliancePrinter.StoreLogos(IList(Of BinaryFile), IProgressMonitor, LogoStorageConfig)
+- uid: PTIRelianceLib.ReliancePrinter.StoreLogos*
+  name: StoreLogos
+  href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_StoreLogos_
+  commentId: Overload:PTIRelianceLib.ReliancePrinter.StoreLogos
+  isSpec: "True"
+  fullName: PTIRelianceLib.ReliancePrinter.StoreLogos
+  nameWithType: ReliancePrinter.StoreLogos
 - uid: PTIRelianceLib.ReliancePrinter.VendorId
   name: VendorId
   href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_VendorId
@@ -1366,3 +1525,21 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.Status.ToString
   nameWithType: Status.ToString
+- uid: tut_configuration
+  name: Device Configuration
+  href: tutorials/configuration.html
+- uid: tut_customization
+  name: Library Customization
+  href: tutorials/customization.html
+- uid: tut_docker
+  name: Docker Support
+  href: tutorials/docker.html
+- uid: tut_exceptions
+  name: Exceptions
+  href: tutorials/exceptions.html
+- uid: tut_flashupdate
+  name: Firmware Flash Updates
+  href: tutorials/flash_update.html
+- uid: tut_intro
+  name: Getting Started
+  href: tutorials/intro.html

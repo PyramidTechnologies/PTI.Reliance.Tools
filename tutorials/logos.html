@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Getting Started </title>
+    <title>Logos </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Getting Started ">
+    <meta name="title" content="Logos ">
     <meta name="generator" content="docfx 2.36.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -76,23 +76,16 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="tut_intro">
-<h1 id="getting-started">Getting Started</h1>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="logos">Logos</h1>
 
-<ol>
-<li>Install <a href="https://www.microsoft.com/net/download/windows">.NET Core SDK</a> for your operating system</li>
-<li>Open your favorite terminal</li>
-<li>Setup Project and install library</li>
-</ol>
-<pre><code>dotnet new console -o reliance_sample 
-cd reliance_sample
-dotnet add package PTIRelianceLib
-</code></pre>
-<ol start="4">
-<li>Open Program.cs in your favorite editor and replace the code with the following:</li>
-</ol>
+<p>This API makes storing logos in your internal flash very easy. With this API, you can dither, resize, and store any image into internal flash for fast printing. There are a number of dithering algorithms ready for you to try. Use the one that makes your image look the best!</p>
+<p>See the <a class="xref" href="../api/PTIRelianceLib.Imaging.DitherAlgorithms.html">DitherAlgorithms</a> list and <a class="xref" href="../api/PTIRelianceLib.Imaging.LogoStorageConfig.html">LogoStorageConfig</a> for more details.</p>
+<h2 id="code-sample">Code Sample</h2>
 <pre><code class="lang-csharp" name="Main">using System;
+using System.Threading;
 using PTIRelianceLib;
+using PTIRelianceLib.Imaging;
 
 namespace reliance_sample
 {
@@ -100,26 +93,42 @@ namespace reliance_sample
     {
         static void Main(string[] args)
         {
-            using(var printer = new ReliancePrinter())
+
+            // Wrap our printer in using so it gets disposed on properly
+            using (var printer = new ReliancePrinter())
             {
-                var rev = printer.GetFirmwareRevision();
-                Console.WriteLine(&quot;Firmware revision: {0}&quot;, rev);
+                var logos = new List&lt;BinaryFile&gt;
+                {
+                    BinaryFile.From(&quot;my_logo_a.jpg&quot;),
+                    BinaryFile.From(&quot;my_logo_b.png&quot;),
+                    BinaryFile.From(&quot;another.bmp&quot;),
+                };
+
+                var config = LogoStorageConfig.Default;
+                config.Algorithm = DitherAlgorithms.Atkinson;
+
+                var result = printer.StoreLogos(logos, new ConsoleProgressBar(), config);
+                Console.WriteLine(&quot;Write Result: {0}&quot;, result);
+
+                // use logo index to recall and print
+                for(int i = 0 ; i &lt; logos.Count; ++i)
+                {
+                    printer.PrintLogo(i);
+
+                    // Give ~3 seconds to print
+                    Thread.Sleep(3 * 1000);
+                }
+
             }
         }
     }
 }
-</code></pre>
-<div class="IMPORTANT">
-<h5>Important</h5>
-<p>Linux users, please make sure libusb is installed before proceeding</p>
+</code></pre><div class="WARNING">
+<h5>Warning</h5>
+<h2 id="exceptions">Exceptions</h2>
+<p>For clarity, exception handling has been elided. It is advisable to wrap any ReliancePrinter
+method calls in a try/catch block for <a class="xref" href="../api/PTIRelianceLib.PTIException.html">PTIException</a>.</p>
 </div>
-<ol start="5">
-<li>Execute</li>
-</ol>
-<pre><code class="lang-sh">dotnet run
-</code></pre>
-<h2 id="results">Results</h2>
-<p><img src="images/intro_01.gif" alt="Output"></p>
 </article>
           </div>
           
@@ -128,7 +137,7 @@ namespace reliance_sample
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/PyramidTechnologies/PTI.Reliance.Tools/blob/develop/docsource/tutorials/intro.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/PyramidTechnologies/PTI.Reliance.Tools/blob/develop/docsource/tutorials/logos.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

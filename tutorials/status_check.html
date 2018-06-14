@@ -111,6 +111,10 @@ namespace reliance_sample
                 
                 var hasPaper = status.SensorStatus.HasFlag(SensorStatuses.Path);
                 Console.WriteLine(&quot;Has Paper? :{0}&quot;, hasPaper);
+                
+                // You can also check the status of the Ticket (e.g. Ticket Pull)
+                var ticketState = status.TicketStatus;
+                Console.WriteLine(&quot;Ticket State :{0}&quot;, ticketState);							
             }
         }
     }
