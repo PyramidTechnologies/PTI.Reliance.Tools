@@ -3,6 +3,12 @@
 # Reliance Tools API
 This is a collection of tools for flash updating, configuring, and maintaining your Reliance Thermal Printer.
 
+## Features
+* Flash update
+* Status checks (paper status, ticket pull, sensor status, etc.)
+* Logo printing
+* Configuration
+
 # Installation    
 ### Dotnet CLI
 
