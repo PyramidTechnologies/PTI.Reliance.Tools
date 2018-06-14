@@ -29,6 +29,7 @@ namespace PTIRelianceLib
         /// that fresh HID devices are getting discovered on enumeration.
         /// Default: 1000
         /// </summary>
+        /// <value>Hid reconnect delay is ms</value>
         public int HidReconnectDelayMs { get; set; }
 
         /// <summary>
@@ -40,11 +41,13 @@ namespace PTIRelianceLib
         /// during the flash update process.
         /// Default: false
         /// </summary>
+        /// <value>Flag controls if Hid structures are cleaned on error</value>
         public bool HidFlushStructuresOnEnumError { get; set; }
 
         /// <summary>
         /// Returns the default library options for this library.
         /// </summary>
+        /// <value>Default library options</value>
         public static LibraryOptions Default => new LibraryOptions
         {
             HidCleanupDelayMs = 0,
@@ -55,6 +58,7 @@ namespace PTIRelianceLib
         /// <summary>
         /// Returns the library options that work well for Debian Stretch Docker images
         /// </summary>
+        /// <value>Options comptaible with Linux Stretch Docker containers</value>
         public static LibraryOptions DockerLinuxStretch => new LibraryOptions
         {
             HidCleanupDelayMs = 250,

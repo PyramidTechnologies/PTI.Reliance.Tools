@@ -4,6 +4,8 @@
   href: flash_update.md
 - name: Configuration
   href: configuration.md
+- name: Logos
+  href: logos.md
 - name: Status Check
   href: status_check.md
 - name: Library Logging

@@ -30,21 +30,39 @@ namespace PTIRelianceLib
         /// <value>Contains information about non-critical messages</value>
         public event EventHandler<FlashEventMessageArgs> OnFlashMessage;
 
-
         /// <inheritdoc />
+        /// <summary>
+        /// Called when a worker class encounters an unrecoverable error. The
+        /// details of the error will be packed into a formatted message.
+        /// </summary>
+        /// <param name="format">Format string</param>
+        /// <param name="args">Args to printf</param>
         public virtual void ReportFailure(string format, params object[] args)
         {
             ReportMessage(format, args);
         }
 
         /// <inheritdoc />
+        /// <summary>
+        /// Called for general worker messages that may indicate specific
+        /// points in a process have been reached. Errors and warnings will
+        /// not be sent through this method.
+        /// </summary>
+        /// <param name="format">Format string</param>
+        /// <param name="args">Args to printf</param>
         public virtual void ReportMessage(string format, params object[] args)
         {
             var handler = OnFlashMessage;
             handler?.Invoke(this, new FlashEventMessageArgs(string.Format(format, args)));
         }
-
+        
         /// <inheritdoc />
+        /// <summary>
+        /// Called when an iota of progress has been made. For instance, during
+        /// flash updating there are a set number of packets to transmit so
+        /// each successful packet transmission will call this method.
+        /// </summary>
+        /// <param name="progress">progress range is (0.0, 1.0)</param>
         public virtual void ReportProgress(double progress)
         {
             var handler = OnFlashProgressUpdated;
@@ -54,6 +72,7 @@ namespace PTIRelianceLib
 
     /// <inheritdoc />
     /// <summary>
+    /// A silent progress monitor for flash update and logo writers.
     /// As the name implies, this consumes and ignores all data 
     /// passed to it. This is useful for silent console flash updaters,
     /// particularly on systems where constance console drawing may be expensive.

@@ -20,7 +20,7 @@ namespace PTIRelianceLib.Imaging
     /// <summary>
     /// Helper extensions for working with images
     /// </summary>
-    public static class ImageExt
+    internal static class ImageExt
     {
         /// <summary>
         /// Converts into a row-major byte array. If there is no image data
