@@ -148,7 +148,7 @@ namespace RelianceCLI
                 {
                     var status = printer.GetStatus();
                     Console.WriteLine("Printer status:\n{0}", status);
-                    Console.WriteLine("Has Paper? :{0}", status.SensorStatus.HasFlag(SensorStatuses.Path));
+                    Console.WriteLine("Has Paper? :{0}", status.SensorStatus.HasFlag(SensorStatuses.Paper));
 
                 }
             }
