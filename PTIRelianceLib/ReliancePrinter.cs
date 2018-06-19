@@ -78,8 +78,8 @@ namespace PTIRelianceLib
             {
                 VendorId = VendorId,
                 ProductId = ProductId,
-                InReportLength = 34,
-                OutReportLength = 34,
+                InReportLength = 35,
+                OutReportLength = 35,
                 InReportId = 2,
                 OutReportId = 1,
                 NativeHid = new NativeMethods()

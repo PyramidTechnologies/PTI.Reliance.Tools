@@ -62,7 +62,8 @@ namespace PTIRelianceLib.IO
         {
             // [id] [length] [... payload ...]
             var payload = new byte[Data[1]];
-            Array.Copy(Data, 2, payload, 0, payload.Length);            
+            var copylen = Math.Min(payload.Length, Data.Length - 2);
+            Array.Copy(Data, 2, payload, 0, copylen);            
             return payload;
         }
 
