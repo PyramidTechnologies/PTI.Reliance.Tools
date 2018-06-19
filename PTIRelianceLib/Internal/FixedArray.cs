@@ -10,7 +10,6 @@ namespace PTIRelianceLib
 {
     using System.Collections.Generic;
     using System.Collections.Immutable;
-    using System.Linq;
 
     /// <summary>
     /// A read-only fixed length array

@@ -31,7 +31,8 @@ namespace PTIRelianceLib.Telemetry
         /// <inheritdoc />
         public override byte[] Serialize()
         {
-            throw new System.NotImplementedException();
+            // TODO implement telemetry serializer
+            return new byte[0];
         }
     }
 
@@ -59,8 +60,14 @@ namespace PTIRelianceLib.Telemetry
                 tel.StructRevision = reader.ReadInt32();
                 tel.StructSize = reader.ReadInt32();
 
+                // is the size logical?
+                if (tel.StructSize == 0 || tel.StructSize == -1)
+                {
+                    return null;
+                }
+
                 // Ensure there is enough data left in the stream to read
-                if (packet.Count - 8 < tel.StructSize)
+                if (packet.Count - 8 <= tel.StructSize)
                 {
                     return null;
                 }
