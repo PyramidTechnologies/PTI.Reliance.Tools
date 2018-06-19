@@ -23,6 +23,7 @@ namespace PTIRelianceLib
     using Logging;
     using Logo;
     using Protocol;
+    using Telemetry;
     using Transport;
 
     /// <inheritdoc />
@@ -498,6 +499,68 @@ namespace PTIRelianceLib
             // 7 == print logo sub command
             Write(RelianceCommands.LogoSub, 7, (byte) index);
             return ReturnCodes.Okay;
+        }
+
+        /// <summary>
+        /// Returns the telemetry data over the lifetime of this printer
+        /// </summary>
+        /// <returns>LifetimeTelemtry data since printer left factory</returns>
+        public LifetimeTelemetry GetLifetimeTelemetry()
+        {
+            var tel = GetFirmwareRevision() < new Revlev("1.28") ?
+                // Revert to legacy mode )always NV) for older firmware
+                ReadTelemetry(0, 0, 0) :            
+                // 1: read non-volatile version, from start to end
+                ReadTelemetry(1, 0, 0);
+            return (LifetimeTelemetry) tel;
+        }
+
+        /// <summary>
+        /// Returns the telemetry data of this printer since last power up        
+        /// </summary>
+        /// <remarks>Requires firmware 1.28+. Older firmware will result in null result.</remarks>
+        /// <returns>Powerup telemetry or null if read failure or unsupported firmware</returns>
+        public PowerupTelemetry GetPowerupTelemetry()
+        {
+            return GetFirmwareRevision() < new Revlev("1.28") ?
+                // Not supported on older firmware
+                null : 
+                // 2: read volatile version, from start to end
+                ReadTelemetry(2, 0, 0);
+        }
+
+        /// <summary>
+        /// Reads the specified telemtry data block
+        /// </summary>
+        /// <param name="type">Type of telemetry to request. Set 0 for legacy mode</param>
+        /// <param name="offset">Position to start reading from, 0 base</param>
+        /// <param name="count">How many bytes to read. 0 to read all of it.</param>
+        /// <returns></returns>
+        protected PowerupTelemetry ReadTelemetry(byte type, ushort offset, ushort count)
+        {
+            // Build permission request
+            var request = _mPort.Package((byte)RelianceCommands.TelemtrySub, 0);
+            if (type != 0)
+            {
+                request.Add(type);
+                request.Add(offset.ToBytesBE());
+                request.Add(count.ToBytesBE());
+            }
+
+           // Request permission
+            var resp = Write(request);
+            if (resp.GetPacketType() != PacketTypes.PositiveAck)
+            {
+                return null;
+            }
+
+            // 1: read data request
+            var preamble = new byte[] {(byte) RelianceCommands.TelemtrySub, 1};
+
+            // Execute read
+            var reader = new StructuredReader(_mPort);
+            resp = reader.Read(preamble);
+            return PacketParserFactory.Instance.Create<LifetimeTelemetry>().Parse(resp);
         }
 
         /// <summary>

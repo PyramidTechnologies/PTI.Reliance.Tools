@@ -9,7 +9,6 @@
 
 namespace PTIRelianceLib.IO
 {
-    using System.Data;
     using Logging;
     using Internal;
     using Transport;

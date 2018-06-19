@@ -11,6 +11,7 @@ namespace PTIRelianceLib.Transport
     using System;
     using System.Collections.Generic;
     using Configuration;
+    using Telemetry;
 
     /// <summary>
     /// Typesafe parser locator factory. These functions extended objects known to implement IParseAs.
@@ -32,6 +33,8 @@ namespace PTIRelianceLib.Transport
             Instance.Register<XonXoffConfig, XonXoffConfigParser>();
             Instance.Register<ConfigRev, ConfigRevParser>();
             Instance.Register<Status, StatusParser>();
+            Instance.Register<PowerupTelemetry, PowerupTelemetryParser>();
+            Instance.Register<LifetimeTelemetry, LifetimeTelemetryParser>();
         }
 
         private PacketParserFactory() { }
