@@ -128,7 +128,8 @@ namespace PTIRelianceLib.Telemetry
         /// <inheritdoc />
         public virtual byte[] Serialize()
         {
-            throw new System.NotImplementedException();
+            // TODO implement PowerupTelemetry serializer
+            return new byte[0];
         }
     }
 
