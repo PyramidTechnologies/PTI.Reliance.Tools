@@ -123,6 +123,16 @@ namespace PTIRelianceLib.Tests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] gray_floydsteinbergsfalse {
+            get {
+                object obj = ResourceManager.GetObject("gray_floydsteinbergsfalse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] gray_jjn {
             get {
                 object obj = ResourceManager.GetObject("gray_jjn", resourceCulture);

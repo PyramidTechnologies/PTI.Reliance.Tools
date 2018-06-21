@@ -136,6 +136,9 @@
   <data name="gray_floydsteinbergs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gray_floydsteinbergs.bmp;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="gray_floydsteinbergsfalse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gray_floydsteinbergsfalse.bmp;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="gray_jjn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gray_jjn.bmp;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

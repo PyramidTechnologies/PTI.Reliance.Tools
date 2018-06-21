@@ -224,15 +224,8 @@ namespace PTIRelianceLib.Imaging
         /// <returns>byte</returns>
         private static byte SafeByteCast(int val)
         {
-            if (val < 0)
-            {
-                val = 0;
-            }
-            else if (val > 255)
-            {
-                val = 255;
-            }
-
+            val = Math.Max(0, val);
+            val = Math.Min(255, val);
             return (byte) val;
         }
     }

@@ -34,14 +34,5 @@ namespace PTIRelianceLib.Imaging
         /// Gets or sets the size in bytes for this logo
         /// </summary>
         public int SizeInBytes { get; set; }
-
-        /// <summary>
-        /// Returns dimension string as WidthxHeight
-        /// </summary>
-        /// <returns></returns>
-        public object GetBitmapSizeString()
-        {
-            return string.Format("{0}x{1}", WidthDots, Height);
-        }
     }
 }

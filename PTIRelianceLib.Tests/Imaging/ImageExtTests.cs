@@ -162,6 +162,12 @@ namespace PTIRelianceLib.Tests.Imaging
             Assert.Equal(expectedBuff, actualBuff);
         }
 
+        [Fact]
+        public void TestNullBitmapToBuffer()
+        {
+            Assert.Empty(ImageExt.ToBuffer(null));
+        }
+
         /// <summary>
         /// Returns a list of type T with value repeat count times
         /// </summary>
