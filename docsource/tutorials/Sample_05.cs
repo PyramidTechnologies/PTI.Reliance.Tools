@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using PTIRelianceLib;
 using PTIRelianceLib.Imaging;
@@ -9,21 +10,19 @@ namespace reliance_sample
     {
         static void Main(string[] args)
         {
-
-			// Wrap our printer in using so it gets disposed on properly
+            // Wrap our printer in using so it gets disposed on properly
             using (var printer = new ReliancePrinter())
             {
                 var logos = new List<BinaryFile>
                 {
-                    BinaryFile.From("my_logo_a.jpg"),
-                    BinaryFile.From("my_logo_b.png"),
-                    BinaryFile.From("another.bmp"),
+                    BinaryFile.From("index.jpg"),
+                    BinaryFile.From("index2.jpg"),
                 };
 
                 var config = LogoStorageConfig.Default;
                 config.Algorithm = DitherAlgorithms.Atkinson;
 
-                var result = printer.StoreLogos(logos, new ConsoleProgressBar(), config);
+                var result = printer.StoreLogos(logos, new DevNullMonitor(), config);
                 Console.WriteLine("Write Result: {0}", result);
 
                 // use logo index to recall and print
@@ -34,7 +33,6 @@ namespace reliance_sample
                     // Give ~3 seconds to print
                     Thread.Sleep(3 * 1000);
                 }
-
             }
         }
     }
