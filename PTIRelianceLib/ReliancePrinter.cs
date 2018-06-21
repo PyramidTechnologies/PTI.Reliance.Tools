@@ -234,6 +234,8 @@ namespace PTIRelianceLib
                 return new Revlev();
             }
 
+            Log.Debug("Requesting revision level");
+
             var cmd = new ReliancePacket(RelianceCommands.GetRevlev);
             // "Self" param specifies we want revlev for running application
             cmd.Add(0x10);
@@ -288,6 +290,8 @@ namespace PTIRelianceLib
                 return ReturnCodes.DeviceNotConnected;
             }
 
+            Log.Debug("Sending Ping");
+
             var cmd = new ReliancePacket(RelianceCommands.Ping);
             var resp = Write(cmd);
             return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
@@ -313,6 +317,7 @@ namespace PTIRelianceLib
 
             try
             {
+                Log.Debug("Rebooting printer");
                 var cmd = new ReliancePacket(RelianceCommands.Reboot);
                 Write(cmd);
 
@@ -519,7 +524,7 @@ namespace PTIRelianceLib
         /// Returns the telemetry data of this printer since last power up        
         /// </summary>
         /// <remarks>Requires firmware 1.28+. Older firmware will result in null result.</remarks>
-        /// <returns>Powerup telemetry or null if read failure or unsupported firmware</returns>
+        /// <returns>Powerup telemetry or null if read failure or unsupported firmware</returns>       
         public PowerupTelemetry GetPowerupTelemetry()
         {
             return GetFirmwareRevision() < new Revlev("1.28") ?
@@ -546,6 +551,8 @@ namespace PTIRelianceLib
                 request.Add(offset.ToBytesBE());
                 request.Add(count.ToBytesBE());
             }
+
+            Log.Debug("Requesting telemetry info");
 
            // Request permission
             var resp = Write(request);
@@ -574,6 +581,7 @@ namespace PTIRelianceLib
                 return string.Empty;
             }
 
+            Log.Debug("Requesting app id");
             var cmd = new ReliancePacket((byte) RelianceCommands.GetBootId, 0x10);
             var resp = Write(cmd);
             return PacketParserFactory.Instance.Create<PacketedString>().Parse(resp).Value;
@@ -590,6 +598,7 @@ namespace PTIRelianceLib
                 return ReturnCodes.DeviceNotConnected;
             }
 
+            Log.Debug("Entering bootloader");
             var resp = Write(RelianceCommands.SetBootMode, 0x21);
 
             return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.FailedBootloaderEntry : Reboot();
