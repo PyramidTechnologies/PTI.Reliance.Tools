@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using Xunit;
 
 namespace PTIRelianceLib.Tests.Imaging
 {
-    using System.Drawing;
     using Properties;
     using PTIRelianceLib.Imaging;
 
@@ -31,7 +29,7 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact]
         public void TestCtorNullBitmap()
         {
-            Assert.Throws<ArgumentNullException>(()=>new BasePrintLogo(null));
+            Assert.Throws<ArgumentNullException>(() => new BasePrintLogo(null));
         }
 
         [Fact]
