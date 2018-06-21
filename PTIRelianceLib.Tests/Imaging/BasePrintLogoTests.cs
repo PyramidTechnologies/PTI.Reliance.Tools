@@ -44,6 +44,8 @@ namespace PTIRelianceLib.Tests.Imaging
             var starth = logo.IdealHeight;
             var predither = Crc32.ComputeChecksum(logo.ToBuffer());
 
+            // If this fails, someone dispose of the bitmap along the way.
+            // Look for "using" statements to fix
             logo.ApplyDithering(DitherAlgorithms.Atkinson);
 
             // Dimensions should be unchanged, 48x48

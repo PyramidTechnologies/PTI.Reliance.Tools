@@ -105,14 +105,8 @@ namespace PTIRelianceLib.Imaging
         /// <inheritdoc />
         public byte[] ToBuffer()
         {
-            if (ImageData == null)
-            {
-                return new byte[0];
-            }
-            using (var bitmap = ImageData)
-            {
-                return bitmap.ToLogoBuffer();
-            }
+            // Do not wrap in "using" statement as this will will dispose ImageData on closure
+            return ImageData == null ? new byte[0] : ImageData.ToLogoBuffer();
         }
 
         /// <summary>
