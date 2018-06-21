@@ -144,6 +144,18 @@ namespace RelianceCLI
                     }
                 }
 
+                if (opts.LifetimeTelemetry)
+                {
+                    var resp = printer.GetLifetimeTelemetry();
+                    Console.WriteLine("Total power-on count: {0}", resp?.PowerUpCount);
+                }
+
+                if (opts.StartupTelemetry)
+                {
+                    var resp = printer.GetPowerupTelemetry();
+                    Console.WriteLine("Tickets printed since last powerup: {0}", resp?.TicketCount);
+                }
+
                 if (opts.GetStatus)
                 {
                     var status = printer.GetStatus();
@@ -174,11 +186,16 @@ namespace RelianceCLI
 
             public string SaveConfigPath;
 
+            public bool LifetimeTelemetry;
+
+            public bool StartupTelemetry;
+
             public static Options Parse(IEnumerable<string> args)
             {
                 var opts = new Options();
 
                 Action<string> nextCapture = null;
+                var lastSwitch = string.Empty;
 
                 foreach (var str in args)
                 {
@@ -197,11 +214,13 @@ namespace RelianceCLI
                                 break;
                             case "-f":
                             case "--firmware":
+                                lastSwitch = str;
                                 nextCapture = s => opts.FirmwareFilePath = s;
                                 break;
 
                             case "-c":
                             case "--config":
+                                lastSwitch = str;
                                 nextCapture = s => opts.ConfigFilePath = s;
                                 break;
 
@@ -212,6 +231,7 @@ namespace RelianceCLI
 
                             case "-l":
                             case "--logo":
+                                lastSwitch = str;
                                 nextCapture = s => opts.LogoFilePath = s;
                                 break;
 
@@ -222,7 +242,17 @@ namespace RelianceCLI
 
                             case "-g":
                             case "--get-config":
+                                lastSwitch = str;
                                 nextCapture = s => opts.SaveConfigPath = s;
+                                break;
+
+                            case "-t":
+                            case "--startup-telem":
+                                opts.StartupTelemetry = true;
+                                break;
+                            case "-T":
+                            case "--lifetime-telem":
+                                opts.LifetimeTelemetry = true;
                                 break;
 
                             default:
@@ -234,7 +264,7 @@ namespace RelianceCLI
 
                 if (nextCapture != null)
                 {
-                    opts.Message = "Incomplete command line switch";
+                    opts.Message = string.Format("Incomplete command line switch: {0}", lastSwitch);
                 }
                 else
                 {
@@ -257,6 +287,8 @@ namespace RelianceCLI
                        "FLAGS\n" +
                        "\t-r,--revision\t\tRead and display printer firmware revision\n" +
                        "\t-s,--status\t\tRead and display printer status\n" +
+                       "\t-t,--startup-telem\t\tRead startup telemetry\n" +
+                       "\t-T,--lifetime-telem\t\tRead lifetime telemetry\n" +
                        "\t-p,--power\t\tReboot printer immediately\n";
             }
         }
