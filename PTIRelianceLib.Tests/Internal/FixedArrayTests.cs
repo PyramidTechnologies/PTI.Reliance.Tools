@@ -12,6 +12,7 @@ namespace PTIRelianceLib.Tests.Internal
             var farr = new FixedArray<DateTime>(10);
             Assert.Equal(10, farr.Size);
             Assert.Equal(0, farr.Count);
+            Assert.True(string.IsNullOrEmpty(farr.Content));
         }
 
         [Fact]
@@ -37,6 +38,7 @@ namespace PTIRelianceLib.Tests.Internal
             {
                 Assert.Equal(len++, bf.Length);
             }
+            Assert.False(string.IsNullOrEmpty(farr.Content));
         }
 
         [Fact]

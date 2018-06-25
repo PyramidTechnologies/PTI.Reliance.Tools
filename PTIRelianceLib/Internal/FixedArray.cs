@@ -8,7 +8,6 @@
 
 namespace PTIRelianceLib
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.Immutable;
 
@@ -39,6 +38,12 @@ namespace PTIRelianceLib
         /// Returns the count of elements in the fixed array.
         /// </summary>
         public int Count => _mData.Count;
+
+        /// <summary>
+        /// Raw raw contents of this array as a comma-separate string using
+        /// ToString on the objects in this array.
+        /// </summary>
+        public string Content => string.Join(",", _mData);
 
         /// <summary>
         /// Puts data into this fixed length array starting from the current tail

@@ -5,6 +5,8 @@ using PTIRelianceLib;
 namespace RelianceCLI
 {
     using System.IO;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     using PTIRelianceLib.Imaging;
     using PTIRelianceLib.Protocol;
 
@@ -147,13 +149,15 @@ namespace RelianceCLI
                 if (opts.LifetimeTelemetry)
                 {
                     var resp = printer.GetLifetimeTelemetry();
-                    Console.WriteLine("Total power-on count: {0}", resp?.PowerUpCount);
+                    var str = JsonConvert.SerializeObject(resp, Formatting.Indented, new StringEnumConverter());
+                    Console.WriteLine("Lifetime Telementry:\n{0}", str);
                 }
 
                 if (opts.StartupTelemetry)
                 {
                     var resp = printer.GetPowerupTelemetry();
-                    Console.WriteLine("Tickets printed since last powerup: {0}", resp?.TicketCount);
+                    var str = JsonConvert.SerializeObject(resp, Formatting.Indented, new StringEnumConverter());
+                    Console.WriteLine("Powerup Telementry:\n{0}", str);
                 }
 
                 if (opts.GetStatus)

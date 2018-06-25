@@ -23,13 +23,14 @@
     <FileVersion>0.3.1.0</FileVersion>
 	<IncludeSource>true</IncludeSource>
 	<IncludeSymbols>true</IncludeSymbols>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>   	
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DocumentationFile>bin\x64\Release\netcoreapp2.0\PTIRelianceLib.xml</DocumentationFile>
     <WarningLevel>0</WarningLevel>
     <NoWarn>1701;1702;NU5100</NoWarn>
-    <DefineConstants>DEBUG;TRACE;RELEASE;NETCOREAPP;NETCOREAPP2_0;SAFE;RELEASE;NETCOREAPP;NETCOREAPP2_0;RELEASE;NETCOREAPP;NETCOREAPP2_0</DefineConstants>
+    <DefineConstants>RELEASE;NETCOREAPP;NETCOREAPP2_0;SAFE;RELEASE;NETCOREAPP;NETCOREAPP2_0;RELEASE;NETCOREAPP;NETCOREAPP2_0;RELEASE;NETCOREAPP;NETCOREAPP2_0;RELEASE;NETCOREAPP;NETCOREAPP2_0;RELEASE;NETCOREAPP;NETCOREAPP2_0;RELEASE;NETCOREAPP;NETCOREAPP2_0</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

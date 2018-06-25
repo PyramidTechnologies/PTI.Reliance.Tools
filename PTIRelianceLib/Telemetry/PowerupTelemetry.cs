@@ -1,9 +1,11 @@
 ﻿#region Header
+
 // RELTelemetry.cs
 // PTIRelianceLib
 // Cory Todd
 // 19-06-2018
 // 7:19 AM
+
 #endregion
 
 namespace PTIRelianceLib.Telemetry
@@ -71,14 +73,24 @@ namespace PTIRelianceLib.Telemetry
         /// Each index is a ticket length range. There are 9 
         /// elements in this array.
         /// </summary>
-        internal FixedArray<int> TicketLengthLog { get; set; }
+#if DEBUG
+        public
+#else
+        internal
+#endif
+            FixedArray<int> TicketLengthLog { get; set; }
 
         /// <summary>
         /// Each index is the time a pulled ticket was sitting
         /// at the bezel. Only pulled tickets are logged. There
         /// are 11 elements in this array.
         /// </summary>
-        internal FixedArray<int> TicketPullTimeLog { get; set; }
+#if DEBUG
+        public
+#else
+        internal
+#endif
+            FixedArray<int> TicketPullTimeLog { get; set; }
 
         /// <summary>
         /// Avg time pulled tickets are sitting at the bezel.
@@ -161,7 +173,7 @@ namespace PTIRelianceLib.Telemetry
         {
             var parser = new LifetimeTelemetryParser();
             var tel = parser.Parse(packet);
-            if(tel == null)
+            if (tel == null)
             {
                 // Parse failed
                 return null;
