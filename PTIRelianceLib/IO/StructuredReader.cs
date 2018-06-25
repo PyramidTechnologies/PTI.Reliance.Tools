@@ -24,12 +24,18 @@ namespace PTIRelianceLib.IO
             _device = device;
         }
 
-        public IPacket Read(params byte[] preamble)
+        /// <summary>
+        /// Reads readlen bytes using preamble read command
+        /// </summary>
+        /// <param name="readLen">Total bytes to read (not including packet overhead)</param>
+        /// <param name="preamble">Command the reads data from data</param>
+        /// <returns>Data that was read</returns>
+        public IPacket Read(int readLen, params byte[] preamble)
         {
             var buffer = new List<byte>();
             var sequenceNum = 0;
 
-            while (true)
+            while (buffer.Count < readLen)
             {
                 var cmd = _device.Package(preamble);
                 var seq = sequenceNum.ToBytesBE();
