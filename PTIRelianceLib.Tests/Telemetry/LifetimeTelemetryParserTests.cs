@@ -75,6 +75,14 @@ namespace PTIRelianceLib.Tests.Telemetry
         }
 
         [Fact]
+        public void TestSerializeEmpty()
+        {
+            // Serialize is not implement, should be empty
+            var tel = new LifetimeTelemetry();
+            Assert.Empty(tel.Serialize());
+        }
+
+        [Fact]
         public void TestValidLengthPacket()
         {
             // Test that a valid size field can be processed

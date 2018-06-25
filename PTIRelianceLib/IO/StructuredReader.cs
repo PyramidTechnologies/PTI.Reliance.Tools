@@ -49,6 +49,8 @@ namespace PTIRelianceLib.IO
                     break;
                 }
 
+                // Extract payload
+                resp = resp.ExtractPayload();
                 buffer.AddRange(resp.GetBytes());
                 ++sequenceNum;
             }

@@ -38,5 +38,20 @@ namespace PTIRelianceLib.Tests.Internal
                 Assert.Equal(len++, bf.Length);
             }
         }
+
+        [Fact]
+        public void TestIndexer()
+        {
+            var farr = new FixedArray<object>(3);
+            var obj1 = new object();
+            var obj2 = new object();
+            var obj3 = new object();
+
+            farr.SetData(obj1, obj2, obj3);           
+
+            Assert.Equal(obj1, farr[0]);
+            Assert.Equal(obj2, farr[1]);
+            Assert.Equal(obj3, farr[2]);
+        }
     }
 }

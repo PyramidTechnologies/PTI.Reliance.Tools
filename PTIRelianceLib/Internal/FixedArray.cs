@@ -8,11 +8,12 @@
 
 namespace PTIRelianceLib
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.Immutable;
 
     /// <summary>
-    /// A read-only fixed length array
+    /// A fixed length array wrapper
     /// </summary>
     /// <typeparam name="T">Data type to hold</typeparam>
     public struct FixedArray<T>
@@ -62,5 +63,13 @@ namespace PTIRelianceLib
         /// </summary>
         /// <returns></returns>
         public ImmutableArray<T> GetData() => _mData.ToImmutableArray();
+
+        /// <summary>
+        /// Returns the element at specified index
+        /// </summary>
+        /// <param name="index">Index of element to retrieve</param>
+        /// <remarks>Returns a reference to object so take care with mutations</remarks>
+        /// <returns>Object at index</returns>
+        internal T this[int index] => _mData[index];
     }
 }

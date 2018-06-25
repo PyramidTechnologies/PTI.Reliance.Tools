@@ -540,6 +540,18 @@ namespace PTIRelianceLib
         }
 
         /// <summary>
+        /// Reset all telemetry counters. This include the lifetime and powerup counters.
+        /// This operation cannot be undone.
+        /// </summary>
+        /// <remarks>Data will be permanently erased</remarks>
+        /// <returns>Success code</returns>
+        public ReturnCodes ResetTelemetry()
+        {
+            var resp = Write(RelianceCommands.TelemtrySub, 0x03);
+            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+        }
+
+        /// <summary>
         /// Reads the specified telemtry data block
         /// </summary>
         /// <param name="type">Type of telemetry to request</param>
@@ -594,7 +606,7 @@ namespace PTIRelianceLib
                 return -1;
             }
 
-            var readlen = (int) PacketParserFactory.Instance.Create<PacketedInteger>().Parse(resp).Value;
+            var readlen = PacketParserFactory.Instance.Create<PacketedShort>().Parse(resp).Value;
             if (readlen <= 0)
             {
                 // Invalid data read length

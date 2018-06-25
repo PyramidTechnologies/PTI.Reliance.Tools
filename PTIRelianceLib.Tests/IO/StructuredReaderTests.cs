@@ -65,11 +65,9 @@ namespace PTIRelianceLib.Tests.IO
         {
             lock (MTestLock)
             {
-                var count = 0;
-                // Only return Ack on first pass
-                _mNativeMock.GetNextResponse = (d) => GenerateHidData((byte) (count++ == 0 ? 0xAA : 0xAC));
+                _mNativeMock.GetNextResponse = (d) => GenerateHidData(0xAA, 1, 2, 3);
                 var reader = new StructuredReader(_mPort);
-                var resp = reader.Read(1, 2, 3);
+                var resp = reader.Read(3, 1, 2, 3);
                 Assert.False(resp.IsEmpty);
             }
         }

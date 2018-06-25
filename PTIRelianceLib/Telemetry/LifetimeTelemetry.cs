@@ -67,7 +67,7 @@ namespace PTIRelianceLib.Telemetry
                 }
 
                 // Ensure there is enough data left in the stream to read
-                if (packet.Count - 8 <= tel.StructSize)
+                if (packet.Count < tel.StructSize)
                 {
                     return null;
                 }
@@ -87,7 +87,7 @@ namespace PTIRelianceLib.Telemetry
                 using (var blockReader = new BinaryReader(blockStream))
                 {
                     // Read in presented length log, contains 4 byte integers
-                    tel.TicketLengthLog = new FixedArray<int>(rawData.Length);
+                    tel.TicketLengthLog = new FixedArray<int>(PowerupTelemetry.LengthLogLength);
                     for (var i = 0; i < PowerupTelemetry.LengthLogLength; ++i)
                     {
                         tel.TicketLengthLog.SetData(blockReader.ReadInt32());
@@ -101,10 +101,10 @@ namespace PTIRelianceLib.Telemetry
                 using (var blockReader = new BinaryReader(blockStream))
                 {               
                     // Read in presented length log, contains 4 byte integers
-                    tel.TicketPresentedLog = new FixedArray<int>(rawData.Length);
+                    tel.TicketPullTimeLog = new FixedArray<int>(PowerupTelemetry.PresentLogLength);
                     for (var i = 0; i < PowerupTelemetry.PresentLogLength; ++i)
                     {
-                        tel.TicketPresentedLog.SetData(blockReader.ReadInt32());
+                        tel.TicketPullTimeLog.SetData(blockReader.ReadInt32());
                     }
                 }
 

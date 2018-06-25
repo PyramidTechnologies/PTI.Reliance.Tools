@@ -71,14 +71,14 @@ namespace PTIRelianceLib.Telemetry
         /// Each index is a ticket length range. There are 9 
         /// elements in this array.
         /// </summary>
-        public FixedArray<int> TicketLengthLog { get; set; }
+        internal FixedArray<int> TicketLengthLog { get; set; }
 
         /// <summary>
         /// Each index is the time a pulled ticket was sitting
         /// at the bezel. Only pulled tickets are logged. There
         /// are 11 elements in this array.
         /// </summary>
-        public FixedArray<int> TicketPresentedLog { get; set; }
+        internal FixedArray<int> TicketPullTimeLog { get; set; }
 
         /// <summary>
         /// Avg time pulled tickets are sitting at the bezel.
@@ -124,6 +124,22 @@ namespace PTIRelianceLib.Telemetry
         ///  How many times the printer was in a high priority error.
         /// </summary>
         public short HighErrorCount { get; set; }
+
+        /// <summary>
+        /// Returns the count of tickets within the specified ticket 
+        /// </summary>
+        /// <param name="group">Length group to retrieve</param>
+        /// <returns>Number of tickets printed in specified length group</returns>
+        public int TicketCountsByLength(TicketLengthGroups group) => TicketLengthLog[(int) group];
+
+        /// <summary>
+        /// Returns the count of tickets that pulled by a customer within the specified time bin.
+        /// These counts only include tickets pull by the customer. That means that retractions and
+        /// ejections are not included in this metric.
+        /// </summary>
+        /// <param name="group">Time group to retrieve</param>
+        /// <returns>Number of tickets in specified time group</returns>
+        public int TicketCountByTimeToPull(TicketPullTimeGroups group) => TicketPullTimeLog[(int) group];
 
         /// <inheritdoc />
         public virtual byte[] Serialize()
