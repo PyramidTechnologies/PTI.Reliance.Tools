@@ -118,6 +118,17 @@ namespace PTIRelianceLib.Telemetry
                 tel.OverheatedCount = reader.ReadInt32();
                 tel.CriticalErrorCount = reader.ReadInt32();
                 tel.HighErrorCount = reader.ReadInt16();
+
+                // Start rev3 attributes
+                if (tel.StructRevision >= 3)
+                {
+                    tel.LastTicketState = new LastTicketState
+                    {
+                        Status = (EjectionStatus) reader.ReadInt32(),
+                        LengthMm = reader.ReadInt32(),
+                        Reserved = reader.ReadInt32(),
+                    };
+                }
             }
 
             return tel;

@@ -135,7 +135,12 @@ namespace PTIRelianceLib.Telemetry
         /// <summary>
         ///  How many times the printer was in a high priority error.
         /// </summary>
-        public short HighErrorCount { get; set; }
+        public short HighErrorCount { get; set; }        
+        
+        /// <summary>
+        /// State of the last ticket
+        /// </summary>
+        public LastTicketState LastTicketState { get; set; }
 
         /// <summary>
         /// Returns the count of tickets within the specified ticket 
