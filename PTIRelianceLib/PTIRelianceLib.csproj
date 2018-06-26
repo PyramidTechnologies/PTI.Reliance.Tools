@@ -10,7 +10,7 @@
     <Description>A Reliance Thermal printer API that support firmware updates and configuration. This requires the Reliance printer to be connected via USB.</Description>
     <Copyright>2018 Pyramid Technologies</Copyright>
     <PackageLicenseUrl>https://pti.mit-license.org/</PackageLicenseUrl>
-    <PackageReleaseNotes>Supports flash updating, confguration read, and configuration write</PackageReleaseNotes>
+    <PackageReleaseNotes>Supports flash updating, configuration read, and configuration write</PackageReleaseNotes>
     <Version>0.3.1.0</Version>
     <PackageProjectUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</RepositoryUrl>
@@ -30,14 +30,14 @@
     <DocumentationFile>bin\x64\Release\netcoreapp2.0\PTIRelianceLib.xml</DocumentationFile>
     <WarningLevel>0</WarningLevel>
     <NoWarn>1701;1702;NU5100</NoWarn>
-    <DefineConstants>RELEASE;NETCOREAPP;NETCOREAPP2_0;SAFE;RELEASE;NETCOREAPP;NETCOREAPP2_0;RELEASE;NETCOREAPP;NETCOREAPP2_0;RELEASE;NETCOREAPP;NETCOREAPP2_0;RELEASE;NETCOREAPP;NETCOREAPP2_0;RELEASE;NETCOREAPP;NETCOREAPP2_0;RELEASE;NETCOREAPP;NETCOREAPP2_0</DefineConstants>
+    <DefineConstants>SAFE;RELEASE;NETCOREAPP;NETCOREAPP2_0;</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NoWarn>1701;1702;NU5100</NoWarn>
     <DebugType>embedded</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>TRACE;DEBUG;NETCOREAPP;NETCOREAPP2_0;NETCOREAPP;NETCOREAPP2_0;NETCOREAPP;NETCOREAPP2_0;SAFE;NETCOREAPP;NETCOREAPP2_0;NETCOREAPP;NETCOREAPP2_0</DefineConstants>
+    <DefineConstants>SAFE;TRACE;DEBUG;NETCOREAPP;NETCOREAPP2_0</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
 
