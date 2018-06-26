@@ -13,384 +13,15 @@
       "is_incremental": false
     },
     {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.BinaryFile.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.BinaryFile.html",
-          "hash": "lh0EBu7o8CSf1AGWXqMELw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.DevNullMonitor.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.DevNullMonitor.html",
-          "hash": "lMzMtFvGL4BpxqcLM00OZw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.FixedArray-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.FixedArray-1.html",
-          "hash": "j5l5JZ1HETnNSlyHu7w3HQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Flash.FlashEventMessageArgs.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Flash.FlashEventMessageArgs.html",
-          "hash": "688XnWtrbGMRp5ZKcDdlLw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Flash.FlashProgressEventArgs.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Flash.FlashProgressEventArgs.html",
-          "hash": "vqJcmfdwwGadHuZ6uNZGKg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Flash.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Flash.html",
-          "hash": "merlh0qqpTzh3QeqZVgLqw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.IPyramidDevice.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.IPyramidDevice.html",
-          "hash": "uoEDAtZ1MLYhcovSspH1hA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Imaging.DitherAlgorithms.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Imaging.DitherAlgorithms.html",
-          "hash": "XS63GnwOVH4IZ6AHFjjSxw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Imaging.LogoStorageConfig.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Imaging.LogoStorageConfig.html",
-          "hash": "lOHfWLhmfJKOOMgVRSyJsg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Imaging.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Imaging.html",
-          "hash": "yHNgO3y+dRZt2aNYHDAw9w=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Library.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Library.html",
-          "hash": "Hd+rjpXTOPlOpgRmSeDWHg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.LibraryOptions.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.LibraryOptions.html",
-          "hash": "iy5KeU1n0DQRnjgwC+XIRw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.PTIException.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.PTIException.html",
-          "hash": "hVNOsYmPfX1qq2ak+RqjTg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.ProgressMonitor.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.ProgressMonitor.html",
-          "hash": "lYmBGc7MzQ7c5a52dkctGw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Protocol.ErrorStatuses.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Protocol.ErrorStatuses.html",
-          "hash": "KDCiVpS00ChSFayZILWDoA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Protocol.SensorStatuses.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Protocol.SensorStatuses.html",
-          "hash": "raJhrHEdqUlqOKN1juS+Ig=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Protocol.TicketStates.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Protocol.TicketStates.html",
-          "hash": "T7DhJR2QorLyADosSXERxQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Protocol.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Protocol.html",
-          "hash": "QMw8WpD0bLIP04aqtaIApQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.ReliancePrinter.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.ReliancePrinter.html",
-          "hash": "9oUSWvehb0j9IcIjFqiqhA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.ReturnCodes.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.ReturnCodes.html",
-          "hash": "tXrpMNniadKmT2l+gmymBg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Revlev.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Revlev.html",
-          "hash": "Cyggeloh8anJdP8SggJcuQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Status.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Status.html",
-          "hash": "odqp9sBpCnucD/bjGAPdTw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Telemetry.EjectionStatus.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Telemetry.EjectionStatus.html",
-          "hash": "XqJRMXNGGA1H3nYYbpnZAw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Telemetry.LastTicketState.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Telemetry.LastTicketState.html",
-          "hash": "pbqpyrFLzcxybb3Uu8JYuQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Telemetry.LifetimeTelemetry.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Telemetry.LifetimeTelemetry.html",
-          "hash": "6y3rwTrsWPJ8l6mPRmgtVQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Telemetry.PowerupTelemetry.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Telemetry.PowerupTelemetry.html",
-          "hash": "A3ZmxwJewXxyGOBSrWLSBg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Telemetry.TicketLengthGroups.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Telemetry.TicketLengthGroups.html",
-          "hash": "/olsiSFQ1WvzXcbBTWZYqw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Telemetry.TicketPullTimeGroups.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Telemetry.TicketPullTimeGroups.html",
-          "hash": "Sq7e44K/gMkss+XahBLpiw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.Telemetry.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.Telemetry.html",
-          "hash": "NKL+y0yA3JPfZo/cGIySKg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/PTIRelianceLib.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/PTIRelianceLib.html",
-          "hash": "MbYZmQhrY4MC4rTy2DuuBg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "Wsk06N1/2Pb8Xl1WQstBbA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "api/toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/toc.html",
-          "hash": "MWNwB90gUrmaxz40GvW3HA=="
+          "hash": "6JE/+EmaxgV5eDcuOr0zTg=="
         }
       },
       "is_incremental": false,
@@ -419,12 +50,15 @@
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "index.md",
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "Jx95Y5dZ/twChmexyFCkxQ=="
+          "hash": "M/v4zdmn/+6nuxkacJdXzg=="
         }
       },
       "is_incremental": false,
@@ -447,67 +81,82 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "7rsvqGOFJL+th5mfzE2gRQ=="
+          "hash": "NNtRk4nOEWj6hzqRw5zzaQ=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "tutorials/configuration.md",
       "output": {
         ".html": {
           "relative_path": "tutorials/configuration.html",
-          "hash": "pKuBjglgtUyIwC0y/4DixA=="
+          "hash": "jSeAzxRJKQNB1gWX5mz3Lg=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "tutorials/customization.md",
       "output": {
         ".html": {
           "relative_path": "tutorials/customization.html",
-          "hash": "yDZKit09xkycVx1ZGftP0A=="
+          "hash": "XVeWkNsbuQCJ8FpliyMhHw=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "tutorials/docker.md",
       "output": {
         ".html": {
           "relative_path": "tutorials/docker.html",
-          "hash": "X1Piko6gLfoYjdnO8kq+Ew=="
+          "hash": "ANBTGaHeZKNya1P2Ra8dng=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "tutorials/exceptions.md",
       "output": {
         ".html": {
           "relative_path": "tutorials/exceptions.html",
-          "hash": "Td6/eP0g1Rz3UR+ZRImZeA=="
+          "hash": "CMFImk5zDpYywM0L9BDnHg=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "tutorials/flash_update.md",
       "output": {
         ".html": {
           "relative_path": "tutorials/flash_update.html",
-          "hash": "xPrxOCpeTvtB+1vjSq1zjw=="
+          "hash": "A7Bb5F6ICLh9HQz2cZfzRg=="
         }
       },
       "is_incremental": false,
@@ -541,7 +190,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/intro.html",
-          "hash": "eIroLw2Xgj2LJfaD0k4vLA=="
+          "hash": "utWJ5QDJxzgyV/Cn15np1g=="
         }
       },
       "is_incremental": false,
@@ -553,31 +202,52 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/logging.html",
-          "hash": "8Ou7BaQnmAuzwTGr9cJj0Q=="
+          "hash": "7bYTzVKh8cwpMxH4Qj4bkA=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "tutorials/logos.md",
       "output": {
         ".html": {
           "relative_path": "tutorials/logos.html",
-          "hash": "19+OYG+xnm+YPAmH7e3lFQ=="
+          "hash": "9CrJPlN+Jkykt37TgoaDIA=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "tutorials/status_check.md",
       "output": {
         ".html": {
           "relative_path": "tutorials/status_check.html",
-          "hash": "PtS2Zwj2WJBHz9lSxhrlmg=="
+          "hash": "LAuhJlLT3OlM/+VOdxR5mg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "UidNotFound"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "tutorials/telemetry.md",
+      "output": {
+        ".html": {
+          "relative_path": "tutorials/telemetry.html",
+          "hash": "dxsH8H6+yrU5T+eEMzV+0g=="
         }
       },
       "is_incremental": false,
@@ -589,7 +259,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/toc.html",
-          "hash": "jKw79QMz0sLoF9M52UjWAQ=="
+          "hash": "QJsB9rkB+C8Hqc71ZWsU0w=="
         }
       },
       "is_incremental": false,
@@ -607,10 +277,6 @@
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
           "incrementalPhase": "build"
         },
         "ConceptualDocumentProcessor": {

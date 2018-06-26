@@ -8,7 +8,7 @@
     <title>Library Customization </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Library Customization ">
-    <meta name="generator" content="docfx 2.36.2.0">
+    <meta name="generator" content="docfx 2.38.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -80,7 +80,7 @@
 <h1 id="library-customization">Library Customization</h1>
 
 <p>PTIRelianceLib is designed to support as many operating systems as possible. We try to support as much as possible with defaults but in some cases, there are outliers that we need to make special accommodations for without affecting other systems.</p>
-<p>These options are accessible in the <a class="xref" href="../api/PTIRelianceLib.LibraryOptions.html">LibraryOptions</a> class and should be attached to the global <a class="xref" href="../api/PTIRelianceLib.Library.html">Library</a>.</p>
+<p>These options are accessible in the &lt;xref:PTIRelianceLib.LibraryOptions&gt; class and should be attached to the global &lt;xref:PTIRelianceLib.Library&gt;.</p>
 <h1 id="connection-failures">Connection Failures</h1>
 <p>The most common issue users experience with hardware SDKs is with the initial connection. This can be due to driver issues, operating system configuration, or many other possibilities. In this library, there are two likely causes for your connection issue.</p>
 <ul>
@@ -89,19 +89,19 @@
 </ul>
 <p>If your system is supported and you've followed all the tutorials, read on to learn how to customize PTIRelianceLib for your environment.</p>
 <h1 id="options">Options</h1>
-<p><a class="xref" href="../api/PTIRelianceLib.LibraryOptions.html">LibraryOptions</a> provides following properties:</p>
+<p>&lt;xref:PTIRelianceLib.LibraryOptions&gt; provides following properties:</p>
 <ul>
 <li>HidCleanupDelayMs: Used to ensure operating system is given enough time to remove and create device handles</li>
 <li>HidReconnectDelayMs: Used to give the operating system more time to enumerate devices during reconnection</li>
 <li>HidFlushStructuresOnEnumError: When no devices are found during enumeration, this may indicate stale device data is being forwarded by your system. Set this flag to force receipt of fresh information.</li>
 </ul>
 <h1 id="relation-to-flash-update">Relation to Flash Update</h1>
-<p>The Reliance Thermal Printer executes a reboot at the start and end of the flash update process. This generates USB disconnect and reconnect events which, as stated above, can be tricky on some systems. If you are having trouble flash updating for your system, take as look at some of the preconfigured settings available in <a class="xref" href="../api/PTIRelianceLib.LibraryOptions.html">LibraryOptions</a> such as DockerLinuxStretch.</p>
+<p>The Reliance Thermal Printer executes a reboot at the start and end of the flash update process. This generates USB disconnect and reconnect events which, as stated above, can be tricky on some systems. If you are having trouble flash updating for your system, take as look at some of the preconfigured settings available in &lt;xref:PTIRelianceLib.LibraryOptions&gt; such as DockerLinuxStretch.</p>
 <div class="WARNING">
 <h5>Warning</h5>
 <h2 id="exceptions">Exceptions</h2>
 <p>For clarity, exception handling has been elided. It is advisable to wrap any ReliancePrinter
-method calls in a try/catch block for <a class="xref" href="../api/PTIRelianceLib.PTIException.html">PTIException</a>.</p>
+method calls in a try/catch block for &lt;xref:PTIRelianceLib.PTIException&gt;.</p>
 </div>
 </article>
           </div>

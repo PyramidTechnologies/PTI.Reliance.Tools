@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace PTIRelianceLib.Telemetry
-   </title>
+    <title>Telemetry </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace PTIRelianceLib.Telemetry
-   ">
+    <meta name="title" content="Telemetry ">
     <meta name="generator" content="docfx 2.38.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -78,46 +76,60 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="PTIRelianceLib.Telemetry">
-  
-  <h1 id="PTIRelianceLib_Telemetry" data-uid="PTIRelianceLib.Telemetry" class="text-break">Namespace PTIRelianceLib.Telemetry
-  </h1>
-  <div class="markdown level0 summary"></div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
-  </h3>
-      <h4><a class="xref" href="PTIRelianceLib.Telemetry.LifetimeTelemetry.html">LifetimeTelemetry</a></h4>
-      <section><p>Telemetry data for the lifetime of the printer.
-This data persists across flash updates and configuration changes.</p>
-</section>
-      <h4><a class="xref" href="PTIRelianceLib.Telemetry.PowerupTelemetry.html">PowerupTelemetry</a></h4>
-      <section><p>Contains telemtry data describing the usage and lifetime of a Reliance
-thermal printer. The data is produced by a Reliance printer and
-handled by this API.</p>
-</section>
-    <h3 id="structs">Structs
-  </h3>
-      <h4><a class="xref" href="PTIRelianceLib.Telemetry.LastTicketState.html">LastTicketState</a></h4>
-      <section><p>Each ticket print is tracked by ejection and length</p>
-</section>
-    <h3 id="enums">Enums
-  </h3>
-      <h4><a class="xref" href="PTIRelianceLib.Telemetry.EjectionStatus.html">EjectionStatus</a></h4>
-      <section><p>A ticket, once printed, terminates in one of two states. On
-powerup, the floating state is called NoTicket.</p>
-</section>
-      <h4><a class="xref" href="PTIRelianceLib.Telemetry.TicketLengthGroups.html">TicketLengthGroups</a></h4>
-      <section><p>Ticket length tracking uses binning to group count of ticket lengths
-together. There are 9 length groups that are tracked by length
-in millimeters.</p>
-</section>
-      <h4><a class="xref" href="PTIRelianceLib.Telemetry.TicketPullTimeGroups.html">TicketPullTimeGroups</a></h4>
-      <section><p>Each printed ticket that sits at the bezel starts a clock. The time between
-print presented and a customer pulling the ticket is is tracked using binning.
-The times are tracked in whole seconds. Only tickets that are pulled are counted
-in these groupings. i.e. Ticket retraction and auto-ejected tickets are not counted.</p>
-</section>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="telemetry">Telemetry</h1>
+
+<p>The Reliance Thermal printer tracks the metrics that matter. We have counters for just about any even you can imagine and they are all accessible through this API. With this information, you can track paper consumption, ticket pull habits, error patterns, and many other metrics.</p>
+<p>There are two groups for telemetry:</p>
+<ol>
+<li>Lifetime : This is a cumulative record of all events since the printer left our factory.</li>
+<li>Powerup : This is a record of all events since the last power cycle.</li>
+</ol>
+<p>See &lt;xref:PTIRelianceLib.Telemetry.LifetimeTelemetry&gt; and &lt;xref:PTIRelianceLib.Telemetry.PowerupTelemetry&gt; for more details.</p>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Require Firmware 1.28+. Calling this API on older firmware will return null.</p>
+</div>
+<h2 id="ticket-pull">Ticket Pull</h2>
+<p>The best way to detect a ticket pull is request the telemetry information and inspect the &lt;xref:PTIRelianceLib.Telemetry.LastTicketState&gt; property. This records the most recent action taken on a printed ticket along with the ticket's length in millimeters. We recommend that you do not poll the printer more than 4 times a second in order to prevent unecessary blocking read requests. After a ticket is printed, poll the printer about once a second and watch for the TicketCount property to increment. Once it increments, you can read the LastTicketState property and examine how the ticket was handled.</p>
+<h2 id="ticket-lengths">Ticket Lengths</h2>
+<p>Tickets lengths are tracked by binning ticket lengths into 9 groups. The exact lengths groups are enumerated in &lt;xref:PTIRelianceLib.Telemetry.TicketLengthGroups&gt; in millimeters. The telemetry object tracks the count of each ticket by these groups. All tickets with the exception of startup and push-button diagnostic tickets are counted in this metric.</p>
+<h2 id="ticket-pull-time">Ticket Pull Time</h2>
+<p>Tickets pull time is the time in second it took for a customer to pull the ticket from the printer. If a ticket is never pulled and is instead ejected or retracted, no measurement will be taken. The exact time groups are enumerated in &lt;xref:PTIRelianceLib.Telemetry.TicketPullTimeGroups&gt; in second.</p>
+<h2 id="code-sample">Code Sample</h2>
+<pre><code class="lang-csharp" name="Main">using System;
+using System.Collections.Generic;
+using System.Threading;
+using PTIRelianceLib;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+    
+namespace reliance_sample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Wrap our printer in using so it gets disposed on properly
+            using (var printer = new ReliancePrinter())
+            {
+                var tel1 = printer.GetPowerupTelemetry();
+                var str = JsonConvert.SerializeObject(tel1, Formatting.Indented, new StringEnumConverter());
+                Console.WriteLine(&quot;Powerup Telementry:\n{0}&quot;, str);
+                
+                var tel2 = printer.GetLifetimeTelemetry();
+                var str = JsonConvert.SerializeObject(tel2, Formatting.Indented, new StringEnumConverter());
+                Console.WriteLine(&quot;Lifetime Telementry:\n{0}&quot;, str);
+            }
+        }
+    }
+}
+</code></pre><div class="WARNING">
+<h5>Warning</h5>
+<h2 id="exceptions">Exceptions</h2>
+<p>For clarity, exception handling has been elided. It is advisable to wrap any ReliancePrinter
+method calls in a try/catch block for &lt;xref:PTIRelianceLib.PTIException&gt;.</p>
+</div>
 </article>
           </div>
           
@@ -125,6 +137,9 @@ in these groupings. i.e. Ticket retraction and auto-ejected tickets are not coun
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/PyramidTechnologies/PTI.Reliance.Tools/blob/develop/docsource/tutorials/telemetry.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
