@@ -5,9 +5,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Logos </title>
+    <title>Namespace PTIRelianceLib.Telemetry
+   </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Logos ">
+    <meta name="title" content="Namespace PTIRelianceLib.Telemetry
+   ">
     <meta name="generator" content="docfx 2.36.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -76,57 +78,46 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="">
-<h1 id="logos">Logos</h1>
-
-<p>This API makes storing logos in your internal flash very easy. With this API, you can dither, resize, and store any image into internal flash for fast printing. There are a number of dithering algorithms ready for you to try. Use the one that makes your image look the best!</p>
-<p>See the <a class="xref" href="../api/PTIRelianceLib.Imaging.DitherAlgorithms.html">DitherAlgorithms</a> list and <a class="xref" href="../api/PTIRelianceLib.Imaging.LogoStorageConfig.html">LogoStorageConfig</a> for more details.</p>
-<h2 id="code-sample">Code Sample</h2>
-<pre><code class="lang-csharp" name="Main">using System;
-using System.Collections.Generic;
-using System.Threading;
-using PTIRelianceLib;
-using PTIRelianceLib.Imaging;
-
-namespace reliance_sample
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            // Wrap our printer in using so it gets disposed on properly
-            using (var printer = new ReliancePrinter())
-            {
-                var logos = new List&lt;BinaryFile&gt;
-                {
-                    BinaryFile.From(&quot;index.jpg&quot;),
-                    BinaryFile.From(&quot;index2.jpg&quot;),
-                };
-
-                var config = LogoStorageConfig.Default;
-                config.Algorithm = DitherAlgorithms.Atkinson;
-
-                var result = printer.StoreLogos(logos, new DevNullMonitor(), config);
-                Console.WriteLine(&quot;Write Result: {0}&quot;, result);
-
-                // use logo index to recall and print
-                for(int i = 0 ; i &lt; logos.Count; ++i)
-                {
-                    printer.PrintLogo(i);
-
-                    // Give ~3 seconds to print
-                    Thread.Sleep(3 * 1000);
-                }
-            }
-        }
-    }
-}
-</code></pre><div class="WARNING">
-<h5>Warning</h5>
-<h2 id="exceptions">Exceptions</h2>
-<p>For clarity, exception handling has been elided. It is advisable to wrap any ReliancePrinter
-method calls in a try/catch block for <a class="xref" href="../api/PTIRelianceLib.PTIException.html">PTIException</a>.</p>
-</div>
+            <article class="content wrap" id="_content" data-uid="PTIRelianceLib.Telemetry">
+  
+  <h1 id="PTIRelianceLib_Telemetry" data-uid="PTIRelianceLib.Telemetry" class="text-break">Namespace PTIRelianceLib.Telemetry
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+    <h3 id="classes">Classes
+  </h3>
+      <h4><a class="xref" href="PTIRelianceLib.Telemetry.LifetimeTelemetry.html">LifetimeTelemetry</a></h4>
+      <section><p>Telemetry data for the lifetime of the printer.
+This data persists across flash updates and configuration changes.</p>
+</section>
+      <h4><a class="xref" href="PTIRelianceLib.Telemetry.PowerupTelemetry.html">PowerupTelemetry</a></h4>
+      <section><p>Contains telemtry data describing the usage and lifetime of a Reliance
+thermal printer. The data is produced by a Reliance printer and
+handled by this API.</p>
+</section>
+    <h3 id="structs">Structs
+  </h3>
+      <h4><a class="xref" href="PTIRelianceLib.Telemetry.LastTicketState.html">LastTicketState</a></h4>
+      <section><p>Each ticket print is tracked by ejection and length</p>
+</section>
+    <h3 id="enums">Enums
+  </h3>
+      <h4><a class="xref" href="PTIRelianceLib.Telemetry.EjectionStatus.html">EjectionStatus</a></h4>
+      <section><p>A ticket, once printed, terminates in one of two states. On
+powerup, the floating state is called NoTicket.</p>
+</section>
+      <h4><a class="xref" href="PTIRelianceLib.Telemetry.TicketLengthGroups.html">TicketLengthGroups</a></h4>
+      <section><p>Ticket length tracking uses binning to group count of ticket lengths
+together. There are 9 length groups that are tracked by length
+in millimeters.</p>
+</section>
+      <h4><a class="xref" href="PTIRelianceLib.Telemetry.TicketPullTimeGroups.html">TicketPullTimeGroups</a></h4>
+      <section><p>Each printed ticket that sits at the bezel starts a clock. The time between
+print presented and a customer pulling the ticket is is tracked using binning.
+The times are tracked in whole seconds. Only tickets that are pulled are counted
+in these groupings. i.e. Ticket retraction and auto-ejected tickets are not counted.</p>
+</section>
 </article>
           </div>
           
@@ -134,9 +125,6 @@ method calls in a try/catch block for <a class="xref" href="../api/PTIRelianceLi
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
-                  <li>
-                    <a href="https://github.com/PyramidTechnologies/PTI.Reliance.Tools/blob/develop/docsource/tutorials/logos.md/#L1" class="contribution-link">Improve this Doc</a>
-                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">

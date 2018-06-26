@@ -38,6 +38,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.FixedArray-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.FixedArray-1.html",
+          "hash": "j5l5JZ1HETnNSlyHu7w3HQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/PTIRelianceLib.Flash.FlashEventMessageArgs.yml",
       "output": {
         ".html": {
@@ -222,7 +234,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.ReliancePrinter.html",
-          "hash": "H33uqezfLlQKZahB07T4Vg=="
+          "hash": "9oUSWvehb0j9IcIjFqiqhA=="
         }
       },
       "is_incremental": false,
@@ -266,11 +278,95 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Telemetry.EjectionStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Telemetry.EjectionStatus.html",
+          "hash": "XqJRMXNGGA1H3nYYbpnZAw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Telemetry.LastTicketState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Telemetry.LastTicketState.html",
+          "hash": "pbqpyrFLzcxybb3Uu8JYuQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Telemetry.LifetimeTelemetry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Telemetry.LifetimeTelemetry.html",
+          "hash": "6y3rwTrsWPJ8l6mPRmgtVQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Telemetry.PowerupTelemetry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Telemetry.PowerupTelemetry.html",
+          "hash": "A3ZmxwJewXxyGOBSrWLSBg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Telemetry.TicketLengthGroups.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Telemetry.TicketLengthGroups.html",
+          "hash": "/olsiSFQ1WvzXcbBTWZYqw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Telemetry.TicketPullTimeGroups.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Telemetry.TicketPullTimeGroups.html",
+          "hash": "Sq7e44K/gMkss+XahBLpiw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.Telemetry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.Telemetry.html",
+          "hash": "NKL+y0yA3JPfZo/cGIySKg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/PTIRelianceLib.yml",
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.html",
-          "hash": "Kt2p5o4o26t/CqHqCaV5oA=="
+          "hash": "MbYZmQhrY4MC4rTy2DuuBg=="
         }
       },
       "is_incremental": false,
@@ -294,7 +390,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "AONvWEmCsW99oWA3hT4tkA=="
+          "hash": "MWNwB90gUrmaxz40GvW3HA=="
         }
       },
       "is_incremental": false,
@@ -469,7 +565,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/logos.html",
-          "hash": "eGCB9NVeYpWNoQfUp3m/Mg=="
+          "hash": "19+OYG+xnm+YPAmH7e3lFQ=="
         }
       },
       "is_incremental": false,
