@@ -1,37 +1,59 @@
-using PTIRelianceLib.Imaging;
+﻿using System;
 using Xunit;
 
 namespace PTIRelianceLib.Tests.Imaging
 {
-    using System.ComponentModel;
+    using Properties;
+    using PTIRelianceLib.Imaging;
 
     public class BasePrintLogoTests
     {
-        [Fact()]
-        [Category("BMP")]
-        public void ApplyColorInversionTest()
+        [Fact]
+        public void TestCtor()
         {
-            // Input are expected are provided as resources, dithered is what
-            // we are testing
+            var bitmap = BinaryFile.From(Resources.black_bitmap);
+            var logo = new BasePrintLogo(bitmap);
 
-            var input = BinaryFile.From(Properties.Resources.white_bitmap);
+            // Dimensions should be unchanged, 48x48
+            Assert.Equal(48, logo.IdealHeight);
+            Assert.Equal(48, logo.IdealWidth);
 
-            var logo = new BasePrintLogo(input);
+            // Max width/height were not specified, should be 0
+            Assert.Equal(0, logo.MaxHeight);
+            Assert.Equal(0, logo.MaxWidth);
 
-            Assert.False(logo.IsInverted);
+            // Valid data was passed in, ImageData should be valid too
+            Assert.NotNull(logo.ImageData);
+        }
 
-            logo.ApplyColorInversion();
+        [Fact]
+        public void TestCtorNullBitmap()
+        {
+            Assert.Throws<ArgumentNullException>(() => new BasePrintLogo(null));
+        }
 
-            var inverted = logo.ImageData;
-            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.black_bitmap)).ImageData;
+        [Fact]
+        public void TestApplyDithering()
+        {
+            var bitmap = BinaryFile.From(Resources.gray_bitmap);
+            var logo = new BasePrintLogo(bitmap);
 
-            // White should ivnert to black
-            Assert.True(ImageTestHelpers.CompareCrc32(expected, inverted));
-            Assert.True(logo.IsInverted);
+            var startw = logo.IdealWidth;
+            var starth = logo.IdealHeight;
+            var predither = Crc32.ComputeChecksum(logo.ToBuffer());
 
-            // Flip back to white, test that the inversion flag is cleared
-            logo.ApplyColorInversion();
-            Assert.False(logo.IsInverted);
+            // If this fails, someone dispose of the bitmap along the way.
+            // Look for "using" statements to fix
+            logo.ApplyDithering(DitherAlgorithms.Atkinson);
+
+            // Dimensions should be unchanged, 48x48
+            Assert.Equal(starth, logo.IdealHeight);
+            Assert.Equal(startw, logo.IdealWidth);
+
+            // Valid data was passed in, ImageData should be valid too
+            Assert.NotNull(logo.ImageData);
+            var postdither = Crc32.ComputeChecksum(logo.ToBuffer());
+            Assert.NotEqual(predither, postdither);
         }
     }
 }

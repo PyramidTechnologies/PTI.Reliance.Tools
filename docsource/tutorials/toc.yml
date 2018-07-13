@@ -8,6 +8,8 @@
   href: logos.md
 - name: Status Check
   href: status_check.md
+- name: Telemetry
+  href: telemetry.md
 - name: Library Logging
   href: logging.md    
 - name: Library Customization

@@ -13,6 +13,10 @@ namespace PTIRelianceLib.Tests
 
     internal class MutableReliancePacket : ReliancePacket
     {
+        public MutableReliancePacket()
+        {
+        }
+
         internal MutableReliancePacket(byte[] data) : base(data)
         {
         }

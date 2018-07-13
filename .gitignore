@@ -262,3 +262,4 @@ __pycache__/
 /PTIRelianceLib/build/*
 _site/
 nuget/
+/RelianceCLI/build/
