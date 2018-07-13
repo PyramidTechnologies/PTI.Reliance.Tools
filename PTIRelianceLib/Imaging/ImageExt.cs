@@ -88,26 +88,8 @@ namespace PTIRelianceLib.Imaging
             // Timing benchmarks show that safe vs. unsafe has zero impact on our use case
             // Both safe and unsafe, when tested through logo write, get a 13.2Kbps throughput
             // This bitmap operation is negligable compared to how slowly the flash data is written.
-#if SAFE
-            // Iterate through rows and columns
-            for (var row = 0; row < height; row++)
-            {
-                // Source is ARGB format but dest is 1bpp so user two different indexers
-                for (int col = 0, pixCol=0; col < width; col += 4, ++pixCol)
-                {
-                    var index = row * width + col;
-                    var color = imageData[index++] |
-                                imageData[index++] << 8 |
-                                imageData[index++] << 16 |
-                                imageData[index] << 24;
-
-                    // Set pixel
-                    result.SetPixel(pixCol, row, Color.FromArgb(color));
-                }
-            }
-
-#else
-            // Lock the entire bitmap
+#if UNSAFE
+// Lock the entire bitmap
             var bitmapData = result.LockBits(
                 new Rectangle(0, 0, width, height),
                 ImageLockMode.ReadWrite,
@@ -137,6 +119,23 @@ namespace PTIRelianceLib.Imaging
     
             // Unlock the bitmap
             result.UnlockBits(bitmapData);
+#else
+            // Iterate through rows and columns
+            for (var row = 0; row < height; row++)
+            {
+                // Source is ARGB format but dest is 1bpp so user two different indexers
+                for (int col = 0, pixCol = 0; col < width; col += 4, ++pixCol)
+                {
+                    var index = row * width + col;
+                    var color = imageData[index++] |
+                                imageData[index++] << 8 |
+                                imageData[index++] << 16 |
+                                imageData[index] << 24;
+
+                    // Set pixel
+                    result.SetPixel(pixCol, row, Color.FromArgb(color));
+                }
+            }
 
 #endif
             return result;
@@ -176,7 +175,7 @@ namespace PTIRelianceLib.Imaging
             Marshal.Copy(bitmapBgra, 0, bmpWo.Scan0, bmpLen);
             bitmapImage.UnlockBits(bmpWo);
         }
-          
+
         /// <summary>
         /// Creates an MSB ordered, bit-reversed buffer of the logo data located in this bitmap.
         /// The input data's pixels are reduced into an 8bpp image. That means that 8 PC bitmap

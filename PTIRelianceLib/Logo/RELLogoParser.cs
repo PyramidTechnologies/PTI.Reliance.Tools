@@ -40,6 +40,7 @@ namespace PTIRelianceLib.Logo
         /// <summary>
         /// Parse file as a logo
         /// </summary>
+        /// <param name="startAddress">Starting storage address</param>
         /// <param name="data">Logo data to parse</param>
         /// <returns>Packetized list or null on error</returns>
         public IList<byte[]> Parse(uint startAddress, byte[] data)

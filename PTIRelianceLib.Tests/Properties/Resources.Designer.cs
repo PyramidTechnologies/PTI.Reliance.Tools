@@ -123,6 +123,16 @@ namespace PTIRelianceLib.Tests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] gray_floydsteinbergsfalse {
+            get {
+                object obj = ResourceManager.GetObject("gray_floydsteinbergsfalse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] gray_jjn {
             get {
                 object obj = ResourceManager.GetObject("gray_jjn", resourceCulture);
@@ -186,6 +196,16 @@ namespace PTIRelianceLib.Tests.Properties {
         internal static byte[] red_bitmap {
             get {
                 object obj = ResourceManager.GetObject("red_bitmap", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] telemetry_v3 {
+            get {
+                object obj = ResourceManager.GetObject("telemetry_v3", resourceCulture);
                 return ((byte[])(obj));
             }
         }

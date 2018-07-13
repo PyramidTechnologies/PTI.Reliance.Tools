@@ -52,7 +52,14 @@ namespace PTIRelianceLib.Tests.Imaging
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
         }
 
-        // TODO test false floyd steinberg
+        [Fact()]
+        public void GetDithererFloydSteinbergFalseFact()
+        {
+            var input = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_bitmap)).ImageData;
+            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_floydsteinbergsfalse)).ImageData;
+            var dithered = DitherFactory.GetDitherer(DitherAlgorithms.FloydSteinbergFalse).GenerateDithered(input);
+            Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
+        }
 
         [Fact()]
         public void GetDithererJarvisJudiceNinkeFact()

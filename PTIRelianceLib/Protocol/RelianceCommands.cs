@@ -264,6 +264,11 @@ namespace PTIRelianceLib.Protocol
         AutocutSub = 0x88,
 
         /// <summary>
+        /// Subcommand for telemetry commands
+        /// </summary>
+        TelemtrySub = 0x90,
+
+        /// <summary>
         /// Perform general configuration
         /// <see cref="GeneralConfigCodes"/>
         /// </summary>

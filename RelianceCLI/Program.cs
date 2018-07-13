@@ -5,6 +5,8 @@ using PTIRelianceLib;
 namespace RelianceCLI
 {
     using System.IO;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     using PTIRelianceLib.Imaging;
     using PTIRelianceLib.Protocol;
 
@@ -144,11 +146,25 @@ namespace RelianceCLI
                     }
                 }
 
+                if (opts.LifetimeTelemetry)
+                {
+                    var resp = printer.GetLifetimeTelemetry();
+                    var str = JsonConvert.SerializeObject(resp, Formatting.Indented, new StringEnumConverter());
+                    Console.WriteLine("Lifetime Telementry:\n{0}", str);
+                }
+
+                if (opts.StartupTelemetry)
+                {
+                    var resp = printer.GetPowerupTelemetry();
+                    var str = JsonConvert.SerializeObject(resp, Formatting.Indented, new StringEnumConverter());
+                    Console.WriteLine("Powerup Telementry:\n{0}", str);
+                }
+
                 if (opts.GetStatus)
                 {
                     var status = printer.GetStatus();
                     Console.WriteLine("Printer status:\n{0}", status);
-                    Console.WriteLine("Has Paper? :{0}", status.SensorStatus.HasFlag(SensorStatuses.Path));
+                    Console.WriteLine("Has Paper? :{0}", status.SensorStatus.HasFlag(SensorStatuses.Paper));
 
                 }
             }
@@ -174,11 +190,16 @@ namespace RelianceCLI
 
             public string SaveConfigPath;
 
+            public bool LifetimeTelemetry;
+
+            public bool StartupTelemetry;
+
             public static Options Parse(IEnumerable<string> args)
             {
                 var opts = new Options();
 
                 Action<string> nextCapture = null;
+                var lastSwitch = string.Empty;
 
                 foreach (var str in args)
                 {
@@ -197,11 +218,13 @@ namespace RelianceCLI
                                 break;
                             case "-f":
                             case "--firmware":
+                                lastSwitch = str;
                                 nextCapture = s => opts.FirmwareFilePath = s;
                                 break;
 
                             case "-c":
                             case "--config":
+                                lastSwitch = str;
                                 nextCapture = s => opts.ConfigFilePath = s;
                                 break;
 
@@ -212,6 +235,7 @@ namespace RelianceCLI
 
                             case "-l":
                             case "--logo":
+                                lastSwitch = str;
                                 nextCapture = s => opts.LogoFilePath = s;
                                 break;
 
@@ -222,7 +246,17 @@ namespace RelianceCLI
 
                             case "-g":
                             case "--get-config":
+                                lastSwitch = str;
                                 nextCapture = s => opts.SaveConfigPath = s;
+                                break;
+
+                            case "-t":
+                            case "--startup-telem":
+                                opts.StartupTelemetry = true;
+                                break;
+                            case "-T":
+                            case "--lifetime-telem":
+                                opts.LifetimeTelemetry = true;
                                 break;
 
                             default:
@@ -234,7 +268,7 @@ namespace RelianceCLI
 
                 if (nextCapture != null)
                 {
-                    opts.Message = "Incomplete command line switch";
+                    opts.Message = string.Format("Incomplete command line switch: {0}", lastSwitch);
                 }
                 else
                 {
@@ -257,6 +291,8 @@ namespace RelianceCLI
                        "FLAGS\n" +
                        "\t-r,--revision\t\tRead and display printer firmware revision\n" +
                        "\t-s,--status\t\tRead and display printer status\n" +
+                       "\t-t,--startup-telem\t\tRead startup telemetry\n" +
+                       "\t-T,--lifetime-telem\t\tRead lifetime telemetry\n" +
                        "\t-p,--power\t\tReboot printer immediately\n";
             }
         }

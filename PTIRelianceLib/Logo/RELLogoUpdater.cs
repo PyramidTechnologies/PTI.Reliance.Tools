@@ -26,7 +26,7 @@ namespace PTIRelianceLib.Logo
         /// Constructs a new flasher
         /// </summary>
         /// <param name="port">Port to write to</param>
-        /// <param name="_mLogoHeader">Data to write</param>
+        /// <param name="header">Data to write</param>
         /// <exception cref="ArgumentNullException">Thrown if port or fileToFlash are null</exception>
         public RELLogoUpdater(IPort<IPacket> port, RELLogoHeader header)
         {
