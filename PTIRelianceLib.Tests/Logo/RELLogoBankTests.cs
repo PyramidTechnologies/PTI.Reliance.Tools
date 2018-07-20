@@ -6,13 +6,14 @@ namespace PTIRelianceLib.Tests.Logo
     using System.Collections.Generic;
     using PTIRelianceLib.Imaging;
 
-    public class RELLogoBankTests
+    public class RELLogoBankTests : BaseTest
     {
         [Fact]
         public void TestMakeHeader()
         {
+            var bitmap = GetResource("white_bitmap.bmp");
             var logoBank = new RELLogoBank();
-            var logo = new BasePrintLogo(BinaryFile.From(Properties.Resources.white_bitmap));
+            var logo = new BasePrintLogo(BinaryFile.From(bitmap));
             var headers = logoBank.MakeHeaders(new List<IPrintLogo>{logo});
 
             Assert.NotEmpty(headers);

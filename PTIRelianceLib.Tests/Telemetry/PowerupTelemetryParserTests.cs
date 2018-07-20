@@ -4,11 +4,10 @@ namespace PTIRelianceLib.Tests.Telemetry
 {
     using System;
     using System.Linq;
-    using System.Security.Cryptography;
     using PTIRelianceLib.Telemetry;
     using PTIRelianceLib.Transport;
 
-    public class PowerupTelemetryParserTests
+    public class PowerupTelemetryParserTests : BaseTest
     {
         [Fact]
         public void TestIsRegistered()
@@ -50,7 +49,8 @@ namespace PTIRelianceLib.Tests.Telemetry
         {
             // Test that a valid response payload can be parsed
             var parser = PacketParserFactory.Instance.Create<PowerupTelemetry>();
-            var data = Properties.Resources.telemetry_v3;
+
+            var data = GetResource("telemetry.v3.bin");
             var tel = parser.Parse(new ReliancePacket(data));
             Assert.NotNull(tel);
 

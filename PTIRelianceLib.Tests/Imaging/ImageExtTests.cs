@@ -16,11 +16,10 @@ namespace PTIRelianceLib.Tests.Imaging
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
-    using Properties;
     using PTIRelianceLib.Imaging;
     using Xunit;
 
-    public class ImageExtTests
+    public class ImageExtTests : BaseTest
     {
         /// <summary>
         /// Given a known bitmap, esnure that it generates the correct colorspace buffer with full opacity
@@ -28,28 +27,35 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact()]
         public void BitmapToBufferFact()
         {
-            var inbmp = new BasePrintLogo(BinaryFile.From(Resources.gray_bitmap)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var whiteBitmap = GetResource("white_bitmap.bmp");
+            var blackBitmap = GetResource("black_bitmap.bmp");
+            var redBitmap = GetResource("red_bitmap.bmp");
+            var greenBitmap = GetResource("green_bitmap.bmp");
+            var blueBitmap = GetResource("blue_bitmap.bmp");
+
+            var inbmp = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
             var expectedBuff =
                 ImageTestHelpers.BgraGenerator(new byte[] { 128, 128, 128, 255}, inbmp.Height * inbmp.Width);
             Assert.Equal(ImageConvertResults.Success, ImageTestHelpers.TestBitmapConversion(inbmp, expectedBuff));
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.white_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(whiteBitmap)).ImageData;
             expectedBuff = ImageTestHelpers.BgraGenerator(new byte[] {255, 255, 255, 255}, inbmp.Height * inbmp.Width);
             Assert.Equal(ImageConvertResults.Success, ImageTestHelpers.TestBitmapConversion(inbmp, expectedBuff));
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.black_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(blackBitmap)).ImageData;
             expectedBuff = ImageTestHelpers.BgraGenerator(new byte[] {0, 0, 0, 255}, inbmp.Height * inbmp.Width);
             Assert.Equal(ImageConvertResults.Success, ImageTestHelpers.TestBitmapConversion(inbmp, expectedBuff));
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.red_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(redBitmap)).ImageData;
             expectedBuff = ImageTestHelpers.BgraGenerator(new byte[] {0, 0, 255, 255}, inbmp.Height * inbmp.Width);
             Assert.Equal(ImageConvertResults.Success, ImageTestHelpers.TestBitmapConversion(inbmp, expectedBuff));
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.green_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(greenBitmap)).ImageData;
             expectedBuff = ImageTestHelpers.BgraGenerator(new byte[] {0, 255, 0, 255}, inbmp.Height * inbmp.Width);
             Assert.Equal(ImageConvertResults.Success, ImageTestHelpers.TestBitmapConversion(inbmp, expectedBuff));
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.blue_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(blueBitmap)).ImageData;
             expectedBuff = ImageTestHelpers.BgraGenerator(new byte[] {255, 0, 0, 255}, inbmp.Height * inbmp.Width);
             Assert.Equal(ImageConvertResults.Success, ImageTestHelpers.TestBitmapConversion(inbmp, expectedBuff));
         }
@@ -60,12 +66,12 @@ namespace PTIRelianceLib.Tests.Imaging
         {
             var bmps = new List<Bitmap>
             {
-                new BasePrintLogo(BinaryFile.From(Resources.gray_bitmap)).ImageData,
-                new BasePrintLogo(BinaryFile.From(Resources.white_bitmap)).ImageData,
-                new BasePrintLogo(BinaryFile.From(Resources.black_bitmap)).ImageData,
-                new BasePrintLogo(BinaryFile.From(Resources.red_bitmap)).ImageData,
-                new BasePrintLogo(BinaryFile.From(Resources.green_bitmap)).ImageData,
-                new BasePrintLogo(BinaryFile.From(Resources.blue_bitmap)).ImageData
+                new BasePrintLogo(BinaryFile.From(GetResource("gray_bitmap.bmp"))).ImageData,
+                new BasePrintLogo(BinaryFile.From(GetResource("white_bitmap.bmp"))).ImageData,
+                new BasePrintLogo(BinaryFile.From(GetResource("black_bitmap.bmp"))).ImageData,
+                new BasePrintLogo(BinaryFile.From(GetResource("red_bitmap.bmp"))).ImageData,
+                new BasePrintLogo(BinaryFile.From(GetResource("green_bitmap.bmp"))).ImageData,
+                new BasePrintLogo(BinaryFile.From(GetResource("blue_bitmap.bmp"))).ImageData
             };
 
             foreach (var inbmp in bmps)
@@ -89,38 +95,45 @@ namespace PTIRelianceLib.Tests.Imaging
         [Category("BMP")]
         public void BitmapInvertColorChannelsFact()
         {
-            var inbmp = new BasePrintLogo(BinaryFile.From(Resources.gray_bitmap)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var whiteBitmap = GetResource("white_bitmap.bmp");
+            var blackBitmap = GetResource("black_bitmap.bmp");
+            var redBitmap = GetResource("red_bitmap.bmp");
+            var greenBitmap = GetResource("green_bitmap.bmp");
+            var blueBitmap = GetResource("blue_bitmap.bmp");
+
+            var inbmp = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
             var expectedBuff =
                 ImageTestHelpers.BgraGenerator(new byte[] {127, 127, 127, 255}, inbmp.Height * inbmp.Width);
             inbmp.InvertColorChannels();
             var actualBuff = inbmp.ToBuffer();
             Assert.Equal(expectedBuff, actualBuff);
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.white_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(whiteBitmap)).ImageData;
             expectedBuff = ImageTestHelpers.BgraGenerator(new byte[] {0, 0, 0, 255}, inbmp.Height * inbmp.Width);
             inbmp.InvertColorChannels();
             actualBuff = inbmp.ToBuffer();
             Assert.Equal(expectedBuff, actualBuff);
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.black_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(blackBitmap)).ImageData;
             expectedBuff = ImageTestHelpers.BgraGenerator(new byte[] {255, 255, 255, 255}, inbmp.Height * inbmp.Width);
             inbmp.InvertColorChannels();
             actualBuff = inbmp.ToBuffer();
             Assert.Equal(expectedBuff, actualBuff);
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.red_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(redBitmap)).ImageData;
             expectedBuff = ImageTestHelpers.BgraGenerator(new byte[] {255, 255, 0, 255}, inbmp.Height * inbmp.Width);
             inbmp.InvertColorChannels();
             actualBuff = inbmp.ToBuffer();
             Assert.Equal(expectedBuff, actualBuff);
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.green_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(greenBitmap)).ImageData;
             expectedBuff = ImageTestHelpers.BgraGenerator(new byte[] {255, 0, 255, 255}, inbmp.Height * inbmp.Width);
             inbmp.InvertColorChannels();
             actualBuff = inbmp.ToBuffer();
             Assert.Equal(expectedBuff, actualBuff);
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.blue_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(blueBitmap)).ImageData;
             expectedBuff = ImageTestHelpers.BgraGenerator(new byte[] {0, 255, 255, 255}, inbmp.Height * inbmp.Width);
             inbmp.InvertColorChannels();
             actualBuff = inbmp.ToBuffer();
@@ -131,32 +144,39 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact()]
         public void BitmapToLogoBufferSimpleFact()
         {
-            var inbmp = new BasePrintLogo(BinaryFile.From(Resources.gray_bitmap)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var whiteBitmap = GetResource("white_bitmap.bmp");
+            var blackBitmap = GetResource("black_bitmap.bmp");
+            var redBitmap = GetResource("red_bitmap.bmp");
+            var greenBitmap = GetResource("green_bitmap.bmp");
+            var blueBitmap = GetResource("blue_bitmap.bmp");
+
+            var inbmp = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
             var expectedBuff = Repeated<byte>(255, (inbmp.Height * inbmp.Width) >> 3).ToArray();
             var actualBuff = inbmp.ToLogoBuffer();
             Assert.Equal(expectedBuff, actualBuff);
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.white_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(whiteBitmap)).ImageData;
             expectedBuff = Repeated<byte>(0, (inbmp.Height * inbmp.Width) >> 3).ToArray();
             actualBuff = inbmp.ToLogoBuffer();
             Assert.Equal(expectedBuff, actualBuff);
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.black_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(blackBitmap)).ImageData;
             expectedBuff = Repeated<byte>(255, (inbmp.Height * inbmp.Width) >> 3).ToArray();
             actualBuff = inbmp.ToLogoBuffer();
             Assert.Equal(expectedBuff, actualBuff);
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.red_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(redBitmap)).ImageData;
             expectedBuff = Repeated<byte>(255, (inbmp.Height * inbmp.Width) >> 3).ToArray();
             actualBuff = inbmp.ToLogoBuffer();
             Assert.Equal(expectedBuff, actualBuff);
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.green_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(greenBitmap)).ImageData;
             expectedBuff = Repeated<byte>(255, (inbmp.Height * inbmp.Width) >> 3).ToArray();
             actualBuff = inbmp.ToLogoBuffer();
             Assert.Equal(expectedBuff, actualBuff);
 
-            inbmp = new BasePrintLogo(BinaryFile.From(Resources.blue_bitmap)).ImageData;
+            inbmp = new BasePrintLogo(BinaryFile.From(blueBitmap)).ImageData;
             expectedBuff = Repeated<byte>(255, (inbmp.Height * inbmp.Width) >> 3).ToArray();
             actualBuff = inbmp.ToLogoBuffer();
             Assert.Equal(expectedBuff, actualBuff);

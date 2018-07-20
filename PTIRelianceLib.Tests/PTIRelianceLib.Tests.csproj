@@ -9,10 +9,40 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\black_bitmap.bmp" />
+    <None Remove="Resources\blue_bitmap.bmp" />
+    <None Remove="Resources\gray_atkinson.bmp" />
+    <None Remove="Resources\gray_bitmap.bmp" />
+    <None Remove="Resources\gray_burkes.bmp" />
+    <None Remove="Resources\gray_floydsteinbergs.bmp" />
+    <None Remove="Resources\gray_floydsteinbergsfalse.bmp" />
+    <None Remove="Resources\gray_jjn.bmp" />
+    <None Remove="Resources\gray_sierra.bmp" />
+    <None Remove="Resources\gray_sierra2.bmp" />
+    <None Remove="Resources\gray_sierralite.bmp" />
+    <None Remove="Resources\gray_stucki.bmp" />
+    <None Remove="Resources\green_bitmap.bmp" />
+    <None Remove="Resources\red_bitmap.bmp" />
+    <None Remove="Resources\telemetry.v3.bin" />
     <None Remove="Resources\white_bitmap.bmp" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\black_bitmap.bmp" />
+    <EmbeddedResource Include="Resources\blue_bitmap.bmp" />
+    <EmbeddedResource Include="Resources\gray_atkinson.bmp" />
+    <EmbeddedResource Include="Resources\gray_bitmap.bmp" />
+    <EmbeddedResource Include="Resources\gray_burkes.bmp" />
+    <EmbeddedResource Include="Resources\gray_floydsteinbergs.bmp" />
+    <EmbeddedResource Include="Resources\gray_floydsteinbergsfalse.bmp" />
+    <EmbeddedResource Include="Resources\gray_jjn.bmp" />
+    <EmbeddedResource Include="Resources\gray_sierra.bmp" />
+    <EmbeddedResource Include="Resources\gray_sierra2.bmp" />
+    <EmbeddedResource Include="Resources\gray_sierralite.bmp" />
+    <EmbeddedResource Include="Resources\gray_stucki.bmp" />
+    <EmbeddedResource Include="Resources\green_bitmap.bmp" />
+    <EmbeddedResource Include="Resources\red_bitmap.bmp" />
+    <EmbeddedResource Include="Resources\telemetry.v3.bin" />
     <EmbeddedResource Include="Resources\white_bitmap.bmp">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
