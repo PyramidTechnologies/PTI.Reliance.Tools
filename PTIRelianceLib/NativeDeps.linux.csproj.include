@@ -1,9 +1,0 @@
-<Project>
-  <ItemGroup>
-    <Content Include="..\lib\$(NativeDependenciesConfiguration)\$(NativeDepsPlatform)\libhidapi.so">  
-      <Link>libhidapi.so</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Pack>false</Pack>
-    </Content>
-  </ItemGroup>
-</Project>

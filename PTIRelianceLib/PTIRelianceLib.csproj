@@ -1,76 +1,81 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 	<Title>PTI.Reliance.Tools</Title>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <Platforms>AnyCPU;x64</Platforms>
+    <TargetFrameworks>netstandard2.0;</TargetFrameworks>
+    <Platforms>AnyCPU;x64;x86</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Cory Todd &lt;cory@pyramidacceptors.com&gt;</Authors>
+    <Authors>Pyramid Technologies</Authors>
     <Company>Pyramid Technologies Inc.</Company>
     <Description>A Reliance Thermal printer API that support firmware updates and configuration. This requires the Reliance printer to be connected via USB.</Description>
     <Copyright>2018 Pyramid Technologies</Copyright>
     <PackageLicenseUrl>https://pti.mit-license.org/</PackageLicenseUrl>
     <PackageReleaseNotes>Supports flash updating, configuration read, and configuration write</PackageReleaseNotes>
-    <Version>1.0</Version>
+    <Version>1.0.7-beta</Version>
     <PackageProjectUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>dotnet-core thermal-printer hid</PackageTags>
     <PackageIconUrl>https://pyramidacceptors.com/favicon.ico</PackageIconUrl>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyVersion>1.0.7.0</AssemblyVersion>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <FileVersion>1.0.0.0</FileVersion>
+    <FileVersion>1.0.7.0</FileVersion>
 	<IncludeSource>true</IncludeSource>
 	<IncludeSymbols>true</IncludeSymbols>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>   	
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>bin\x64\Release\netcoreapp2.0\PTIRelianceLib.xml</DocumentationFile>
-    <WarningLevel>0</WarningLevel>
-    <NoWarn>1701;1702;NU5100</NoWarn>
-    <DefineConstants>RELEASE;NETCOREAPP;NETCOREAPP2_0;;RELEASE;NETCOREAPP;NETCOREAPP2_1</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>TRACE;DEBUG;</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <NoWarn>1701;1702;NU5100</NoWarn>
-    <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>TRACE;DEBUG;NETCOREAPP;NETCOREAPP2_0;NETCOREAPP;NETCOREAPP2_1</DefineConstants>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <NoWarn></NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>false</IncludeSymbols>
+    <DefineConstants>RELEASE;</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\lib\x64\osx\libhidapi.dylib" Visible="false">
-      <PackagePath>runtimes/osx/native/libhidapi.dylib</PackagePath>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="LibLog" Version="5.0.2" />
+    <PackageReference Include="System.Collections.Immutable" Version="1.5.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.0" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="runtimes/osx-x64/native/libhidapi.dylib" Visible="false">
+      <PackagePath>runtimes/osx-x64/native/libhidapi.dylib</PackagePath>
       <Pack>true</Pack>
     </Content>
-    <Content Include="..\lib\x64\linux\libhidapi.so" Visible="false">
-      <PackagePath>runtimes/linux/native/libhidapi.so</PackagePath>
+    <Content Include="runtimes/linux-x64/native/libhidapi.so" Visible="false">
+      <PackagePath>runtimes/linux-x64/native/libhidapi.so</PackagePath>
       <Pack>true</Pack>
     </Content>
-    <Content Include="..\lib\x64\windows\hidapi.dll" Visible="false">
+    <Content Include="runtimes/win-x64/native/hidapi.dll" Visible="false">
       <PackagePath>runtimes/win-x64/native/hidapi.dll</PackagePath>
       <Pack>true</Pack>
     </Content>	
-    <Content Include="..\lib\x86\windows\hidapi.dll" Visible="false">
+    <Content Include="runtimes/win-x86/native/hidapi.dll" Visible="false">
       <PackagePath>runtimes/win-x86/native/hidapi.dll</PackagePath>
       <Pack>true</Pack>
     </Content>
-  </ItemGroup>  
-  
-  <Import Project="NativeDeps.csproj.include" />  
-  
-  <ItemGroup>
-    <PackageReference Include="LibLog" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <Content Include="build\netstandard2.0\PTIRelianceLib.targets">
+      <PackagePath>build/netstandard2.0/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
   </ItemGroup>
-   
+
   <!-- Hide .include files from solution -->
   <ItemGroup>
-	<None Update="*.csproj.include" Visible="false" />
+	  <None Update="*.csproj.include" Visible="false" />
   </ItemGroup>   
   
   <Target Name="DebugVars" AfterTargets="Build">
