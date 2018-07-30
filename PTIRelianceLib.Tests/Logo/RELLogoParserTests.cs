@@ -5,14 +5,14 @@ using Xunit;
 
 namespace PTIRelianceLib.Tests.Logo
 {
-    public class RELLogoParserTests
+    public class RELLogoParserTests : BaseTest
     {
         [Fact]
         public void TestParser()
         {
             var logoParser = new RELLogoParser();
-
-            var result = logoParser.Parse(0, Properties.Resources.white_bitmap);
+            var bitmap = GetResource("white_bitmap.bmp");
+            var result = logoParser.Parse(0, bitmap);
             Assert.NotNull(result);
         }
 

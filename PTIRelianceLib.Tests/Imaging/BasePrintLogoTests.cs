@@ -6,12 +6,14 @@ namespace PTIRelianceLib.Tests.Imaging
     using Properties;
     using PTIRelianceLib.Imaging;
 
-    public class BasePrintLogoTests
+    public class BasePrintLogoTests : BaseTest
     {
         [Fact]
         public void TestCtor()
         {
-            var bitmap = BinaryFile.From(Resources.black_bitmap);
+            var blackBitmap = GetResource("black_bitmap.bmp");
+
+            var bitmap = BinaryFile.From(blackBitmap);
             var logo = new BasePrintLogo(bitmap);
 
             // Dimensions should be unchanged, 48x48
@@ -35,7 +37,9 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact]
         public void TestApplyDithering()
         {
-            var bitmap = BinaryFile.From(Resources.gray_bitmap);
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+
+            var bitmap = BinaryFile.From(grayBitmap);
             var logo = new BasePrintLogo(bitmap);
 
             var startw = logo.IdealWidth;

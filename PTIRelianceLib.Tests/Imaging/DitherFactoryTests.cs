@@ -13,7 +13,7 @@ namespace PTIRelianceLib.Tests.Imaging
     using PTIRelianceLib.Imaging;
     using Xunit;
 
-    public class DitherFactoryTests
+    public class DitherFactoryTests : BaseTest
     {
         /// <summary>
         /// Generates various perfect-gray input dithers and compares to known
@@ -22,11 +22,13 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact()]
         public void GetDithererAtkinsonFact()
         {
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var grayDithered = GetResource("gray_atkinson.bmp");
 
             // Input are expected are provided as resources, dithered is what
             // we are testing
-            var input = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_bitmap)).ImageData;
-            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_atkinson)).ImageData;
+            var input = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
+            var expected = new BasePrintLogo(BinaryFile.From(grayDithered)).ImageData;
             var dithered = DitherFactory.GetDitherer(DitherAlgorithms.Atkinson).GenerateDithered(input);
 
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
@@ -35,8 +37,11 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact()]
         public void GetDithererBurkesFact()
         {
-            var input = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_bitmap)).ImageData;
-            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_burkes)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var grayDithered = GetResource("gray_burkes.bmp");
+
+            var input = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
+            var expected = new BasePrintLogo(BinaryFile.From(grayDithered)).ImageData;
             var dithered = DitherFactory.GetDitherer(DitherAlgorithms.Burkes).GenerateDithered(input);
 
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
@@ -45,8 +50,11 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact()]
         public void GetDithererFloydSteinbergFact()
         {
-            var input = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_bitmap)).ImageData;
-            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_floydsteinbergs)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var grayDithered = GetResource("gray_floydsteinbergs.bmp");
+
+            var input = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
+            var expected = new BasePrintLogo(BinaryFile.From(grayDithered)).ImageData;
             var dithered = DitherFactory.GetDitherer(DitherAlgorithms.FloydSteinberg).GenerateDithered(input);
 
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
@@ -55,8 +63,11 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact()]
         public void GetDithererFloydSteinbergFalseFact()
         {
-            var input = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_bitmap)).ImageData;
-            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_floydsteinbergsfalse)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var grayDithered = GetResource("gray_floydsteinbergsfalse.bmp");
+
+            var input = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
+            var expected = new BasePrintLogo(BinaryFile.From(grayDithered)).ImageData;
             var dithered = DitherFactory.GetDitherer(DitherAlgorithms.FloydSteinbergFalse).GenerateDithered(input);
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
         }
@@ -64,8 +75,11 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact()]
         public void GetDithererJarvisJudiceNinkeFact()
         {
-            var input = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_bitmap)).ImageData;
-            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_jjn)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var grayDithered = GetResource("gray_jjn.bmp");
+
+            var input = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
+            var expected = new BasePrintLogo(BinaryFile.From(grayDithered)).ImageData;
             var dithered = DitherFactory.GetDitherer(DitherAlgorithms.JarvisJudiceNinke).GenerateDithered(input);
 
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
@@ -75,8 +89,11 @@ namespace PTIRelianceLib.Tests.Imaging
         [Category("BMP")]
         public void GetDithererNoneFact()
         {
-            var input = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_bitmap)).ImageData;
-            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.white_bitmap)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var grayDithered = GetResource("white_bitmap.bmp");
+
+            var input = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
+            var expected = new BasePrintLogo(BinaryFile.From(grayDithered)).ImageData;
             var dithered = DitherFactory.GetDitherer(DitherAlgorithms.None).GenerateDithered(input);
 
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
@@ -85,8 +102,11 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact()]
         public void GetDithererSierraFact()
         {
-            var input = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_bitmap)).ImageData;
-            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_sierra)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var grayDithered = GetResource("gray_sierra.bmp");
+
+            var input = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
+            var expected = new BasePrintLogo(BinaryFile.From(grayDithered)).ImageData;
             var dithered = DitherFactory.GetDitherer(DitherAlgorithms.Sierra).GenerateDithered(input);
 
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
@@ -95,8 +115,11 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact()]
         public void GetDithererSierra2Fact()
         {
-            var input = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_bitmap)).ImageData;
-            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_sierra2)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var grayDithered = GetResource("gray_sierra2.bmp");
+
+            var input = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
+            var expected = new BasePrintLogo(BinaryFile.From(grayDithered)).ImageData;
             var dithered = DitherFactory.GetDitherer(DitherAlgorithms.Sierra2).GenerateDithered(input);
 
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
@@ -105,8 +128,11 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact()]
         public void GetDithererSierraLiteFact()
         {
-            var input = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_bitmap)).ImageData;
-            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_sierralite)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var grayDithered = GetResource("gray_sierralite.bmp");
+
+            var input = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
+            var expected = new BasePrintLogo(BinaryFile.From(grayDithered)).ImageData;
             var dithered = DitherFactory.GetDitherer(DitherAlgorithms.SierraLite).GenerateDithered(input);
 
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
@@ -115,8 +141,11 @@ namespace PTIRelianceLib.Tests.Imaging
         [Fact()]
         public void GetDithererStuckiFact()
         {
-            var input = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_bitmap)).ImageData;
-            var expected = new BasePrintLogo(BinaryFile.From(Properties.Resources.gray_stucki)).ImageData;
+            var grayBitmap = GetResource("gray_bitmap.bmp");
+            var grayDithered = GetResource("gray_stucki.bmp");
+
+            var input = new BasePrintLogo(BinaryFile.From(grayBitmap)).ImageData;
+            var expected = new BasePrintLogo(BinaryFile.From(grayDithered)).ImageData;
             var dithered = DitherFactory.GetDitherer(DitherAlgorithms.Stucki).GenerateDithered(input);
 
             Assert.True(ImageTestHelpers.CompareCrc32(expected, dithered));
