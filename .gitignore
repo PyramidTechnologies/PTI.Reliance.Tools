@@ -169,5 +169,6 @@ _Pvt_Extensions
 
 _site/
 nuget/
-/RelianceCLI/build/
+/RelianceCLI/dist/
 !/PTIRelianceLib/runtimes/**/*.dll
+/RelianceCLI/build/
