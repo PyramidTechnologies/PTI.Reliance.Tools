@@ -48,7 +48,7 @@ namespace PTIRelianceLib
             public readonly IntPtr Next;
         }
 
-        [DllImport("hidapi", EntryPoint = "hid_error")]
+        [DllImport("hidapi", EntryPoint = "hid_error", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr _HidError(IntPtr device);
         /// <inheritdoc />
         public string Error(HidDevice device)
@@ -72,7 +72,7 @@ namespace PTIRelianceLib
         /// being opened by different threads simultaneously.
         /// </summary>
         /// <returns>This function returns 0 on success and -1 on error</returns>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_init")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_init", CallingConvention = CallingConvention.Cdecl)]
         internal static extern int _HidInit();
 
         /// <inheritdoc />
@@ -98,10 +98,10 @@ namespace PTIRelianceLib
         /// memory leaks.
         /// </summary>
         /// <returns>This function returns 0 on success and -1 on error.</returns>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_exit")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_exit", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidExit();
 
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_enumerate")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_enumerate", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr _HidEnumerate(ushort vid, ushort pid);
         public IEnumerable<HidDeviceInfo> Enumerate(ushort vid, ushort pid)
         {
@@ -178,7 +178,7 @@ namespace PTIRelianceLib
         /// </summary>
         /// <param name="devices">devs Pointer to a list of HidDeviceInfo returned from
         /// HidEnumerate()</param>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_free_enumeration")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_free_enumeration", CallingConvention = CallingConvention.Cdecl)]
         private static extern void _HidFreeEnumerate(IntPtr devices);
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace PTIRelianceLib
         /// <param name="devicePath">The path name of the device to open</param>
         /// <returns>returns a pointer to a #hid_device object on
         /// success or NULL on failure.</returns>
-        [DllImport("hidapi", CharSet = CharSet.Ansi, EntryPoint = "hid_open_path")]
+        [DllImport("hidapi", CharSet = CharSet.Ansi, EntryPoint = "hid_open_path", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr _HidOpenPath(string devicePath);
 
         /// <inheritdoc />
@@ -202,7 +202,7 @@ namespace PTIRelianceLib
             }
         }
 
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_close")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_close", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void _HidClose(IntPtr device);
 
         /// <inheritdoc />
@@ -222,7 +222,7 @@ namespace PTIRelianceLib
             }
         }
 
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_read_timeout")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_read_timeout", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidRead(IntPtr device, byte[] data, UIntPtr length, int timeout);
 
         /// <inheritdoc />
@@ -234,7 +234,7 @@ namespace PTIRelianceLib
             }
         }
 
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_write")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_write", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidWrite(IntPtr device, byte[] data, UIntPtr length);
 
         /// <inheritdoc />
@@ -253,7 +253,7 @@ namespace PTIRelianceLib
         /// <param name="str">A wide string buffer to put the data into</param>
         /// <param name="length">The length of the buffer in multiples of wchar_t</param>
         /// <returns>This function returns 0 on success and -1 on error</returns>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_manufacturer_string")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_manufacturer_string", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidGetManufacturerString(IntPtr device, StringBuilder str, uint length);
 
         /// <inheritdoc />
@@ -269,7 +269,7 @@ namespace PTIRelianceLib
         /// <param name="str">A wide string buffer to put the data into.</param>
         /// <param name="size">The length of the buffer in multiples of wchar_t.</param>
         /// <returns>This function returns 0 on success and -1 on error.</returns>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_product_string")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_product_string", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidGetProductString(IntPtr device, StringBuilder str, uint size);
 
         /// <inheritdoc />
@@ -285,7 +285,7 @@ namespace PTIRelianceLib
         /// <param name="str">A wide string buffer to put the data into.</param>
         /// <param name="size">The length of the buffer in multiples of wchar_t.</param>
         /// <returns>This function returns 0 on success and -1 on error.</returns>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_serial_number_string")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_serial_number_string", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidGetSerialNumber(IntPtr device, StringBuilder str, uint size);
 
         /// <inheritdoc />
