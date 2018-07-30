@@ -1,4 +1,4 @@
-version: 0.3.{build}
+version: 1.0.{build}
 environment:
   access_token:
     secure: 4L8MS6vjIHzShfn4kfiesuBNu9Ojv6Vl4TtQFt0JZGaiMloLkHq86xzONq29mzkN
