@@ -3,7 +3,7 @@
   <PropertyGroup>
 	<Title>PTI.Reliance.Tools</Title>
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>AnyCPU;x64;x86</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Cory Todd &lt;cory@pyramidacceptors.com&gt;</Authors>
     <Company>Pyramid Technologies Inc.</Company>
@@ -11,16 +11,16 @@
     <Copyright>2018 Pyramid Technologies</Copyright>
     <PackageLicenseUrl>https://pti.mit-license.org/</PackageLicenseUrl>
     <PackageReleaseNotes>Supports flash updating, configuration read, and configuration write</PackageReleaseNotes>
-    <Version>1.0</Version>
+    <Version>1.0.3-beta</Version>
     <PackageProjectUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>dotnet-core thermal-printer hid</PackageTags>
     <PackageIconUrl>https://pyramidacceptors.com/favicon.ico</PackageIconUrl>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <FileVersion>1.0.0.0</FileVersion>
+    <FileVersion>1.0.3.0</FileVersion>
 	<IncludeSource>true</IncludeSource>
 	<IncludeSymbols>true</IncludeSymbols>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>   	
@@ -51,29 +51,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\lib\x64\osx\libhidapi.dylib" Visible="false">
-      <PackagePath>runtimes/osx/native/libhidapi.dylib</PackagePath>
+    <Content Include="runtimes/osx-x64/native/libhidapi.dylib" Visible="false">
+      <PackagePath>runtimes/osx-x64/native/libhidapi.dylib</PackagePath>
       <Pack>true</Pack>
     </Content>
-    <Content Include="..\lib\x64\linux\libhidapi.so" Visible="false">
-      <PackagePath>runtimes/linux/native/libhidapi.so</PackagePath>
+    <Content Include="runtimes/linux-x64/native/libhidapi.so" Visible="false">
+      <PackagePath>runtimes/linux-x64/native/libhidapi.so</PackagePath>
       <Pack>true</Pack>
     </Content>
-    <Content Include="..\lib\x64\windows\hidapi.dll" Visible="false">
+    <Content Include="runtimes/win-x64/native/hidapi.dll" Visible="false">
       <PackagePath>runtimes/win-x64/native/hidapi.dll</PackagePath>
       <Pack>true</Pack>
     </Content>	
-    <Content Include="..\lib\x86\windows\hidapi.dll" Visible="false">
+    <Content Include="runtimes/win-x86/native/hidapi.dll" Visible="false">
       <PackagePath>runtimes/win-x86/native/hidapi.dll</PackagePath>
       <Pack>true</Pack>
     </Content>
   </ItemGroup>  
-  
-  <Import Project="NativeDeps.csproj.include" />  
      
   <!-- Hide .include files from solution -->
   <ItemGroup>
-	<None Update="*.csproj.include" Visible="false" />
+	  <None Update="*.csproj.include" Visible="false" />
   </ItemGroup>   
   
   <Target Name="DebugVars" AfterTargets="Build">

@@ -263,3 +263,4 @@ __pycache__/
 _site/
 nuget/
 /RelianceCLI/build/
+!/PTIRelianceLib/runtimes/**/*.dll
