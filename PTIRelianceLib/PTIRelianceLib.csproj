@@ -5,22 +5,22 @@
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
     <Platforms>AnyCPU;x64;x86</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Cory Todd &lt;cory@pyramidacceptors.com&gt;</Authors>
+    <Authors>Pyramid Technologies</Authors>
     <Company>Pyramid Technologies Inc.</Company>
     <Description>A Reliance Thermal printer API that support firmware updates and configuration. This requires the Reliance printer to be connected via USB.</Description>
     <Copyright>2018 Pyramid Technologies</Copyright>
     <PackageLicenseUrl>https://pti.mit-license.org/</PackageLicenseUrl>
     <PackageReleaseNotes>Supports flash updating, configuration read, and configuration write</PackageReleaseNotes>
-    <Version>1.0.3-beta</Version>
+    <Version>1.0.7-beta</Version>
     <PackageProjectUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>dotnet-core thermal-printer hid</PackageTags>
     <PackageIconUrl>https://pyramidacceptors.com/favicon.ico</PackageIconUrl>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <AssemblyVersion>1.0.7.0</AssemblyVersion>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <FileVersion>1.0.3.0</FileVersion>
+    <FileVersion>1.0.7.0</FileVersion>
 	<IncludeSource>true</IncludeSource>
 	<IncludeSymbols>true</IncludeSymbols>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>   	
@@ -67,8 +67,12 @@
       <PackagePath>runtimes/win-x86/native/hidapi.dll</PackagePath>
       <Pack>true</Pack>
     </Content>
-  </ItemGroup>  
-     
+    <Content Include="build\netstandard2.0\PTIRelianceLib.targets">
+      <PackagePath>build/netstandard2.0/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+  </ItemGroup>
+
   <!-- Hide .include files from solution -->
   <ItemGroup>
 	  <None Update="*.csproj.include" Visible="false" />
