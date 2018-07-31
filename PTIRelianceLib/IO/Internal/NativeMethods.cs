@@ -26,7 +26,16 @@ namespace PTIRelianceLib
         private static readonly ILog Log = LogProvider.For<NativeMethods>();
         private static bool _hidInitialized;
         private static readonly object GlobalLock = new object();
-        private readonly object _mInstanceLock = new object();
+
+        /// <summary>
+        /// Caches open handles to avoid attempting to double-open a handle. Each instance of
+        /// NativeMethods registers a path as owned in the open operation completes successfully.
+        /// On close, the path is cleared from the respective set. On HID stack teardown, the entire
+        /// cache is cleared.
+        /// </summary>
+        private static readonly IDictionary<int, ISet<string>> InstancePaths = new Dictionary<int, ISet<string>>();
+
+        private readonly object _mInstanceLock = new object();        
 
         /// <summary>
         /// Internal device info enumeration
@@ -48,7 +57,7 @@ namespace PTIRelianceLib
             public readonly IntPtr Next;
         }
 
-        [DllImport("hidapi", EntryPoint = "hid_error", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("hidapi", EntryPoint = "hid_error", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern IntPtr _HidError(IntPtr device);
         /// <inheritdoc />
         public string Error(HidDevice device)
@@ -57,7 +66,7 @@ namespace PTIRelianceLib
             {
                 return !device.IsValid
                     ? "PTIRelianceLib: Invalid device handle"
-                    : Marshal.PtrToStringUni(_HidError(device.Handle));
+                    : Marshal.PtrToStringAuto(_HidError(device.Handle));
             }
         }
 
@@ -84,10 +93,7 @@ namespace PTIRelianceLib
                 {
                     if (_hidInitialized)
                     {
-                        if (_hidInitialized)
-                        {
-                            return 0;
-                        }
+                        return 0;
                     }
 
                     _hidInitialized = true;
@@ -125,6 +131,7 @@ namespace PTIRelianceLib
         {
             lock (GlobalLock)
             {
+                InstancePaths.Clear();
                 return _HidExit();
             }
         }
@@ -186,6 +193,7 @@ namespace PTIRelianceLib
 
                     return Enumerable.Empty<HidDeviceInfo>();
                 }
+                Log.Trace("HID enumeration allocated for {0}-bit process", Environment.Is64BitProcess ? 64 : 32);
 
                 var result = new List<HidDeviceInfo>();
 
@@ -254,8 +262,30 @@ namespace PTIRelianceLib
         {
             lock (GlobalLock)
             {
+                // Don't open an owned path
+                if (IsPathOwned(devicePath))
+                {
+                    return HidDevice.Invalid();
+                }
+
                 var handle = _HidOpenPath(devicePath);
-                return new HidDevice(handle);
+                var device = new HidDevice(handle);
+
+                // Return now, don't take ownership of an invalid handle
+                if (!device.IsValid)
+                {
+                    return device;
+                }
+
+                // Take ownership of this handle
+                var id = GetHashCode();
+                if (!InstancePaths.ContainsKey(id))
+                {
+                    InstancePaths.Add(id, new HashSet<string>());
+                }
+                InstancePaths[GetHashCode()].Add(devicePath);
+
+                return device;
             }
         }
 
@@ -267,9 +297,25 @@ namespace PTIRelianceLib
         {
             lock (GlobalLock)
             {
-                try
+
+                // Don't try to close an invalid handle
+                if (!device.IsValid)
                 {
+                    return;
+                }
+
+                // Assert that we are the owner before closing handle
+                var id = GetHashCode();
+                if (!IsPathOwnedByThis(device.DevicePath))
+                {
+                    throw new InvalidOperationException("Attempted to close path not owned by this");
+                }
+
+                // Wrap close operation with SEH handler in case user ejects and the same moment we disconnect
+                try
+                { 
                     _HidClose(device.Handle);
+                    InstancePaths[id].Remove(device.DevicePath);                    
                 }
                 catch (SEHException ex)
                 {
@@ -363,6 +409,30 @@ namespace PTIRelianceLib
         {
             var sb = new StringBuilder();
             return fn.Invoke(device.Handle, sb, 255) != 0 ? null : sb.ToString();
+        }
+
+        /// <inheritdoc />
+        public bool IsPathOwned(string path)
+        {
+            lock (GlobalLock)
+            {
+                return InstancePaths.Any(kv => kv.Value.Contains(path));
+            }
+        }
+
+        /// <summary>
+        /// Returns true if this instance owns the specified path
+        /// </summary>
+        /// <param name="path">Path to test</param>
+        /// <returns>True if this isntance owns path. If false, another instance may own the path
+        /// or the path might not be owned at all. See <see cref="IsPathOwned"/> to check for other owners.</returns>
+        private bool IsPathOwnedByThis(string path)
+        {
+            lock (GlobalLock)
+            {
+                var id = GetHashCode();
+                return InstancePaths.ContainsKey(id) && InstancePaths[id].Contains(path);
+            }
         }
     }
 }

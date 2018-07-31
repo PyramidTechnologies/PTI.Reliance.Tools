@@ -23,7 +23,7 @@
     <PackageTags>dotnet-core thermal-printer hid netstandard2.0</PackageTags>
     <PackageIconUrl>https://pyramidacceptors.com/favicon.ico</PackageIconUrl>
     <AssemblyVersion>$(SemVer)</AssemblyVersion>
-	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <FileVersion>$(SemVer)</FileVersion>
 	<IncludeSource>true</IncludeSource>

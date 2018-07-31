@@ -65,13 +65,31 @@ namespace PTIRelianceLib
         /// </summary>
         private readonly HidDeviceConfig _mPortConfig;
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
+        /// or one of its depencies cannot be found or loaded, <exception cref="T:PTIRelianceLib.PTIException"></exception>
+        /// will be thrown. This constructor returns the first available Reliance printer without
+        /// filtering for device path.
+        /// </summary>
+        /// <exception cref="T:PTIRelianceLib.PTIException">Thrown if native HID library cannot be loaded</exception> 
+        public ReliancePrinter() : this(string.Empty)
+        {
+        }
+
+
         /// <summary>
         /// Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
         /// or one of its dependencies cannot be found or loaded, <exception cref="PTIException"></exception>
-        /// will be thrown.
+        /// will be thrown. This constructor supports filtering for devices by hardware path. The device path
+        /// can be obtained from your operating system or by checking <see cref="DevicePath"/>
+        /// after a successful connection.
         /// </summary>
+        /// <param name="devicePath">OS-dependencet device path to attach to. This is optional
+        /// and may be left null or empty to accept any Reliance connection, see
+        /// <see cref="DevicePath"/></param>
         /// <exception cref="PTIException">Thrown if native HID library cannot be loaded</exception> 
-        public ReliancePrinter()
+        public ReliancePrinter(string devicePath)
         {
             // Reliance will "always" use report lengths of 34 bytes
             _mPortConfig = new HidDeviceConfig
@@ -82,7 +100,8 @@ namespace PTIRelianceLib
                 OutReportLength = 35,
                 InReportId = 2,
                 OutReportId = 1,
-                NativeHid = new NativeMethods()
+                NativeHid = new NativeMethods(),
+                DevicePath = devicePath
             };
 
             AcquireHidPort();
@@ -90,6 +109,9 @@ namespace PTIRelianceLib
         
         /// <inheritdoc />
         public bool IsDeviceReady => _mPort?.IsOpen ?? false;
+        
+        /// <summary>
+        public string DevicePath => _mPort.IsOpen ? _mPort.PortPath : string.Empty;
 
         /// <summary>
         /// Internal constructor using specified HID configurations from
@@ -240,7 +262,7 @@ namespace PTIRelianceLib
             Log.Debug("Requesting revision level");
 
             // 0x10: specifies we want firmware revision for running application
-            var cmd = _mPort.Package((byte)RelianceCommands.GetRevlev, 0x10);
+            var cmd = _mPort.Package((byte) RelianceCommands.GetRevlev, 0x10);
 
             var resp = Write(cmd);
             var rev = PacketParserFactory.Instance.Create<Revlev>().Parse(resp);
@@ -552,6 +574,46 @@ namespace PTIRelianceLib
         {
             var resp = Write(RelianceCommands.TelemtrySub, 0x03);
             return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+        }
+
+        /// <summary>
+        /// Write raw data to device and return response. Only valid responses will be returned.
+        /// If the response is malformed or otherwise not intact, the data will be discarded and 
+        /// the result will be an empty array.
+        ///
+        /// This data will be passed to the configuration interface of the target device. It will
+        /// not be passed to the print buffer in anyway. If you are looking to print data, this
+        /// cannot be done using this API.
+        /// </summary>
+        /// <param name="cmd">Command byte and parameters to send to target</param>
+        /// <param name="args">Optional arguments to command, up to 32 bytes</param>
+        /// <returns>Response data or empty buffer is reponse is malformed. If more than 32 bytes are passed
+        /// as an argument, the command will be aborted and an empty buffer will be returned.</returns>
+        protected byte[] WriteRaw(byte cmd, params byte[] args)
+        {
+            var payload = _mPort.Package(cmd);
+            if (args.Length >= 32)
+            {
+                return new byte[0];
+            }
+
+            foreach (var arg in args)
+            {
+                payload.Add(arg);
+            }
+
+            var resp = Write(payload);
+            switch (resp.GetPacketType())
+            {
+                case PacketTypes.Normal:
+                    return resp.GetBytes();
+                case PacketTypes.PositiveAck:
+                    return new byte[] {0xAA};
+                case PacketTypes.NegativeAck:
+                    return new byte[] {0xAC};
+                default:
+                    return new byte[0];
+            }
         }
 
         /// <summary>

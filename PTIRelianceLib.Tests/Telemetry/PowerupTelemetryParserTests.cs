@@ -91,6 +91,10 @@ namespace PTIRelianceLib.Tests.Telemetry
             Assert.Equal(31, tel.TicketsEjected);
             Assert.Equal(5, tel.TicketsPulled);
             Assert.Equal(0, tel.TicketsRetracted);
+
+            Assert.Equal(82, tel.LastTicketState.LengthMm);
+            Assert.Equal(0, tel.LastTicketState.Reserved);
+            Assert.Equal(EjectionStatus.Ejected, tel.LastTicketState.Status);
         }
     }
 }
