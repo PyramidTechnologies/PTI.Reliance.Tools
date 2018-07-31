@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-    <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+    <ItemGroup Condition=" '$(Platform)' == 'x64' AND '$(OS)' != 'Unix' ">
         <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\hidapi.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Link>hidapi.dll</Link>
 			<Visible>false</Visible>			
         </Content>
-        <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-x64\native\libhidapi.so">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>libhidapi.so</Link>
-			<Visible>false</Visible>				
-        </Content>
+	</ItemGroup>
+	
+	<ItemGroup Condition=" '$(Platform)' == 'x64' AND '$(OS)' == 'Unix' And Exists('/Applications') And Exists('/Library') And Exists('/System') ">	   	
 		<Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\osx-x64\native\libhidapi.dylib">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Link>libhidapi.dylib</Link>
@@ -19,8 +17,17 @@
         </Content>
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(Platform)' == 'x86' OR '$(Platform)' == 'AnyCPU' ">
-		<Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\hidapi.dll">
+	
+	<ItemGroup Condition=" '$(Platform)' == 'x64' AND '$(OS)' == 'Unix' And '$(NativeDepsPlatform)' == '' ">		
+        <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-x64\native\libhidapi.so">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Link>libhidapi.so</Link>
+			<Visible>false</Visible>				
+        </Content>
+	</ItemGroup>	
+	
+    <ItemGroup Condition=" '$(Platform)' == 'x86' OR ( '$(Platform)' == 'AnyCPU' AND '$(OS)' != 'Unix' )">
+		<Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x86\native\hidapi.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <Link>hidapi.dll</Link>
 		  <Visible>false</Visible>

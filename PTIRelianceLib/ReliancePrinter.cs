@@ -87,6 +87,9 @@ namespace PTIRelianceLib
 
             AcquireHidPort();
         }
+        
+        /// <inheritdoc />
+        public bool IsDeviceReady => _mPort?.IsOpen ?? false;
 
         /// <summary>
         /// Internal constructor using specified HID configurations from
