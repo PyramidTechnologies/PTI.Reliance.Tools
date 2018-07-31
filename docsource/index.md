@@ -1,7 +1,7 @@
 ![Banner](images/banner.png)
 
 # PTI.Reliance.Tools
-A cross-platform .NET Core 2.0 API for updating and maintaining your [Reliance Thermal Printer](https://pyramidacceptors.com/products/reliance-thermal-printer).
+A cross-platform netstandard2.0 API for updating and maintaining your [Reliance Thermal Printer](https://pyramidacceptors.com/products/reliance-thermal-printer).
 
 [![NuGet](https://img.shields.io/nuget/v/PTIRelianceLib.svg?style=flat-square)](https://www.nuget.org/packages/PTIRelianceLib/)
 

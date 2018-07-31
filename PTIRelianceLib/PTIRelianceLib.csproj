@@ -1,8 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <SemVer>1.1.0.0</SemVer>
+    <Suffix>-beta</Suffix>
+  </PropertyGroup>
+
+  <PropertyGroup>
 	<Title>PTI.Reliance.Tools</Title>
-    <TargetFrameworks>netstandard2.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <Platforms>AnyCPU;x64;x86</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Pyramid Technologies</Authors>
@@ -11,16 +16,16 @@
     <Copyright>2018 Pyramid Technologies</Copyright>
     <PackageLicenseUrl>https://pti.mit-license.org/</PackageLicenseUrl>
     <PackageReleaseNotes>Supports flash updating, configuration read, and configuration write</PackageReleaseNotes>
-    <Version>1.0.7-beta</Version>
+    <Version>$(SemVer)$(Suffix)</Version>
     <PackageProjectUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/PyramidTechnologies/PTI.Reliance.Tools</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>dotnet-core thermal-printer hid</PackageTags>
+    <PackageTags>dotnet-core thermal-printer hid netstandard2.0</PackageTags>
     <PackageIconUrl>https://pyramidacceptors.com/favicon.ico</PackageIconUrl>
-    <AssemblyVersion>1.0.7.0</AssemblyVersion>
+    <AssemblyVersion>$(SemVer)</AssemblyVersion>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <FileVersion>1.0.7.0</FileVersion>
+    <FileVersion>$(SemVer)</FileVersion>
 	<IncludeSource>true</IncludeSource>
 	<IncludeSymbols>true</IncludeSymbols>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>   	
