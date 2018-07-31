@@ -26,7 +26,7 @@
         </Content>
 	</ItemGroup>	
 	
-    <ItemGroup Condition=" '$(Platform)' == 'x86' OR '$(Platform)' == 'AnyCPU' AND '$(OS)' != 'Unix'">
+    <ItemGroup Condition=" '$(Platform)' == 'x86' OR ( '$(Platform)' == 'AnyCPU' AND '$(OS)' != 'Unix' )">
 		<Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x86\native\hidapi.dll">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		  <Link>hidapi.dll</Link>
