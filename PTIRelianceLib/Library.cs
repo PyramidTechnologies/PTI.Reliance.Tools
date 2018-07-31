@@ -1,5 +1,6 @@
 ﻿namespace PTIRelianceLib
 {
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
@@ -22,5 +23,17 @@
         /// </summary>
         /// <value>Current Library Options</value>
         public static LibraryOptions Options = LibraryOptions.Default;
+
+        /// <summary>
+        /// Returns true if at least one Reliance Thermal printer is attached to this system
+        /// </summary>
+        /// <returns>true if a Reliance is enumerated on this system, otherwise false</returns>
+        /// <value>Boolean</value>
+        public static bool IsRelianceAttached()
+        {
+            var handle = new NativeMethods();
+            var reliances = handle.Enumerate(ReliancePrinter.VendorId, ReliancePrinter.ProductId);
+            return reliances.Any();
+        }
     }
 }
