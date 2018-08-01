@@ -29,6 +29,10 @@ namespace PTIRelianceLib.Tests
     /// </summary>
     internal class FakeNativeMethods : INativeMethods
     {
+        public const string SerialNumber = "DEADBEEF1234567890";
+
+        public const string DevicePath = "FakePath";
+
         public int Init()
         {
             return 0;
@@ -47,7 +51,7 @@ namespace PTIRelianceLib.Tests
                 {
                     VendorId = vid,
                     ProductId = pid,
-                    Path = "FakePath"
+                    Path = DevicePath
                 }
             };
         }
@@ -87,7 +91,14 @@ namespace PTIRelianceLib.Tests
 
         public string GetSerialNumber(HidDevice device)
         {
-            return "DEADBEEF1234567890";
+            return SerialNumber;
+        }
+
+        public bool IsPathOwned(string path)
+        {
+            // Always return false because tests may run in parallel and there is no
+            // concept of path ownership.
+            return false;
         }
 
         public Func<byte[], byte[]> GetNextResponse { get; set; }

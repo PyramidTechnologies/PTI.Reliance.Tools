@@ -1,5 +1,6 @@
 ﻿namespace PTIRelianceLib
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
@@ -31,9 +32,28 @@
         /// <value>Boolean</value>
         public static bool IsRelianceAttached()
         {
+            return CountAttachedReliance() > 0;
+        }
+
+        /// <summary>
+        /// Returns the count of Reliance printers attached to this system.
+        /// </summary>
+        /// <returns>Number of attached Reliance printers, 0 if none are found</returns>
+        public static int CountAttachedReliance()
+        {
             var handle = new NativeMethods();
-            var reliances = handle.Enumerate(ReliancePrinter.VendorId, ReliancePrinter.ProductId);
-            return reliances.Any();
+            return handle.Enumerate(ReliancePrinter.VendorId, ReliancePrinter.ProductId).Count();
+        }
+
+        /// <summary>
+        /// Returns a list of Reliance printer USB device paths that are currently attached. Items
+        /// in the list may be null.
+        /// </summary>
+        /// <returns>List of device paths</returns>
+        public static IEnumerable<string> GetAttachedDevicePaths()
+        {
+            var handle = new NativeMethods();
+            return handle.Enumerate(ReliancePrinter.VendorId, ReliancePrinter.ProductId).Select(x => x.Path);
         }
     }
 }

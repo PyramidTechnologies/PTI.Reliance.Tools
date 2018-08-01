@@ -23,5 +23,11 @@ namespace PTIRelianceLib.IO.Internal
         public int OutReportLength { get; set; }
 
         public INativeMethods NativeHid { get; set; }
+
+        /// <summary>
+        /// Preferred device path to attach to. This is the OS-specific
+        /// path that is assigned to a USB device on enumeration.
+        /// </summary>
+        public string DevicePath { get; set; }
     }
 }

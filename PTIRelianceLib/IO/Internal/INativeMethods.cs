@@ -58,6 +58,7 @@
         /// Close a HID device.
         /// </summary>
         /// <param name="device">A device handle returned from hid_open().</param>
+        /// <exception cref="System.InvalidOperationException">Raised if device is not owned by this instance</exception>
         void Close(HidDevice device);
 
         /// <summary>
@@ -129,5 +130,12 @@
         /// <param name="device">Device handle</param>
         /// <returns>String or null on error</returns>
         string GetSerialNumber(HidDevice device);
+
+        /// <summary>
+        /// Returns true if this path is open in any instance
+        /// </summary>
+        /// <param name="path">Device path to test</param>
+        /// <returns>True if path is open</returns>
+        bool IsPathOwned(string path);
     }
 }

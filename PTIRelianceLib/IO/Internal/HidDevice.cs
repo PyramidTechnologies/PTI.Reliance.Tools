@@ -21,6 +21,12 @@ namespace PTIRelianceLib.IO.Internal
         public IntPtr Handle { get; private set; }
 
         /// <summary>
+        /// The hardware specified path this device has been connected to.
+        /// This path's format depends on your operating system.
+        /// </summary>
+        public string DevicePath { get; set; }
+
+        /// <summary>
         /// Create a new device with this handle
         /// </summary>
         /// <param name="handle"></param>
@@ -32,11 +38,7 @@ namespace PTIRelianceLib.IO.Internal
         /// <summary>
         /// Returns true if this device has a valid handle
         /// </summary>
-        public bool IsValid
-        {
-            get=> Handle != IntPtr.Zero;
-            protected set => Handle = value ? Handle : IntPtr.Zero;
-        }
+        public bool IsValid => Handle != IntPtr.Zero;
 
         /// <summary>
         /// Returns an empty (invalid) device handle

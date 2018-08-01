@@ -26,6 +26,11 @@ namespace PTIRelianceLib
         T Package(params byte[] data);
 
         /// <summary>
+        /// Returns the path this device enumerated on
+        /// </summary>
+        string PortPath { get; }
+
+        /// <summary>
         /// Returns true if port is in an open state
         /// </summary>
         bool IsOpen { get;  }

@@ -35,6 +35,9 @@ namespace PTIRelianceLib.IO
             return packet;
         }
 
+        /// <inheritdoc />
+        public string PortPath => _mHidWrapper?.DevicePath;
+
         public bool IsOpen => _mHidWrapper?.IsOpen == true;
 
         public bool Open()

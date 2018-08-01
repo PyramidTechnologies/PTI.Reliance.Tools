@@ -19,6 +19,11 @@ namespace PTIRelianceLib
     public interface IPyramidDevice : IDisposable
     {
         /// <summary>
+        /// Returns the hardware device path for this printer
+        /// </summary>
+        string DevicePath { get; }
+
+        /// <summary>
         /// Writes the configuration <see cref="BinaryFile"/> specified by
         /// <paramref name="config"/> to this device. The configuration is a JSON file
         /// describing the configuration to apply. Any fields omitted from the

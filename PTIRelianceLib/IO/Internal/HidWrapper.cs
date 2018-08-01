@@ -1,9 +1,11 @@
 ﻿#region Header
+
 // HidWrapper.cs
 // PTIRelianceLib
 // Cory Todd
 // 16-05-2018
 // 11:30 AM
+
 #endregion
 
 
@@ -12,6 +14,7 @@ namespace PTIRelianceLib.IO.Internal
     using Logging;
     using System;
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading;
 
     [DebuggerDisplay("IsOpen = {IsOpen}, LastError = {LastError}")]
@@ -38,13 +41,18 @@ namespace PTIRelianceLib.IO.Internal
             // Attempt to open device
             Open();
 
-            Log.Trace("New HidWrapper created and is {0}", IsOpen ? "Open" : "Not Open");            
+            Log.Trace("New HidWrapper created and is {0}", IsOpen ? "Open" : "Not Open");
         }
 
         /// <summary>
         /// Returns last error message
         /// </summary>
         public string LastError { get; private set; }
+
+        /// <summary>
+        /// Returns path to this device if in a valid state
+        /// </summary>
+        public string DevicePath => Device.IsValid ? Device.DevicePath : string.Empty;
 
         /// <summary>
         /// Returns true if USB handle is open
@@ -57,13 +65,24 @@ namespace PTIRelianceLib.IO.Internal
         /// <returns>True on succes, else False</returns>
         public bool Open()
         {
+            Log.Trace("Called HidWrapper.Open()");
+
             if (IsOpen)
             {
                 Close();
             }
 
-            Device = GetHidHandle();
-            
+            Device = GetHidHandle(_mDeviceConfig.DevicePath);
+
+            if (!Device.IsValid)
+            {
+                Log.Trace("Device has invalid handle");
+                return IsOpen;
+            }
+
+            var path = string.IsNullOrEmpty(Device.DevicePath) ? "{missing}" : Device.DevicePath;
+            Log.Trace("Connected to device path {0}", path);
+
             return IsOpen;
         }
 
@@ -89,23 +108,62 @@ namespace PTIRelianceLib.IO.Internal
         }
 
         /// <summary>
+        /// Returns true if device info's path matches requested path. If the requested
+        /// path is null or empty, true will be returned.
+        /// </summary>
+        /// <param name="devinfo">Device info</param>
+        /// <param name="devicePath">Path to match</param>
+        /// <returns>True on match</returns>
+        private static bool IsDevicePathMatch(HidDeviceInfo devinfo, string devicePath)
+        {
+            Log.Trace("Attempting to match device to path: {0}", devicePath);
+            return string.IsNullOrEmpty(devicePath) || devicePath.Equals(devinfo.Path);
+        }
+
+        /// <summary>
         /// Searchs USB HID devices for the specified vid/pid pair. Returns the raw
         /// handle to the device if found. Otherwise IntPtr.Zero is returned
         /// </summary>
+        /// <param name="requestedPath">Optional device path to match on.
+        /// Set to empty or null to accept first available</param>
         /// <returns>Device handle or IntPtr.Zero if no match found</returns>
-        private HidDevice GetHidHandle()
+        private HidDevice GetHidHandle(string requestedPath = "")
         {
             var devices = _mDeviceConfig.NativeHid.Enumerate(_mDeviceConfig.VendorId, _mDeviceConfig.ProductId);
+
             foreach (var devinfo in devices)
             {
-                var handle = _mDeviceConfig.NativeHid.OpenPath(devinfo.Path);
-
-                if (handle.IsValid)
+                if (_mDeviceConfig.NativeHid.IsPathOwned(devinfo.Path))
                 {
+                    Log.Info("Path is already open, skipping");
+                    continue;
+                }
+
+                var handle = _mDeviceConfig.NativeHid.OpenPath(devinfo.Path);
+                var err = _mDeviceConfig.NativeHid.Error(handle);
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    Log.Error("Error opening device handle: {0}", err);
+                }                
+                else if (!handle.IsValid)
+                {
+                    Log.Warn("OpenPath returned invalid handle");
+                }
+                else if (!IsDevicePathMatch(devinfo, requestedPath))
+                {
+                    Log.Info("Skipping non-matched device");
+
+                    _mDeviceConfig.NativeHid.Close(handle);                    
+                }
+                else
+                {
+                    Log.Info("Found valid device handle");
+
+                    handle.DevicePath = devinfo.Path;
+
                     return handle;
                 }
-                
-                Log.Trace("Enumeration returned invalid handle");                
             }
 
             return HidDevice.Invalid();
@@ -123,7 +181,7 @@ namespace PTIRelianceLib.IO.Internal
                 return -1;
             }
 
-            var report = HidReport.MakeOutputReport(_mDeviceConfig, data);  
+            var report = HidReport.MakeOutputReport(_mDeviceConfig, data);
             var result = _mDeviceConfig.NativeHid.Write(Device, report.Data, report.Size);
 
             if (result < 0)
@@ -161,6 +219,7 @@ namespace PTIRelianceLib.IO.Internal
 
             return result;
         }
+
         /// <summary>
         /// Captures last error message on this device
         /// </summary>
@@ -175,7 +234,7 @@ namespace PTIRelianceLib.IO.Internal
 
         public override string ToString()
         {
-            return string.Format("HID [{0:X4},{1:X4}] (Open? {2})", 
+            return string.Format("HID [{0:X4},{1:X4}] (Open? {2})",
                 _mDeviceConfig.VendorId, _mDeviceConfig.ProductId, IsOpen);
         }
 
