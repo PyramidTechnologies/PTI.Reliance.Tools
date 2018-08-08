@@ -81,10 +81,7 @@ namespace PTIRelianceLib
         /// <summary>
         /// Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
         /// or one of its depencies cannot be found or loaded, <exception cref="PTIException"></exception>
-        /// will be thrown. This constructor supports filtering for devices by USB serial number and
-        /// hardware path. The USB serial number is the 32-digit number reported along with
-        /// device enumeration. This can be found through your operating system or by checking
-        /// <see cref="HardwareSerialNumber"/> after a succesful connection. The device path
+        /// will be thrown. This constructor supports filtering for devices by hardware path. The device path
         /// can be obtained from your operating system or by checking <see cref="DevicePath"/>
         /// after a successful connection.
         /// </summary>
