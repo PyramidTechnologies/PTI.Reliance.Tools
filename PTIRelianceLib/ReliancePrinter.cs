@@ -109,6 +109,9 @@ namespace PTIRelianceLib
         
         /// <inheritdoc />
         public string DevicePath => _mPort.IsOpen ? _mPort.PortPath : string.Empty;
+        
+        /// <inheritdoc />
+        public bool IsDeviceReady => _mPort?.IsOpen ?? false;
 
         /// <summary>
         /// Internal constructor using specified HID configurations from

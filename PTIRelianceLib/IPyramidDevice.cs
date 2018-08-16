@@ -24,6 +24,11 @@ namespace PTIRelianceLib
         string DevicePath { get; }
 
         /// <summary>
+        /// Returns true if device is ready to be read from or written to
+        /// </summary>
+        bool IsDeviceReady { get; }
+
+        /// <summary>
         /// Writes the configuration <see cref="BinaryFile"/> specified by
         /// <paramref name="config"/> to this device. The configuration is a JSON file
         /// describing the configuration to apply. Any fields omitted from the
