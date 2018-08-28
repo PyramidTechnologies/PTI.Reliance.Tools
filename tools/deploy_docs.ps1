@@ -6,4 +6,7 @@ git clone https://github.com/PyramidTechnologies/PTI.Reliance.Tools.git -b gh-pa
 docfx docsource\docfx.json
 CD _site
 git add -A
-git diff-index --quiet HEAD || git commit -m "CI Updates" -q && git push origin gh-pages -q
+git diff-index --quiet HEAD
+if (0 -ne $LASTEXITCODE) { 
+	git commit -m "CI Updates" -q -and git push origin gh-pages -q
+}
