@@ -43,11 +43,8 @@ build_script:
 test_script:
   - ps: .\tools\run_tests.ps1
 
-artifacts:
-  - path: **\*.nupkg
-
 on_success:
-  - ps: >-
+  - ps: |
         if(-Not $env:APPVEYOR_PULL_REQUEST_TITLE)
         {
             .\tools\deploy_docs.ps1
