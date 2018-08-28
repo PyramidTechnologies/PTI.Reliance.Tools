@@ -28,16 +28,19 @@ build_script:
 test_script:
 - ps: .\tools\run_tests.ps1
 artifacts:
-- path: PTIRelianceLib/dist
-  name: /PTIRelianceLib/dist/.*\.nupkg/
+- path: '**\*.nupkg'
 on_success:
-  - git config --global core.autocrlf true
-  - git config --global credential.helper store
-  - ps: Add-Content "$HOME\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
-  - git config --global user.name "Bert Bot"
-  - git config --global user.email "bertbot@pyramidacceptors.com"
-  - git clone https://github.com/PyramidTechnologies/PTI.Reliance.Tools.git -b gh-pages _site -q
-  - ps: docfx docsource\docfx.json
-  - ps: CD _site
-  - git add -A
-  - git diff-index --quiet HEAD || git commit -m "CI Updates" -q && git push origin gh-pages -q
+  - ps: |
+        if(-Not $env:APPVEYOR_PULL_REQUEST_TITLE)
+        {   
+            git config --global core.autocrlf true
+            config --global credential.helper store
+            Add-Content "$HOME\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+            git config --global user.name "Bert Bot"
+            git config --global user.email "bertbot@pyramidacceptors.com"
+            git clone https://github.com/PyramidTechnologies/PTI.Reliance.Tools.git -b gh-pages _site -q
+            docfx docsource\docfx.json
+            CD _site
+            git add -A
+            git diff-index --quiet HEAD || git commit -m "CI Updates" -q && git push origin gh-pages -q
+        }
