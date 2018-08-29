@@ -47,7 +47,7 @@ namespace PTIRelianceLib
         /// </item>
         /// </list>
         /// </summary>
-        /// <param name="config">Confguration to apply</param>
+        /// <param name="config">Configuration to apply</param>
         /// <returns>
         ///<list type="bullet">
         ///<item>

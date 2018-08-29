@@ -10,6 +10,12 @@
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
 namespace PTIRelianceLib.Transport
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.InteropServices.ComTypes;
+    using Protocol;
+
+    /// <inheritdoc />
     /// <summary>
     /// Wrapper for integer response codes
     /// </summary>
@@ -34,8 +40,10 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedBoolParser : BaseModelParser<PacketedBool>
     {
+        /// <inheritdoc />
         public override PacketedBool Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
@@ -47,6 +55,7 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Wrapper for byte response codes
     /// </summary>
@@ -66,8 +75,10 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedByteParser : BaseModelParser<PacketedByte>
     {
+        /// <inheritdoc />
         public override PacketedByte Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
@@ -79,6 +90,7 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Wrapper for short response codes
     /// </summary>
@@ -98,8 +110,10 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedShortParser : BaseModelParser<PacketedShort>
     {
+        /// <inheritdoc />
         public override PacketedShort Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
@@ -111,6 +125,7 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Wrapper for integer response codes
     /// </summary>
@@ -130,8 +145,10 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedIntegerParser : BaseModelParser<PacketedInteger>
     {
+        /// <inheritdoc />
         public override PacketedInteger Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
@@ -143,6 +160,7 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedString : IParseable
     {
         public string Value { get; set; } = string.Empty;
@@ -159,6 +177,7 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedStringParser : BaseModelParser<PacketedString>
     {
         /// <inheritdoc />

@@ -106,10 +106,10 @@ namespace PTIRelianceLib
 
             AcquireHidPort();
         }
-        
+
         /// <inheritdoc />
         public string DevicePath => _mPort.IsOpen ? _mPort.PortPath : string.Empty;
-        
+
         /// <inheritdoc />
         public bool IsDeviceReady => _mPort?.IsOpen ?? false;
 
