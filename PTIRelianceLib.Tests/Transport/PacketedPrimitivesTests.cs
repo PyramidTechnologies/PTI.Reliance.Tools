@@ -3,6 +3,9 @@ using Xunit;
 
 namespace PTIRelianceLib.Tests.Transport
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
     public class PacketedPrimitivesTests
     {
@@ -135,6 +138,46 @@ namespace PTIRelianceLib.Tests.Transport
             parsed = PacketParserFactory.Instance.Create<PacketedString>().Parse(new ReliancePacket((byte)'h', (byte)'e', (byte)'l', (byte)'l', (byte)'o', 0));
             Assert.NotNull(parsed);
             Assert.Equal("hello", parsed.Value);
+        }
+
+        [Fact]
+        public void TestParseableShorts()
+        {
+            var packed = new ParseableShortList
+            {
+                Values = new List<ushort> {0x123, 0x456, 0x789}
+            };
+            Assert.Equal(3, packed.Values.Count());
+
+            var serialized = packed.Serialize();
+            var expected = new byte[] {3, 0x23, 0x01, 0x56, 0x04, 0x89, 0x07};
+            Assert.Equal(expected, serialized);
+            
+            var packet = new ReliancePacket(expected);
+            packet.Package();
+
+            var parser= new ParseableShortListParser();
+            var unpacked = parser.Parse(packet);
+            Assert.Equal(3, unpacked.Values.Count());
+            Assert.Equal(packed.Values, unpacked.Values);
+        }
+
+        [Fact]
+        public void ParseableReturnCodeTest()
+        {
+            var ack = new ReliancePacket(0xAA);
+            ack.Package();
+
+            var parser = PacketParserFactory.Instance.Create<ParseableReturnCode>();
+            var parsed = parser.Parse(ack);
+            Assert.Equal(ReturnCodes.Okay, parsed.Value);
+
+            var empty = new ReliancePacket();
+            Assert.Equal(ReturnCodes.ExecutionFailure, PacketParserFactory.Instance.Create<ParseableReturnCode>().Parse(empty).Value);
+
+            Assert.Equal(new []{(byte)ReturnCodes.Okay}, parsed.Serialize());
+
+            Assert.Equal(ReturnCodes.ExecutionFailure, parser.Parse(null).Value);
         }
     }
 }

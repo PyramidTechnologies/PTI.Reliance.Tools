@@ -35,6 +35,8 @@ namespace PTIRelianceLib.Transport
             Instance.Register<Status, StatusParser>();
             Instance.Register<PowerupTelemetry, PowerupTelemetryParser>();
             Instance.Register<LifetimeTelemetry, LifetimeTelemetryParser>();
+            Instance.Register<ParseableShortList, ParseableShortListParser>();
+            Instance.Register<ParseableReturnCode, ParseableReturnCodeParser>();
         }
 
         private PacketParserFactory() { }

@@ -126,7 +126,7 @@ namespace PTIRelianceLib.Tests
         }
 
         [Fact]
-        public void TestGetInstaledCodepages()
+        public void TestGetInstalledCodepages()
         {
             lock (MTestLock)
             {
@@ -158,13 +158,22 @@ namespace PTIRelianceLib.Tests
                 var count = 0;
                 _mNativeMock.GetNextResponse = (d) =>
                 {
-                    if (count++ != 0)
+                    switch (count++)
                     {
-                        return GenerateHidData(0xAA);
-                    }
+                        case 0:
+                            // Initial revision level query
+                            var rev = new Revlev(1, 27, 127);
+                            return GenerateHidData(rev.Serialize());
 
-                    var rev = new Revlev(1, 27, 127);
-                    return GenerateHidData(rev.Serialize());
+                        case 7506:
+                        case 7507:
+                            // Checksum requests
+                            return GenerateHidData(0, 0, 0, 0);
+
+                        default:
+                            // flash data
+                            return GenerateHidData(0xAA);
+                    }
                 };
                 using (var printer = new ReliancePrinter(_mConfig))
                 {
@@ -191,13 +200,24 @@ namespace PTIRelianceLib.Tests
                 var count = 0;
                 _mNativeMock.GetNextResponse = (d) =>
                 {
-                    if (count++ != 0)
+                    switch (count++)
                     {
-                        return GenerateHidData(0xAA);
+                        case 0:
+                            // Initial revision level query
+                            var rev = new Revlev(1, 27, 127);
+                            return GenerateHidData(rev.Serialize());
+
+                        case 7506:
+                        case 7507:
+                            // Checksum requests
+                            return GenerateHidData(0, 0, 0, 0);
+
+                        default:      
+                            // flash data
+                            return GenerateHidData(0xAA);
                     }
 
-                    var rev = new Revlev(1, 27, 127);
-                    return GenerateHidData(rev.Serialize());
+                    
                 };
                 using (var printer = new ReliancePrinter(_mConfig))
                 {
@@ -276,57 +296,7 @@ namespace PTIRelianceLib.Tests
                     Assert.Equal(ReturnCodes.Okay, resp);
                 }
             }
-        }
-
-        [Fact]
-        public void TestWriteRawCmd()
-        {
-            lock (MTestLock)
-            {
-                _mNativeMock.GetNextResponse = (d) => GenerateHidData(0xAA);
-
-                using (var printer = new ProtectedReliancePrinter(_mConfig))
-                {
-                    var resp = printer._WriteRaw(1);
-                    Assert.NotNull(resp);
-                    Assert.True(resp.Length == 1);
-                }
-            }
-        }
-
-        [Fact]
-        public void TestWriteRawCmdArgs()
-        {
-            lock (MTestLock)
-            {
-                _mNativeMock.GetNextResponse = (d) => GenerateHidData(6,7,8,9);
-
-                using (var printer = new ProtectedReliancePrinter(_mConfig))
-                {
-                    var resp = printer._WriteRaw(1, 2, 3, 4, 5);
-                    Assert.NotNull(resp);
-                    Assert.True(resp.Length == 4);
-                }
-            }
-        }
-
-        [Fact]
-        public void TestWriteRawCmdTooManyArgs()
-        {
-            lock (MTestLock)
-            {
-                _mNativeMock.GetNextResponse = (d) => GenerateHidData(0xAA);
-
-                using (var printer = new ProtectedReliancePrinter(_mConfig))
-                {
-                    var args = new byte[33];
-                    var resp = printer._WriteRaw(1, args);
-                    Assert.NotNull(resp);
-                    Assert.True(resp.Length == 0);
-                }
-            }
-        }
-      
+        }    
 
         [Fact]
         public void TestConnectSpecificPathExists()
@@ -390,17 +360,6 @@ namespace PTIRelianceLib.Tests
     {
         public ProtectedReliancePrinter(HidDeviceConfig config) : base(config)
         {
-        }
-
-        /// <summary>
-        /// Forward args to internal WriteRaw function
-        /// </summary>
-        /// <param name="cmd">Byte command</param>
-        /// <param name="args">Optional args</param>
-        /// <returns>buffer response</returns>
-        public byte[] _WriteRaw(byte cmd, params byte[] args)
-        {
-            return WriteRaw(cmd, args);
         }
     }
 }

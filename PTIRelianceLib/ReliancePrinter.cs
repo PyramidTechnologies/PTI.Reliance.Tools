@@ -262,10 +262,11 @@ namespace PTIRelianceLib
             Log.Debug("Requesting revision level");
 
             // 0x10: specifies we want firmware revision for running application
-            var cmd = _mPort.Package((byte) RelianceCommands.GetRevlev, 0x10);
-
-            var resp = Write(cmd);
-            var rev = PacketParserFactory.Instance.Create<Revlev>().Parse(resp);
+            var rev = InternalSend<Revlev>(RelianceCommands.GetRevlev, 0x10);
+            if (rev is null)
+            {
+                return new Revlev();
+            }
 
             Log.Debug("Found firmware revision {0}", rev);
             return rev;
@@ -280,14 +281,7 @@ namespace PTIRelianceLib
         /// <returns>Status object or <c>null</c> if no connection or error</returns>
         public Status GetStatus()
         {
-            if (!_mPort.IsOpen)
-            {
-                return null;
-            }
-
-            var cmd = new ReliancePacket(RelianceCommands.GetPrinterStatus);
-            var resp = Write(cmd);
-            return PacketParserFactory.Instance.Create<Status>().Parse(resp);
+            return !_mPort.IsOpen ? null : InternalSend<Status>(RelianceCommands.GetPrinterStatus);
         }
 
         /// <inheritdoc />
@@ -298,9 +292,7 @@ namespace PTIRelianceLib
                 return string.Empty;
             }
 
-            var cmd = new ReliancePacket(RelianceCommands.GetSerialNumber);
-            var resp = Write(cmd);
-            return PacketParserFactory.Instance.Create<PacketedString>().Parse(resp).Value;
+            return InternalSend<PacketedString>(RelianceCommands.GetSerialNumber)?.Value ?? string.Empty;
         }
 
         /// <inheritdoc />
@@ -319,10 +311,7 @@ namespace PTIRelianceLib
             }
 
             Log.Debug("Sending Ping");
-
-            var cmd = new ReliancePacket(RelianceCommands.Ping);
-            var resp = Write(cmd);
-            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            return InternalSend<ParseableReturnCode>(RelianceCommands.Ping).Value;
         }
 
         /// <inheritdoc />
@@ -346,8 +335,7 @@ namespace PTIRelianceLib
             try
             {
                 Log.Debug("Rebooting printer");
-                var cmd = new ReliancePacket(RelianceCommands.Reboot);
-                Write(cmd);
+                Write(RelianceCommands.Reboot);
 
                 var retry = 0;
                 while (++retry < 10)
@@ -402,31 +390,8 @@ namespace PTIRelianceLib
             }
 
             // 2 : get codepage list
-            var raw = Write(RelianceCommands.FontSub, 2);
-            var result = new List<ushort>();
-
-            if (raw.GetPacketType() != PacketTypes.PositiveAck)
-            {
-                return result;
-            }
-
-            if (raw.Count < 3)
-            {
-                return result;
-            }
-
-            var count = raw[0];
-            if (raw.Count < (count + 1))
-            {
-                return result;
-            }
-
-            for (var i = 1; i < (count * 2); i += 2)
-            {
-                result.Add((ushort) (raw[i + 1] << 8 | raw[i]));
-            }
-
-            return result;
+            var result = InternalSend<ParseableShortList>(RelianceCommands.FontSub, 2);
+            return result?.Values ?? Enumerable.Empty<ushort>();
         }
 
         /// <summary>
@@ -479,14 +444,18 @@ namespace PTIRelianceLib
             foreach (var header in logoBank.MakeHeaders(ditheredLogos))
             {
                 // sub command 2: Set Logo header
-                var cmd = _mPort.Package((byte) RelianceCommands.LogoSub, 0x02);
-                cmd.Add(header.Serialize());
+                var payload = new List<byte>
+                {
+                    0x02,
+                };
+                payload.AddRange(header.Serialize());
 
                 // Send the data and parse response
-                var resp = Write(cmd);
-                if (resp.GetPacketType() != PacketTypes.PositiveAck)
+                var resp = InternalSend<ParseableReturnCode>(RelianceCommands.LogoSub, payload.ToArray());
+
+                if (resp.Value != ReturnCodes.Okay)
                 {
-                    Log.ErrorFormat("Failed to write logo header: {0}", resp.GetPacketType());
+                    Log.ErrorFormat("Failed to write logo header: {0}", resp.Value.GetEnumName());
                     return ReturnCodes.ExecutionFailure;
                 }
 
@@ -572,51 +541,9 @@ namespace PTIRelianceLib
         /// <returns>Success code</returns>
         public ReturnCodes ResetTelemetry()
         {
-            var resp = Write(RelianceCommands.TelemtrySub, 0x03);
-            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            return InternalSend<ParseableReturnCode>(RelianceCommands.TelemtrySub, 0x03).Value;
         }
 
-        /// <summary>
-        /// Write raw data to device and return response. Only valid responses will be returned.
-        /// If the response is malformed or otherwise not intact, the data will be discarded and 
-        /// the result will be an empty array.
-        ///
-        /// This data will be passed to the configuration interface of the target device. It will
-        /// not be passed to the print buffer in anyway. If you are looking to print data, this
-        /// cannot be done using this API.
-        /// </summary>
-        /// <param name="cmd">Command byte and parameters to send to target</param>
-        /// <param name="args">Optional arguments to command, up to 32 bytes</param>
-        /// <returns>Response data or empty buffer is reponse is malformed. If more than 32 bytes are passed
-        /// as an argument, the command will be aborted and an empty buffer will be returned.</returns>
-        protected byte[] WriteRaw(byte cmd, params byte[] args)
-        {
-            var payload = _mPort.Package(cmd);
-            if (args.Length >= 32)
-            {
-                return new byte[0];
-            }
-
-            foreach (var arg in args)
-            {
-                payload.Add(arg);
-            }
-
-            var resp = Write(payload);
-            switch (resp.GetPacketType())
-            {
-                case PacketTypes.Normal:
-                    return resp.GetBytes();
-                case PacketTypes.PositiveAck:
-                    return new byte[] {0xAA};
-                case PacketTypes.NegativeAck:
-                    return new byte[] {0xAC};
-                default:
-                    return new byte[0];
-            }
-        }
-
-  
         /// <summary>
         /// Reads the specified telemetry data block
         /// </summary>
@@ -634,15 +561,16 @@ namespace PTIRelianceLib
             }
 
             // Build permission request. 0: request data
-            var request = _mPort.Package((byte) RelianceCommands.TelemtrySub, 0, (byte) type);
+            var payload = new List<byte> {0, (byte) type};
 
             // Read entire data chunk from start of data (0->readLength)
-            request.Add(((ushort) 0).ToBytesBE());
-            request.Add(((ushort) readLength).ToBytesBE());
+            payload.AddRange(((ushort) 0).ToBytesBE());
+            payload.AddRange(((ushort) readLength).ToBytesBE());
 
             // Request permission
-            var resp = Write(request);
-            if (resp.GetPacketType() != PacketTypes.PositiveAck)
+            var result = InternalSend<ParseableReturnCode>(RelianceCommands.TelemtrySub, payload.ToArray());
+
+            if (result.Value != ReturnCodes.Okay)
             {
                 // Permission denied
                 return null;
@@ -651,9 +579,11 @@ namespace PTIRelianceLib
             // 1: repeatedly read data request
             var preamble = new byte[] {(byte) RelianceCommands.TelemtrySub, 1};
 
-            // Execute a structured read
+            // Execute a structured read which consists of multiple read and write requested
             var reader = new StructuredReader(_mPort);
-            resp = reader.Read(readLength, preamble);
+            var resp = reader.Read(readLength, preamble);
+
+            // Pass entire result to parser for inflation
             return PacketParserFactory.Instance.Create<LifetimeTelemetry>().Parse(resp);
         }
 
@@ -665,21 +595,8 @@ namespace PTIRelianceLib
         internal int ReadTelemetrySize(TelemetryTypes type)
         {
             // 4: read data size request
-            var getSize = _mPort.Package((byte) RelianceCommands.TelemtrySub, 4, (byte) type);
-            var resp = Write(getSize);
-            if (resp.GetPacketType() != PacketTypes.PositiveAck)
-            {
-                return -1;
-            }
-
-            var readLength = PacketParserFactory.Instance.Create<PacketedShort>().Parse(resp).Value;
-            if (readLength <= 0)
-            {
-                // Invalid data read length
-                return -1;
-            }
-
-            return readLength;
+            var result = InternalSend<PacketedShort>(RelianceCommands.TelemtrySub, 4, (byte) type);
+            return result?.Value ?? -1;
         }
 
         /// <summary>
@@ -694,9 +611,8 @@ namespace PTIRelianceLib
             }
 
             Log.Debug("Requesting app id");
-            var cmd = new ReliancePacket((byte) RelianceCommands.GetBootId, 0x10);
-            var resp = Write(cmd);
-            return PacketParserFactory.Instance.Create<PacketedString>().Parse(resp).Value;
+            var result = InternalSend<PacketedString>(RelianceCommands.GetBootId, 0x10);
+            return result?.Value ?? string.Empty;
         }
 
         /// <summary>
@@ -711,9 +627,9 @@ namespace PTIRelianceLib
             }
 
             Log.Debug("Entering bootloader");
-            var resp = Write(RelianceCommands.SetBootMode, 0x21);
+            var resp = InternalSend<ParseableReturnCode>(RelianceCommands.SetBootMode, 0x21);
 
-            return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.FailedBootloaderEntry : Reboot();
+            return resp.Value == ReturnCodes.Okay ? Reboot() : ReturnCodes.FailedBootloaderEntry;
         }
 
 
@@ -726,12 +642,15 @@ namespace PTIRelianceLib
         internal ReturnCodes CheckChecksum()
         {
             // Get expected checksum
-            var resp = Write(RelianceCommands.GetExpectedCsum, 0x11);
-            var expectedChecksum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(resp);
+            var expectedChecksum = InternalSend<PacketedInteger>(RelianceCommands.GetExpectedCsum, 0x11);
 
             // Check actual checksum
-            resp = Write(RelianceCommands.GetActualCsum, 0x11);
-            var actualChecksum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(resp);
+            var actualChecksum = InternalSend<PacketedInteger>(RelianceCommands.GetActualCsum, 0x11);
+
+            if (expectedChecksum is null || actualChecksum is null)
+            {
+                return ReturnCodes.ExecutionFailure;
+            }
 
             return Equals(expectedChecksum, actualChecksum) ? ReturnCodes.Okay : ReturnCodes.FlashChecksumMismatch;
         }
@@ -771,6 +690,28 @@ namespace PTIRelianceLib
         public void Dispose()
         {
             _mPort?.Close();
+        }
+
+        /// <summary>
+        /// Port write/reader call. Send cmd + optional args
+        /// to device and returns results.
+        /// </summary>
+        /// <param name="cmd">Command code</param>
+        /// <param name="args">Optional args</param>
+        /// <typeparam name="T">Type of object expected as result</typeparam>
+        /// <returns>Response object or null on error</returns>
+        private T InternalSend<T>(RelianceCommands cmd, params byte[] args) where T : IParseable
+        {
+            try
+            {
+                var resp = Write(cmd, args);
+                return PacketParserFactory.Instance.Create<T>().Parse(resp);
+            }
+            catch (Exception ex)
+            {
+                Log.ErrorException("Failed to send command: {0}", ex, cmd.GetEnumName());
+                return default(T);
+            }
         }
     }
 }
