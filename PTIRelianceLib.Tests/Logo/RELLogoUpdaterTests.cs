@@ -8,7 +8,7 @@ namespace PTIRelianceLib.Tests.Logo
     using PTIRelianceLib.Logo;
     using PTIRelianceLib.Transport;
 
-    public class RELLogoUpdaterTests
+    public class RELLogoUpdaterTests : BaseTest
     {
         private static readonly object MTestLock = new object();
 
@@ -44,7 +44,8 @@ namespace PTIRelianceLib.Tests.Logo
             {
                 _mNativeMock.GetNextResponse = (d) => GenerateHidData(0xAA);
                 var port = new HidPort<ReliancePacket>(_mConfig);
-                var logo = Properties.Resources.white_bitmap;
+
+                var logo = GetResource("white_bitmap.bmp");
                 var header = new RELLogoHeader
                 {
                     LogoData = logo,
@@ -87,7 +88,7 @@ namespace PTIRelianceLib.Tests.Logo
             lock (MTestLock)
             {
                 IPort<IPacket> port = null;
-                var logo = Properties.Resources.gray_burkes;
+                var logo = GetResource("gray_burkes.bmp");
                 var header = new RELLogoHeader
                 {
                     LogoData = logo,

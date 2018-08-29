@@ -65,13 +65,31 @@ namespace PTIRelianceLib
         /// </summary>
         private readonly HidDeviceConfig _mPortConfig;
 
+        /// <inheritdoc />
         /// <summary>
         /// Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
-        /// or one of its depencies cannot be found or loaded, <exception cref="PTIException"></exception>
-        /// will be thrown.
+        /// or one of its dependencies cannot be found or loaded, <exception cref="T:PTIRelianceLib.PTIException"></exception>
+        /// will be thrown. This constructor returns the first available Reliance printer without
+        /// filtering for device path.
         /// </summary>
+        /// <exception cref="T:PTIRelianceLib.PTIException">Thrown if native HID library cannot be loaded</exception> 
+        public ReliancePrinter() : this(string.Empty)
+        {
+        }
+
+
+        /// <summary>
+        /// Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
+        /// or one of its dependencies cannot be found or loaded, <exception cref="PTIException"></exception>
+        /// will be thrown. This constructor supports filtering for devices by hardware path. The device path
+        /// can be obtained from your operating system or by checking <see cref="DevicePath"/>
+        /// after a successful connection.
+        /// </summary>
+        /// <param name="devicePath">OS-dependent device path to attach to. This is optional
+        /// and may be left null or empty to accept any Reliance connection, see
+        /// <see cref="DevicePath"/></param>
         /// <exception cref="PTIException">Thrown if native HID library cannot be loaded</exception> 
-        public ReliancePrinter()
+        public ReliancePrinter(string devicePath)
         {
             // Reliance will "always" use report lengths of 34 bytes
             _mPortConfig = new HidDeviceConfig
@@ -82,11 +100,18 @@ namespace PTIRelianceLib
                 OutReportLength = 35,
                 InReportId = 2,
                 OutReportId = 1,
-                NativeHid = new NativeMethods()
+                NativeHid = new NativeMethods(),
+                DevicePath = devicePath
             };
 
             AcquireHidPort();
         }
+
+        /// <inheritdoc />
+        public string DevicePath => _mPort.IsOpen ? _mPort.PortPath : string.Empty;
+
+        /// <inheritdoc />
+        public bool IsDeviceReady => _mPort?.IsOpen ?? false;
 
         /// <summary>
         /// Internal constructor using specified HID configurations from
@@ -182,8 +207,8 @@ namespace PTIRelianceLib
                 return ReturnCodes.DeviceNotConnected;
             }
 
-            var revlev = GetFirmwareRevision();
-            if (revlev < new Revlev(1, 22, 0))
+            var firmwareRevision = GetFirmwareRevision();
+            if (firmwareRevision < new Revlev(1, 22, 0))
             {
                 // We support all bootloader versions
                 var appid = GetAppId();
@@ -214,7 +239,7 @@ namespace PTIRelianceLib
             {
                 var resp = updater.ExecuteUpdate();
 
-                // Make sure port is in a usuable state
+                // Make sure port is in a usable state
                 AcquireHidPort();
 
                 return resp;
@@ -236,11 +261,12 @@ namespace PTIRelianceLib
 
             Log.Debug("Requesting revision level");
 
-            // 0x10: specifies we want revlev for running application
-            var cmd = _mPort.Package((byte)RelianceCommands.GetRevlev, 0x10);
-
-            var resp = Write(cmd);
-            var rev = PacketParserFactory.Instance.Create<Revlev>().Parse(resp);
+            // 0x10: specifies we want firmware revision for running application
+            var rev = InternalSend<Revlev>(RelianceCommands.GetRevlev, 0x10);
+            if (rev is null)
+            {
+                return new Revlev();
+            }
 
             Log.Debug("Found firmware revision {0}", rev);
             return rev;
@@ -255,14 +281,7 @@ namespace PTIRelianceLib
         /// <returns>Status object or <c>null</c> if no connection or error</returns>
         public Status GetStatus()
         {
-            if (!_mPort.IsOpen)
-            {
-                return null;
-            }
-
-            var cmd = new ReliancePacket(RelianceCommands.GetPrinterStatus);
-            var resp = Write(cmd);
-            return PacketParserFactory.Instance.Create<Status>().Parse(resp);
+            return !_mPort.IsOpen ? null : InternalSend<Status>(RelianceCommands.GetPrinterStatus);
         }
 
         /// <inheritdoc />
@@ -273,9 +292,7 @@ namespace PTIRelianceLib
                 return string.Empty;
             }
 
-            var cmd = new ReliancePacket(RelianceCommands.GetSerialNumber);
-            var resp = Write(cmd);
-            return PacketParserFactory.Instance.Create<PacketedString>().Parse(resp).Value;
+            return InternalSend<PacketedString>(RelianceCommands.GetSerialNumber)?.Value ?? string.Empty;
         }
 
         /// <inheritdoc />
@@ -294,10 +311,7 @@ namespace PTIRelianceLib
             }
 
             Log.Debug("Sending Ping");
-
-            var cmd = new ReliancePacket(RelianceCommands.Ping);
-            var resp = Write(cmd);
-            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            return InternalSend<ParseableReturnCode>(RelianceCommands.Ping).Value;
         }
 
         /// <inheritdoc />
@@ -321,8 +335,7 @@ namespace PTIRelianceLib
             try
             {
                 Log.Debug("Rebooting printer");
-                var cmd = new ReliancePacket(RelianceCommands.Reboot);
-                Write(cmd);
+                Write(RelianceCommands.Reboot);
 
                 var retry = 0;
                 while (++retry < 10)
@@ -340,7 +353,7 @@ namespace PTIRelianceLib
                         break;
                     }
 
-                    Log.Trace("Reboot reconnet attempt: {0}", retry);
+                    Log.Trace("Reboot reconnect attempt: {0}", retry);
                 }
 
                 if (!_mPort?.IsOpen != true)
@@ -377,31 +390,8 @@ namespace PTIRelianceLib
             }
 
             // 2 : get codepage list
-            var raw = Write(RelianceCommands.FontSub, 2);
-            var result = new List<ushort>();
-
-            if (raw.GetPacketType() != PacketTypes.PositiveAck)
-            {
-                return result;
-            }
-
-            if (raw.Count < 3)
-            {
-                return result;
-            }
-
-            var count = raw[0];
-            if (raw.Count < (count + 1))
-            {
-                return result;
-            }
-
-            for (var i = 1; i < (count * 2); i += 2)
-            {
-                result.Add((ushort) (raw[i + 1] << 8 | raw[i]));
-            }
-
-            return result;
+            var result = InternalSend<ParseableShortList>(RelianceCommands.FontSub, 2);
+            return result?.Values ?? Enumerable.Empty<ushort>();
         }
 
         /// <summary>
@@ -424,7 +414,7 @@ namespace PTIRelianceLib
         /// Uses <seealso cref="LogoStorageConfig.Default"/> if storageConfig is set to null.
         /// You probably want to configure this yourself.</param>
         /// <returns>Return Code</returns>
-        /// <exception cref="ArgumentNullException">Thrown if logodata is null</exception>
+        /// <exception cref="ArgumentNullException">Thrown if logo data is null</exception>
         public ReturnCodes StoreLogos(IList<BinaryFile> logoData, IProgressMonitor monitor,
             LogoStorageConfig storageConfig)
         {
@@ -454,14 +444,18 @@ namespace PTIRelianceLib
             foreach (var header in logoBank.MakeHeaders(ditheredLogos))
             {
                 // sub command 2: Set Logo header
-                var cmd = _mPort.Package((byte) RelianceCommands.LogoSub, 0x02);
-                cmd.Add(header.Serialize());
+                var payload = new List<byte>
+                {
+                    0x02,
+                };
+                payload.AddRange(header.Serialize());
 
                 // Send the data and parse response
-                var resp = Write(cmd);
-                if (resp.GetPacketType() != PacketTypes.PositiveAck)
+                var resp = InternalSend<ParseableReturnCode>(RelianceCommands.LogoSub, payload.ToArray());
+
+                if (resp.Value != ReturnCodes.Okay)
                 {
-                    Log.ErrorFormat("Failed to write logo header: {0}", resp.GetPacketType());
+                    Log.ErrorFormat("Failed to write logo header: {0}", resp.Value.GetEnumName());
                     return ReturnCodes.ExecutionFailure;
                 }
 
@@ -494,7 +488,7 @@ namespace PTIRelianceLib
         /// <summary>
         /// Prints logo from internal bank specified by index. If the specified
         /// logo index does not exist, the first logo in the bank will instead be printed.
-        /// Negative indicies and indicies larger than 255 will generate a
+        /// Negative indices and indices larger than 255 will generate a
         /// <see cref="ReturnCodes.InvalidRequestPayload"/> return code.
         /// </summary>
         /// <param name="index">Logo index, zero based</param>
@@ -515,7 +509,7 @@ namespace PTIRelianceLib
         /// Returns the telemetry data over the lifetime of this printer
         /// </summary>
         /// <remarks>Requires firmware 1.28+. Older firmware will result in null result.</remarks>
-        /// <returns>LifetimeTelemtry data since printer left factory</returns>
+        /// <returns>LifetimeTelemetry data since printer left factory</returns>
         public LifetimeTelemetry GetLifetimeTelemetry()
         {
             if (GetFirmwareRevision() < new Revlev("1.28"))
@@ -547,12 +541,11 @@ namespace PTIRelianceLib
         /// <returns>Success code</returns>
         public ReturnCodes ResetTelemetry()
         {
-            var resp = Write(RelianceCommands.TelemtrySub, 0x03);
-            return resp.GetPacketType() == PacketTypes.PositiveAck ? ReturnCodes.Okay : ReturnCodes.ExecutionFailure;
+            return InternalSend<ParseableReturnCode>(RelianceCommands.TelemtrySub, 0x03).Value;
         }
 
         /// <summary>
-        /// Reads the specified telemtry data block
+        /// Reads the specified telemetry data block
         /// </summary>
         /// <param name="type">Type of telemetry to request</param>
         /// <returns></returns>
@@ -560,23 +553,24 @@ namespace PTIRelianceLib
         {
             Log.Debug("Requesting telemetry info");
 
-            var readlen = ReadTelemetrySize(type);
-            if (readlen <= 0)
+            var readLength = ReadTelemetrySize(type);
+            if (readLength <= 0)
             {
                 // Bad read size
                 return null;
             }
 
             // Build permission request. 0: request data
-            var request = _mPort.Package((byte) RelianceCommands.TelemtrySub, 0, (byte) type);
+            var payload = new List<byte> {0, (byte) type};
 
-            // Read entire data chunk from start of data (0->readlen)
-            request.Add(((ushort) 0).ToBytesBE());
-            request.Add(((ushort) readlen).ToBytesBE());
+            // Read entire data chunk from start of data (0->readLength)
+            payload.AddRange(((ushort) 0).ToBytesBE());
+            payload.AddRange(((ushort) readLength).ToBytesBE());
 
             // Request permission
-            var resp = Write(request);
-            if (resp.GetPacketType() != PacketTypes.PositiveAck)
+            var result = InternalSend<ParseableReturnCode>(RelianceCommands.TelemtrySub, payload.ToArray());
+
+            if (result.Value != ReturnCodes.Okay)
             {
                 // Permission denied
                 return null;
@@ -585,9 +579,11 @@ namespace PTIRelianceLib
             // 1: repeatedly read data request
             var preamble = new byte[] {(byte) RelianceCommands.TelemtrySub, 1};
 
-            // Execute a structured read
+            // Execute a structured read which consists of multiple read and write requested
             var reader = new StructuredReader(_mPort);
-            resp = reader.Read(readlen, preamble);
+            var resp = reader.Read(readLength, preamble);
+
+            // Pass entire result to parser for inflation
             return PacketParserFactory.Instance.Create<LifetimeTelemetry>().Parse(resp);
         }
 
@@ -599,21 +595,8 @@ namespace PTIRelianceLib
         internal int ReadTelemetrySize(TelemetryTypes type)
         {
             // 4: read data size request
-            var getSize = _mPort.Package((byte) RelianceCommands.TelemtrySub, 4, (byte) type);
-            var resp = Write(getSize);
-            if (resp.GetPacketType() != PacketTypes.PositiveAck)
-            {
-                return -1;
-            }
-
-            var readlen = PacketParserFactory.Instance.Create<PacketedShort>().Parse(resp).Value;
-            if (readlen <= 0)
-            {
-                // Invalid data read length
-                return -1;
-            }
-
-            return readlen;
+            var result = InternalSend<PacketedShort>(RelianceCommands.TelemtrySub, 4, (byte) type);
+            return result?.Value ?? -1;
         }
 
         /// <summary>
@@ -628,9 +611,8 @@ namespace PTIRelianceLib
             }
 
             Log.Debug("Requesting app id");
-            var cmd = new ReliancePacket((byte) RelianceCommands.GetBootId, 0x10);
-            var resp = Write(cmd);
-            return PacketParserFactory.Instance.Create<PacketedString>().Parse(resp).Value;
+            var result = InternalSend<PacketedString>(RelianceCommands.GetBootId, 0x10);
+            return result?.Value ?? string.Empty;
         }
 
         /// <summary>
@@ -645,9 +627,9 @@ namespace PTIRelianceLib
             }
 
             Log.Debug("Entering bootloader");
-            var resp = Write(RelianceCommands.SetBootMode, 0x21);
+            var resp = InternalSend<ParseableReturnCode>(RelianceCommands.SetBootMode, 0x21);
 
-            return resp.GetPacketType() != PacketTypes.PositiveAck ? ReturnCodes.FailedBootloaderEntry : Reboot();
+            return resp.Value == ReturnCodes.Okay ? Reboot() : ReturnCodes.FailedBootloaderEntry;
         }
 
 
@@ -660,19 +642,22 @@ namespace PTIRelianceLib
         internal ReturnCodes CheckChecksum()
         {
             // Get expected checksum
-            var resp = Write(RelianceCommands.GetExpectedCsum, 0x11);
-            var expectedCsum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(resp);
+            var expectedChecksum = InternalSend<PacketedInteger>(RelianceCommands.GetExpectedCsum, 0x11);
 
             // Check actual checksum
-            resp = Write(RelianceCommands.GetActualCsum, 0x11);
-            var actualCsum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(resp);
+            var actualChecksum = InternalSend<PacketedInteger>(RelianceCommands.GetActualCsum, 0x11);
 
-            return Equals(expectedCsum, actualCsum) ? ReturnCodes.Okay : ReturnCodes.FlashChecksumMismatch;
+            if (expectedChecksum is null || actualChecksum is null)
+            {
+                return ReturnCodes.ExecutionFailure;
+            }
+
+            return Equals(expectedChecksum, actualChecksum) ? ReturnCodes.Okay : ReturnCodes.FlashChecksumMismatch;
         }
 
         /// <summary>
         /// Write wrapper handle the write-wait-read process. The data returned
-        /// from this method will be unpackaged for your.
+        /// from this method will be un-packaged for you.
         /// </summary>
         ///<param name="cmd">Command to send</param>
         /// <param name="data">Data to send</param>
@@ -705,6 +690,28 @@ namespace PTIRelianceLib
         public void Dispose()
         {
             _mPort?.Close();
+        }
+
+        /// <summary>
+        /// Port write/reader call. Send cmd + optional args
+        /// to device and returns results.
+        /// </summary>
+        /// <param name="cmd">Command code</param>
+        /// <param name="args">Optional args</param>
+        /// <typeparam name="T">Type of object expected as result</typeparam>
+        /// <returns>Response object or null on error</returns>
+        private T InternalSend<T>(RelianceCommands cmd, params byte[] args) where T : IParseable
+        {
+            try
+            {
+                var resp = Write(cmd, args);
+                return PacketParserFactory.Instance.Create<T>().Parse(resp);
+            }
+            catch (Exception ex)
+            {
+                Log.ErrorException("Failed to send command: {0}", ex, cmd.GetEnumName());
+                return default(T);
+            }
         }
     }
 }

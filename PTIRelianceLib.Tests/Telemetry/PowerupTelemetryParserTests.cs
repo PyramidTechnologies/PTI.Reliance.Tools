@@ -4,11 +4,10 @@ namespace PTIRelianceLib.Tests.Telemetry
 {
     using System;
     using System.Linq;
-    using System.Security.Cryptography;
     using PTIRelianceLib.Telemetry;
     using PTIRelianceLib.Transport;
 
-    public class PowerupTelemetryParserTests
+    public class PowerupTelemetryParserTests : BaseTest
     {
         [Fact]
         public void TestIsRegistered()
@@ -50,7 +49,8 @@ namespace PTIRelianceLib.Tests.Telemetry
         {
             // Test that a valid response payload can be parsed
             var parser = PacketParserFactory.Instance.Create<PowerupTelemetry>();
-            var data = Properties.Resources.telemetry_v3;
+
+            var data = GetResource("telemetry.v3.bin");
             var tel = parser.Parse(new ReliancePacket(data));
             Assert.NotNull(tel);
 
@@ -91,6 +91,10 @@ namespace PTIRelianceLib.Tests.Telemetry
             Assert.Equal(31, tel.TicketsEjected);
             Assert.Equal(5, tel.TicketsPulled);
             Assert.Equal(0, tel.TicketsRetracted);
+
+            Assert.Equal(82, tel.LastTicketState.LengthMm);
+            Assert.Equal(0, tel.LastTicketState.Reserved);
+            Assert.Equal(EjectionStatus.Ejected, tel.LastTicketState.Status);
         }
     }
 }

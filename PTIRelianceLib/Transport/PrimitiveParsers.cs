@@ -10,6 +10,12 @@
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
 namespace PTIRelianceLib.Transport
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.InteropServices.ComTypes;
+    using Protocol;
+
+    /// <inheritdoc />
     /// <summary>
     /// Wrapper for integer response codes
     /// </summary>
@@ -34,8 +40,10 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedBoolParser : BaseModelParser<PacketedBool>
     {
+        /// <inheritdoc />
         public override PacketedBool Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
@@ -47,6 +55,7 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Wrapper for byte response codes
     /// </summary>
@@ -66,8 +75,10 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedByteParser : BaseModelParser<PacketedByte>
     {
+        /// <inheritdoc />
         public override PacketedByte Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
@@ -79,6 +90,7 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Wrapper for short response codes
     /// </summary>
@@ -98,8 +110,10 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedShortParser : BaseModelParser<PacketedShort>
     {
+        /// <inheritdoc />
         public override PacketedShort Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
@@ -111,6 +125,7 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Wrapper for integer response codes
     /// </summary>
@@ -130,8 +145,10 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedIntegerParser : BaseModelParser<PacketedInteger>
     {
+        /// <inheritdoc />
         public override PacketedInteger Parse(IPacket packet)
         {
             packet = CheckPacket(packet);
@@ -143,6 +160,7 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedString : IParseable
     {
         public string Value { get; set; } = string.Empty;
@@ -159,6 +177,7 @@ namespace PTIRelianceLib.Transport
         }
     }
 
+    /// <inheritdoc />
     internal class PacketedStringParser : BaseModelParser<PacketedString>
     {
         /// <inheritdoc />
@@ -175,6 +194,95 @@ namespace PTIRelianceLib.Transport
                 return new PacketedString {Value = string.Empty };
             }
             return new PacketedString { Value = packet.GetBytes().GetPrintableString() };
+        }
+    }
+
+    /// <inheritdoc cref="IParseable" />
+    internal struct ParseableReturnCode : IParseable
+    {
+        /// <summary>
+        /// Gets or Sets wrapped value
+        /// </summary>
+        public ReturnCodes Value { get; set; }
+
+        /// <inheritdoc />
+        public byte[] Serialize()
+        {
+            return new[] { (byte)Value };
+        }
+    }
+
+    /// <inheritdoc />
+    internal class ParseableReturnCodeParser : BaseModelParser<ParseableReturnCode>
+    {
+        /// <inheritdoc />
+        public override ParseableReturnCode Parse(IPacket packet)
+        {
+            packet = CheckPacket(packet);
+            if (packet is null)
+            {
+                return new ParseableReturnCode { Value = ReturnCodes.ExecutionFailure };
+            }
+
+            return new ParseableReturnCode
+            {
+                Value = packet.GetPacketType() == PacketTypes.PositiveAck ?
+                    ReturnCodes.Okay : ReturnCodes.ExecutionFailure
+            };
+        }
+    }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Contains a list of ushort values
+    /// </summary>
+    internal class ParseableShortList : IParseable
+    {
+        /// <summary>
+        /// Gets or Sets values list
+        /// </summary>
+        public IEnumerable<ushort> Values { get; set; } = Enumerable.Empty<ushort>();
+
+        /// <inheritdoc />
+        public byte[] Serialize()
+        {
+            var list = new List<byte>
+            {
+                (byte)Values.Count()
+            };
+
+            foreach (var sh in Values)
+            {
+                list.AddRange(sh.ToBytesBE());
+            }
+
+            return list.ToArray();
+        }
+    }
+
+    /// <inheritdoc />
+    internal class ParseableShortListParser : BaseModelParser<ParseableShortList>
+    {
+        /// <inheritdoc />
+        public override ParseableShortList Parse(IPacket packet)
+        {
+            packet = CheckPacket(packet);
+            var result = new ParseableShortList();
+
+            // If missing, empty or too small, return empty result
+            if (packet is null || packet.Count < 3)
+            {
+                return result;
+            }
+
+            // First byte is count, skip that            
+            var list = packet.GetBytes()
+                .Skip(1)
+                .ToArray()
+                .Split(2)
+                .Select(pair => (ushort) (pair[1] << 8 | pair[0])).ToList();
+            result.Values = list;
+            return result;
         }
     }
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()

@@ -26,7 +26,16 @@ namespace PTIRelianceLib
         private static readonly ILog Log = LogProvider.For<NativeMethods>();
         private static bool _hidInitialized;
         private static readonly object GlobalLock = new object();
-        private readonly object _mInstanceLock = new object();
+
+        /// <summary>
+        /// Caches open handles to avoid attempting to double-open a handle. Each instance of
+        /// NativeMethods registers a path as owned in the open operation completes successfully.
+        /// On close, the path is cleared from the respective set. On HID stack teardown, the entire
+        /// cache is cleared.
+        /// </summary>
+        private static readonly IDictionary<int, ISet<string>> InstancePaths = new Dictionary<int, ISet<string>>();
+
+        private readonly object _mInstanceLock = new object();        
 
         /// <summary>
         /// Interal device info enumeration
@@ -48,7 +57,7 @@ namespace PTIRelianceLib
             public readonly IntPtr Next;
         }
 
-        [DllImport("hidapi", EntryPoint = "hid_error")]
+        [DllImport("hidapi", EntryPoint = "hid_error", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern IntPtr _HidError(IntPtr device);
         /// <inheritdoc />
         public string Error(HidDevice device)
@@ -57,7 +66,7 @@ namespace PTIRelianceLib
             {
                 return !device.IsValid
                     ? "PTIRelianceLib: Invalid device handle"
-                    : Marshal.PtrToStringUni(_HidError(device.Handle));
+                    : Marshal.PtrToStringAuto(_HidError(device.Handle));
             }
         }
 
@@ -72,21 +81,33 @@ namespace PTIRelianceLib
         /// being opened by different threads simultaneously.
         /// </summary>
         /// <returns>This function returns 0 on success and -1 on error</returns>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_init")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_init", CallingConvention = CallingConvention.Cdecl)]
         internal static extern int _HidInit();
 
         /// <inheritdoc />
         public int Init()
         {
-            lock (GlobalLock)
+            try
             {
-                if (_hidInitialized)
+                lock (GlobalLock)
                 {
-                    return 0;
-                }
+                    if (_hidInitialized)
+                    {
+                        return 0;
+                    }
 
-                _hidInitialized = true;
-                return _HidInit();
+                    _hidInitialized = true;
+                    return _HidInit();
+                }
+            }
+            catch (DllNotFoundException)
+            {
+                throw new PTIException("Missing hidapi library. This dll requires access to a copy of hidapi for your system.\n" +
+                                       "If you installed this package from Nuget, this is a bug on our end. File an bug report on Github: " +
+                                       " https://github.com/PyramidTechnologies/PTI.Reliance.Tools/issues \n\n" +
+                                       "If you manually added this dll, please copy the appropriate hidapi library from the runtimes folder" +
+                                       "from this source's repo to a directory on your path: " +
+                                       "https://github.com/PyramidTechnologies/PTI.Reliance.Tools/tree/master/PTIRelianceLib/runtimes \n\n");
             }
         }
 
@@ -98,15 +119,54 @@ namespace PTIRelianceLib
         /// memory leaks.
         /// </summary>
         /// <returns>This function returns 0 on success and -1 on error.</returns>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_exit")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_exit", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidExit();
 
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_enumerate")]
+        /// <summary>
+        /// Clears state and shuts down HID stack
+        /// </summary>
+        /// <returns>0 on success, -1 on error</returns>
+        private static int HidExit()
+        {
+            lock (GlobalLock)
+            {
+                InstancePaths.Clear();
+                return _HidExit();
+            }
+        }
+
+        /// <summary>
+        /// Enumerate the HID Devices.
+        ///
+        /// This function returns a linked list of all the HID devices
+        /// attached to the system which match vendor_id and product_id.
+        /// If vendor_id is set to 0 then any vendor matches.
+        /// If product_id is set to 0 then any product matches.
+        /// If vendor_id and product_id are both set to 0, then
+        /// all HID devices will be returned.
+        /// 
+        /// This function returns a pointer to a linked list of type
+        /// struct #hid_device, containing information about the HID devices
+        /// attached to the system, or NULL in the case of failure. Free
+        /// this linked list by calling hid_free_enumeration().
+        /// </summary>
+        /// <param name="vid">The Vendor ID (VID) of the types of device</param>
+        /// <param name="pid">The Product ID (PID) of the types of device to open.</param>
+        /// <returns></returns>
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_enumerate", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr _HidEnumerate(ushort vid, ushort pid);
+
+        /// <inheritdoc />
         public IEnumerable<HidDeviceInfo> Enumerate(ushort vid, ushort pid)
         {
             lock (GlobalLock)
             {
+                if (Init() != 0)
+                {
+                    Log.Error("HID initialization failed");
+                    return Enumerable.Empty<HidDeviceInfo>();
+                }
+
                 var enumerated = _HidEnumerate(vid, pid);
                 if (enumerated == IntPtr.Zero)
                 {
@@ -118,7 +178,7 @@ namespace PTIRelianceLib
                     }
 
                     Log.Info("flushing HID structures...");
-                    if (_HidExit() != 0)
+                    if (HidExit() != 0)
                     {
                         Log.Error("Failed to flush HID structures");
                     }
@@ -132,6 +192,7 @@ namespace PTIRelianceLib
 
                     return Enumerable.Empty<HidDeviceInfo>();
                 }
+                Log.Trace("HID enumeration allocated for {0}-bit process", Environment.Is64BitProcess ? 64 : 32);
 
                 var result = new List<HidDeviceInfo>();
 
@@ -147,7 +208,7 @@ namespace PTIRelianceLib
                         typeof(PrivateHidDeviceInfo));
 
                     // Copy to fully managed (e.g. no pointers) data type
-                    result.Add(new HidDeviceInfo
+                    var managed = new HidDeviceInfo
                     {
                         Path = devinfo.Path,
                         VendorId = devinfo.VendorId,
@@ -159,14 +220,17 @@ namespace PTIRelianceLib
                         UsagePage = devinfo.UsagePage,
                         Usage = devinfo.Usage,
                         InterfaceNumber = devinfo.InterfaceNumber
-                    });
+                    };
+                    result.Add(managed);
+
+                    Log.Trace("Found device: {0}", managed);
 
                     current = devinfo.Next;
-
-                    Log.Trace("Found device: {0}", result.Last());
                 }
 
                 _HidFreeEnumerate(enumerated);
+                Log.Trace("HID enumeration free");
+
                 return result;
             }
         }
@@ -178,7 +242,7 @@ namespace PTIRelianceLib
         /// </summary>
         /// <param name="devices">devs Pointer to a list of HidDeviceInfo returned from
         /// HidEnumerate()</param>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_free_enumeration")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_free_enumeration", CallingConvention = CallingConvention.Cdecl)]
         private static extern void _HidFreeEnumerate(IntPtr devices);
 
         /// <summary>
@@ -189,7 +253,7 @@ namespace PTIRelianceLib
         /// <param name="devicePath">The path name of the device to open</param>
         /// <returns>returns a pointer to a #hid_device object on
         /// success or NULL on failure.</returns>
-        [DllImport("hidapi", CharSet = CharSet.Ansi, EntryPoint = "hid_open_path")]
+        [DllImport("hidapi", CharSet = CharSet.Ansi, EntryPoint = "hid_open_path", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr _HidOpenPath(string devicePath);
 
         /// <inheritdoc />
@@ -197,12 +261,34 @@ namespace PTIRelianceLib
         {
             lock (GlobalLock)
             {
+                // Don't open an owned path
+                if (IsPathOwned(devicePath))
+                {
+                    return HidDevice.Invalid();
+                }
+
                 var handle = _HidOpenPath(devicePath);
-                return new HidDevice(handle);
+                var device = new HidDevice(handle);
+
+                // Return now, don't take ownership of an invalid handle
+                if (!device.IsValid)
+                {
+                    return device;
+                }
+
+                // Take ownership of this handle
+                var id = GetHashCode();
+                if (!InstancePaths.ContainsKey(id))
+                {
+                    InstancePaths.Add(id, new HashSet<string>());
+                }
+                InstancePaths[GetHashCode()].Add(devicePath);
+
+                return device;
             }
         }
 
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_close")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_close", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void _HidClose(IntPtr device);
 
         /// <inheritdoc />
@@ -210,9 +296,25 @@ namespace PTIRelianceLib
         {
             lock (GlobalLock)
             {
-                try
+
+                // Don't try to close an invalid handle
+                if (!device.IsValid)
                 {
+                    return;
+                }
+
+                // Assert that we are the owner before closing handle
+                var id = GetHashCode();
+                if (!IsPathOwnedByThis(device.DevicePath))
+                {
+                    throw new InvalidOperationException("Attempted to close path not owned by this");
+                }
+
+                // Wrap close operation with SEH handler in case user ejects and the same moment we disconnect
+                try
+                { 
                     _HidClose(device.Handle);
+                    InstancePaths[id].Remove(device.DevicePath);                    
                 }
                 catch (SEHException ex)
                 {
@@ -222,7 +324,7 @@ namespace PTIRelianceLib
             }
         }
 
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_read_timeout")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_read_timeout", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidRead(IntPtr device, byte[] data, UIntPtr length, int timeout);
 
         /// <inheritdoc />
@@ -234,7 +336,7 @@ namespace PTIRelianceLib
             }
         }
 
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_write")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_write", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidWrite(IntPtr device, byte[] data, UIntPtr length);
 
         /// <inheritdoc />
@@ -253,7 +355,7 @@ namespace PTIRelianceLib
         /// <param name="str">A wide string buffer to put the data into</param>
         /// <param name="length">The length of the buffer in multiples of wchar_t</param>
         /// <returns>This function returns 0 on success and -1 on error</returns>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_manufacturer_string")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_manufacturer_string", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidGetManufacturerString(IntPtr device, StringBuilder str, uint length);
 
         /// <inheritdoc />
@@ -269,7 +371,7 @@ namespace PTIRelianceLib
         /// <param name="str">A wide string buffer to put the data into.</param>
         /// <param name="size">The length of the buffer in multiples of wchar_t.</param>
         /// <returns>This function returns 0 on success and -1 on error.</returns>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_product_string")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_product_string", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidGetProductString(IntPtr device, StringBuilder str, uint size);
 
         /// <inheritdoc />
@@ -285,7 +387,7 @@ namespace PTIRelianceLib
         /// <param name="str">A wide string buffer to put the data into.</param>
         /// <param name="size">The length of the buffer in multiples of wchar_t.</param>
         /// <returns>This function returns 0 on success and -1 on error.</returns>
-        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_serial_number_string")]
+        [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_get_serial_number_string", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidGetSerialNumber(IntPtr device, StringBuilder str, uint size);
 
         /// <inheritdoc />
@@ -296,15 +398,40 @@ namespace PTIRelianceLib
 
         /// <summary>
         /// Executes fn to read a unicode string from an HID device. The string will
-        /// be parsed and returned as a regular, managed string.
+        /// be parsed and returned as a regular, managed string. If there is an error, the returned value
+        /// will be null.
         /// </summary>
         /// <param name="device">Device handle</param>
         /// <param name="fn">Function to execute</param>
-        /// <returns>string</returns>
+        /// <returns>string, may be null</returns>
         private static string ReadUnicodeString(HidDevice device, Func<IntPtr, StringBuilder, uint, int> fn)
         {
             var sb = new StringBuilder();
             return fn.Invoke(device.Handle, sb, 255) != 0 ? null : sb.ToString();
+        }
+
+        /// <inheritdoc />
+        public bool IsPathOwned(string path)
+        {
+            lock (GlobalLock)
+            {
+                return InstancePaths.Any(kv => kv.Value.Contains(path));
+            }
+        }
+
+        /// <summary>
+        /// Returns true if this instance owns the specified path
+        /// </summary>
+        /// <param name="path">Path to test</param>
+        /// <returns>True if this isntance owns path. If false, another instance may own the path
+        /// or the path might not be owned at all. See <see cref="IsPathOwned"/> to check for other owners.</returns>
+        private bool IsPathOwnedByThis(string path)
+        {
+            lock (GlobalLock)
+            {
+                var id = GetHashCode();
+                return InstancePaths.ContainsKey(id) && InstancePaths[id].Contains(path);
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace PTIRelianceLib.Tests
     {
         private static readonly object MTestLock = new object();
 
-        private readonly HidDeviceConfig _mConfig;
+        private HidDeviceConfig _mConfig;
         private readonly FakeNativeMethods _mNativeMock;
         public const int VendorId = 0x0425;
         public const int ProductId = 0x8147;
@@ -38,6 +38,18 @@ namespace PTIRelianceLib.Tests
         }
 
         [Fact]
+        public void TestDevicePathSet()
+        {
+            lock (MTestLock)
+            {
+                using (var printer = new ReliancePrinter(_mConfig))
+                {
+                    Assert.Equal(FakeNativeMethods.DevicePath, printer.DevicePath);
+                }
+            }
+        }
+
+        [Fact]
         public void TestPing()
         {
             lock (MTestLock)
@@ -46,7 +58,7 @@ namespace PTIRelianceLib.Tests
                 using (var printer = new ReliancePrinter(_mConfig))
                 {
                     var resp = printer.Ping();
-                    Assert.Equal(ReturnCodes.Okay, resp);
+                    Assert.Equal(ReturnCodes.Okay, resp);                    
                 }
             }
         }
@@ -114,7 +126,7 @@ namespace PTIRelianceLib.Tests
         }
 
         [Fact]
-        public void TestGetInstaledCodepages()
+        public void TestGetInstalledCodepages()
         {
             lock (MTestLock)
             {
@@ -146,13 +158,22 @@ namespace PTIRelianceLib.Tests
                 var count = 0;
                 _mNativeMock.GetNextResponse = (d) =>
                 {
-                    if (count++ != 0)
+                    switch (count++)
                     {
-                        return GenerateHidData(0xAA);
-                    }
+                        case 0:
+                            // Initial revision level query
+                            var rev = new Revlev(1, 27, 127);
+                            return GenerateHidData(rev.Serialize());
 
-                    var rev = new Revlev(1, 27, 127);
-                    return GenerateHidData(rev.Serialize());
+                        case 7506:
+                        case 7507:
+                            // Checksum requests
+                            return GenerateHidData(0, 0, 0, 0);
+
+                        default:
+                            // flash data
+                            return GenerateHidData(0xAA);
+                    }
                 };
                 using (var printer = new ReliancePrinter(_mConfig))
                 {
@@ -179,13 +200,24 @@ namespace PTIRelianceLib.Tests
                 var count = 0;
                 _mNativeMock.GetNextResponse = (d) =>
                 {
-                    if (count++ != 0)
+                    switch (count++)
                     {
-                        return GenerateHidData(0xAA);
+                        case 0:
+                            // Initial revision level query
+                            var rev = new Revlev(1, 27, 127);
+                            return GenerateHidData(rev.Serialize());
+
+                        case 7506:
+                        case 7507:
+                            // Checksum requests
+                            return GenerateHidData(0, 0, 0, 0);
+
+                        default:      
+                            // flash data
+                            return GenerateHidData(0xAA);
                     }
 
-                    var rev = new Revlev(1, 27, 127);
-                    return GenerateHidData(rev.Serialize());
+                    
                 };
                 using (var printer = new ReliancePrinter(_mConfig))
                 {
@@ -264,6 +296,43 @@ namespace PTIRelianceLib.Tests
                     Assert.Equal(ReturnCodes.Okay, resp);
                 }
             }
+        }    
+
+        [Fact]
+        public void TestConnectSpecificPathExists()
+        {
+            // Test that when we request a specific device path, we get it
+            lock (MTestLock)
+            {
+                _mNativeMock.GetNextResponse = (d) => GenerateHidData(0xAA);
+
+                _mConfig.DevicePath = FakeNativeMethods.DevicePath;
+                using (var printer = new ReliancePrinter(_mConfig))
+                {
+                    // If we get a ping, we got a device
+                    Assert.Equal(ReturnCodes.Okay, printer.Ping());
+                }
+
+                _mConfig.DevicePath = null;
+            }
+        }
+
+        [Fact]
+        public void TestConnectSpecificPathDoesNotExists()
+        {
+            // Test that when we request a specific device path, we get it
+            lock (MTestLock)
+            {
+                _mNativeMock.GetNextResponse = (d) => GenerateHidData(0xAA);
+
+                _mConfig.DevicePath = "alsonotarealplace";
+                using (var printer = new ReliancePrinter(_mConfig))
+                {
+                    Assert.Equal(ReturnCodes.DeviceNotConnected, printer.Ping());
+                }
+
+                _mConfig.DevicePath = null;
+            }
         }
 
         /// <summary>
@@ -281,6 +350,16 @@ namespace PTIRelianceLib.Tests
             buff[1] = (byte)payload.Length;
             Array.Copy(payload, 0, buff, 2, Math.Min(payload.Length, buff.Length-2));
             return buff;
+        }
+    }
+
+    /// <summary>
+    /// Class for accessing internal state of printer
+    /// </summary>
+    internal class ProtectedReliancePrinter : ReliancePrinter
+    {
+        public ProtectedReliancePrinter(HidDeviceConfig config) : base(config)
+        {
         }
     }
 }
