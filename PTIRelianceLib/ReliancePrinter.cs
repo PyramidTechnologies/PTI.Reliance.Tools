@@ -67,7 +67,7 @@ namespace PTIRelianceLib
 
         /// <summary>
         /// Create a new Reliance Printer. The printer will be discovered automatically. If HIDapi
-        /// or one of its depencies cannot be found or loaded, <exception cref="PTIException"></exception>
+        /// or one of its dependencies cannot be found or loaded, <exception cref="PTIException"></exception>
         /// will be thrown.
         /// </summary>
         /// <exception cref="PTIException">Thrown if native HID library cannot be loaded</exception> 
@@ -185,8 +185,8 @@ namespace PTIRelianceLib
                 return ReturnCodes.DeviceNotConnected;
             }
 
-            var revlev = GetFirmwareRevision();
-            if (revlev < new Revlev(1, 22, 0))
+            var firmwareRevision = GetFirmwareRevision();
+            if (firmwareRevision < new Revlev(1, 22, 0))
             {
                 // We support all bootloader versions
                 var appid = GetAppId();
@@ -217,7 +217,7 @@ namespace PTIRelianceLib
             {
                 var resp = updater.ExecuteUpdate();
 
-                // Make sure port is in a usuable state
+                // Make sure port is in a usable state
                 AcquireHidPort();
 
                 return resp;
@@ -239,7 +239,7 @@ namespace PTIRelianceLib
 
             Log.Debug("Requesting revision level");
 
-            // 0x10: specifies we want revlev for running application
+            // 0x10: specifies we want firmware revision for running application
             var cmd = _mPort.Package((byte)RelianceCommands.GetRevlev, 0x10);
 
             var resp = Write(cmd);
@@ -343,7 +343,7 @@ namespace PTIRelianceLib
                         break;
                     }
 
-                    Log.Trace("Reboot reconnet attempt: {0}", retry);
+                    Log.Trace("Reboot reconnect attempt: {0}", retry);
                 }
 
                 if (!_mPort?.IsOpen != true)
@@ -427,7 +427,7 @@ namespace PTIRelianceLib
         /// Uses <seealso cref="LogoStorageConfig.Default"/> if storageConfig is set to null.
         /// You probably want to configure this yourself.</param>
         /// <returns>Return Code</returns>
-        /// <exception cref="ArgumentNullException">Thrown if logodata is null</exception>
+        /// <exception cref="ArgumentNullException">Thrown if logo data is null</exception>
         public ReturnCodes StoreLogos(IList<BinaryFile> logoData, IProgressMonitor monitor,
             LogoStorageConfig storageConfig)
         {
@@ -497,7 +497,7 @@ namespace PTIRelianceLib
         /// <summary>
         /// Prints logo from internal bank specified by index. If the specified
         /// logo index does not exist, the first logo in the bank will instead be printed.
-        /// Negative indicies and indicies larger than 255 will generate a
+        /// Negative indices and indices larger than 255 will generate a
         /// <see cref="ReturnCodes.InvalidRequestPayload"/> return code.
         /// </summary>
         /// <param name="index">Logo index, zero based</param>
@@ -518,7 +518,7 @@ namespace PTIRelianceLib
         /// Returns the telemetry data over the lifetime of this printer
         /// </summary>
         /// <remarks>Requires firmware 1.28+. Older firmware will result in null result.</remarks>
-        /// <returns>LifetimeTelemtry data since printer left factory</returns>
+        /// <returns>LifetimeTelemetry data since printer left factory</returns>
         public LifetimeTelemetry GetLifetimeTelemetry()
         {
             if (GetFirmwareRevision() < new Revlev("1.28"))
@@ -555,7 +555,7 @@ namespace PTIRelianceLib
         }
 
         /// <summary>
-        /// Reads the specified telemtry data block
+        /// Reads the specified telemetry data block
         /// </summary>
         /// <param name="type">Type of telemetry to request</param>
         /// <returns></returns>
@@ -563,8 +563,8 @@ namespace PTIRelianceLib
         {
             Log.Debug("Requesting telemetry info");
 
-            var readlen = ReadTelemetrySize(type);
-            if (readlen <= 0)
+            var readLen = ReadTelemetrySize(type);
+            if (readLen <= 0)
             {
                 // Bad read size
                 return null;
@@ -573,9 +573,9 @@ namespace PTIRelianceLib
             // Build permission request. 0: request data
             var request = _mPort.Package((byte) RelianceCommands.TelemtrySub, 0, (byte) type);
 
-            // Read entire data chunk from start of data (0->readlen)
+            // Read entire data chunk from start of data (0->readLen)
             request.Add(((ushort) 0).ToBytesBE());
-            request.Add(((ushort) readlen).ToBytesBE());
+            request.Add(((ushort) readLen).ToBytesBE());
 
             // Request permission
             var resp = Write(request);
@@ -590,7 +590,7 @@ namespace PTIRelianceLib
 
             // Execute a structured read
             var reader = new StructuredReader(_mPort);
-            resp = reader.Read(readlen, preamble);
+            resp = reader.Read(readLen, preamble);
             return PacketParserFactory.Instance.Create<LifetimeTelemetry>().Parse(resp);
         }
 
@@ -609,14 +609,14 @@ namespace PTIRelianceLib
                 return -1;
             }
 
-            var readlen = PacketParserFactory.Instance.Create<PacketedShort>().Parse(resp).Value;
-            if (readlen <= 0)
+            var readLen = PacketParserFactory.Instance.Create<PacketedShort>().Parse(resp).Value;
+            if (readLen <= 0)
             {
                 // Invalid data read length
                 return -1;
             }
 
-            return readlen;
+            return readLen;
         }
 
         /// <summary>
@@ -664,18 +664,18 @@ namespace PTIRelianceLib
         {
             // Get expected checksum
             var resp = Write(RelianceCommands.GetExpectedCsum, 0x11);
-            var expectedCsum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(resp);
+            var expectedChecksum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(resp);
 
             // Check actual checksum
             resp = Write(RelianceCommands.GetActualCsum, 0x11);
-            var actualCsum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(resp);
+            var actualChecksum = PacketParserFactory.Instance.Create<PacketedInteger>().Parse(resp);
 
-            return Equals(expectedCsum, actualCsum) ? ReturnCodes.Okay : ReturnCodes.FlashChecksumMismatch;
+            return Equals(expectedChecksum, actualChecksum) ? ReturnCodes.Okay : ReturnCodes.FlashChecksumMismatch;
         }
 
         /// <summary>
         /// Write wrapper handle the write-wait-read process. The data returned
-        /// from this method will be unpackaged for your.
+        /// from this method will be un-packaged for your.
         /// </summary>
         ///<param name="cmd">Command to send</param>
         /// <param name="data">Data to send</param>

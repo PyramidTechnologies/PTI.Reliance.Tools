@@ -23,6 +23,7 @@ namespace PTIRelianceLib
         /// </summary>
         bool IsDeviceReady { get; }
 
+        /// <summary>
         /// Writes the configuration <see cref="BinaryFile"/> specified by
         /// <paramref name="config"/> to this device. The configuration is a JSON file
         /// describing the configuration to apply. Any fields omitted from the
@@ -41,7 +42,7 @@ namespace PTIRelianceLib
         /// </item>
         /// </list>
         /// </summary>
-        /// <param name="config">Confguration to apply</param>
+        /// <param name="config">Configuration to apply</param>
         /// <returns>
         ///<list type="bullet">
         ///<item>
