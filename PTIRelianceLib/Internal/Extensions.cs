@@ -144,13 +144,13 @@ namespace PTIRelianceLib
         }
 
         /// <summary>
-        /// Returns the data formatted as specifed by the format string.
+        /// Returns the data formatted as specified by the format string.
         /// </summary>
         /// <param name="data">byte[]</param>
-        /// <param name="delimeter">delimiter such as command or tab</param>
+        /// <param name="delimiter">delimiter such as command or tab</param>
         /// <param name="hexPrefix">Set true to prefix each byte with 0x</param>
         /// <returns></returns>
-        public static string ByteArrayToHexString(this byte[] data, string delimeter = ", ", bool hexPrefix = false)
+        public static string ByteArrayToHexString(this byte[] data, string delimiter = ", ", bool hexPrefix = false)
         {
             var hex = new StringBuilder(data.Length * 2);
 
@@ -162,9 +162,9 @@ namespace PTIRelianceLib
 
             foreach (var b in data)
             {
-                hex.AppendFormat("{0}{1:X2}{2}", prefix, b, delimeter);
+                hex.AppendFormat("{0}{1:X2}{2}", prefix, b, delimiter);
             }
-            var result = hex.ToString().Trim().TrimEnd(delimeter.ToCharArray());
+            var result = hex.ToString().Trim().TrimEnd(delimiter.ToCharArray());
             return result;
         }
 
@@ -202,7 +202,7 @@ namespace PTIRelianceLib
 
 
         /// <summary>
-        /// Concatentates all arrays into one
+        /// Concatenates all arrays into one
         /// </summary>
         /// <param name="args">1 or more byte arrays</param>
         /// <returns>byte[]</returns>

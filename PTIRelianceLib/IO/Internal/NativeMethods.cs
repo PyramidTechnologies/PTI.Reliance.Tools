@@ -29,7 +29,7 @@ namespace PTIRelianceLib
         private readonly object _mInstanceLock = new object();
 
         /// <summary>
-        /// Interal device info enumeration
+        /// Internal device info enumeration
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         private struct PrivateHidDeviceInfo
@@ -78,15 +78,31 @@ namespace PTIRelianceLib
         /// <inheritdoc />
         public int Init()
         {
-            lock (GlobalLock)
+            try
             {
-                if (_hidInitialized)
+                lock (GlobalLock)
                 {
-                    return 0;
-                }
+                    if (_hidInitialized)
+                    {
+                        if (_hidInitialized)
+                        {
+                            return 0;
+                        }
+                    }
 
-                _hidInitialized = true;
-                return _HidInit();
+                    _hidInitialized = true;
+                    return _HidInit();
+                }
+            }
+            catch (DllNotFoundException)
+            {
+                throw new PTIException(
+                    "Missing hidapi library. This dll requires access to a copy of hidapi for your system.\n" +
+                    "If you installed this package from Nuget, this is a bug on our end. File an bug report on Github: " +
+                    " https://github.com/PyramidTechnologies/PTI.Reliance.Tools/issues \n\n" +
+                    "If you manually added this dll, please copy the appropriate hidapi library from the runtimes folder" +
+                    "from this source's repo to a directory on your path: " +
+                    "https://github.com/PyramidTechnologies/PTI.Reliance.Tools/tree/master/PTIRelianceLib/runtimes \n\n");
             }
         }
 
@@ -101,12 +117,50 @@ namespace PTIRelianceLib
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_exit", CallingConvention = CallingConvention.Cdecl)]
         private static extern int _HidExit();
 
+        /// <summary>
+        /// Clears state and shuts down HID stack
+        /// </summary>
+        /// <returns>0 on success, -1 on error</returns>
+        private static int HidExit()
+        {
+            lock (GlobalLock)
+            {
+                return _HidExit();
+            }
+        }
+
+        /// <summary>
+        /// Enumerate the HID Devices.
+        ///
+        /// This function returns a linked list of all the HID devices
+        /// attached to the system which match vendor_id and product_id.
+        /// If vendor_id is set to 0 then any vendor matches.
+        /// If product_id is set to 0 then any product matches.
+        /// If vendor_id and product_id are both set to 0, then
+        /// all HID devices will be returned.
+        /// 
+        /// This function returns a pointer to a linked list of type
+        /// struct #hid_device, containing information about the HID devices
+        /// attached to the system, or NULL in the case of failure. Free
+        /// this linked list by calling hid_free_enumeration().
+        /// </summary>
+        /// <param name="vid">The Vendor ID (VID) of the types of device</param>
+        /// <param name="pid">The Product ID (PID) of the types of device to open.</param>
+        /// <returns></returns>
         [DllImport("hidapi", CharSet = CharSet.Unicode, EntryPoint = "hid_enumerate", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr _HidEnumerate(ushort vid, ushort pid);
+
+        /// <inheritdoc />
         public IEnumerable<HidDeviceInfo> Enumerate(ushort vid, ushort pid)
         {
             lock (GlobalLock)
             {
+                if (Init() != 0)
+                {
+                    Log.Error("HID initialization failed");
+                    return Enumerable.Empty<HidDeviceInfo>();
+                }
+
                 var enumerated = _HidEnumerate(vid, pid);
                 if (enumerated == IntPtr.Zero)
                 {
@@ -118,7 +172,7 @@ namespace PTIRelianceLib
                     }
 
                     Log.Info("flushing HID structures...");
-                    if (_HidExit() != 0)
+                    if (HidExit() != 0)
                     {
                         Log.Error("Failed to flush HID structures");
                     }
@@ -147,7 +201,7 @@ namespace PTIRelianceLib
                         typeof(PrivateHidDeviceInfo));
 
                     // Copy to fully managed (e.g. no pointers) data type
-                    result.Add(new HidDeviceInfo
+                    var managed = new HidDeviceInfo
                     {
                         Path = devinfo.Path,
                         VendorId = devinfo.VendorId,
@@ -159,14 +213,17 @@ namespace PTIRelianceLib
                         UsagePage = devinfo.UsagePage,
                         Usage = devinfo.Usage,
                         InterfaceNumber = devinfo.InterfaceNumber
-                    });
+                    };
+                    result.Add(managed);
+                    Log.Trace("Found device: {0}", managed);
 
                     current = devinfo.Next;
-
-                    Log.Trace("Found device: {0}", result.Last());
                 }
+                Log.Trace("HID enumeration allocated for {0}-bit process", Environment.Is64BitProcess ? 64 : 32);            
 
                 _HidFreeEnumerate(enumerated);
+                Log.Trace("HID enumeration free");
+
                 return result;
             }
         }
@@ -296,11 +353,12 @@ namespace PTIRelianceLib
 
         /// <summary>
         /// Executes fn to read a unicode string from an HID device. The string will
-        /// be parsed and returned as a regular, managed string.
+        /// be parsed and returned as a regular, managed string. If there is an error, the returned value
+        /// will be null.
         /// </summary>
         /// <param name="device">Device handle</param>
         /// <param name="fn">Function to execute</param>
-        /// <returns>string</returns>
+        /// <returns>string, may be null</returns>
         private static string ReadUnicodeString(HidDevice device, Func<IntPtr, StringBuilder, uint, int> fn)
         {
             var sb = new StringBuilder();
