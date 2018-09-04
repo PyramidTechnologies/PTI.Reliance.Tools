@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <SemVer>1.1.1.0</SemVer>
-    <Suffix>-beta</Suffix>
+    <SemVer>1.1.2.0</SemVer>
+    <Suffix></Suffix>
   </PropertyGroup>
 
   <PropertyGroup>
