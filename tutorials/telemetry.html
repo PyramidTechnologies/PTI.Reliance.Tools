@@ -8,7 +8,7 @@
     <title>Telemetry </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Telemetry ">
-    <meta name="generator" content="docfx 2.38.1.0">
+    <meta name="generator" content="docfx 2.37.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -85,17 +85,17 @@
 <li>Lifetime : This is a cumulative record of all events since the printer left our factory.</li>
 <li>Powerup : This is a record of all events since the last power cycle.</li>
 </ol>
-<p>See &lt;xref:PTIRelianceLib.Telemetry.LifetimeTelemetry&gt; and &lt;xref:PTIRelianceLib.Telemetry.PowerupTelemetry&gt; for more details.</p>
+<p>See <a class="xref" href="../api/PTIRelianceLib.Telemetry.LifetimeTelemetry.html">LifetimeTelemetry</a> and <a class="xref" href="../api/PTIRelianceLib.Telemetry.PowerupTelemetry.html">PowerupTelemetry</a> for more details.</p>
 <div class="WARNING">
 <h5>Warning</h5>
 <p>Require Firmware 1.28+. Calling this API on older firmware will return null.</p>
 </div>
 <h2 id="ticket-pull">Ticket Pull</h2>
-<p>The best way to detect a ticket pull is request the telemetry information and inspect the &lt;xref:PTIRelianceLib.Telemetry.LastTicketState&gt; property. This records the most recent action taken on a printed ticket along with the ticket's length in millimeters. We recommend that you do not poll the printer more than 4 times a second in order to prevent unecessary blocking read requests. After a ticket is printed, poll the printer about once a second and watch for the TicketCount property to increment. Once it increments, you can read the LastTicketState property and examine how the ticket was handled.</p>
+<p>The best way to detect a ticket pull is request the telemetry information and inspect the <a class="xref" href="../api/PTIRelianceLib.Telemetry.LastTicketState.html">LastTicketState</a> property. This records the most recent action taken on a printed ticket along with the ticket's length in millimeters. We recommend that you do not poll the printer more than 4 times a second in order to prevent unecessary blocking read requests. After a ticket is printed, poll the printer about once a second and watch for the TicketCount property to increment. Once it increments, you can read the LastTicketState property and examine how the ticket was handled.</p>
 <h2 id="ticket-lengths">Ticket Lengths</h2>
-<p>Tickets lengths are tracked by binning ticket lengths into 9 groups. The exact lengths groups are enumerated in &lt;xref:PTIRelianceLib.Telemetry.TicketLengthGroups&gt; in millimeters. The telemetry object tracks the count of each ticket by these groups. All tickets with the exception of startup and push-button diagnostic tickets are counted in this metric.</p>
+<p>Tickets lengths are tracked by binning ticket lengths into 9 groups. The exact lengths groups are enumerated in <a class="xref" href="../api/PTIRelianceLib.Telemetry.TicketLengthGroups.html">TicketLengthGroups</a> in millimeters. The telemetry object tracks the count of each ticket by these groups. All tickets with the exception of startup and push-button diagnostic tickets are counted in this metric.</p>
 <h2 id="ticket-pull-time">Ticket Pull Time</h2>
-<p>Tickets pull time is the time in second it took for a customer to pull the ticket from the printer. If a ticket is never pulled and is instead ejected or retracted, no measurement will be taken. The exact time groups are enumerated in &lt;xref:PTIRelianceLib.Telemetry.TicketPullTimeGroups&gt; in second.</p>
+<p>Tickets pull time is the time in second it took for a customer to pull the ticket from the printer. If a ticket is never pulled and is instead ejected or retracted, no measurement will be taken. The exact time groups are enumerated in <a class="xref" href="../api/PTIRelianceLib.Telemetry.TicketPullTimeGroups.html">TicketPullTimeGroups</a> in second.</p>
 <h2 id="code-sample">Code Sample</h2>
 <pre><code class="lang-csharp" name="Main">using System;
 using System.Collections.Generic;
@@ -128,7 +128,7 @@ namespace reliance_sample
 <h5>Warning</h5>
 <h2 id="exceptions">Exceptions</h2>
 <p>For clarity, exception handling has been elided. It is advisable to wrap any ReliancePrinter
-method calls in a try/catch block for &lt;xref:PTIRelianceLib.PTIException&gt;.</p>
+method calls in a try/catch block for <a class="xref" href="../api/PTIRelianceLib.PTIException.html">PTIException</a>.</p>
 </div>
 </article>
           </div>
