@@ -72,6 +72,9 @@ namespace PTIRelianceLib
         /// this device. With few exceptions, most any firmware can be installed
         /// using this method. The <paramref name="reporter"/> <see cref="ProgressMonitor"/>
         /// provides callbacks for messages, progress, and errors.
+        ///
+        /// Maintainers note: <paramref name="reporter"/> should have been <see cref="IProgressMonitor"/>
+        /// but we used a class on accident. 
         /// </summary>
         /// <param name="firmware">Firmware image data</param>
         /// <param name="reporter">Progress callback instance</param>

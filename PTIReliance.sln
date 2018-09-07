@@ -26,6 +26,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "About", "About", "{BC05BD06
 		PTIRelianceLib\build\netstandard2.0\PTIRelianceLib.targets = PTIRelianceLib\build\netstandard2.0\PTIRelianceLib.targets
 		README.md = README.md
 		third-party-license-readme.md = third-party-license-readme.md
+		PTIRelianceLib\PTIRelianceLib.csproj = PTIRelianceLib\PTIRelianceLib.csproj
+		PTIRelianceLib.Tests\PTIRelianceLib.Tests.csproj = PTIRelianceLib.Tests\PTIRelianceLib.Tests.csproj
+		RelianceCLI\RelianceCLI.csproj = RelianceCLI\RelianceCLI.csproj
 	EndProjectSection
 EndProject
 Global

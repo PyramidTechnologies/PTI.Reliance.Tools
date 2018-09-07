@@ -43,9 +43,7 @@
     <EmbeddedResource Include="Resources\green_bitmap.bmp" />
     <EmbeddedResource Include="Resources\red_bitmap.bmp" />
     <EmbeddedResource Include="Resources\telemetry.v3.bin" />
-    <EmbeddedResource Include="Resources\white_bitmap.bmp">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\white_bitmap.bmp"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -59,20 +57,5 @@
   <ItemGroup>
     <ProjectReference Include="..\PTIRelianceLib\PTIRelianceLib.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
+  
 </Project>
