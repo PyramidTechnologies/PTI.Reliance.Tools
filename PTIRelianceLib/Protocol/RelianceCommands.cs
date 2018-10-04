@@ -389,6 +389,18 @@ namespace PTIRelianceLib.Protocol
         /// <summary>
         /// Gets the truncation enabled feature state
         /// </summary>
-        GetTruncationEnabled = 0x11
+        GetTruncationEnabled = 0x11,
+        
+        /// <summary>
+        /// Sets how to handle a presented ticket that the
+        /// sensors cannot see.
+        /// </summary>
+        SetInvisibleTicketHandling = 0x12,
+        
+        /// <summary>
+        /// Gets how the printer handles a presented ticket that the
+        /// sensors cannot set.
+        /// </summary>
+        GetInvisibleTicketHandling = 0x13,
     }
 }

@@ -16,7 +16,7 @@ namespace PTIRelianceLib.Configuration
     using Transport;
 
     /// <summary>
-    /// Handles readong from and writing to Reliance configuration space
+    /// Handles reading from and writing to Reliance configuration space
     /// </summary>
     internal class RElConfigUpdater
     {
@@ -68,6 +68,8 @@ namespace PTIRelianceLib.Configuration
             results.Add(SetConfig(RelianceCommands.AutocutSub, new PacketedBool(config.AutocutEnabled), 0));
             results.Add(SetConfig(RelianceCommands.AutocutSub, 2, (byte) config.AutocutTimeout));
             results.Add(SetConfig(RelianceCommands.PaperSizeSub, 1, (byte) config.PaperWidth));
+            results.Add(SetConfig(RelianceCommands.GeneralConfigSub, 
+                (byte)GeneralConfigCodes.SetInvisibleTicketHandling, (byte)(config.InvisibleTicketIsPresent ? 1 : 0)));
 
             // TODO what about maps?
             //            var installedCodepage =
@@ -175,6 +177,8 @@ namespace PTIRelianceLib.Configuration
             config.AutocutEnabled = GetConfig(_mPrinter, RelianceCommands.AutocutSub, 1) == 1;
             config.AutocutTimeout = GetConfig(_mPrinter, RelianceCommands.AutocutSub, 3) ?? 1;
             config.PaperWidth = PaperSizeUtils.FromByte((byte)(GetConfig(_mPrinter, RelianceCommands.PaperSizeSub, 0) ?? 80));
+            config.InvisibleTicketIsPresent = GetConfig(_mPrinter, RelianceCommands.GeneralConfigSub, 
+                (byte)GeneralConfigCodes.GetInvisibleTicketHandling) == 1;
 
             var configrev = GetConfig<ConfigRev>(_mPrinter, RelianceCommands.GeneralConfigSub, 0x0F);
             config.Version = configrev.Version;
@@ -233,7 +237,7 @@ namespace PTIRelianceLib.Configuration
         /// Reads Serial configuration into config reference
         /// </summary>
         /// <param name="config">Configuration to fill</param>
-        /// <returns>True on succes, else false</returns>
+        /// <returns>True on success, else false</returns>
         private bool FillSerialConfig(ref RELConfig config)
         {
             var serial = GetConfig<RELSerialConfig>(_mPrinter, RelianceCommands.GetSerialConfig);
@@ -260,7 +264,7 @@ namespace PTIRelianceLib.Configuration
         /// <summary>
         /// Writes the specified command and payload, returns a pass/fail return code
         /// </summary>
-        /// <param name="cmd">Commanfd</param>
+        /// <param name="cmd">Command</param>
         /// <param name="parseable">Object payload</param>
         /// <param name="args">0 or more args that follow cmd before parseable payload</param>
         /// <returns>Okay or ExecutionError</returns>
@@ -273,7 +277,7 @@ namespace PTIRelianceLib.Configuration
         /// <summary>
         /// Writes the specified command and payload, returns a pass/fail return code
         /// </summary>
-        /// <param name="cmd">Commanfd</param>
+        /// <param name="cmd">Command</param>
         /// <param name="args">0 or more bytes payload</param>
         /// <returns>Okay or ExecutionError</returns>
         private ReturnCodes SetConfig(RelianceCommands cmd, params byte[] args)

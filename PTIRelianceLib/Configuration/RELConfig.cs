@@ -286,6 +286,15 @@ namespace PTIRelianceLib.Configuration
         /// </summary>
         [DefaultValue(200)]
         public uint BezelEjectingInterval { get; set; }
+        
+        /// <summary>
+        /// Get or Set option for handling an invisible ticket. If
+        /// the printer's sensors cannot see a ticket at presentation time and
+        /// this value is set to false, the ticket is assumed taken. If this
+        /// value is set to true, the ticket is assumed present
+        /// </summary>
+        [DefaultValue(false)]
+        public bool InvisibleTicketIsPresent { get; set; }
 
         /// <summary>
         /// Serializes this object to stream
