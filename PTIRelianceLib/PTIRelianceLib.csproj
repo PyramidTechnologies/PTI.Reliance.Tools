@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <SemVer>1.2.0.0</SemVer>
+    <SemVer>1.2.1.0</SemVer>
     <Suffix></Suffix>
   </PropertyGroup>
 
@@ -28,7 +28,7 @@
     <FileVersion>$(SemVer)</FileVersion>
 	<IncludeSource>true</IncludeSource>
 	<IncludeSymbols>true</IncludeSymbols>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>   	
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -67,7 +67,7 @@
     <Content Include="runtimes/win-x64/native/hidapi.dll" Visible="false">
       <PackagePath>runtimes/win-x64/native/hidapi.dll</PackagePath>
       <Pack>true</Pack>
-    </Content>	
+    </Content>
     <Content Include="runtimes/win-x86/native/hidapi.dll" Visible="false">
       <PackagePath>runtimes/win-x86/native/hidapi.dll</PackagePath>
       <Pack>true</Pack>
@@ -81,11 +81,11 @@
   <!-- Hide .include files from solution -->
   <ItemGroup>
 	  <None Update="*.csproj.include" Visible="false" />
-  </ItemGroup>   
-  
+  </ItemGroup>
+
   <Target Name="DebugVars" AfterTargets="Build">
 	<Message Text="Configuration $(NativeDependenciesConfiguration)" Importance="high" />
-	<Message Text="Platform $(NativeDepsPlatform)" Importance="high" />	 
-  </Target> 
-  
+	<Message Text="Platform $(NativeDepsPlatform)" Importance="high" />
+  </Target>
+
 </Project>
