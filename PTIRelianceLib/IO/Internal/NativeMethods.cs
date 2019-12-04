@@ -63,7 +63,7 @@ namespace PTIRelianceLib
 
         /// <summary>
         /// Initialize the HIDAPI library.
-        /// 
+        ///
         /// This function initializes the HIDAPI library. Calling it is not
         /// strictly necessary, as it will be called automatically by
         /// HidEnumerate() and HidOpenPath() functions if it is
@@ -84,7 +84,7 @@ namespace PTIRelianceLib
                 {
                     if (_hidInitialized)
                     {
-                        return 0;                        
+                        return 0;
                     }
 
                     _hidInitialized = true;
@@ -94,8 +94,9 @@ namespace PTIRelianceLib
             catch (DllNotFoundException)
             {
                 throw new PTIException(
-                    "Missing hidapi library. This dll requires access to a copy of hidapi for your system.\n" +
-                    "If you installed this package from Nuget, this is a bug on our end. File an bug report on Github: " +
+                    "Missing hidapi library or VC++ 140. This dll requires access to a copy of hidapi for your system.\n" +
+                    "1) Verify that you have installed the Microsoft Redistributable C++ 2015 runtime.\n" +
+                    "2) If you installed this package from Nuget, this is a bug on our end. File an bug report on Github: " +
                     " https://github.com/PyramidTechnologies/PTI.Reliance.Tools/issues \n\n" +
                     "If you manually added this dll, please copy the appropriate hidapi library from the runtimes folder" +
                     "from this source's repo to a directory on your path: " +
@@ -105,7 +106,7 @@ namespace PTIRelianceLib
 
         /// <summary>
         /// Finalize the HIDAPI library.
-        /// 
+        ///
         /// This function frees all of the static data associated with
         /// HIDAPI. It should be called at the end of execution to avoid
         /// memory leaks.
@@ -135,7 +136,7 @@ namespace PTIRelianceLib
         /// If product_id is set to 0 then any product matches.
         /// If vendor_id and product_id are both set to 0, then
         /// all HID devices will be returned.
-        /// 
+        ///
         /// This function returns a pointer to a linked list of type
         /// struct #hid_device, containing information about the HID devices
         /// attached to the system, or NULL in the case of failure. Free
@@ -216,7 +217,7 @@ namespace PTIRelianceLib
 
                     current = devinfo.Next;
                 }
-                Log.Trace("HID enumeration allocated for {0}-bit process", Environment.Is64BitProcess ? 64 : 32);            
+                Log.Trace("HID enumeration allocated for {0}-bit process", Environment.Is64BitProcess ? 64 : 32);
 
                 _HidFreeEnumerate(enumerated);
                 Log.Trace("HID enumeration free");
@@ -227,7 +228,7 @@ namespace PTIRelianceLib
 
         /// <summary>
         /// Free an enumeration Linked List
-        /// 
+        ///
         /// This function frees a linked list created by HidEnumerate().
         /// </summary>
         /// <param name="devices">devices Pointer to a list of HidDeviceInfo returned from
