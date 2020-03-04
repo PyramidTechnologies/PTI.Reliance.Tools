@@ -295,6 +295,35 @@ namespace PTIRelianceLib.Configuration
         /// </summary>
         [DefaultValue(false)]
         public bool InvisibleTicketIsPresent { get; set; }
+        
+        /// <summary>
+        /// Get or Set count of lines between lines of text.
+        /// Lines start and end from baseline to top line.
+        /// </summary>
+        [DefaultValue(35)]
+        public byte DefaultLineSpacing { get; set; }
+        
+        /// <summary>
+        /// Get or Set count 2D barcode quiet zone size factor
+        /// Smaller equates to less whitespace above and below
+        /// the barcode.
+        /// </summary>
+        [DefaultValue(4)]
+        public byte QuietZoneSpacing { get; set; }
+        
+        /// <summary>
+        /// Allows variable length print pages without having to
+        /// specify true page size in Windows print API
+        /// </summary>
+        [DefaultValue(false)]
+        public bool WhitespaceTruncationEnabled { get; set; }
+        
+        /// <summary>
+        /// Get or Set whether or not the device is in Protected Mode.
+        /// Blocks communication that could cause unexpected behavior.
+        /// </summary>
+        [DefaultValue(false)]
+        public bool ProtectedMode { get; set; }
 
         /// <summary>
         /// Serializes this object to stream

@@ -69,7 +69,23 @@ namespace PTIRelianceLib.Configuration
             results.Add(SetConfig(RelianceCommands.AutocutSub, 2, (byte) config.AutocutTimeout));
             results.Add(SetConfig(RelianceCommands.PaperSizeSub, 1, (byte) config.PaperWidth));
             results.Add(SetConfig(RelianceCommands.GeneralConfigSub, 
-                (byte)GeneralConfigCodes.SetInvisibleTicketHandling, (byte)(config.InvisibleTicketIsPresent ? 1 : 0)));
+                (byte)GeneralConfigCodes.SetInvisibleTicketHandling, 
+                (byte)(config.InvisibleTicketIsPresent ? 1 : 0)));
+            results.Add(SetConfig(RelianceCommands.GeneralConfigSub, 
+                (byte) GeneralConfigCodes.SetTruncationEnabled, 
+                (byte) (config.WhitespaceTruncationEnabled ? 1 : 0)));
+            results.Add(SetConfig(RelianceCommands.GeneralConfigSub, 
+                (byte) GeneralConfigCodes.SetDefaultLineSpacing, 
+                config.DefaultLineSpacing));
+            results.Add(SetConfig(RelianceCommands.GeneralConfigSub, 
+                (byte) GeneralConfigCodes.Set2dBarcodeQuietZone, 
+                config.QuietZoneSpacing));
+            results.Add(SetConfig(RelianceCommands.GeneralConfigSub, 
+                (byte) GeneralConfigCodes.SetProtectedMode, 
+                (byte) (config.ProtectedMode ? 1 : 0)));
+            
+
+
 
             // TODO what about maps?
             //            var installedCodepage =
@@ -179,6 +195,18 @@ namespace PTIRelianceLib.Configuration
             config.PaperWidth = PaperSizeUtils.FromByte((byte)(GetConfig(_mPrinter, RelianceCommands.PaperSizeSub, 0) ?? 80));
             config.InvisibleTicketIsPresent = GetConfig(_mPrinter, RelianceCommands.GeneralConfigSub, 
                 (byte)GeneralConfigCodes.GetInvisibleTicketHandling) == 1;
+            config.WhitespaceTruncationEnabled = GetConfig(_mPrinter, 
+                                                     RelianceCommands.GeneralConfigSub, 
+                                                     (byte)GeneralConfigCodes.GetTruncationEnabled) == 1;
+            config.DefaultLineSpacing = (byte) (GetConfig(_mPrinter, 
+                                                    RelianceCommands.GeneralConfigSub, 
+                                                    (byte) GeneralConfigCodes.GetDefaultLineSpacing) ?? 35);
+            config.QuietZoneSpacing = (byte) (GetConfig(_mPrinter, 
+                                                  RelianceCommands.GeneralConfigSub, 
+                                                  (byte) GeneralConfigCodes.Get2dBarcodeQuietZone) ?? 4);
+            config.ProtectedMode = (GetConfig(_mPrinter, 
+                                        RelianceCommands.GeneralConfigSub, 
+                                        (byte) GeneralConfigCodes.GetProtectedMode) == 1);
 
             var configrev = GetConfig<ConfigRev>(_mPrinter, RelianceCommands.GeneralConfigSub, 0x0F);
             config.Version = configrev.Version;
