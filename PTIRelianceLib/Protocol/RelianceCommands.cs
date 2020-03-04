@@ -402,5 +402,39 @@ namespace PTIRelianceLib.Protocol
         /// sensors cannot set.
         /// </summary>
         GetInvisibleTicketHandling = 0x13,
+        
+        /// <summary>
+        /// Controls how many dot lines to print between the baseline
+        /// of a line of text and the top line of the next line.
+        /// </summary>
+        SetDefaultLineSpacing = 0x17,
+        
+        /// <summary>
+        /// Returns the count of dot lines printed between the baseline
+        /// of one line of text and the top line of the next line.
+        /// </summary>
+        GetDefaultLineSpacing = 0x18,
+        
+        /// <summary>
+        /// Set the 2D barcode quiet zone factor.
+        /// The options are from 0X (no quiet zone)
+        /// to 4x (maximum quiet zone).
+        /// </summary>
+        Set2dBarcodeQuietZone = 0x19,
+        
+        /// <summary>
+        /// Get the 2D barcode quiet zone factor.
+        /// </summary>
+        Get2dBarcodeQuietZone = 0x1A,
+        
+        /// <summary>
+        /// Sets the protected mode configurable
+        /// </summary>
+        SetProtectedMode = 0x1B,
+        
+        /// <summary>
+        /// Gets the protected mode configurable
+        /// </summary>
+        GetProtectedMode = 0x1C,
     }
 }
