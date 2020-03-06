@@ -2,7 +2,7 @@ version: 1.0.{build}
 
 environment:
   access_token:
-    secure: 4L8MS6vjIHzShfn4kfiesuBNu9Ojv6Vl4TtQFt0JZGaiMloLkHq86xzONq29mzkN
+    secure: ypobGQkcNRtSU0KbqjcFfvkyXoW/4HtEyf7OA6+DzCPSHKwDCSSIPcDq7ZiliIfs
 
 pull_requests:
   do_not_increment_build_number: false

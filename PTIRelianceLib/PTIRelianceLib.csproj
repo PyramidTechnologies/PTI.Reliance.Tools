@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <SemVer>1.2.1.0</SemVer>
+    <SemVer>1.2.2.0</SemVer>
     <Suffix></Suffix>
   </PropertyGroup>
 
