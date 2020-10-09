@@ -32,6 +32,13 @@ namespace PTIRelianceLib.Configuration
         /// </summary>
         [EnumMember(Value = "Retract Ticket")]
         RetractTicket = 2,
+        /// <summary>
+        /// Enqueue a sequence of tickets
+        ///
+        /// Note: requires firmware support version 1.45.209 or later
+        /// </summary>
+        [EnumMember(Value = "Queue Ticket")]
+        QueueTicket = 3,
     }
 
     /// <summary>
