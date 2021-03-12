@@ -248,6 +248,42 @@ namespace PTIRelianceLib
             Log.Debug("Found firmware revision {0}", rev);
             return rev;
         }
+        
+        /// <summary>
+        /// Queries the printer type
+        /// </summary>
+        /// <returns>
+        /// null on error,
+        /// PrinterType.RelianceOne for Reliance One printers
+        /// PrinterType.RelianceTwo for Reliance Two printers
+        /// </returns>
+        public PrinterType? GetPrinterType()
+        {
+            if (!_mPort.IsOpen)
+            {
+                return null;
+            }
+            
+            Log.Debug("Requesting Reliance Printer Type");
+
+            var cmd = _mPort.Package((byte) RelianceCommands.GetPrinterType);
+
+            var response = Write(cmd);
+            var type = PacketParserFactory.Instance.Create<PacketedByte>().Parse(response)?.Value;
+
+            if (type == 0)
+            {
+                return PrinterType.RelianceOne;
+            }
+            
+            if (type == 1)
+            {
+                return PrinterType.RelianceTwo;
+            }
+
+            return null;
+
+        }
 
         /// <summary>
         /// Returns the <see cref="Status"/> for the attached printer. If there
