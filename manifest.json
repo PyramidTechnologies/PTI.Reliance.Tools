@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "C:/projects/pti-reliance-tools/docsource",
+  "source_base_path": "C:/Pyramid-Reorganized/Public/pti.reliance.tools/docsource",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -18,7 +18,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.BinaryFile.html",
-          "hash": "sROSEbUwS17z6kPtu5oqCA=="
+          "hash": "LP9Rnyqpov6bnZ0QmjO/Tw=="
         }
       },
       "is_incremental": false,
@@ -30,7 +30,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.DevNullMonitor.html",
-          "hash": "pfrtGjf8lnYbuMN8+HH9gg=="
+          "hash": "aV291RUWubjwpdO/LTlFdw=="
         }
       },
       "is_incremental": false,
@@ -42,7 +42,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.FixedArray-1.html",
-          "hash": "nCbHSuJfpubkk3VCrxQbAA=="
+          "hash": "GgxHgBaAZroG3sEZopGVTw=="
         }
       },
       "is_incremental": false,
@@ -54,7 +54,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Flash.FlashEventMessageArgs.html",
-          "hash": "/iVO24ft6L+5rF0e5sGn8w=="
+          "hash": "LK8XKfREUBmU+F/ALmk5fw=="
         }
       },
       "is_incremental": false,
@@ -66,7 +66,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Flash.FlashProgressEventArgs.html",
-          "hash": "RN/w1WPj6h8Zxp5UpNb2RA=="
+          "hash": "dL2r8tL5RD5ew2O7sW9mmA=="
         }
       },
       "is_incremental": false,
@@ -78,7 +78,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Flash.html",
-          "hash": "A+PQ9473ZYvfTP7HaqhMdQ=="
+          "hash": "o9PSHEvSXFNqqnQueJlYRQ=="
         }
       },
       "is_incremental": false,
@@ -90,7 +90,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.IPyramidDevice.html",
-          "hash": "mkZPPU2FcDZeQ64kg/b9Vg=="
+          "hash": "nIpwsMMr7Dg5Zq3mdD010w=="
         }
       },
       "is_incremental": false,
@@ -102,7 +102,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Imaging.DitherAlgorithms.html",
-          "hash": "17LHSRRk0Er8DXnEir/M5w=="
+          "hash": "lN9WjChYP2gSBAU1Une4Mw=="
         }
       },
       "is_incremental": false,
@@ -114,7 +114,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Imaging.LogoStorageConfig.html",
-          "hash": "jMnkd/ZkD5mnLGkSLJa7UA=="
+          "hash": "fO72VDsFa//GbYcW9Mo39w=="
         }
       },
       "is_incremental": false,
@@ -126,7 +126,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Imaging.html",
-          "hash": "zXQise68LJ/TowLHEtI3NA=="
+          "hash": "IR7PDakvTH//vJ58OqzplQ=="
         }
       },
       "is_incremental": false,
@@ -138,7 +138,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Library.html",
-          "hash": "6ntK5VrkIyC2wllZGQ44uQ=="
+          "hash": "UXSZuVf2IrR1uM8WK1YQcw=="
         }
       },
       "is_incremental": false,
@@ -150,7 +150,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.LibraryOptions.html",
-          "hash": "aEz/+BKOn6ozloFUcqt5Sg=="
+          "hash": "KLM63Xml82VA3kig+WIJVg=="
         }
       },
       "is_incremental": false,
@@ -162,7 +162,19 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.PTIException.html",
-          "hash": "jKt3ZxdbjIV45AELj4dAsw=="
+          "hash": "YblG7r21lrq7Bk41yhSZUA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PTIRelianceLib.PrinterType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PTIRelianceLib.PrinterType.html",
+          "hash": "gO09/6bWQu66n0ltB4GJ/g=="
         }
       },
       "is_incremental": false,
@@ -174,7 +186,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.ProgressMonitor.html",
-          "hash": "xgxwoz+YXgqoUOHoMaZTAA=="
+          "hash": "+nDCLXo48XGVX/nXhALKHQ=="
         }
       },
       "is_incremental": false,
@@ -186,7 +198,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Protocol.ErrorStatuses.html",
-          "hash": "ZHua6YUAfTLTLEBtKvxitw=="
+          "hash": "1fILn0at5ky9k8S3sZcGvA=="
         }
       },
       "is_incremental": false,
@@ -198,7 +210,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Protocol.SensorStatuses.html",
-          "hash": "aZ7xXXgeKLd1qc6cQYAkTg=="
+          "hash": "2Nvn1UxEj9dSyclUjo+cEQ=="
         }
       },
       "is_incremental": false,
@@ -210,7 +222,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Protocol.TicketStates.html",
-          "hash": "ZYNzUJQZ0RFB6VzB0b7Z6Q=="
+          "hash": "U3RR7PaQp3Lx/y19Q6TJNQ=="
         }
       },
       "is_incremental": false,
@@ -222,7 +234,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Protocol.html",
-          "hash": "Qjo7HIN4COesbEmXb/keVw=="
+          "hash": "TMbS9ImoKV6pxq1OiP8jzA=="
         }
       },
       "is_incremental": false,
@@ -234,7 +246,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.ReliancePrinter.html",
-          "hash": "tZHbRJMp0e39DkGesn+6bg=="
+          "hash": "WbmfHtv224VXLDPwy2kc9Q=="
         }
       },
       "is_incremental": false,
@@ -246,7 +258,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.ReturnCodes.html",
-          "hash": "Se39OMy82C64afRFPbxWpw=="
+          "hash": "E/kVUXEf6Sf/jVq4efWUEQ=="
         }
       },
       "is_incremental": false,
@@ -258,7 +270,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Revlev.html",
-          "hash": "++dMlHhUsTTzC4p56bwWgQ=="
+          "hash": "0bDj8nW0h0v0bcBDnA5GCA=="
         }
       },
       "is_incremental": false,
@@ -270,7 +282,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Status.html",
-          "hash": "pJtGW8aOKxmfKryGJvmwWQ=="
+          "hash": "XvhjaueeYjOPHzw3vTgB+Q=="
         }
       },
       "is_incremental": false,
@@ -282,7 +294,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Telemetry.EjectionStatus.html",
-          "hash": "G/cHEtE8boCA6sIdXcQO3w=="
+          "hash": "0DmKgP4iFSTygwQ8yGrkiA=="
         }
       },
       "is_incremental": false,
@@ -294,7 +306,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Telemetry.LastTicketState.html",
-          "hash": "w3CPuWRJsNjHhqrMe8c/Hg=="
+          "hash": "nrrUbya97HoIN+ysvt3vcw=="
         }
       },
       "is_incremental": false,
@@ -306,7 +318,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Telemetry.LifetimeTelemetry.html",
-          "hash": "8v/vTXV8uF9k4BrG3R7IoQ=="
+          "hash": "N9tULCjExh8EytLbwpyg1A=="
         }
       },
       "is_incremental": false,
@@ -318,7 +330,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Telemetry.PowerupTelemetry.html",
-          "hash": "eA0po0Tqx29LUVYwFpFlzw=="
+          "hash": "R27GKaksUqK3rszucJfv8w=="
         }
       },
       "is_incremental": false,
@@ -330,7 +342,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Telemetry.TicketLengthGroups.html",
-          "hash": "EEf5toqjjjWXHSWlYP9huA=="
+          "hash": "nAHk/9Rpj9gdUIgTrvFlJA=="
         }
       },
       "is_incremental": false,
@@ -342,7 +354,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Telemetry.TicketPullTimeGroups.html",
-          "hash": "5wQK6DJgls4YR99SLxWn5w=="
+          "hash": "GwHP1Dg62XRhZy7tb/dvww=="
         }
       },
       "is_incremental": false,
@@ -354,7 +366,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.Telemetry.html",
-          "hash": "iQaiumaJapS+E+attbd2hQ=="
+          "hash": "5d75nwIgArHIOYPNODKghQ=="
         }
       },
       "is_incremental": false,
@@ -366,7 +378,7 @@
       "output": {
         ".html": {
           "relative_path": "api/PTIRelianceLib.html",
-          "hash": "icwn0g7tf+5oS6KSaHIlPQ=="
+          "hash": "B4KSd1JvLB11SjoHEvGI8A=="
         }
       },
       "is_incremental": false,
@@ -378,7 +390,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "o9B9cf4yM3du7oMUdtY29g=="
+          "hash": "ihoaZGCU+aVgGIVoMHSLfA=="
         }
       },
       "is_incremental": false,
@@ -390,7 +402,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "NtOSs+udCeEG8UIG/+jDug=="
+          "hash": "ZzTe+xIz4+V03g96U/j04w=="
         }
       },
       "is_incremental": false,
@@ -424,7 +436,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "F9IQTiLd85xXEk4ZbR7JPg=="
+          "hash": "/Cxv0kcYykn28xy6LNnVPA=="
         }
       },
       "is_incremental": false,
@@ -459,7 +471,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/configuration.html",
-          "hash": "NFcgXg2P59hbSR9lgtE4Mg=="
+          "hash": "k6ppwSJeSTsCHNRIHLJ80w=="
         }
       },
       "is_incremental": false,
@@ -471,7 +483,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/customization.html",
-          "hash": "4GUr6xwALFwtAi7ld2Si9Q=="
+          "hash": "IwgKe8BXmVDchzy/BTheow=="
         }
       },
       "is_incremental": false,
@@ -483,7 +495,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/docker.html",
-          "hash": "leShZRNVt1YJSDQ9Wq+Xbg=="
+          "hash": "oxGOExLZjWZ4aiZWn1/hWg=="
         }
       },
       "is_incremental": false,
@@ -495,7 +507,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/exceptions.html",
-          "hash": "JfOSUK/hzWd6WxXM5OgQJA=="
+          "hash": "pj6NhZlKJcu+1kVIjG5tXg=="
         }
       },
       "is_incremental": false,
@@ -507,7 +519,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/flash_update.html",
-          "hash": "YzT3yePHKlqxPD6QT9hU/A=="
+          "hash": "sWRKFBRR4pOehMsbAyuXog=="
         }
       },
       "is_incremental": false,
@@ -541,7 +553,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/intro.html",
-          "hash": "BVXKrGywJN9OzKkfo7Ov2A=="
+          "hash": "KKzN9XIYquii1C7iHiVagA=="
         }
       },
       "is_incremental": false,
@@ -553,7 +565,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/logging.html",
-          "hash": "KQ53MbbSLRyw7jBKn/4sgg=="
+          "hash": "rXbH3ajsb229VE6qTnK4FQ=="
         }
       },
       "is_incremental": false,
@@ -565,7 +577,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/logos.html",
-          "hash": "lfABed4Vyaqyb1gzr8Z7uw=="
+          "hash": "xXUSjT10NTec3ovlp/0hjg=="
         }
       },
       "is_incremental": false,
@@ -577,7 +589,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/status_check.html",
-          "hash": "Et7xr7QbCAEOQND8A0KDDw=="
+          "hash": "T9TW9IXRsH9yaS3xRU/i9g=="
         }
       },
       "is_incremental": false,
@@ -589,7 +601,7 @@
       "output": {
         ".html": {
           "relative_path": "tutorials/telemetry.html",
-          "hash": "VKQpn9iZxvEkpbq8GKzGGA=="
+          "hash": "kYpIqAHbfNhh3ol1lv1c+g=="
         }
       },
       "is_incremental": false,
@@ -611,25 +623,23 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": false,
-        "details": "Cannot build incrementally because last build info is missing.",
+        "can_incremental": true,
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0,
-        "full_build_reason_code": "NoAvailableBuildCache"
+        "skipped_file_count": 0
       },
       "processors": {
         "ConceptualDocumentProcessor": {
-          "can_incremental": false,
+          "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 12,
-          "skipped_file_count": 0
+          "skipped_file_count": 5
         },
         "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
+          "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 30,
-          "skipped_file_count": 0
+          "total_file_count": 31,
+          "skipped_file_count": 16
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,

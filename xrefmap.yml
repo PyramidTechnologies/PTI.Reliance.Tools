@@ -613,6 +613,24 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.LibraryOptions.HidReconnectDelayMs
   nameWithType: LibraryOptions.HidReconnectDelayMs
+- uid: PTIRelianceLib.PrinterType
+  name: PrinterType
+  href: api/PTIRelianceLib.PrinterType.html
+  commentId: T:PTIRelianceLib.PrinterType
+  fullName: PTIRelianceLib.PrinterType
+  nameWithType: PrinterType
+- uid: PTIRelianceLib.PrinterType.RelianceOne
+  name: RelianceOne
+  href: api/PTIRelianceLib.PrinterType.html#PTIRelianceLib_PrinterType_RelianceOne
+  commentId: F:PTIRelianceLib.PrinterType.RelianceOne
+  fullName: PTIRelianceLib.PrinterType.RelianceOne
+  nameWithType: PrinterType.RelianceOne
+- uid: PTIRelianceLib.PrinterType.RelianceTwo
+  name: RelianceTwo
+  href: api/PTIRelianceLib.PrinterType.html#PTIRelianceLib_PrinterType_RelianceTwo
+  commentId: F:PTIRelianceLib.PrinterType.RelianceTwo
+  fullName: PTIRelianceLib.PrinterType.RelianceTwo
+  nameWithType: PrinterType.RelianceTwo
 - uid: PTIRelianceLib.ProgressMonitor
   name: ProgressMonitor
   href: api/PTIRelianceLib.ProgressMonitor.html
@@ -945,6 +963,19 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.ReliancePrinter.GetPowerupTelemetry
   nameWithType: ReliancePrinter.GetPowerupTelemetry
+- uid: PTIRelianceLib.ReliancePrinter.GetPrinterType
+  name: GetPrinterType()
+  href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_GetPrinterType
+  commentId: M:PTIRelianceLib.ReliancePrinter.GetPrinterType
+  fullName: PTIRelianceLib.ReliancePrinter.GetPrinterType()
+  nameWithType: ReliancePrinter.GetPrinterType()
+- uid: PTIRelianceLib.ReliancePrinter.GetPrinterType*
+  name: GetPrinterType
+  href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_GetPrinterType_
+  commentId: Overload:PTIRelianceLib.ReliancePrinter.GetPrinterType
+  isSpec: "True"
+  fullName: PTIRelianceLib.ReliancePrinter.GetPrinterType
+  nameWithType: ReliancePrinter.GetPrinterType
 - uid: PTIRelianceLib.ReliancePrinter.GetSerialNumber
   name: GetSerialNumber()
   href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_GetSerialNumber
@@ -1068,13 +1099,13 @@ references:
   isSpec: "True"
   fullName: PTIRelianceLib.ReliancePrinter.SendConfiguration
   nameWithType: ReliancePrinter.SendConfiguration
-- uid: PTIRelianceLib.ReliancePrinter.StoreLogos(System.Collections.Generic.IList{PTIRelianceLib.BinaryFile},PTIRelianceLib.IProgressMonitor,PTIRelianceLib.Imaging.LogoStorageConfig)
+- uid: PTIRelianceLib.ReliancePrinter.StoreLogos(IList{PTIRelianceLib.BinaryFile},PTIRelianceLib.IProgressMonitor,PTIRelianceLib.Imaging.LogoStorageConfig)
   name: StoreLogos(IList<BinaryFile>, IProgressMonitor, LogoStorageConfig)
-  href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_StoreLogos_System_Collections_Generic_IList_PTIRelianceLib_BinaryFile__PTIRelianceLib_IProgressMonitor_PTIRelianceLib_Imaging_LogoStorageConfig_
-  commentId: M:PTIRelianceLib.ReliancePrinter.StoreLogos(System.Collections.Generic.IList{PTIRelianceLib.BinaryFile},PTIRelianceLib.IProgressMonitor,PTIRelianceLib.Imaging.LogoStorageConfig)
+  href: api/PTIRelianceLib.ReliancePrinter.html#PTIRelianceLib_ReliancePrinter_StoreLogos_IList_PTIRelianceLib_BinaryFile__PTIRelianceLib_IProgressMonitor_PTIRelianceLib_Imaging_LogoStorageConfig_
+  commentId: M:PTIRelianceLib.ReliancePrinter.StoreLogos(IList{PTIRelianceLib.BinaryFile},PTIRelianceLib.IProgressMonitor,PTIRelianceLib.Imaging.LogoStorageConfig)
   name.vb: StoreLogos(IList(Of BinaryFile), IProgressMonitor, LogoStorageConfig)
-  fullName: PTIRelianceLib.ReliancePrinter.StoreLogos(System.Collections.Generic.IList<PTIRelianceLib.BinaryFile>, PTIRelianceLib.IProgressMonitor, PTIRelianceLib.Imaging.LogoStorageConfig)
-  fullName.vb: PTIRelianceLib.ReliancePrinter.StoreLogos(System.Collections.Generic.IList(Of PTIRelianceLib.BinaryFile), PTIRelianceLib.IProgressMonitor, PTIRelianceLib.Imaging.LogoStorageConfig)
+  fullName: PTIRelianceLib.ReliancePrinter.StoreLogos(IList<PTIRelianceLib.BinaryFile>, PTIRelianceLib.IProgressMonitor, PTIRelianceLib.Imaging.LogoStorageConfig)
+  fullName.vb: PTIRelianceLib.ReliancePrinter.StoreLogos(IList(Of PTIRelianceLib.BinaryFile), PTIRelianceLib.IProgressMonitor, PTIRelianceLib.Imaging.LogoStorageConfig)
   nameWithType: ReliancePrinter.StoreLogos(IList<BinaryFile>, IProgressMonitor, LogoStorageConfig)
   nameWithType.vb: ReliancePrinter.StoreLogos(IList(Of BinaryFile), IProgressMonitor, LogoStorageConfig)
 - uid: PTIRelianceLib.ReliancePrinter.StoreLogos*
