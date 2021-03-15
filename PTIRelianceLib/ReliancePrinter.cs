@@ -250,7 +250,8 @@ namespace PTIRelianceLib
         }
         
         /// <summary>
-        /// Queries the printer type
+        /// Queries the printer type.
+        /// This command requires firmware 1.46+.
         /// </summary>
         /// <returns>
         /// null on error,
@@ -262,6 +263,12 @@ namespace PTIRelianceLib
             if (!_mPort.IsOpen)
             {
                 return null;
+            }
+            
+            if (GetFirmwareRevision() < new Revlev("1.46"))
+            {
+                // unsupported, must be reliance 1
+                return PrinterType.RelianceOne;
             }
             
             Log.Debug("Requesting Reliance Printer Type");
