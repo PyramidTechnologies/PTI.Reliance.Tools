@@ -68,6 +68,20 @@ namespace RelianceCLI
                     var revlev = printer.GetFirmwareRevision();
                     Console.WriteLine("Revision: {0}", revlev);
                 }
+                
+                if (opts.GetType)
+                {
+                    var type = printer.GetPrinterType();
+
+                    if (type is null)
+                    {
+                        Console.WriteLine("Unable to read printer type.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Printer type is {type}");
+                    }
+                }
 
                 if (!string.IsNullOrEmpty(opts.FirmwareFilePath))
                 {
@@ -186,6 +200,8 @@ namespace RelianceCLI
 
             public bool GetRevlev;
 
+            public bool GetType;
+
             public bool GetStatus;
 
             public string SaveConfigPath;
@@ -230,6 +246,11 @@ namespace RelianceCLI
 
                             case "-r":
                             case "--revision":
+                                opts.GetRevlev = true;
+                                break;
+                            
+                            case "-pt":
+                            case "--type":
                                 opts.GetRevlev = true;
                                 break;
 
@@ -290,6 +311,7 @@ namespace RelianceCLI
                        "\t-l,--set-logo\t\tPath to image file to store as logo\n" +
                        "FLAGS\n" +
                        "\t-r,--revision\t\tRead and display printer firmware revision\n" +
+                       "\t-pt,--type\t\t\nRead and display printer type" +
                        "\t-s,--status\t\tRead and display printer status\n" +
                        "\t-t,--startup-telem\t\tRead startup telemetry\n" +
                        "\t-T,--lifetime-telem\t\tRead lifetime telemetry\n" +
