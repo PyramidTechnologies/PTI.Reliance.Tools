@@ -41,6 +41,11 @@ namespace PTIRelianceLib.Protocol
         /// Request version string of target
         /// </summary>
         GetRevlev = 0x15,
+        
+        /// <summary>
+        /// Reports the version of the Reliance printer
+        /// </summary>
+        GetPrinterType = 0x16,
 
         /// <summary>
         /// Hard reset target
