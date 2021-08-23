@@ -63,7 +63,7 @@ namespace PTIRelianceLib.Tests
 
             var str = parsed.ToString();
             var parts = str.Split('\n');
-            Assert.Equal("Head Temperature: 68 °F", parts[2]);
+            Assert.Equal("Head Temperature: 68 Â°F", parts[2]);
         }
     }
 }
