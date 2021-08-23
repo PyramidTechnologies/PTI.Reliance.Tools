@@ -1,3 +1,11 @@
+##1.3.0
+
+**Fixes**
+* None
+
+**New**
+* Added netcoreapp3.1 support
+
 ##1.2.5
 
 **Fixes**
