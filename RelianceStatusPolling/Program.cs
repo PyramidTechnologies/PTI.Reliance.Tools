@@ -70,7 +70,7 @@
         
         private static event EventHandler PlatenOpenEvent;
         
-        private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim _pollingLoopSemaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Raised when the Printer is opened
@@ -88,7 +88,7 @@
         {
             // Use a semaphore to guard against starting multiple
             // polling tasks
-            if (!_semaphoreSlim.Wait(0))
+            if (!_pollingLoopSemaphore.Wait(0))
             {
                 Console.WriteLine("Polling is already running.");
                 return;
@@ -117,6 +117,9 @@
                         if (currentStatus is null)
                         {
                             Console.WriteLine("Failed to poll printer.");
+                            
+                            Thread.Sleep(PollingPeriodMs);
+
                             continue;
                         }
 
@@ -153,7 +156,7 @@
             _cts.Cancel();
             _cts.Dispose();
 
-            _semaphoreSlim.Release();
+            _pollingLoopSemaphore.Release();
         }
 
         /// <summary>
@@ -170,7 +173,7 @@
         /// <inheritdoc/>
         public void Dispose()
         {
-            _semaphoreSlim?.Dispose();
+            _pollingLoopSemaphore?.Dispose();
             _cts?.Dispose();
             PlatenOpenEvent = null;
         }
