@@ -8,7 +8,7 @@
   <PropertyGroup>
 	<Title>PTI.Reliance.Tools</Title>
     <TargetFrameworks>net461;netcoreapp3.1;netstandard2.0</TargetFrameworks>
-    <Platforms>AnyCPU;x64;x86</Platforms>
+    <Platforms>AnyCPU;x64;x86;linux-arm</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Pyramid Technologies</Authors>
     <Company>Pyramid Technologies Inc.</Company>
@@ -65,12 +65,8 @@
       <PackagePath>runtimes/linux-x64/native/libhidapi.so</PackagePath>
       <Pack>true</Pack>
     </Content>
-    <Content Include="runtimes/linux-ARM32/native/libhidapi.so" Visible="false">
-      <PackagePath>runtimes/linux-ARM32/native/libhidapi.so</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="runtimes/linux-ARM32/native/libhidapi.so" Visible="false">
-      <PackagePath>runtimes/win-x64/native/libhidapi.so</PackagePath>
+    <Content Include="runtimes/linux-arm/native/libhidapi.so" Visible="false">
+      <PackagePath>runtimes/linux-arm/native/libhidapi.so</PackagePath>
       <Pack>true</Pack>
     </Content>
     <Content Include="runtimes/win-x64/native/hidapi.dll" Visible="false">
