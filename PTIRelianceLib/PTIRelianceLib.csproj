@@ -65,6 +65,14 @@
       <PackagePath>runtimes/linux-x64/native/libhidapi.so</PackagePath>
       <Pack>true</Pack>
     </Content>
+    <Content Include="runtimes/linux-ARM32/native/libhidapi.so" Visible="false">
+      <PackagePath>runtimes/linux-ARM32/native/libhidapi.so</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="runtimes/linux-ARM32/native/libhidapi.so" Visible="false">
+      <PackagePath>runtimes/win-x64/native/libhidapi.so</PackagePath>
+      <Pack>true</Pack>
+    </Content>
     <Content Include="runtimes/win-x64/native/hidapi.dll" Visible="false">
       <PackagePath>runtimes/win-x64/native/hidapi.dll</PackagePath>
       <Pack>true</Pack>
