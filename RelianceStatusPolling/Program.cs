@@ -17,6 +17,13 @@
         private static async Task Main(string[] args)
         {
             using var printer = new ReliancePrinter();
+
+            if (!printer.IsDeviceReady)
+            {
+                Console.WriteLine("No Reliance Printer found.");
+                
+                return;
+            }
             
             var demo = new StatusPollingDemo();
             demo.SubscribeToPollingEvents();
@@ -106,6 +113,12 @@
                         token.ThrowIfCancellationRequested();
 
                         var currentStatus = printer.GetStatus();
+
+                        if (currentStatus is null)
+                        {
+                            Console.WriteLine("Failed to poll printer.");
+                            continue;
+                        }
 
                         // The printer is open ...
                         if (currentStatus.PrinterErrors.HasFlag(ErrorStatuses.PlatenOpen))
