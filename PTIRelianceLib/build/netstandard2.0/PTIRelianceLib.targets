@@ -17,6 +17,13 @@
         </Content>
     </ItemGroup>
 
+    <ItemGroup Condition=" '$(Platform)' == 'ARM' ">
+        <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-arm\native\libhidapi.so">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Link>libhidapi.so</Link>
+            <Visible>false</Visible>
+        </Content>
+    </ItemGroup>
 	
 	<ItemGroup Condition=" '$(Platform)' == 'x64' AND '$(OS)' == 'Unix' And '$(NativeDepsPlatform)' == '' ">		
         <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-x64\native\libhidapi.so">

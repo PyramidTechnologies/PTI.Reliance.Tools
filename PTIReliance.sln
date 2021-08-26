@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "About", "About", "{BC05BD06
 		changelog.md = changelog.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelianceStatusPolling", "RelianceStatusPolling\RelianceStatusPolling.csproj", "{889072AC-2C4B-4918-ACEF-F8C957C9EA19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,14 @@ Global
 		{BF01698D-9309-4C2F-8950-0E80383B0C25}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF01698D-9309-4C2F-8950-0E80383B0C25}.Release|x64.ActiveCfg = Release|Any CPU
 		{BF01698D-9309-4C2F-8950-0E80383B0C25}.Release|x64.Build.0 = Release|Any CPU
+		{889072AC-2C4B-4918-ACEF-F8C957C9EA19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{889072AC-2C4B-4918-ACEF-F8C957C9EA19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{889072AC-2C4B-4918-ACEF-F8C957C9EA19}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{889072AC-2C4B-4918-ACEF-F8C957C9EA19}.Debug|x64.Build.0 = Debug|Any CPU
+		{889072AC-2C4B-4918-ACEF-F8C957C9EA19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{889072AC-2C4B-4918-ACEF-F8C957C9EA19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{889072AC-2C4B-4918-ACEF-F8C957C9EA19}.Release|x64.ActiveCfg = Release|Any CPU
+		{889072AC-2C4B-4918-ACEF-F8C957C9EA19}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

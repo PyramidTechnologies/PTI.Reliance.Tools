@@ -20,7 +20,8 @@ We use a native library to access the Reliance hardware port. Here is the curren
 | Windows | ARM | | |
 | Linux | x86 | | | 
 | Linux | x64 | ✓ | ✓ |
-| Linux | ARM | | |
+| Linux | ARM32 | ✓ | ✓ |
+| Linux | ARM64 | | |
 | OSX | x64 | ✓ | |
 
 Adding support for a new system requires compiling hidapi for your target and placing the binary in the runtimes directory of PTIRelianceLib. The [targets file](https://github.com/PyramidTechnologies/PTI.Reliance.Tools/blob/master/PTIRelianceLib/build/netstandard2.0/PTIRelianceLib.targets) must also be updated accordingly.

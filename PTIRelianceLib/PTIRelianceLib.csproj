@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <SemVer>1.2.5.0</SemVer>
+    <SemVer>1.3.0.0</SemVer>
     <Suffix></Suffix>
   </PropertyGroup>
 
   <PropertyGroup>
 	<Title>PTI.Reliance.Tools</Title>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
-    <Platforms>AnyCPU;x64;x86</Platforms>
+    <TargetFrameworks>net461;netcoreapp3.1;netstandard2.0</TargetFrameworks>
+    <Platforms>AnyCPU;x64;x86;linux-arm</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Pyramid Technologies</Authors>
     <Company>Pyramid Technologies Inc.</Company>
@@ -46,6 +46,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="[9.0.1,12.12.0.1)" />
     <PackageReference Include="LibLog" Version="5.0.3" />
     <PackageReference Include="System.Collections.Immutable" Version="1.5.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
@@ -62,6 +63,10 @@
     </Content>
     <Content Include="runtimes/linux-x64/native/libhidapi.so" Visible="false">
       <PackagePath>runtimes/linux-x64/native/libhidapi.so</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="runtimes/linux-arm/native/libhidapi.so" Visible="false">
+      <PackagePath>runtimes/linux-arm/native/libhidapi.so</PackagePath>
       <Pack>true</Pack>
     </Content>
     <Content Include="runtimes/win-x64/native/hidapi.dll" Visible="false">

@@ -197,6 +197,8 @@ namespace PTIRelianceLib
 
                     var devinfo = (PrivateHidDeviceInfo) Marshal.PtrToStructure(ptr,
                         typeof(PrivateHidDeviceInfo));
+                    
+                    Log.Trace($"\n{devinfo.Path}\n{devinfo.VendorId}\n{devinfo.ProductId}\n{devinfo.SerialNumber}\n{devinfo.ReleaseNumber}\n{devinfo.ManufacturerString}\n{devinfo.ProductString}\n{devinfo.UsagePage}\n{devinfo.Usage}\n{devinfo.InterfaceNumber}");
 
                     // Copy to fully managed (e.g. no pointers) data type
                     var managed = new HidDeviceInfo

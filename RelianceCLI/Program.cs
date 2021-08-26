@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using PTIRelianceLib;
-
-namespace RelianceCLI
+﻿namespace RelianceCLI
 {
     using System.IO;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using PTIRelianceLib.Imaging;
     using PTIRelianceLib.Protocol;
+    using System;
+    using System.Collections.Generic;
+    using PTIRelianceLib;
 
     internal class Program
     {
