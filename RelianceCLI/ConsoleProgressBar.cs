@@ -28,18 +28,9 @@ namespace RelianceCLI
             Console.CursorVisible = false;
             var left = Console.CursorLeft;
             var chars = (int)Math.Floor(perc / (1 / (decimal)_mBarSize));
-            var p1 = string.Empty;
-            var p2 = string.Empty;
 
-            for (var i = 0; i < chars; i++)
-            {
-                p1 += _mFillSymbol;
-            }
-
-            for (var i = 0; i < _mBarSize - chars; i++)
-            {
-                p2 += _mFillSymbol;
-            }
+            var p1 = new string(_mFillSymbol, chars);
+            var p2 = new string(_mFillSymbol, (int)(Math.Ceiling(_barSize) - chars));
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write(p1);
