@@ -23,6 +23,8 @@ namespace RelianceCLI
 
         private void DrawProgressBar(double complete)
         {
+            // Clamp to (0,1) range
+            complete = Math.Max(Math.Min(complete, 1.0), 0.0);
             var perc = (decimal)complete;
 
             Console.CursorVisible = false;
